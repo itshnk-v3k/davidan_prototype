@@ -1,0 +1,57 @@
+# Source images for tools/fetch_and_optimize_images.sh
+# Columns (whitespace-separated): kind  slug  source-url
+#   kind -> output folder assets/images/<kind>/ (products | banners | brand)
+#   slug -> output file name <slug>.webp (referenced from lib/data/mock/)
+# Add a line and rerun the script; unchanged entries are skipped.
+
+# --- Patiserie ---
+products  croissant-ciocolata           https://davidan.md/cdn/shop/files/Croisant_cu_ciocolata_-_19_Lei.jpg
+products  pretzel-plombir-migdale       https://davidan.md/cdn/shop/files/Pretzelcuplombirsimigdale-22Lei.jpg
+products  new-york-roll-mango-maracuja  https://davidan.md/cdn/shop/files/NewYorkRolls-cumangosimaracuja-39Lei.jpg
+products  new-york-roll-fistic          https://davidan.md/cdn/shop/files/NewYorkRolls-cufistic-39Lei.jpg
+products  new-york-roll-zmeura          https://davidan.md/cdn/shop/files/NewYorkRolls-cuzmeura-39Lei.jpg
+products  new-york-roll-ciocolata       https://davidan.md/cdn/shop/files/NewYorkRolls-cuciocolata-39Lei.jpg
+products  danish-fructe-padure-vanilie  https://davidan.md/cdn/shop/files/danish.jpg
+products  croissant-duo                 https://davidan.md/cdn/shop/files/CroisantDuo-25Lei.jpg
+products  croissant-fistic              https://davidan.md/cdn/shop/files/Croisantcufistic-22Lei.jpg
+products  donuts-oreo                   https://davidan.md/cdn/shop/files/DonutsOreo-24Lei.jpg
+products  muffin-orange                 https://davidan.md/cdn/shop/files/MuffinOrange-18.jpg
+
+# --- Plăcinte & Panini ---
+products  placinta-branza               https://davidan.md/cdn/shop/files/placintacubranzaz.jpg
+products  placinta-varza                https://davidan.md/cdn/shop/files/placintacubranza.jpg
+products  placinta-cartof               https://davidan.md/cdn/shop/files/placintacucarto.jpg
+products  placinta-branza-verdeata      https://davidan.md/cdn/shop/files/placintacubranzasiverdeata.jpg
+products  placinta-pui                  https://davidan.md/cdn/shop/files/placintacucarnedepui.jpg
+products  placinta-mere                 https://davidan.md/cdn/shop/files/placintacumere_d0c48509-d22d-4137-961c-c0ec27622539.jpg
+products  placinta-visina               https://davidan.md/cdn/shop/files/Gemini_Generated_Image_4uttai4uttai4uttcopy.jpg
+products  panini-muschi-porc            https://davidan.md/cdn/shop/files/panini.jpg
+products  crenvursca-aluat              https://davidan.md/cdn/shop/files/crenvushcainaluat.jpg
+products  sandwich-pui-crispy           https://davidan.md/cdn/shop/files/puicrispy.jpg
+products  pizza-piept-pui               https://davidan.md/cdn/shop/files/pizza.jpg
+products  foietaj-picnic                https://davidan.md/cdn/shop/files/foietaj.jpg
+
+# --- Băuturi ---
+products  coca-cola                     https://davidan.md/cdn/shop/files/fanta11.png
+products  fanta                         https://davidan.md/cdn/shop/products/fanta11.jpg
+products  sprite                        https://davidan.md/cdn/shop/products/sprite.jpg
+products  apa-davidan-plata             https://davidan.md/cdn/shop/files/davidan_1_2.png
+products  apa-davidan-carbogazoasa      https://davidan.md/cdn/shop/files/davidan_1_3.png
+products  americano                     https://davidan.md/cdn/shop/products/AD6D808D-7AA9-476F-ABFB-E2F89ACDEFCA.jpg
+products  ciocolata-fierbinte-lapte     https://davidan.md/cdn/shop/products/04F7132A-A4E0-400B-BBE9-2255D8B99380.jpg
+products  macchiato                     https://davidan.md/cdn/shop/products/6AE4DE8B-9E71-42C3-8851-646B2E377251.jpg
+products  espresso                      https://davidan.md/cdn/shop/products/77A62573-71CB-44AD-ABA4-08AA902BA9CE.jpg
+products  flat-white                    https://davidan.md/cdn/shop/files/images.jpg
+products  ceai-natural                  https://davidan.md/cdn/shop/products/F62FFA84-C53D-44B7-8569-ACF6F28855FE.jpg
+products  ciocolata-fierbinte           https://davidan.md/cdn/shop/products/533B085B-B157-40B2-ABB4-1B11662278DD.jpg
+
+# --- Sushi & Restaurant (category photos from the davidan.md homepage) ---
+products  ebi-roll                      https://davidan.md/cdn/shop/files/Ebi-Roll-min-768x512_png.webp
+products  orez-pui                      https://davidan.md/cdn/shop/files/Orez-cu-pui.png
+
+# --- Home banners (davidan.md homepage slider) ---
+banners   banner-deserturi              https://davidan.md/cdn/shop/files/banner_DaviDan.webp
+banners   banner-croissante             https://davidan.md/cdn/shop/files/380520837_610910601256167_1781447760104501231_n.jpg
+
+# --- Brand ---
+brand     logo-davidan                  https://davidan.md/cdn/shop/files/Captura_de_ecran_din_2024-08-23_la_16.18.19-removebg-preview.png

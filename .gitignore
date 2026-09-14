@@ -17,6 +17,7 @@ migrate_working_dir/
 *.ipr
 *.iws
 .idea/
+.vscode/
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -46,3 +47,6 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# Raw image downloads (tools/fetch_and_optimize_images.sh); optimized output in assets/ is committed
+tools/.raw_downloads/
