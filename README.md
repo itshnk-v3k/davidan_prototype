@@ -28,6 +28,14 @@ Always use a fixed `--web-port`. localStorage belongs to the origin (host + port
 
 To clear saved data, open Chrome DevTools → Application → Storage → **Clear site data** for `localhost:8080`.
 
+## Demo build (works offline)
+
+```sh
+flutter build web --release --no-web-resources-cdn
+```
+
+`--no-web-resources-cdn` bundles Flutter's rendering engine instead of loading it from Google's CDN, and Roboto is bundled in `assets/fonts/`. The build makes no external requests, so it doesn't depend on the meeting room's wifi. Serve `build/web/` from any static server.
+
 ## Status
 
 Setup phase. Dependencies are installed and no screens are built yet.

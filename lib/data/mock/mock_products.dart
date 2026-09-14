@@ -6,6 +6,58 @@ const _img = 'assets/images/products/';
 /// Products scraped from davidan.md (names and prices), plus clearly marked
 /// placeholders for the Sushi and Restaurant categories. Prices are in bani.
 const mockProducts = <Product>[
+  // --- Kurtos ---
+  // DaviDan's signature product, from davidan.md/collections/meniu-kurtos.
+  Product(
+    id: 'kurtos-scortisoara',
+    categoryId: CategoryIds.kurtos,
+    name: 'Kurtos cu zahăr și scorțișoară',
+    priceBani: 3600,
+    image: '${_img}kurtos-scortisoara.webp',
+  ),
+  Product(
+    id: 'kurtos-vanilie',
+    categoryId: CategoryIds.kurtos,
+    name: 'Kurtos cu vanilie',
+    priceBani: 3600,
+    image: '${_img}kurtos-vanilie.webp',
+  ),
+  Product(
+    id: 'kurtos-cocos',
+    categoryId: CategoryIds.kurtos,
+    name: 'Kurtos cu fulgi de cocos',
+    priceBani: 3600,
+    image: '${_img}kurtos-cocos.webp',
+  ),
+  Product(
+    id: 'kurtos-ciocolata',
+    categoryId: CategoryIds.kurtos,
+    name: 'Kurtos cu fulgi de ciocolată',
+    priceBani: 3900,
+    image: '${_img}kurtos-ciocolata.webp',
+  ),
+  Product(
+    id: 'kurtos-arahide',
+    categoryId: CategoryIds.kurtos,
+    name: 'Kurtos cu arahide',
+    priceBani: 3900,
+    image: '${_img}kurtos-arahide.webp',
+  ),
+  Product(
+    id: 'kurtos-rafaello',
+    categoryId: CategoryIds.kurtos,
+    name: 'Kurtos Rafaello',
+    priceBani: 5500,
+    image: '${_img}kurtos-rafaello.webp',
+  ),
+  Product(
+    id: 'kurtos-fistic',
+    categoryId: CategoryIds.kurtos,
+    name: 'Kurtos cu fistic',
+    priceBani: 5900,
+    image: '${_img}kurtos-fistic.webp',
+  ),
+
   // --- Patiserie ---
   Product(
     id: 'croissant-ciocolata',
@@ -322,6 +374,7 @@ const mockProducts = <Product>[
 
 /// Products shown in the home screen's "Populare" section, in order.
 const mockPopularProductIds = <String>[
+  'kurtos-scortisoara',
   'new-york-roll-fistic',
   'croissant-ciocolata',
   'placinta-branza',

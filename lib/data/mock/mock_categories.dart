@@ -1,6 +1,7 @@
 import 'package:davidan_prototype/data/models/menu_category.dart';
 
 abstract final class CategoryIds {
+  static const kurtos = 'kurtos';
   static const patiserie = 'patiserie';
   static const placinte = 'placinte-panini';
   static const bauturi = 'bauturi';
@@ -12,6 +13,11 @@ const _img = 'assets/images/products/';
 
 /// Menu categories, in display order. Tile images reuse product photos.
 const mockCategories = <MenuCategory>[
+  MenuCategory(
+    id: CategoryIds.kurtos,
+    name: 'Kurtos',
+    image: '${_img}kurtos-scortisoara.webp',
+  ),
   MenuCategory(
     id: CategoryIds.patiserie,
     name: 'Patiserie',

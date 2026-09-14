@@ -23,6 +23,7 @@ abstract final class AppTheme {
         );
 
     return ThemeData(
+      fontFamily: AppTextStyles.fontFamily,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: AppColors.background,
       splashFactory: InkRipple.splashFactory,

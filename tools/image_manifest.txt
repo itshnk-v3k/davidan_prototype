@@ -4,8 +4,17 @@
 #   slug -> output file name <slug>.webp (referenced from lib/data/mock/)
 # Add a line and rerun the script; unchanged entries are skipped.
 
+# --- Kurtos (davidan.md/collections/meniu-kurtos) ---
+products  kurtos-scortisoara            https://davidan.md/cdn/shop/files/Kurtos_cu_scortisoara_-_36_Lei.jpg
+products  kurtos-vanilie                https://davidan.md/cdn/shop/files/Kurtos_cu_vanilie_-_36_Lei.jpg
+products  kurtos-cocos                  https://davidan.md/cdn/shop/files/Kurtos_cu_cocos_-_36_Lei.jpg
+products  kurtos-ciocolata              https://davidan.md/cdn/shop/files/Kurtos_cu_ciocolata_-_39_Lei.jpg
+products  kurtos-arahide                https://davidan.md/cdn/shop/files/Kurtos_cu_arahide_-_39_Lei.jpg
+products  kurtos-rafaello               https://davidan.md/cdn/shop/files/KurtosRafaello-55Lei.jpg
+products  kurtos-fistic                 https://davidan.md/cdn/shop/files/KurtosFistic-59Lei.jpg
+
 # --- Patiserie ---
-products  croissant-ciocolata           https://davidan.md/cdn/shop/files/Croisant_cu_ciocolata_-_19_Lei.jpg
+products  croissant-ciocolata          https://davidan.md/cdn/shop/files/Croisant_cu_ciocolata_-_19_Lei.jpg
 products  pretzel-plombir-migdale       https://davidan.md/cdn/shop/files/Pretzelcuplombirsimigdale-22Lei.jpg
 products  new-york-roll-mango-maracuja  https://davidan.md/cdn/shop/files/NewYorkRolls-cumangosimaracuja-39Lei.jpg
 products  new-york-roll-fistic          https://davidan.md/cdn/shop/files/NewYorkRolls-cufistic-39Lei.jpg

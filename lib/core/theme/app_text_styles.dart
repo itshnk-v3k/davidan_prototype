@@ -2,10 +2,14 @@ import 'package:flutter/widgets.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 
-/// Typography tokens. No fontFamily is set, so the platform's system font is
-/// used (SF Pro on Apple devices, Roboto on Android and web) until the client
-/// provides brand fonts.
+/// Typography tokens. Roboto is bundled in assets/fonts/ so the web demo works
+/// without internet; replace [fontFamily] when the client provides brand fonts.
 abstract final class AppTextStyles {
+  /// Applied app-wide through AppTheme. If a brand font replaces it, keep
+  /// Roboto bundled too: Flutter web otherwise downloads Roboto from
+  /// fonts.gstatic.com as its fallback font.
+  static const fontFamily = 'Roboto';
+
   static const display = TextStyle(
     fontSize: 28,
     height: 1.2,
