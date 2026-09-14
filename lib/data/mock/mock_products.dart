@@ -3,8 +3,10 @@ import 'package:davidan_prototype/data/models/product.dart';
 
 const _img = 'assets/images/products/';
 
-/// Products scraped from davidan.md (names and prices), plus clearly marked
-/// placeholders for the Sushi and Restaurant categories. Prices are in bani.
+/// Products scraped from davidan.md (names, prices, ingredient lists), plus
+/// clearly marked placeholders for the Sushi and Restaurant categories. Prices
+/// are in bani. Ingredient lists are the site's text with obvious typos
+/// corrected and the nutrition declaration left out.
 const mockProducts = <Product>[
   // --- Kurtos ---
   // DaviDan's signature product, from davidan.md/collections/meniu-kurtos.
@@ -56,12 +58,12 @@ const mockProducts = <Product>[
     image: '${_img}kurtos-ciocolata.webp',
     description:
         'Ingrediente: făină de grâu c/s, zahăr cristal, apă potabilă, '
-        'glazură de ciocolată zahăr, uleiuri și grasimi vegetale total '
+        'glazură de ciocolată zahăr, uleiuri și grăsimi vegetale total '
         'hidrogenate, pudră de cacao degresată, emulgatori: lecitină de '
         'soia, lecitine din floarea soarelui; sirop de glucoză, aromă: '
         'vanilină, ulei de floarea-soarelui, drojdie proaspătă p/u '
         'panificație, ouă de găină, lapte pasteurizat de vacă cu gr. 3,5%, '
-        'aromă: vanilină; ameliorator p/u panificație sare alimentară. '
+        'aromă: vanilină; ameliorator p/u panificație, sare alimentară. '
         'Conține: grâu, soia, ouă, lapte. Poate conține urme de arahide, '
         'fistic, susan.',
   ),
@@ -112,10 +114,10 @@ const mockProducts = <Product>[
         'grâu, uleiuri vegetale rafinate, apă, emulsifiant, sare iodată, '
         'aromă, antioxidant, conservant, acidifiant, colorant maia de grâu, '
         'apă potabilă, drojdie proaspătă p/u panificație, unt din smântână '
-        'dulce, cremă de plombir, fugli de migdale, pudră decorativ zahăr, '
-        'amidon, grăsimi vegetale, sare alimentară, ameliorator. Contine: '
-        'grâu, ouă, produs derivate al laptelui. Poate conține urme de '
-        'susan, oua.',
+        'dulce, cremă de plombir, fulgi de migdale, pudră decorativ zahăr, '
+        'amidon, grăsimi vegetale, sare alimentară, ameliorator. Conține: '
+        'grâu, ouă, produs derivat al laptelui. Poate conține urme de '
+        'susan, ouă.',
   ),
   Product(
     id: 'new-york-roll-mango-maracuja',
@@ -152,18 +154,18 @@ const mockProducts = <Product>[
     priceBani: 2400,
     image: '${_img}danish-fructe-padure-vanilie.webp',
     description:
-        'Ingrediente: făină degrâu c/s, apă potabilă, grăsime cu maia din '
-        'grâu [uleiuri vegetale rafinate (palmier, floarea soareleui), apă, '
-        'emulsifiant (lecitină de floarea soarelui, mono- și diglyceride '
+        'Ingrediente: făină de grâu c/s, apă potabilă, grăsime cu maia din '
+        'grâu [uleiuri vegetale rafinate (palmier, floarea soarelui), apă, '
+        'emulsifiant (lecitină de floarea soarelui, mono- și digliceride '
         'ale acizilor grași), sare iodată, aromă, antioxidant (extract '
-        'bogat in tocoferol, palmitat de L-ascorbil), conservant , '
-        'acidifiant, colorant , maia de grâu], zahăr cristal, drojdie '
+        'bogat în tocoferol, palmitat de L-ascorbil), conservant, '
+        'acidifiant, colorant, maia de grâu], zahăr cristal, drojdie '
         'proaspătă p/u panificație, unt din smântână dulce, umplutură de '
-        'vanilie (apă, zahăr alb cristalin, îngroșator de amidon îngroșat, '
-        'zer pudrat demineralizat, grăsimi vegetale deodorizate, raffinate, '
-        'sare alimentară, conservant de sorbat de potasiu, ,ouăde găină, '
-        'sare alimentară, fructe de sezon(capșuni,mure,kiwi), mentă. '
-        'Conține: grâu, produs derivat a laptelui, ouă, nuci.',
+        'vanilie (apă, zahăr alb cristalin, îngroșător de amidon îngroșat, '
+        'zer pudrat demineralizat, grăsimi vegetale deodorizate, rafinate, '
+        'sare alimentară, conservant de sorbat de potasiu, ouă de găină, '
+        'sare alimentară, fructe de sezon (capșuni, mure, kiwi), mentă. '
+        'Conține: grâu, produs derivat al laptelui, ouă, nuci.',
   ),
   Product(
     id: 'croissant-duo',
@@ -202,7 +204,7 @@ const mockProducts = <Product>[
     priceBani: 2200,
     image: '${_img}placinta-branza.webp',
     description:
-        'Ingrediente: făină de grâu calitate superioara, brânză de vacă, '
+        'Ingrediente: făină de grâu calitate superioară, brânză de vacă, '
         'apă potabilă, ouă, ulei de floarea soarelui, sare alimentară, '
         'semințe de mac, zahăr cristal, regulator de aciditate. Conține: '
         'grâu, ouă, lapte. Poate conține urme de susan.',
@@ -214,7 +216,7 @@ const mockProducts = <Product>[
     priceBani: 1800,
     image: '${_img}placinta-varza.webp',
     description:
-        'Ingrediente: varză, făină de grâu calitate superioara, apă '
+        'Ingrediente: varză, făină de grâu calitate superioară, apă '
         'potabilă, ceapă, ulei de floarea soarelui, sare alimentară, ouă, '
         'semințe de susan, zahăr cristal, piper negru. Conține: grâu, ouă, '
         'susan. Poate conține urme de lapte.',
@@ -226,7 +228,7 @@ const mockProducts = <Product>[
     priceBani: 1800,
     image: '${_img}placinta-cartof.webp',
     description:
-        'Ingrediente: cartofi, făină de grâu calitate superioara, apă '
+        'Ingrediente: cartofi, făină de grâu calitate superioară, apă '
         'potabilă, ulei de floarea soarelui, ceapă, ouă, sare alimentară, '
         'miez de floarea soarelui, zahăr cristal, regulator de aciditate, '
         'piper negru. Conține: grâu, ouă. Poate conține urme de lapte, '
@@ -239,8 +241,8 @@ const mockProducts = <Product>[
     priceBani: 2200,
     image: '${_img}placinta-branza-verdeata.webp',
     description:
-        'Ingrediente: făină de grâu calitatea superioara, brânză de vacă, '
-        'apă potabilă, cu, ouă, ulei de floarea-soarelui, sare alimentară, '
+        'Ingrediente: făină de grâu calitate superioară, brânză de vacă, '
+        'apă potabilă, ouă, ulei de floarea-soarelui, sare alimentară, '
         'semințe de in, semințe de susan, mărar verde, zahăr cristal, '
         'regulator de aciditate. Conține: grâu, ouă, lapte, susan. Poate '
         'conține urme de susan.',
@@ -252,10 +254,10 @@ const mockProducts = <Product>[
     priceBani: 2400,
     image: '${_img}placinta-pui.webp',
     description:
-        'Ingrediente: carne pe pui, făină de grâu calitatea superioara, '
+        'Ingrediente: carne de pui, făină de grâu calitate superioară, '
         'ceapă, apă potabilă, ulei de floarea-soarelui, ouă, sare '
         'alimentară, semințe de in, zahăr cristal, regulator de aciditate, '
-        'piper negru. Conține: grâu, ouă, Poate conține urme de lapte, '
+        'piper negru. Conține: grâu, ouă. Poate conține urme de lapte, '
         'susan.',
   ),
   Product(
@@ -265,9 +267,9 @@ const mockProducts = <Product>[
     priceBani: 1800,
     image: '${_img}placinta-mere.webp',
     description:
-        'Ingrediente: mere, făină de grâu calitatea superioara, apă '
+        'Ingrediente: mere, făină de grâu calitate superioară, apă '
         'potabilă, ulei de floarea soarelui, zahăr cristal, ouă, zahăr '
-        'pudră decorative, nucă de cocos, sare alimentară, regulator de '
+        'pudră decorativ, nucă de cocos, sare alimentară, regulator de '
         'aciditate. Conține: grâu, ouă. Poate conține urme de susan.',
   ),
   Product(
@@ -279,7 +281,7 @@ const mockProducts = <Product>[
     description:
         'Ingrediente: vișine în suc propriu, făină de grâu c/s, apă '
         'potabilă, ulei de floarea soarelui, zahăr cristal, agent de '
-        'îngroșare, ouă de găină, zahăr pudră decorative, zahăr, amidon, '
+        'îngroșare, ouă de găină, zahăr pudră decorativ, zahăr, amidon, '
         'grăsimi vegetale, sare alimentară, regulator de aciditate. '
         'Conține: grâu, ouă. Poate conține urme de susan. Produsul poate '
         'conține sâmburi de vișină.',
@@ -291,11 +293,11 @@ const mockProducts = <Product>[
     priceBani: 3600,
     image: '${_img}panini-muschi-porc.webp',
     description:
-        'Ingrediente: făină de grâu c/s, apă potabilă, maioneză brânză cu '
+        'Ingrediente: făină de grâu c/s, apă potabilă, maioneză, brânză cu '
         'cheag tare, mușchi de porc fiert-afumat, frunze de salată, roșii '
         'proaspete, castraveți proaspeți, ulei de floarea-soarelui, sare '
         'alimentară, zahăr cristal, maia naturală, usturoi granulat, piper '
-        'negru măcinat. Conține grâu, ouă, produs derivate al laptelui. '
+        'negru măcinat. Conține: grâu, ouă, produs derivat al laptelui. '
         'Poate conține urme de susan.',
   ),
   Product(
@@ -307,10 +309,10 @@ const mockProducts = <Product>[
     description:
         'Ingrediente: crenvurști, făină de grâu c/s, ouă de găină, lapte '
         'pasteurizat de vacă, ulei de floarea-soarelui, semințe de susan, '
-        'zahăr cristal, grăsime cu maia din grâu uleiuri vegetale rafin, '
+        'zahăr cristal, grăsime cu maia din grâu uleiuri vegetale rafinate, '
         'apă, emulsifiant, sare iodată, aromă, antioxidant, conservant, '
         'acidifiant, colorant, maia de grâu, sare alimentară, drojdie '
-        'proaspătă p/u panificație. Conține grâu, ouă, lapte, susan. Poate '
+        'proaspătă p/u panificație. Conține: grâu, ouă, lapte, susan. Poate '
         'conține urme de susan.',
   ),
   Product(
@@ -323,15 +325,15 @@ const mockProducts = <Product>[
         'Ingrediente: Făină de grâu c/s, apă potabilă, maioneză cu gr. 57% '
         '(ulei rafinat de floarea soarelui deodorizat, apă potabilă, '
         'gălbenuș de ou uscat, oțet de masă, sare alimentară, agenți de '
-        'îngroșare: E1422, guma xantan, guma guar; arome, regulator de '
-        'aciditate: acid lactic; conservant; acid sorbic; colorant: '
+        'îngroșare: E1422, gumă xantan, gumă guar; arome, regulator de '
+        'aciditate: acid lactic; conservant: acid sorbic; colorant: '
         'carotene; îndulcitor: zaharină), unt, zahăr cristal, ulei de '
         'floarea soarelui, drojdie de panificație, maia naturală (maia '
-        'deshidratată din grâu dur, drojdie antioxidant: acid ascorbic; '
+        'deshidratată din grâu dur, drojdie, antioxidant: acid ascorbic; '
         'enzime), usturoi granulat, piper negru măcinat, amestec de '
-        'semințe: mac, in , in galben, susan, floarea soarelui.Conține: '
-        'grâu, ouă, produs derivat a laptelui, susan. Poate conține urme de '
-        'nuci. Poate conține urme de susan.',
+        'semințe: mac, in, in galben, susan, floarea soarelui. Conține: '
+        'grâu, ouă, produs derivat al laptelui, susan. Poate conține urme '
+        'de nuci. Poate conține urme de susan.',
   ),
   Product(
     id: 'pizza-piept-pui',
@@ -344,8 +346,8 @@ const mockProducts = <Product>[
         'cu cheag tare cu gr. 50%, apă potabilă, piept de pui refrigerat, '
         'sos de roșii, roșii proaspete, gogoșari proaspeți, ulei de '
         'măsline, maia naturală, sare alimentară, zahăr cristal, '
-        'condimente: oregano, piper negru. Conține grâu, produs derivate al '
-        'laptelui. Poate conține urme de susan, oua.',
+        'condimente: oregano, piper negru. Conține: grâu, produs derivat al '
+        'laptelui. Poate conține urme de susan, ouă.',
   ),
   Product(
     id: 'foietaj-picnic',
