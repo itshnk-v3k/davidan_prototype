@@ -32,7 +32,6 @@ abstract final class AppStrings {
   static const splashTitle = 'Ecran de pornire';
   static const locationTitle = 'Livrare sau ridicare';
   static const menuTitle = 'Meniu';
-  static const productTitle = 'Produs';
   static const cartTitle = 'Coșul meu';
   static const checkoutTitle = 'Finalizează comanda';
   static const orderTrackingTitle = 'Urmărește comanda';
@@ -46,7 +45,6 @@ abstract final class AppStrings {
       'Acest ecran este în lucru și va fi construit în etapele următoare.';
   static const back = 'Înapoi';
   static const continueLabel = 'Continuă';
-  static const openProduct = 'Deschide un produs';
   static const goToCheckout = 'Spre finalizare';
   static const placeOrder = 'Plasează comanda';
   static const backHome = 'Înapoi acasă';
@@ -58,6 +56,19 @@ abstract final class AppStrings {
   static const categoriesTitle = 'Categorii';
   static const popularTitle = 'Populare';
   static const seeAll = 'Vezi tot';
+
+  // Catalog
+  static const categoryEmpty = 'Momentan nu sunt produse în această categorie.';
+
+  // Product detail
+  static const descriptionTitle = 'Descriere';
+  static const productNotFound = 'Produsul nu a fost găsit.';
+  static const increaseQuantity = 'Mărește cantitatea';
+  static const decreaseQuantity = 'Micșorează cantitatea';
+  static String inCart(int count) => 'În coș: $count';
+  static String addToCartTotal(String total) => 'Adaugă în coș · $total';
+  static String addedToCart(int quantity, String productName) =>
+      'Adăugat în coș: $quantity × $productName';
 
   // Cart actions
   static String addToCart(String productName) => 'Adaugă $productName în coș';

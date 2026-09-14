@@ -6,21 +6,20 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 
 /// On wide browser windows, renders [child] in a phone-sized frame so the
-/// mobile apps look like a phone during a desktop demo. On narrow viewports,
-/// or when [enabled] is false, [child] fills the screen.
+/// mobile apps look like a phone during a desktop demo. On narrow viewports
+/// [child] fills the screen.
 ///
-/// The widget tree is the same shape in both modes, so toggling the frame
-/// never rebuilds the navigator underneath (and never loses navigation state).
+/// The widget tree is the same shape in both modes, so resizing the window
+/// across the breakpoint never rebuilds the navigator underneath.
 class PhoneFrame extends StatelessWidget {
-  const PhoneFrame({super.key, required this.enabled, required this.child});
+  const PhoneFrame({super.key, required this.child});
 
-  final bool enabled;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
-    final framed = enabled && media.size.width >= AppLayout.frameBreakpoint;
+    final framed = media.size.width >= AppLayout.frameBreakpoint;
     final size = framed
         ? Size(
             AppLayout.phoneWidth,

@@ -35,17 +35,18 @@ class CartNotifier extends Notifier<List<CartItem>> {
     ];
   }
 
-  void add(String productId) {
+  void add(String productId, {int quantity = 1}) {
+    assert(quantity > 0, 'Use removeOne to decrease a quantity');
     final inCart = state.any((item) => item.productId == productId);
     _save(
       inCart
           ? [
               for (final item in state)
                 item.productId == productId
-                    ? item.copyWith(quantity: item.quantity + 1)
+                    ? item.copyWith(quantity: item.quantity + quantity)
                     : item,
             ]
-          : [...state, CartItem(productId: productId, quantity: 1)],
+          : [...state, CartItem(productId: productId, quantity: quantity)],
     );
   }
 

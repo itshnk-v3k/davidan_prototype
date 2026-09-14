@@ -24,6 +24,31 @@ final productsByIdProvider = Provider<Map<String, Product>>(
   },
 );
 
+/// Null when no product has this id (e.g. a hand-edited link).
+final productByIdProvider = Provider.family<Product?, String>(
+  (ref, productId) => ref.watch(productsByIdProvider)[productId],
+);
+
+/// The category a catalog URL points to. A missing or unknown id falls back to
+/// the first category.
+final catalogCategoryProvider = Provider.family<MenuCategory, String?>((
+  ref,
+  categoryId,
+) {
+  final categories = ref.watch(categoriesProvider);
+  return categories.firstWhere(
+    (category) => category.id == categoryId,
+    orElse: () => categories.first,
+  );
+});
+
+final productsByCategoryProvider = Provider.family<List<Product>, String>(
+  (ref, categoryId) => [
+    for (final product in ref.watch(productsProvider))
+      if (product.categoryId == categoryId) product,
+  ],
+);
+
 final popularProductsProvider = Provider<List<Product>>((ref) {
   final byId = ref.watch(productsByIdProvider);
   return [for (final id in mockPopularProductIds) ?byId[id]];

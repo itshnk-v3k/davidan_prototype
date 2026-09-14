@@ -52,6 +52,15 @@ void main() {
     });
   });
 
+  test('add with a quantity adds that many units', () async {
+    final app = await startApp();
+    addTearDown(app.dispose);
+    app.read(cartProvider.notifier)
+      ..add('espresso', quantity: 3)
+      ..add('espresso', quantity: 2);
+    expect(app.read(cartQuantitiesProvider), {'espresso': 5});
+  });
+
   test('removeOne decrements and drops the line at zero', () async {
     final app = await startApp();
     addTearDown(app.dispose);

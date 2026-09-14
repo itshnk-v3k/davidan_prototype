@@ -18,6 +18,14 @@ abstract final class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
+  static const headline = TextStyle(
+    fontSize: 24,
+    height: 1.2,
+    fontWeight: FontWeight.w700,
+    letterSpacing: -0.2,
+    color: AppColors.textPrimary,
+  );
+
   static const title = TextStyle(
     fontSize: 20,
     height: 1.25,
@@ -72,6 +80,13 @@ abstract final class AppTextStyles {
     height: 1.2,
     fontWeight: FontWeight.w700,
     color: AppColors.textPrimary,
+  );
+
+  static const priceLarge = TextStyle(
+    fontSize: 20,
+    height: 1.2,
+    fontWeight: FontWeight.w700,
+    color: AppColors.primary,
   );
 
   static const button = TextStyle(

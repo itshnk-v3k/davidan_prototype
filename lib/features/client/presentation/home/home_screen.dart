@@ -13,7 +13,7 @@ import 'package:davidan_prototype/features/client/application/cart_notifier.dart
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/client/presentation/home/widgets/category_strip.dart';
 import 'package:davidan_prototype/features/client/presentation/home/widgets/promo_banner_carousel.dart';
-import 'package:davidan_prototype/features/client/presentation/widgets/product_card.dart';
+import 'package:davidan_prototype/features/client/presentation/widgets/product_grid.dart';
 
 /// Customer home: location bar, banners, categories and popular products.
 class HomeScreen extends ConsumerWidget {
@@ -66,34 +66,15 @@ class HomeScreen extends ConsumerWidget {
                 onAction: () => context.go(Routes.clientMenu),
               ),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.gutter,
-                0,
-                AppSpacing.gutter,
-                AppSpacing.xl,
-              ),
-              sliver: SliverGrid.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: AppSpacing.md,
-                  crossAxisSpacing: AppSpacing.md,
-                  childAspectRatio: 0.66,
-                ),
-                itemCount: popular.length,
-                itemBuilder: (context, index) {
-                  final product = popular[index];
-                  return ProductCard(
-                    product: product,
-                    quantity: quantities[product.id] ?? 0,
-                    onTap: () => context.push(Routes.clientProduct(product.id)),
-                    onAdd: () =>
-                        ref.read(cartProvider.notifier).add(product.id),
-                    onRemove: () =>
-                        ref.read(cartProvider.notifier).removeOne(product.id),
-                  );
-                },
-              ),
+            ProductGrid(
+              products: popular,
+              quantities: quantities,
+              onOpen: (product) =>
+                  context.push(Routes.clientProduct(product.id)),
+              onAdd: (product) =>
+                  ref.read(cartProvider.notifier).add(product.id),
+              onRemove: (product) =>
+                  ref.read(cartProvider.notifier).removeOne(product.id),
             ),
           ],
         ),

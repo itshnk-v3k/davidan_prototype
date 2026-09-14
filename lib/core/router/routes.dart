@@ -7,7 +7,10 @@ abstract final class Routes {
   static const clientLocation = '/client/location';
   static const clientHome = '/client/home';
   static const clientMenu = '/client/menu';
-  static String clientCategory(String categoryId) => '/client/menu/$categoryId';
+  static String clientCategory(String categoryId) => Uri(
+    path: clientMenu,
+    queryParameters: {'category': categoryId},
+  ).toString();
   static const clientCart = '/client/cart';
   static const clientProfile = '/client/profile';
   static String clientProduct(String productId) => '/client/product/$productId';
