@@ -53,6 +53,71 @@ flutter build web --release --no-web-resources-cdn -t lib/main_demo.dart
 
 `--no-web-resources-cdn` bundles Flutter's rendering engine instead of loading it from Google's CDN, and Roboto is bundled in `assets/fonts/`. The build makes no external requests, so it doesn't depend on the meeting room's wifi. Serve `build/web/` from any static server.
 
+## Android APK (for the client's phone)
+
+The client uses Android, so the demo can be handed over as a single APK file: no Play Store and no developer account.
+
+### Build it
+
+**Regular client demo** (`lib/main.dart`):
+
+```sh
+flutter build apk --release
+```
+
+**All-roles board build** (`lib/main_demo.dart`):
+
+```sh
+flutter build apk --release -t lib/main_demo.dart
+```
+
+Output: `build/app/outputs/flutter-apk/app-release.apk`, about 54 MB. The first build takes about 3 minutes; later ones are faster.
+
+> **Warning:** both builds write the same `app-release.apk` and share one app ID, so on the phone one replaces the other. Rebuild the one you need right before sending it.
+
+There is no Android equivalent of `--no-web-resources-cdn`, and none is needed: the APK always contains Flutter's engine, Roboto, the icons and every product photo. The release build doesn't even declare the internet permission, so the app cannot make network requests and works in airplane mode.
+
+This is a universal APK. It carries the engine for all three phone CPU types, so it installs on any Android phone, and that's most of its size. `flutter build apk --release --split-per-abi` writes one file per CPU type instead (`app-arm64-v8a-release.apk` is about 20 MB and fits most recent phones). Only use that if 54 MB is a problem, because then you have to send the right file.
+
+### Before sending a new version
+
+Raise both parts of `version` in `pubspec.yaml`, for example `1.0.0+1` → `1.0.1+2`. Android won't install a lower build number (`+N`) over a higher one, and **Settings → Apps → DaviDan** shows the part before `+`, so you and the client can tell which version is on the phone.
+
+An update keeps the demo data on the phone, as long as the new APK is signed with the same key.
+
+### Signing
+
+The APK is signed with this Mac's debug key (`~/.android/debug.keystore`, created by the Android SDK). It installs normally, but the phone ties the installed app to that key:
+
+- A new APK built on this Mac installs over the old one as an update.
+- An APK built on any other machine has a different debug key. The phone refuses it as an update, so the client would have to uninstall DaviDan first, which erases its demo data.
+
+Switching to a dedicated release keystore hasn't been decided yet. If one is added, `key.properties`, `*.jks` and `*.keystore` are already git-ignored in `android/.gitignore`.
+
+### Walking the client through the install
+
+First-time install, in the order the phone asks:
+
+1. **Send the file.** Telegram or WhatsApp (as a file), Google Drive, or a USB cable all work. Gmail doesn't: it blocks `.apk` attachments.
+2. **Open it on the phone.** Tap the file in the chat, or find it in **Files → Downloads**.
+3. **Allow the source.** Android says the app that opened the file (Telegram, Chrome, Files…) isn't allowed to install apps. Tap **Settings**, turn on **Allow from this source**, then go back. The permission is per app, so it's asked again if an APK is later opened from somewhere else.
+4. **Install.** Tap **Install**. Google Play Protect may say it doesn't recognise the app and offer to scan it. Scanning is fine and takes a few seconds. The app asks for no sensitive permissions, so it shouldn't be blocked; if a warning appears anyway, tap **More details → Install anyway**.
+5. **Open DaviDan** from the app list. **Allow from this source** can be turned off again afterwards.
+
+If it won't install:
+
+- **Samsung phones:** **Auto Blocker** (**Settings → Security and privacy → Auto Blocker**) blocks apps from outside the official stores. Turn it off for the install and back on afterwards.
+- **"App not installed" or a conflict with an existing app:** a DaviDan signed with a different key is already on the phone. Uninstall it first; this deletes its demo data.
+- **Install it yourself over USB:** on the phone, open **Settings → About phone** and tap **Build number** 7 times, then turn on **Developer options → USB debugging**. Plug it in and run:
+
+  ```sh
+  ~/Library/Android/sdk/platform-tools/adb install -r build/app/outputs/flutter-apk/app-release.apk
+  ```
+
+### Google's developer verification
+
+Google is starting to require apps installed outside the Play Store to come from a verified developer. It starts on 30 September 2026 in Brazil, Indonesia, Singapore and Thailand and expands globally in 2027. Until it reaches Moldova, the steps above are all that's needed. After that, an APK from an unregistered developer installs only through Android's advanced flow (developer mode, a restart and a one-day wait) or over USB. Avoiding that means registering the app ID and the signing key's SHA-256 fingerprint under a verified developer account. A free limited-distribution account covers up to 20 devices.
+
 ## Android emulator and DevTools (VS Code)
 
 VS Code with the Dart and Flutter extensions is the editor. Android Studio is only needed once, to create the emulator.
