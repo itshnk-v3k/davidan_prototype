@@ -5,13 +5,13 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
-import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/entrance.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/core/widgets/section_title.dart';
+import 'package:davidan_prototype/core/widgets/top_notice.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/kds/application/kds_providers.dart';
 import 'package:davidan_prototype/features/kds/presentation/widgets/kds_order_card.dart';
@@ -108,27 +108,15 @@ class _KdsScreenState extends ConsumerState<KdsScreen> {
                     child: IgnorePointer(
                       child: Align(
                         alignment: Alignment.topCenter,
-                        child: AnimatedSwitcher(
-                          duration: AppMotion.of(context, AppMotion.medium),
-                          switchInCurve: AppMotion.standard,
-                          switchOutCurve: AppMotion.standard,
-                          // Drops in from the top edge and rises away.
-                          transitionBuilder: (child, animation) =>
-                              FadeTransition(
-                                opacity: animation,
-                                child: SlideTransition(
-                                  position: Tween(
-                                    begin: const Offset(0, -0.5),
-                                    end: Offset.zero,
-                                  ).animate(animation),
-                                  child: child,
-                                ),
-                              ),
-                          child: announcedOrderId == null
-                              ? const SizedBox.shrink()
-                              : _NewOrderNotice(
+                        child: TopNoticeSwitcher(
+                          notice: announcedOrderId == null
+                              ? null
+                              : TopNotice(
                                   key: ValueKey(announcedOrderId),
-                                  orderId: announcedOrderId,
+                                  icon: Icons.notifications_active_rounded,
+                                  message: AppStrings.newOrderArrived(
+                                    announcedOrderId,
+                                  ),
                                 ),
                         ),
                       ),
@@ -138,57 +126,6 @@ class _KdsScreenState extends ConsumerState<KdsScreen> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _NewOrderNotice extends StatelessWidget {
-  const _NewOrderNotice({super.key, required this.orderId});
-
-  final String orderId;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      liveRegion: true,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: AppColors.primary,
-          borderRadius: BorderRadius.circular(AppRadii.pill),
-          boxShadow: const [
-            BoxShadow(
-              color: AppColors.shadow,
-              blurRadius: 12,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.sm,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.notifications_active_rounded,
-                size: 18,
-                color: AppColors.onPrimary,
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Flexible(
-                child: Text(
-                  AppStrings.newOrderArrived(orderId),
-                  style: AppTextStyles.bodyStrong.copyWith(
-                    color: AppColors.onPrimary,
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

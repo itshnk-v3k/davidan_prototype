@@ -10,7 +10,6 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
-import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/client/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
@@ -35,22 +34,27 @@ void main() {
     expect(find.byType(ProfileScreen), findsOneWidget);
   });
 
-  testWidgets(
-    'without orders: an empty state that links to the menu, and the facts '
-    'about DaviDan',
-    (tester) async {
-      await pumpApp(tester, container, Routes.clientProfile);
+  testWidgets('without orders: an empty state that links to the menu', (
+    tester,
+  ) async {
+    await pumpApp(tester, container, Routes.clientProfile);
 
-      expect(inProfile(find.text(AppStrings.ordersEmptyTitle)), findsOneWidget);
-      expect(inProfile(find.text(BrandFacts.tagline)), findsOneWidget);
-      expect(inProfile(find.text('720')), findsOneWidget);
-      expect(inProfile(find.text('74')), findsOneWidget);
-      expect(inProfile(find.text('2.000.000+')), findsOneWidget);
+    expect(inProfile(find.text(AppStrings.ordersEmptyTitle)), findsOneWidget);
 
-      await tapVisible(tester, find.text(AppStrings.browseMenu));
-      expect(find.byType(CatalogScreen), findsOneWidget);
-    },
-  );
+    await tapVisible(tester, find.text(AppStrings.browseMenu));
+    expect(find.byType(CatalogScreen), findsOneWidget);
+  });
+
+  testWidgets('the "Despre DaviDan" facts are gone', (tester) async {
+    placeTestOrder(container);
+    await pumpApp(tester, container, Routes.clientProfile);
+
+    expect(inProfile(find.text('Despre DaviDan')), findsNothing);
+    expect(inProfile(find.text('Angajați')), findsNothing);
+    expect(inProfile(find.text('720')), findsNothing);
+    expect(inProfile(find.text('74')), findsNothing);
+    expect(inProfile(find.text('2.000.000+')), findsNothing);
+  });
 
   testWidgets(
     'order history: newest first, with date, fulfilment, total and a status '
@@ -83,7 +87,7 @@ void main() {
       );
 
       advanceOrderTo(container, delivery.id, OrderStatus.onTheWay);
-      await tester.pump();
+      await tester.pumpAndSettle();
       expect(
         inProfile(find.text(AppStrings.orderStatus(OrderStatus.onTheWay))),
         findsOneWidget,
@@ -128,7 +132,7 @@ void main() {
 
     expect(find.byType(ProfileScreen), findsOneWidget);
     await tester.scrollUntilVisible(
-      find.text('2.000.000+'),
+      find.text(AppStrings.demoProfileNote),
       200,
       scrollable: find
           .descendant(
@@ -137,6 +141,6 @@ void main() {
           )
           .first,
     );
-    expect(find.text('2.000.000+'), findsOneWidget);
+    expect(find.text(AppStrings.demoProfileNote), findsOneWidget);
   });
 }

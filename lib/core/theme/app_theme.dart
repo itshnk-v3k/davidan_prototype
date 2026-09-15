@@ -50,11 +50,6 @@ abstract final class AppTheme {
         cursorColor: AppColors.primary,
         selectionHandleColor: AppColors.primary,
       ),
-      snackBarTheme: SnackBarThemeData(
-        backgroundColor: AppColors.textPrimary,
-        contentTextStyle: AppTextStyles.body.copyWith(color: AppColors.onImage),
-        behavior: SnackBarBehavior.floating,
-      ),
       inputDecorationTheme: InputDecorationThemeData(
         filled: true,
         fillColor: AppColors.surface,

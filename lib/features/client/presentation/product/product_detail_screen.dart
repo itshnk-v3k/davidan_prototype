@@ -7,6 +7,7 @@ import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
@@ -107,13 +108,10 @@ class ProductDetailScreen extends ConsumerWidget {
             : null,
         onAdd: () {
           ref.read(cartProvider.notifier).add(productId, quantity: quantity);
-          final messenger = ScaffoldMessenger.of(context);
+          ref
+              .read(toastProvider.notifier)
+              .show(AppStrings.addedToCart(quantity, product.name));
           goBack();
-          messenger.showSnackBar(
-            SnackBar(
-              content: Text(AppStrings.addedToCart(quantity, product.name)),
-            ),
-          );
         },
       ),
     );

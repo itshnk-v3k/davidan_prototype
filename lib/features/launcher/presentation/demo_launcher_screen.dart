@@ -9,6 +9,7 @@ import 'package:davidan_prototype/core/theme/app_assets.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/link_card.dart';
 import 'package:davidan_prototype/features/launcher/application/demo_reset_notifier.dart';
@@ -85,9 +86,9 @@ class DemoLauncherScreen extends ConsumerWidget {
               onPressed: () async {
                 await ref.read(demoResetProvider.notifier).reset();
                 if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text(AppStrings.resetDemoDataDone)),
-                );
+                ref
+                    .read(toastProvider.notifier)
+                    .show(AppStrings.resetDemoDataDone);
               },
             ),
             const SizedBox(height: AppSpacing.xl),

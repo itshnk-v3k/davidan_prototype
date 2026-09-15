@@ -85,6 +85,18 @@ Raise both parts of `version` in `pubspec.yaml`, for example `1.0.0+1` → `1.0.
 
 An update keeps the demo data on the phone, as long as the new APK is signed with the same key.
 
+### App name and icon
+
+The app is called **DaviDan Delivery** on the phone's home screen (`android:label` in `android/app/src/main/AndroidManifest.xml`) and in the browser tab (`web/index.html`, `web/manifest.json`, `AppStrings.appTitle`).
+
+The icon is the logo's wheat "D" in white on the site's caramel, for Android and for the web favicon and PWA icons. It is generated from `assets/images/brand/logo-davidan.webp`, with nothing downloaded:
+
+```sh
+flutter test tools/app_icon/generate_app_icons_test.dart
+```
+
+Run it again after changing the logo or the icon design, then rebuild the APK. The logo is only 111 px tall, so the largest icons are slightly soft; a vector logo from the client would make them sharp.
+
 ### Signing
 
 The APK is signed with this Mac's debug key (`~/.android/debug.keystore`, created by the Android SDK). It installs normally, but the phone ties the installed app to that key:

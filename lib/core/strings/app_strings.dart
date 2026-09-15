@@ -4,7 +4,7 @@ import 'package:davidan_prototype/data/models/order.dart';
 /// can be added later without touching widgets. Product, category and banner
 /// names are content and live with the mock data in lib/data/mock/.
 abstract final class AppStrings {
-  static const appTitle = 'DaviDan';
+  static const appTitle = 'DaviDan Delivery';
   static const currency = 'lei';
 
   // Demo launcher
@@ -28,6 +28,7 @@ abstract final class AppStrings {
   static const navHome = 'Acasă';
   static const navMenu = 'Meniu';
   static const navCart = 'Coș';
+  static const navFavorites = 'Favorite';
   static const navProfile = 'Profil';
 
   // Screen titles
@@ -55,13 +56,8 @@ abstract final class AppStrings {
   static const ordersEmptyTitle = 'Nicio comandă încă';
   static const ordersEmptyMessage =
       'Comenzile tale apar aici, cu statusul lor la zi.';
-  static const aboutTitle = 'Despre DaviDan';
-  static const aboutEmployees = 'Angajați';
-  static const aboutLocations = 'Locații';
-  static const aboutKurtosSold = 'Kurtoși vânduți';
   static const demoProfileNote =
       'Profil demonstrativ, fără cont și autentificare.';
-  static String moreThan(String count) => '$count+';
 
   // Home
   static const deliverTo = 'Livrare la';
@@ -175,15 +171,6 @@ abstract final class AppStrings {
       'Adaugă $productName la favorite';
   static String removeFromFavorites(String productName) =>
       'Scoate $productName din favorite';
-
-  /// "Niciun produs salvat", "1 produs salvat", "3 produse salvate",
-  /// "20 de produse salvate".
-  static String savedProducts(int count) => switch (count) {
-    0 => 'Niciun produs salvat',
-    1 => '1 produs salvat',
-    _ when count % 100 == 0 || count % 100 >= 20 => '$count de produse salvate',
-    _ => '$count produse salvate',
-  };
 
   // Delivery map
   static String courierArrivesIn(int minutes) =>

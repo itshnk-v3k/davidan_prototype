@@ -75,6 +75,7 @@ class _BottomNav extends StatelessWidget {
     (icon: Icons.home_rounded, label: AppStrings.navHome),
     (icon: Icons.restaurant_menu_rounded, label: AppStrings.navMenu),
     (icon: Icons.shopping_bag_rounded, label: AppStrings.navCart),
+    (icon: Icons.favorite_rounded, label: AppStrings.navFavorites),
     (icon: Icons.person_rounded, label: AppStrings.navProfile),
   ];
   static const _cartIndex = 2;

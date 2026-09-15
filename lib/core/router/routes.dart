@@ -12,8 +12,8 @@ abstract final class Routes {
     queryParameters: {'category': categoryId},
   ).toString();
   static const clientCart = '/client/cart';
+  static const clientFavorites = '/client/favorites';
   static const clientProfile = '/client/profile';
-  static const clientFavorites = '$clientProfile/favorites';
   static String clientProduct(String productId) => '/client/product/$productId';
   static const clientCheckout = '/client/checkout';
   static String clientOrder(String orderId) => '/client/orders/$orderId';

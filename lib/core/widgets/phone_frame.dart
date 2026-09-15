@@ -4,10 +4,12 @@ import 'package:flutter/widgets.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
+import 'package:davidan_prototype/core/widgets/toast_host.dart';
 
 /// On wide browser windows, renders [child] in a phone-sized frame so the
 /// mobile apps look like a phone during a desktop demo. On narrow viewports
-/// [child] fills the screen.
+/// [child] fills the screen. Toasts float at the top of it, above every
+/// screen.
 ///
 /// The widget tree is the same shape in both modes, so resizing the window
 /// across the breakpoint never rebuilds the navigator underneath.
@@ -61,7 +63,13 @@ class PhoneFrame extends StatelessWidget {
                     viewPadding: EdgeInsets.zero,
                   )
                 : media,
-            child: child,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                child,
+                const Positioned(top: 0, left: 0, right: 0, child: ToastHost()),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,5 +1,5 @@
-// Favourites: the hearts on product cards and the product page, and the list
-// opened from the profile, in the real app, in Chrome:
+// Favourites: the hearts on product cards and the product page, and the
+// Favorite tab, in the real app, in Chrome:
 //   flutter test --platform chrome
 @TestOn('browser')
 library;
@@ -15,7 +15,9 @@ import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/features/client/application/favorites_notifier.dart';
 import 'package:davidan_prototype/features/client/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/favorites/favorites_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/home/home_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/product/product_detail_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/profile/profile_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/favorite_toggle.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/product_card.dart';
 
@@ -78,21 +80,55 @@ void main() {
     expect(isSaved(tester, heartOn('Coca Cola')), isTrue);
   });
 
+  testWidgets('the bottom bar has five tabs on a 360 px phone, in the order '
+      'Acasă, Meniu, Coș, Favorite, Profil, each in its own fifth', (
+    tester,
+  ) async {
+    await pumpApp(
+      tester,
+      container,
+      Routes.clientHome,
+      size: const Size(360, 640),
+    );
+
+    const labels = [
+      AppStrings.navHome,
+      AppStrings.navMenu,
+      AppStrings.navCart,
+      AppStrings.navFavorites,
+      AppStrings.navProfile,
+    ];
+    // Only positions: flutter_test draws text in a test font where most glyphs
+    // are a full em wide, so label widths here say nothing about Roboto.
+    const tabWidth = 360 / 5;
+    for (final (index, label) in labels.indexed) {
+      expect(
+        tester.getCenter(find.text(label)).dx,
+        closeTo(tabWidth * index + tabWidth / 2, 1),
+        reason: label,
+      );
+    }
+  });
+
   testWidgets(
-    'the profile links to the saved products, newest first; unsaving one '
-    'removes it',
+    'the Favorite tab lists saved products, newest first, with the bottom bar '
+    'and no back button; unsaving one removes it',
     (tester) async {
       container.read(favoritesProvider.notifier)
         ..toggle('coca-cola')
         ..toggle('americano');
-      await pumpApp(tester, container, Routes.clientProfile);
-      expect(find.text(AppStrings.savedProducts(2)), findsOneWidget);
+      await pumpApp(tester, container, Routes.clientHome);
+      expect(find.byType(HomeScreen), findsOneWidget);
 
-      await tapVisible(tester, find.text(AppStrings.favoritesTitle));
+      await tester.tap(find.text(AppStrings.navFavorites));
+      await tester.pumpAndSettle();
 
       expect(find.byType(FavoritesScreen), findsOneWidget);
-      // Opened inside the profile tab, so the bottom bar stays.
       expect(find.text(AppStrings.navCart), findsOneWidget);
+      expect(
+        inScreen<FavoritesScreen>(find.byIcon(Icons.arrow_back_rounded)),
+        findsNothing,
+      );
       expect(
         tester.getTopLeft(productCard('Americano')).dx,
         lessThan(tester.getTopLeft(productCard('Coca Cola')).dx),
@@ -105,16 +141,20 @@ void main() {
       await tester.tap(heartOn('Coca Cola'));
       await tester.pumpAndSettle();
       expect(find.text(AppStrings.favoritesEmptyTitle), findsOneWidget);
-
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
-      await tester.pumpAndSettle();
-      expect(find.text(AppStrings.savedProducts(0)), findsOneWidget);
     },
   );
 
-  testWidgets('with nothing saved, the list points to the menu', (
-    tester,
-  ) async {
+  testWidgets('the profile no longer links to favourites', (tester) async {
+    container.read(favoritesProvider.notifier).toggle('coca-cola');
+    await pumpApp(tester, container, Routes.clientProfile);
+
+    expect(
+      inScreen<ProfileScreen>(find.text(AppStrings.favoritesTitle)),
+      findsNothing,
+    );
+  });
+
+  testWidgets('with nothing saved, the tab points to the menu', (tester) async {
     await pumpApp(tester, container, Routes.clientFavorites);
     expect(find.text(AppStrings.favoritesEmptyTitle), findsOneWidget);
 
@@ -136,13 +176,5 @@ void main() {
 
     expect(find.byType(FavoritesScreen), findsOneWidget);
     expect(find.byType(ProductCard), findsWidgets);
-  });
-
-  test('the saved count reads naturally in Romanian', () {
-    expect(AppStrings.savedProducts(0), 'Niciun produs salvat');
-    expect(AppStrings.savedProducts(1), '1 produs salvat');
-    expect(AppStrings.savedProducts(3), '3 produse salvate');
-    expect(AppStrings.savedProducts(20), '20 de produse salvate');
-    expect(AppStrings.savedProducts(101), '101 produse salvate');
   });
 }

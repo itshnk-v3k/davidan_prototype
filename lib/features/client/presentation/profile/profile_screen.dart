@@ -8,29 +8,24 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
-import 'package:davidan_prototype/core/utils/numbers.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
-import 'package:davidan_prototype/core/widgets/link_card.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/core/widgets/summary_row.dart';
-import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
-import 'package:davidan_prototype/features/client/application/favorites_notifier.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/fulfilment_detail_row.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
 
 /// Profile tab. The prototype has no accounts, so there is no sign-in or
-/// settings: a link to the saved products, the customer's orders with their
-/// live status, then a few facts about DaviDan.
+/// settings: the customer's orders with their live status. Saved products
+/// have their own tab.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final orders = ref.watch(ordersProvider);
-    final favoriteCount = ref.watch(favoritesProvider).length;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -49,13 +44,6 @@ class ProfileScreen extends ConsumerWidget {
                   AppSpacing.xl,
                 ),
                 children: [
-                  LinkCard(
-                    icon: Icons.favorite_rounded,
-                    title: AppStrings.favoritesTitle,
-                    hint: AppStrings.savedProducts(favoriteCount),
-                    onTap: () => context.push(Routes.clientFavorites),
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
                   const _SectionTitle(AppStrings.myOrdersTitle),
                   if (orders.isEmpty)
                     EmptyState(
@@ -76,9 +64,6 @@ class ProfileScreen extends ConsumerWidget {
                         onTap: () => context.push(Routes.clientOrder(order.id)),
                       ),
                     ),
-                  const SizedBox(height: AppSpacing.md),
-                  const _SectionTitle(AppStrings.aboutTitle),
-                  const _AboutCard(),
                   const SizedBox(height: AppSpacing.lg),
                   const Text(
                     AppStrings.demoProfileNote,
@@ -164,45 +149,6 @@ class _OrderHistoryCard extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AboutCard extends StatelessWidget {
-  const _AboutCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(AppRadii.lg),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text(BrandFacts.tagline, style: AppTextStyles.bodySecondary),
-            const Divider(height: AppSpacing.xl, color: AppColors.border),
-            SummaryRow(
-              label: AppStrings.aboutEmployees,
-              value: formatCount(BrandFacts.employees),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            SummaryRow(
-              label: AppStrings.aboutLocations,
-              value: formatCount(BrandFacts.locations),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            SummaryRow(
-              label: AppStrings.aboutKurtosSold,
-              value: AppStrings.moreThan(formatCount(BrandFacts.kurtosSold)),
-            ),
-          ],
         ),
       ),
     );

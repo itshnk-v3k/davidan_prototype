@@ -1,11 +1,11 @@
 {
-    "name": "davidan_prototype",
-    "short_name": "davidan_prototype",
+    "name": "DaviDan Delivery",
+    "short_name": "DaviDan Delivery",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#FCF8F8",
+    "theme_color": "#A26B25",
+    "description": "DaviDan Delivery: prototipul aplicației de livrare DaviDan.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -7,14 +7,16 @@ import 'package:material_ui/material_ui.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_assets.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
+import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
 
-/// Branded screen the customer app opens on. After [holdDuration] it moves
-/// on: to home when a delivery address or pickup shop was chosen before, or
-/// to the location screen on first run.
+/// Branded screen the customer app opens on: the logo and tagline on a white
+/// card over a photo of DaviDan pastries. After [holdDuration] it moves on:
+/// to home when a delivery address or pickup shop was chosen before, or to
+/// the location screen on first run.
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
@@ -49,25 +51,73 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.xl),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(AppAssets.logo, height: 56),
-                const SizedBox(height: AppSpacing.lg),
-                const Text(
-                  BrandFacts.tagline,
-                  style: AppTextStyles.bodySecondary,
-                  textAlign: TextAlign.center,
-                ),
-              ],
+      // Dark like the photo, so it doesn't flash while the photo decodes.
+      backgroundColor: AppColors.textPrimary,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            AppAssets.splashBackground,
+            fit: BoxFit.cover,
+            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) =>
+                wasSynchronouslyLoaded
+                ? child
+                : AnimatedOpacity(
+                    opacity: frame == null ? 0 : 1,
+                    duration: AppMotion.of(context, AppMotion.medium),
+                    curve: AppMotion.standard,
+                    child: child,
+                  ),
+          ),
+          // Tones the busy photo down so the card reads as the focus.
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  AppColors.scrim.withValues(alpha: 0.35),
+                  AppColors.scrim,
+                ],
+              ),
             ),
           ),
-        ),
+          SafeArea(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(AppSpacing.xl),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(AppRadii.xl),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: AppColors.shadow,
+                        blurRadius: 24,
+                        offset: Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpacing.xl),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(AppAssets.logo, height: 48),
+                        const SizedBox(height: AppSpacing.lg),
+                        const Text(
+                          BrandFacts.tagline,
+                          style: AppTextStyles.bodySecondary,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

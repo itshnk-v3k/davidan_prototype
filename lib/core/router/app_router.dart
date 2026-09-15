@@ -92,15 +92,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               StatefulShellBranch(
                 routes: [
                   GoRoute(
+                    path: Routes.clientFavorites,
+                    builder: (_, _) => const FavoritesScreen(),
+                  ),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
                     path: Routes.clientProfile,
                     builder: (_, _) => const ProfileScreen(),
-                    routes: [
-                      // Inside the profile tab, so the bottom bar stays.
-                      GoRoute(
-                        path: 'favorites',
-                        builder: (_, _) => const FavoritesScreen(),
-                      ),
-                    ],
                   ),
                 ],
               ),
