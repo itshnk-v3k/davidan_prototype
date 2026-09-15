@@ -11,7 +11,7 @@ import 'package:davidan_prototype/features/client/application/cart_notifier.dart
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/client/presentation/catalog/widgets/category_chips.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/product_grid.dart';
-import 'package:davidan_prototype/features/client/presentation/widgets/tab_header.dart';
+import 'package:davidan_prototype/core/widgets/screen_header.dart';
 
 /// Products of one category, with chips to switch category in place.
 ///
@@ -37,7 +37,7 @@ class CatalogScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const TabHeader(title: AppStrings.menuTitle),
+            const ScreenHeader(title: AppStrings.menuTitle),
             CategoryChips(
               categories: categories,
               selectedId: category.id,

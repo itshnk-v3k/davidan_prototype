@@ -193,7 +193,9 @@ void main() {
 
   group('at 19:45', () {
     setUp(() async {
-      container = await createTestContainer(now: DateTime(2026, 9, 15, 19, 45));
+      container = await createTestContainer(
+        clock: () => DateTime(2026, 9, 15, 19, 45),
+      );
       container.read(cartProvider.notifier).add('americano');
     });
 

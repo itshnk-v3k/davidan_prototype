@@ -9,7 +9,7 @@ import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/app_chip.dart';
-import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/option_tile.dart';
 import 'package:davidan_prototype/data/models/order.dart';
@@ -17,8 +17,9 @@ import 'package:davidan_prototype/data/models/store_location.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/client/application/checkout_notifier.dart';
-import 'package:davidan_prototype/features/client/presentation/widgets/order_summary_card.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/total_bar.dart';
+import 'package:davidan_prototype/features/orders/application/order_lines_provider.dart';
+import 'package:davidan_prototype/features/orders/presentation/widgets/order_summary_card.dart';
 
 /// Delivery address or pickup shop, time, payment on receipt and the order
 /// summary. Placing the order empties the cart and opens its confirmation.
@@ -62,7 +63,7 @@ class CheckoutScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _Header(onBack: goBack),
+            ScreenHeader(title: AppStrings.checkoutTitle, onBack: goBack),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(
@@ -251,37 +252,6 @@ class _Section extends StatelessWidget {
   }
 }
 
-class _Header extends StatelessWidget {
-  const _Header({required this.onBack});
-
-  final VoidCallback onBack;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.gutter,
-        AppSpacing.md,
-        AppSpacing.gutter,
-        0,
-      ),
-      child: Row(
-        children: [
-          AppIconButton(
-            icon: Icons.arrow_back_rounded,
-            semanticLabel: AppStrings.back,
-            onPressed: onBack,
-          ),
-          const SizedBox(width: AppSpacing.md),
-          const Expanded(
-            child: Text(AppStrings.checkoutTitle, style: AppTextStyles.title),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _EmptyCheckout extends StatelessWidget {
   const _EmptyCheckout({required this.onBack, required this.onBrowseMenu});
 
@@ -296,7 +266,7 @@ class _EmptyCheckout extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _Header(onBack: onBack),
+            ScreenHeader(title: AppStrings.checkoutTitle, onBack: onBack),
             Expanded(
               child: EmptyState(
                 icon: Icons.shopping_bag_outlined,

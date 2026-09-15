@@ -38,8 +38,7 @@ abstract final class AppStrings {
   static const checkoutTitle = 'Finalizează comanda';
   static const profileTitle = 'Profil';
   static const courierOrdersTitle = 'Comenzi de livrat';
-  static const courierDeliveryTitle = 'Livrare';
-  static const kdsTitle = 'Comenzi noi';
+  static const kdsTitle = launcherKds;
 
   // Placeholder screens
   static const placeholderBody =
@@ -47,7 +46,6 @@ abstract final class AppStrings {
   static const back = 'Înapoi';
   static const continueLabel = 'Continuă';
   static const backHome = 'Înapoi acasă';
-  static const openDelivery = 'Deschide livrarea';
 
   // Home
   static const deliverTo = 'Livrare la';
@@ -121,7 +119,46 @@ abstract final class AppStrings {
     OrderStatus.accepted => 'Acceptată',
     OrderStatus.preparing => 'Se pregătește',
     OrderStatus.ready => 'Gata',
-    OrderStatus.onTheWay => 'În drum spre tine',
+    OrderStatus.onTheWay => 'În livrare',
     OrderStatus.completed => 'Finalizată',
   };
+
+  // Order actions on the store panel and in the courier app, named after the
+  // status they move the order to
+  static String advanceTo(OrderStatus next) => switch (next) {
+    OrderStatus.placed => placeOrder,
+    OrderStatus.accepted => 'Acceptă',
+    OrderStatus.preparing => 'Începe prepararea',
+    OrderStatus.ready => 'Marchează gata',
+    OrderStatus.onTheWay => 'Am preluat comanda',
+    OrderStatus.completed => 'Predată clientului',
+  };
+  static String scheduledAt(String time) => 'La $time';
+
+  // Store panel
+  static const kdsIncoming = 'Noi';
+  static const kdsInKitchen = 'În lucru';
+  static const kdsReady = 'Gata';
+  static const kdsColumnEmpty = 'Nicio comandă';
+  static const kdsEmptyTitle = 'Nicio comandă deocamdată';
+  static const kdsEmptyMessage =
+      'Comenzile plasate din aplicația clientului apar aici.';
+  static const waitingForCourier = 'Așteaptă curierul';
+  static String pickupAt(String shopName) => 'Ridicare · $shopName';
+  static String timeSincePlaced(String elapsed) =>
+      'Timp de la plasare: $elapsed';
+
+  // Courier app
+  static const courierEmptyTitle = 'Nicio livrare deocamdată';
+  static const courierEmptyMessage =
+      'Comenzile cu livrare apar aici când localul le marchează gata.';
+  static const toCollect = 'De încasat';
+  static const itemsTitle = 'Produse';
+  static const courierWaitingForStore = 'Localul încă pregătește comanda.';
+  static const deliveryCompleted = 'Livrare finalizată.';
+  static const backToDeliveries = 'Înapoi la comenzi';
+  static const deliveryNotFound = 'Livrarea nu a fost găsită.';
+  static String deliveryTitle(String orderId) => 'Livrare $orderId';
+  static String amountToCollect(String total, String paymentMethod) =>
+      '$total · $paymentMethod';
 }

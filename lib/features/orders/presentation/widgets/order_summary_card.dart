@@ -4,8 +4,8 @@ import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
+import 'package:davidan_prototype/core/widgets/summary_row.dart';
 import 'package:davidan_prototype/data/models/cart_item.dart';
-import 'package:davidan_prototype/features/client/presentation/widgets/summary_row.dart';
 
 /// Each item with its line total, then the order total.
 class OrderSummaryCard extends StatelessWidget {

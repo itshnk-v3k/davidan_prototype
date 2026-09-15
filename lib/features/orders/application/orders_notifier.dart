@@ -16,6 +16,13 @@ final orderByIdProvider = Provider.family<Order?, String>(
       .firstOrNull,
 );
 
+/// Sorts oldest first, the way the shop and couriers work through orders.
+/// Orders placed in the same instant keep their number order.
+int byPlacementTime(Order a, Order b) {
+  final byTime = a.createdAt.compareTo(b.createdAt);
+  return byTime != 0 ? byTime : a.id.compareTo(b.id);
+}
+
 /// Every order in the demo, newest first, saved to local storage on every
 /// change. The customer app, courier app and store panel all share this one
 /// list, so a status change made in one shows up in the others.

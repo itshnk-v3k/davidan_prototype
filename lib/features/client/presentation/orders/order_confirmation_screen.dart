@@ -11,14 +11,16 @@ import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
+import 'package:davidan_prototype/core/widgets/summary_row.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
-import 'package:davidan_prototype/features/client/presentation/widgets/summary_row.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
 
-/// Shown after checkout: the order number, its status and what was chosen.
-/// A stand-in for the live order tracking screen.
+/// Shown after checkout: the order number, its live status and what was
+/// chosen. A stand-in for the full order tracking screen.
 class OrderConfirmationScreen extends ConsumerWidget {
   const OrderConfirmationScreen({super.key, required this.orderId});
 
@@ -104,9 +106,7 @@ class OrderConfirmationScreen extends ConsumerWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.md),
-            Center(
-              child: _StatusPill(label: AppStrings.orderStatus(order.status)),
-            ),
+            Center(child: OrderStatusPill(status: order.status)),
             const SizedBox(height: AppSpacing.xl),
             DecoratedBox(
               decoration: BoxDecoration(
@@ -119,13 +119,13 @@ class OrderConfirmationScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _DetailRow(
+                    DetailRow(
                       icon: fulfilment.icon,
                       label: fulfilment.label,
                       value: fulfilment.value,
                     ),
                     const SizedBox(height: AppSpacing.md),
-                    _DetailRow(
+                    DetailRow(
                       icon: Icons.schedule_rounded,
                       label: AppStrings.orderTime,
                       value: scheduledFor == null
@@ -133,7 +133,7 @@ class OrderConfirmationScreen extends ConsumerWidget {
                           : formatTime(scheduledFor),
                     ),
                     const SizedBox(height: AppSpacing.md),
-                    _DetailRow(
+                    DetailRow(
                       icon: Icons.payments_rounded,
                       label: AppStrings.paymentTitle,
                       value: AppStrings.paymentMethod(order.payment),
@@ -167,75 +167,6 @@ class OrderConfirmationScreen extends ConsumerWidget {
           child: AppButton(label: AppStrings.backHome, onPressed: goHome),
         ),
       ),
-    );
-  }
-}
-
-class _StatusPill extends StatelessWidget {
-  const _StatusPill({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.accentSoft,
-        borderRadius: BorderRadius.circular(AppRadii.pill),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.xs + AppSpacing.xxs,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const DecoratedBox(
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                shape: BoxShape.circle,
-              ),
-              child: SizedBox.square(dimension: 8),
-            ),
-            const SizedBox(width: AppSpacing.sm),
-            Text(label, style: AppTextStyles.label),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _DetailRow extends StatelessWidget {
-  const _DetailRow({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
-
-  final IconData icon;
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 20, color: AppColors.primary),
-        const SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label, style: AppTextStyles.caption),
-              const SizedBox(height: AppSpacing.xxs),
-              Text(value, style: AppTextStyles.bodyStrong),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

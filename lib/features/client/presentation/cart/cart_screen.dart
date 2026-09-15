@@ -10,7 +10,7 @@ import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/client/application/product_quantity_notifier.dart';
 import 'package:davidan_prototype/features/client/presentation/cart/widgets/cart_line_tile.dart';
-import 'package:davidan_prototype/features/client/presentation/widgets/tab_header.dart';
+import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/total_bar.dart';
 
 /// Cart tab: every line with a quantity stepper, the running total and the
@@ -31,7 +31,7 @@ class CartScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const TabHeader(title: AppStrings.cartTitle),
+            const ScreenHeader(title: AppStrings.cartTitle),
             Expanded(
               child: lines.isEmpty
                   ? EmptyState(

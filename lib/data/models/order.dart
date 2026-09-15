@@ -21,6 +21,9 @@ enum OrderStatus {
   completed,
 }
 
+/// Who moves an order on to its next status. The customer only places it.
+enum OrderActor { store, courier }
+
 /// Paid when the order is received. DaviDan takes no online payments.
 enum PaymentMethod { cash, card }
 
@@ -168,6 +171,21 @@ class Order {
     final index = flow.indexOf(status);
     return index >= 0 && index < flow.length - 1 ? flow[index + 1] : null;
   }
+
+  /// Who takes the next step, or null once the order is completed. The shop
+  /// accepts, prepares and readies every order, and hands pickup orders over
+  /// itself; a courier takes delivery orders from ready onwards.
+  OrderActor? get nextStepBy => switch (status) {
+    OrderStatus.placed ||
+    OrderStatus.accepted ||
+    OrderStatus.preparing => OrderActor.store,
+    OrderStatus.ready => switch (fulfilment) {
+      HomeDelivery() => OrderActor.courier,
+      StorePickup() => OrderActor.store,
+    },
+    OrderStatus.onTheWay => OrderActor.courier,
+    OrderStatus.completed => null,
+  };
 
   Order copyWith({OrderStatus? status}) => Order(
     id: id,

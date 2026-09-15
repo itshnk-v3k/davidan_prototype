@@ -12,11 +12,10 @@ import 'package:davidan_prototype/features/client/presentation/home/home_screen.
 import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/shell/client_shell.dart';
+import 'package:davidan_prototype/features/courier/presentation/courier_delivery_screen.dart';
+import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
+import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
-
-/// Order id used by the courier placeholder links until that app reads
-/// OrdersNotifier.
-const _demoOrderId = 'DD-1042';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
@@ -132,25 +131,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           // --- Courier app ---
           GoRoute(
             path: Routes.courierOrders,
-            builder: (_, _) => PlaceholderScreen(
-              title: AppStrings.courierOrdersTitle,
-              location: Routes.courierOrders,
-              links: [
-                PlaceholderLink(
-                  AppStrings.openDelivery,
-                  Routes.courierDelivery(_demoOrderId),
-                  push: true,
-                ),
-              ],
-            ),
+            builder: (_, _) => const CourierOrdersScreen(),
             routes: [
+              // A child route, so the list is underneath and back returns to
+              // it even when a delivery is opened straight from a URL.
               GoRoute(
                 path: ':orderId',
-                builder: (_, state) => PlaceholderScreen(
-                  title: AppStrings.courierDeliveryTitle,
-                  location: Routes.courierDelivery(
-                    state.pathParameters['orderId']!,
-                  ),
+                builder: (_, state) => CourierDeliveryScreen(
+                  orderId: state.pathParameters['orderId']!,
                 ),
               ),
             ],
@@ -159,13 +147,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
 
       // --- Store panel (KDS): a tablet/desktop screen, outside the frame ---
-      GoRoute(
-        path: Routes.kds,
-        builder: (_, _) => const PlaceholderScreen(
-          title: AppStrings.kdsTitle,
-          location: Routes.kds,
-        ),
-      ),
+      GoRoute(path: Routes.kds, builder: (_, _) => const KdsScreen()),
     ],
   );
   ref.onDispose(router.dispose);

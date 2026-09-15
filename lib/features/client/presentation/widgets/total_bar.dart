@@ -5,7 +5,7 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
-import 'package:davidan_prototype/features/client/presentation/widgets/summary_row.dart';
+import 'package:davidan_prototype/core/widgets/summary_row.dart';
 
 /// Bottom bar with the running total and the next step, on the cart and
 /// checkout screens.
