@@ -31,6 +31,21 @@ abstract final class AppTheme {
       splashFactory: InkRipple.splashFactory,
       splashColor: AppColors.accentSoft,
       highlightColor: Colors.transparent,
+      // One page transition on every platform, so the web demo and the
+      // Android app feel the same: new pages fade forwards. On Android the
+      // back gesture also previews the page underneath (predictive back).
+      pageTransitionsTheme: PageTransitionsTheme(
+        builders: {
+          for (final platform in TargetPlatform.values)
+            platform: platform == TargetPlatform.android
+                ? const PredictiveBackPageTransitionsBuilder(
+                    fallbackColor: AppColors.background,
+                  )
+                : const FadeForwardsPageTransitionsBuilder(
+                    backgroundColor: AppColors.background,
+                  ),
+        },
+      ),
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: AppColors.primary,
         selectionHandleColor: AppColors.primary,

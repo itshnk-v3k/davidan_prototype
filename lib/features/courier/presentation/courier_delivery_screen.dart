@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
+import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
@@ -125,7 +126,8 @@ class CourierDeliveryScreen extends ConsumerWidget {
 }
 
 /// The courier's next step, a "delivered" note once done, or a note that the
-/// shop is still on it.
+/// shop is still on it. Each step crossfades in, and the bar grows or shrinks
+/// to fit instead of jumping.
 class _ActionBar extends StatelessWidget {
   const _ActionBar({
     required this.order,
@@ -139,6 +141,8 @@ class _ActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final duration = AppMotion.of(context, AppMotion.medium);
+
     return DecoratedBox(
       decoration: const BoxDecoration(
         color: AppColors.surface,
@@ -148,45 +152,55 @@ class _ActionBar extends StatelessWidget {
         top: false,
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.gutter),
-          child: switch (order.nextStatus) {
-            final next? when order.nextStepBy == OrderActor.courier =>
-              AppButton(
-                label: AppStrings.advanceTo(next),
-                onPressed: onAdvance,
+          child: AnimatedSize(
+            duration: duration,
+            curve: AppMotion.standard,
+            child: AnimatedSwitcher(
+              duration: duration,
+              child: KeyedSubtree(
+                key: ValueKey(order.status),
+                child: switch (order.nextStatus) {
+                  final next? when order.nextStepBy == OrderActor.courier =>
+                    AppButton(
+                      label: AppStrings.advanceTo(next),
+                      onPressed: onAdvance,
+                    ),
+                  null => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.check_circle_rounded,
+                            size: 20,
+                            color: AppColors.primary,
+                          ),
+                          SizedBox(width: AppSpacing.sm),
+                          Text(
+                            AppStrings.deliveryCompleted,
+                            style: AppTextStyles.bodyStrong,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      AppButton(
+                        label: AppStrings.backToDeliveries,
+                        variant: AppButtonVariant.secondary,
+                        onPressed: onBack,
+                      ),
+                    ],
+                  ),
+                  _ => const Text(
+                    AppStrings.courierWaitingForStore,
+                    style: AppTextStyles.bodySecondary,
+                    textAlign: TextAlign.center,
+                  ),
+                },
               ),
-            null => Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.check_circle_rounded,
-                      size: 20,
-                      color: AppColors.primary,
-                    ),
-                    SizedBox(width: AppSpacing.sm),
-                    Text(
-                      AppStrings.deliveryCompleted,
-                      style: AppTextStyles.bodyStrong,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: AppSpacing.md),
-                AppButton(
-                  label: AppStrings.backToDeliveries,
-                  variant: AppButtonVariant.secondary,
-                  onPressed: onBack,
-                ),
-              ],
             ),
-            _ => const Text(
-              AppStrings.courierWaitingForStore,
-              style: AppTextStyles.bodySecondary,
-              textAlign: TextAlign.center,
-            ),
-          },
+          ),
         ),
       ),
     );

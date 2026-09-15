@@ -53,7 +53,10 @@ class CartLineTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppRadii.md),
                 child: SizedBox.square(
                   dimension: 72,
-                  child: ProductImage(path: product.image),
+                  child: ProductImage(
+                    path: product.image,
+                    heroTag: ProductImage.heroTagFor(product.id),
+                  ),
                 ),
               ),
               const SizedBox(width: AppSpacing.md),

@@ -4,8 +4,10 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
+import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/widgets/scale_pop.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 
 /// Customer app frame: the active tab plus the bottom navigation bar.
@@ -13,6 +15,33 @@ class ClientShell extends ConsumerWidget {
   const ClientShell({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
+
+  /// Holds the tabs' navigators for the StatefulShellRoute in app_router.dart.
+  /// Like go_router's indexedStack it keeps every tab alive but only shows and
+  /// animates the current one. It also turns heroes off in hidden tabs.
+  /// Otherwise a product shown in two tabs (home's popular list and the menu)
+  /// would have two photo heroes with the same tag, and opening it would fail.
+  static Widget tabStack(
+    BuildContext context,
+    StatefulNavigationShell navigationShell,
+    List<Widget> children,
+  ) {
+    Widget tab(bool active, Widget child) => Offstage(
+      offstage: !active,
+      child: TickerMode(
+        enabled: active,
+        child: HeroMode(enabled: active, child: child),
+      ),
+    );
+
+    return IndexedStack(
+      index: navigationShell.currentIndex,
+      children: [
+        for (final (index, child) in children.indexed)
+          tab(index == navigationShell.currentIndex, child),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -116,12 +145,29 @@ class _NavItem extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 Icon(icon, size: 24, color: color),
-                if (badgeCount > 0)
-                  Positioned(
-                    top: -6,
-                    right: -12,
-                    child: _Badge(count: badgeCount),
+                // The badge grows in with the first item, bumps each time the
+                // count goes up, and shrinks away when the cart empties. This
+                // is the "added" feedback from anywhere in the app.
+                Positioned(
+                  top: -6,
+                  right: -12,
+                  child: AnimatedSwitcher(
+                    duration: AppMotion.of(context, AppMotion.medium),
+                    switchInCurve: AppMotion.emphasized,
+                    transitionBuilder: (child, animation) =>
+                        ScaleTransition(scale: animation, child: child),
+                    child: badgeCount > 0
+                        ? ScalePop<int>(
+                            key: const ValueKey('badge'),
+                            value: badgeCount,
+                            shouldPop: (previous, current) =>
+                                current > previous,
+                            scale: 1.25,
+                            child: _Badge(count: badgeCount),
+                          )
+                        : const SizedBox.shrink(),
                   ),
+                ),
               ],
             ),
             const SizedBox(height: AppSpacing.xs),

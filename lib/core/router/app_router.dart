@@ -52,7 +52,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           // Tabs: each branch keeps its own navigation stack. Keep the branch
           // order in sync with the bottom navigation items in ClientShell.
-          StatefulShellRoute.indexedStack(
+          // ClientShell.tabStack works like indexedStack and also keeps hidden
+          // tabs out of the product photo's hero flight.
+          StatefulShellRoute(
+            navigatorContainerBuilder: ClientShell.tabStack,
             builder: (_, _, navigationShell) =>
                 ClientShell(navigationShell: navigationShell),
             branches: [

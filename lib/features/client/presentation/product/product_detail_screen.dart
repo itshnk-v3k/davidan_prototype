@@ -52,7 +52,10 @@ class ProductDetailScreen extends ConsumerWidget {
               children: [
                 AspectRatio(
                   aspectRatio: 1,
-                  child: ProductImage(path: product.image),
+                  child: ProductImage(
+                    path: product.image,
+                    heroTag: ProductImage.heroTagFor(product.id),
+                  ),
                 ),
                 Positioned(
                   top: buttonsTop,

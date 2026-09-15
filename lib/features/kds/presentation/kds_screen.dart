@@ -5,9 +5,11 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
+import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
+import 'package:davidan_prototype/core/widgets/entrance.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/core/widgets/section_title.dart';
 import 'package:davidan_prototype/data/models/order.dart';
@@ -18,7 +20,8 @@ import 'package:davidan_prototype/features/orders/application/orders_notifier.da
 /// Store panel: every order the shop still has work on, in three columns
 /// (new, in the kitchen, ready). A tablet or desktop shows the columns side
 /// by side; a phone stacks them. An order placed while the panel is open is
-/// announced by a short notice at the top.
+/// announced by a short notice at the top. A card fades in wherever it lands:
+/// a new order, or an order moving to the next column.
 class KdsScreen extends ConsumerStatefulWidget {
   const KdsScreen({super.key});
 
@@ -106,7 +109,21 @@ class _KdsScreenState extends ConsumerState<KdsScreen> {
                       child: Align(
                         alignment: Alignment.topCenter,
                         child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 200),
+                          duration: AppMotion.of(context, AppMotion.medium),
+                          switchInCurve: AppMotion.standard,
+                          switchOutCurve: AppMotion.standard,
+                          // Drops in from the top edge and rises away.
+                          transitionBuilder: (child, animation) =>
+                              FadeTransition(
+                                opacity: animation,
+                                child: SlideTransition(
+                                  position: Tween(
+                                    begin: const Offset(0, -0.5),
+                                    end: Offset.zero,
+                                  ).animate(animation),
+                                  child: child,
+                                ),
+                              ),
                           child: announcedOrderId == null
                               ? const SizedBox.shrink()
                               : _NewOrderNotice(
@@ -225,9 +242,9 @@ class _SideBySide extends StatelessWidget {
                                   itemCount: orders.length,
                                   separatorBuilder: (_, _) =>
                                       const SizedBox(height: AppSpacing.md),
-                                  itemBuilder: (_, index) => KdsOrderCard(
+                                  itemBuilder: (_, index) => Entrance(
                                     key: ValueKey(orders[index].id),
-                                    order: orders[index],
+                                    child: KdsOrderCard(order: orders[index]),
                                   ),
                                 ),
                         ),
@@ -280,7 +297,7 @@ class _Stacked extends StatelessWidget {
                       padding: EdgeInsets.only(
                         top: index == 0 ? 0 : AppSpacing.md,
                       ),
-                      child: KdsOrderCard(order: order),
+                      child: Entrance(child: KdsOrderCard(order: order)),
                     ),
               ],
             ),

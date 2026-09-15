@@ -13,6 +13,7 @@ import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
+import 'package:davidan_prototype/core/widgets/entrance.dart';
 import 'package:davidan_prototype/core/widgets/summary_row.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
@@ -65,18 +66,22 @@ class OrderConfirmationScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
+            // The check mark pops in once, as the order is confirmed.
             Center(
-              child: Container(
-                width: 88,
-                height: 88,
-                decoration: const BoxDecoration(
-                  color: AppColors.accentSoft,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.check_rounded,
-                  size: 48,
-                  color: AppColors.primary,
+              child: Entrance(
+                pop: true,
+                child: Container(
+                  width: 88,
+                  height: 88,
+                  decoration: const BoxDecoration(
+                    color: AppColors.accentSoft,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.check_rounded,
+                    size: 48,
+                    color: AppColors.primary,
+                  ),
                 ),
               ),
             ),
