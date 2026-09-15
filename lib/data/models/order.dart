@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import 'package:davidan_prototype/data/models/geo_point.dart';
+
 /// Where an order is in its lifecycle. Which statuses an order goes through
 /// depends on how it is fulfilled: see [Order.statusFlow]. Saved by name, so
 /// renaming or removing a value needs a LocalStore.schemaVersion bump.
@@ -34,7 +36,13 @@ sealed class Fulfilment {
 
   factory Fulfilment.fromJson(Map<String, Object?> json) =>
       switch (json['type']) {
-        'delivery' => HomeDelivery(address: json['address']! as String),
+        'delivery' => HomeDelivery(
+          address: json['address']! as String,
+          point: switch (json['point']) {
+            final Map<String, Object?> point => GeoPoint.fromJson(point),
+            _ => null,
+          },
+        ),
         'pickup' => StorePickup(locationId: json['locationId']! as String),
         final type => throw FormatException('Unknown fulfilment "$type"'),
       };
@@ -42,14 +50,20 @@ sealed class Fulfilment {
   Map<String, Object?> toJson();
 }
 
-/// Delivered by a courier to [address].
+/// Delivered by a courier to [address], or to [point] when the customer chose
+/// "Folosește locația mea curentă" for this order ([address] is empty then).
 final class HomeDelivery extends Fulfilment {
-  const HomeDelivery({required this.address});
+  const HomeDelivery({required this.address, this.point});
 
   final String address;
+  final GeoPoint? point;
 
   @override
-  Map<String, Object?> toJson() => {'type': 'delivery', 'address': address};
+  Map<String, Object?> toJson() => {
+    'type': 'delivery',
+    'address': address,
+    if (point case final point?) 'point': point.toJson(),
+  };
 }
 
 /// Collected by the customer from a shop.

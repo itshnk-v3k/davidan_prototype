@@ -1,4 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- "Folosește locația mea": the nearest shop at sign-up and a one-off
+         delivery point. Android asks only when the customer taps it; if they
+         decline, the app falls back to the sector or the map picker. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application
         android:label="DaviDan Delivery"
         android:name="${applicationName}"

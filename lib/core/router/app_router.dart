@@ -1,15 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:davidan_prototype/core/location/location_result.dart';
 import 'package:davidan_prototype/core/router/demo_tool.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/widgets/phone_frame.dart';
+import 'package:davidan_prototype/features/client/presentation/account/sign_in_code_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/account/sign_in_details_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/account/sign_in_phone_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/account/welcome_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/cart/cart_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/checkout/checkout_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/favorites/favorites_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/home/home_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/location/location_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/location/map_picker_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/profile/profile_screen.dart';
@@ -39,16 +45,51 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
           // --- Customer app ---
           // The launcher enters the customer app here. The splash replaces
-          // itself with home, or with the location screen on first run.
+          // itself with the demo sign-in on first launch, then with home, or
+          // with the location screen when nothing is chosen yet.
           GoRoute(
             path: Routes.clientSplash,
             builder: (_, _) => const SplashScreen(),
           ),
-          // Opened with go() on first run, pushed from the home location bar
-          // afterwards.
+          // Demo sign-in (no real SMS). Each step is pushed on the previous
+          // one, so back returns to it and what was typed is kept.
+          GoRoute(
+            path: Routes.signIn,
+            builder: (_, _) => const SignInPhoneScreen(),
+            routes: [
+              GoRoute(
+                path: 'code',
+                builder: (_, _) => const SignInCodeScreen(),
+              ),
+              GoRoute(
+                path: 'details',
+                builder: (_, _) => const SignInDetailsScreen(),
+              ),
+            ],
+          ),
+          // Opened with go() once the account exists, so back can't return
+          // into the finished form.
+          GoRoute(
+            path: Routes.welcome,
+            builder: (_, _) => const WelcomeScreen(),
+          ),
+          // Opened with go() on first run and after sign-up, pushed from the
+          // home location bar otherwise.
           GoRoute(
             path: Routes.clientLocation,
-            builder: (_, _) => const LocationScreen(),
+            builder: (_, state) => LocationScreen(
+              suggestNearest: state.uri.queryParameters['suggest'] == 'nearest',
+            ),
+            routes: [
+              // Pushed when the phone's location isn't available.
+              GoRoute(
+                path: 'map',
+                builder: (_, state) => MapPickerScreen(
+                  failure: LocationFailure.values
+                      .asNameMap()[state.uri.queryParameters['reason']],
+                ),
+              ),
+            ],
           ),
           // Tabs: each branch keeps its own navigation stack. Keep the branch
           // order in sync with the bottom navigation items in ClientShell.

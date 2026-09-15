@@ -16,11 +16,13 @@ const _recentAddressCount = 3;
 
 /// Delivery addresses of past orders, newest first and without repeats, so
 /// the location screen can offer them the way delivery apps offer saved
-/// addresses.
+/// addresses. Deliveries to a one-off current location have no address to
+/// offer.
 final recentAddressesProvider = Provider<List<String>>((ref) {
   final addresses = {
     for (final order in ref.watch(ordersProvider))
-      if (order.fulfilment case HomeDelivery(:final address)) address,
+      if (order.fulfilment case HomeDelivery(:final address, point: null))
+        address,
   };
   return addresses.take(_recentAddressCount).toList();
 });

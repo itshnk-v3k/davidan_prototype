@@ -6,8 +6,10 @@ import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/data/models/order.dart';
+import 'package:davidan_prototype/features/orders/presentation/delivery_address.dart';
 
-/// What a courier needs at a glance: where to go, when, and how much to
+/// What a courier needs at a glance: where to go (an address, or the area
+/// and coordinates of a customer's current location), when, and how much to
 /// collect in which way (cash, or card on the POS terminal they carry).
 class CourierOrderDetails extends StatelessWidget {
   const CourierOrderDetails({super.key, required this.order});
@@ -21,11 +23,11 @@ class CourierOrderDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (order.fulfilment case HomeDelivery(:final address)) ...[
+        if (order.fulfilment case final HomeDelivery delivery) ...[
           DetailRow(
             icon: Icons.location_on_rounded,
             label: AppStrings.deliverTo,
-            value: address,
+            value: deliveryAddressText(delivery),
           ),
           const SizedBox(height: AppSpacing.md),
         ],

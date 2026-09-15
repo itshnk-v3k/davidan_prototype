@@ -13,8 +13,20 @@ abstract final class StorageKeys {
   static const fulfilment = 'fulfilment';
   static const favorites = 'favorites';
   static const courierOnline = 'courierOnline';
+  static const account = 'account';
+  static const signInSkipped = 'signInSkipped';
+  static const currentLocation = 'currentLocation';
 
-  static const all = {cart, orders, fulfilment, favorites, courierOnline};
+  static const all = {
+    cart,
+    orders,
+    fulfilment,
+    favorites,
+    courierOnline,
+    account,
+    signInSkipped,
+    currentLocation,
+  };
 }
 
 /// Opened once in main() before runApp and injected with a ProviderScope
@@ -68,6 +80,12 @@ class LocalStore {
   void write(String key, Object? json) {
     assert(StorageKeys.all.contains(key), 'Add "$key" to StorageKeys.all');
     unawaited(_prefs.setString('$_prefix$key', jsonEncode(json)));
+  }
+
+  /// Deletes one saved value, the same way [write] saves it.
+  void remove(String key) {
+    assert(StorageKeys.all.contains(key), 'Add "$key" to StorageKeys.all');
+    unawaited(_prefs.remove('$_prefix$key'));
   }
 
   /// Removes all saved demo data.

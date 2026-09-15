@@ -9,8 +9,10 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/data/mock/mock_sectors.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
+import 'package:davidan_prototype/features/client/application/current_location_notifier.dart';
 import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/client/presentation/home/widgets/category_strip.dart';
 import 'package:davidan_prototype/features/client/presentation/home/widgets/promo_banner_carousel.dart';
@@ -26,23 +28,38 @@ class HomeScreen extends ConsumerWidget {
     final banners = ref.watch(bannersProvider);
     final categories = ref.watch(categoriesProvider);
     final popular = ref.watch(popularProductsProvider);
-    final location = switch (ref.watch(fulfilmentChoiceProvider)) {
-      HomeDelivery(:final address) => (
-        icon: Icons.location_on_rounded,
-        label: AppStrings.deliverTo,
-        value: address,
-      ),
-      StorePickup(:final locationId) => (
-        icon: Icons.storefront_rounded,
-        label: AppStrings.pickupFrom,
-        value: ref.watch(locationByIdProvider(locationId))?.name ?? locationId,
-      ),
-      null => (
-        icon: Icons.location_on_rounded,
-        label: AppStrings.deliverTo,
-        value: AppStrings.chooseAddress,
-      ),
-    };
+    final pinned = ref.watch(
+      currentLocationProvider.select((state) => state.pinned),
+    );
+    // A location pinned for the next order comes first; the saved choice is
+    // back once that order is placed or the pin is dropped.
+    final location = pinned != null
+        ? (
+            icon: Icons.my_location_rounded,
+            label: AppStrings.deliverToCurrentLocation,
+            value: AppStrings.currentLocationValue(
+              AppStrings.areaName(sectorAt(pinned.point)),
+            ),
+          )
+        : switch (ref.watch(fulfilmentChoiceProvider)) {
+            HomeDelivery(:final address) => (
+              icon: Icons.location_on_rounded,
+              label: AppStrings.deliverTo,
+              value: address,
+            ),
+            StorePickup(:final locationId) => (
+              icon: Icons.storefront_rounded,
+              label: AppStrings.pickupFrom,
+              value:
+                  ref.watch(locationByIdProvider(locationId))?.name ??
+                  locationId,
+            ),
+            null => (
+              icon: Icons.location_on_rounded,
+              label: AppStrings.deliverTo,
+              value: AppStrings.chooseAddress,
+            ),
+          };
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -61,6 +78,9 @@ class HomeScreen extends ConsumerWidget {
               child: _LocationBar(
                 location: location,
                 onTap: () => context.push(Routes.clientLocation),
+                onClear: pinned == null
+                    ? null
+                    : () => ref.read(currentLocationProvider.notifier).clear(),
               ),
             ),
             SliverToBoxAdapter(
@@ -129,14 +149,24 @@ class _BrandRow extends StatelessWidget {
 }
 
 class _LocationBar extends StatelessWidget {
-  const _LocationBar({required this.location, required this.onTap});
+  const _LocationBar({
+    required this.location,
+    required this.onTap,
+    required this.onClear,
+  });
 
-  /// What the bar shows: the saved choice, or a prompt to make one.
+  /// What the bar shows: a pinned current location, the saved choice, or a
+  /// prompt to make one.
   final ({IconData icon, String label, String value}) location;
   final VoidCallback onTap;
 
+  /// Drops a pinned current location. Null when none is pinned.
+  final VoidCallback? onClear;
+
   @override
   Widget build(BuildContext context) {
+    final onClear = this.onClear;
+
     // Opaque, so the content scrolling beneath doesn't show through.
     return ColoredBox(
       color: AppColors.background,
@@ -188,10 +218,18 @@ class _LocationBar extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    color: AppColors.textSecondary,
-                  ),
+                  if (onClear != null)
+                    AppIconButton(
+                      icon: Icons.close_rounded,
+                      semanticLabel: AppStrings.dropCurrentLocation,
+                      size: 32,
+                      onPressed: onClear,
+                    )
+                  else
+                    const Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: AppColors.textSecondary,
+                    ),
                 ],
               ),
             ),

@@ -13,7 +13,9 @@ import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_assets.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
+import 'package:davidan_prototype/features/client/application/account_notifier.dart';
 import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
+import 'package:davidan_prototype/features/client/presentation/account/sign_in_phone_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/home/home_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/location/location_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/splash/splash_screen.dart';
@@ -40,7 +42,7 @@ void main() {
 
   testWidgets(
     'shows the logo and tagline over the pastry photo for the whole hold, '
-    'then moves on',
+    'then offers the demo sign-in on first launch',
     (tester) async {
       await pumpApp(tester, container, Routes.launcher);
       container.read(appRouterProvider).go(Routes.clientSplash);
@@ -62,12 +64,12 @@ void main() {
         findsOneWidget,
       );
       expect(find.text(BrandFacts.tagline), findsOneWidget);
-      expect(find.byType(LocationScreen), findsNothing);
+      expect(find.byType(SignInPhoneScreen), findsNothing);
 
       await tester.pump(const Duration(milliseconds: 1));
       await tester.pumpAndSettle();
       expect(find.byType(SplashScreen), findsNothing);
-      expect(find.byType(LocationScreen), findsOneWidget);
+      expect(find.byType(SignInPhoneScreen), findsOneWidget);
     },
   );
 
@@ -90,28 +92,58 @@ void main() {
     await tester.pumpAndSettle();
   });
 
-  testWidgets('first run: the launcher opens location selection, and choosing '
-      'continues to home', (tester) async {
-    await enterCustomerApp(tester);
+  testWidgets(
+    'first launch: skipping sign-in continues to location selection, and '
+    'choosing continues to home',
+    (tester) async {
+      await enterCustomerApp(tester);
+      expect(find.byType(SignInPhoneScreen), findsOneWidget);
 
-    expect(find.byType(LocationScreen), findsOneWidget);
-    // Replaced the splash, so there is no back button.
-    expect(find.byIcon(Icons.arrow_back_rounded), findsNothing);
+      await tapVisible(tester, find.text(AppStrings.signInLater));
 
-    await tapVisible(tester, find.text(AppStrings.pickup));
-    await tapVisible(tester, find.text('DaviDan Centru'));
+      expect(find.byType(LocationScreen), findsOneWidget);
+      // Replaced the sign-in, so there is no back button.
+      expect(find.byIcon(Icons.arrow_back_rounded), findsNothing);
 
-    expect(find.byType(LocationScreen), findsNothing);
-    expect(inScreen<HomeScreen>(find.text('DaviDan Centru')), findsOneWidget);
-  });
+      await tapVisible(tester, find.text(AppStrings.pickup));
+      await tapVisible(tester, find.text('DaviDan Centru'));
 
-  testWidgets('with a saved choice it goes straight to home', (tester) async {
+      expect(find.byType(LocationScreen), findsNothing);
+      expect(inScreen<HomeScreen>(find.text('DaviDan Centru')), findsOneWidget);
+    },
+  );
+
+  testWidgets('sign-in skipped before and a saved choice: straight to home', (
+    tester,
+  ) async {
+    container.read(signInSkippedProvider.notifier).skip();
     container
         .read(fulfilmentChoiceProvider.notifier)
         .chooseDelivery('str. Ismail 88');
     await enterCustomerApp(tester);
 
+    expect(find.byType(SignInPhoneScreen), findsNothing);
     expect(find.byType(LocationScreen), findsNothing);
     expect(inScreen<HomeScreen>(find.text('str. Ismail 88')), findsOneWidget);
+  });
+
+  testWidgets('signed in with a saved choice: straight to home', (
+    tester,
+  ) async {
+    signInTestAccount(container);
+    container.read(fulfilmentChoiceProvider.notifier).choosePickup('botanica');
+    await enterCustomerApp(tester);
+
+    expect(inScreen<HomeScreen>(find.text('DaviDan Botanica')), findsOneWidget);
+  });
+
+  testWidgets('signed in with nothing chosen: location selection', (
+    tester,
+  ) async {
+    signInTestAccount(container);
+    await enterCustomerApp(tester);
+
+    expect(find.byType(SignInPhoneScreen), findsNothing);
+    expect(find.byType(LocationScreen), findsOneWidget);
   });
 }

@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/data/models/order.dart';
+import 'package:davidan_prototype/data/models/pinned_location.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
+import 'package:davidan_prototype/features/client/application/current_location_notifier.dart';
 import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 
@@ -18,6 +20,7 @@ class CheckoutDraft {
     required this.payment,
     required this.scheduledFor,
     required this.showErrors,
+    this.pinned,
     this.placedOrder,
   });
 
@@ -25,6 +28,10 @@ class CheckoutDraft {
 
   /// Typed delivery address. Kept when switching to pickup and back.
   final String address;
+
+  /// A one-off delivery point from "Folosește locația mea curentă". While
+  /// set, a delivery goes there instead of to [address].
+  final PinnedLocation? pinned;
 
   /// Selected pickup shop.
   final String locationId;
@@ -43,11 +50,14 @@ class CheckoutDraft {
   final Order? placedOrder;
 
   bool get addressMissing =>
-      type == FulfilmentType.delivery && address.trim().isEmpty;
+      type == FulfilmentType.delivery &&
+      pinned == null &&
+      address.trim().isEmpty;
 
   CheckoutDraft copyWith({
     FulfilmentType? type,
     String? address,
+    ValueGetter<PinnedLocation?>? pinned,
     String? locationId,
     PaymentMethod? payment,
     ValueGetter<DateTime?>? scheduledFor,
@@ -56,6 +66,7 @@ class CheckoutDraft {
   }) => CheckoutDraft(
     type: type ?? this.type,
     address: address ?? this.address,
+    pinned: pinned != null ? pinned() : this.pinned,
     locationId: locationId ?? this.locationId,
     payment: payment ?? this.payment,
     scheduledFor: scheduledFor != null ? scheduledFor() : this.scheduledFor,
@@ -109,16 +120,20 @@ List<DateTime> timeSlotsAfter(DateTime now) {
 }
 
 class CheckoutNotifier extends Notifier<CheckoutDraft> {
-  /// Starts from the delivery address or pickup shop saved on the location
-  /// screen, if there is one.
+  /// Starts from a pinned current location if there is one, otherwise from
+  /// the delivery address or pickup shop saved on the location screen.
   @override
   CheckoutDraft build() {
     final choice = ref.watch(fulfilmentChoiceProvider);
+    // Read, not watched: placing the order clears the pinned point, and a
+    // rebuild then would drop the placed order this screen still shows.
+    final pinned = ref.read(currentLocationProvider).pinned;
     return CheckoutDraft(
-      type: choice is StorePickup
+      type: pinned == null && choice is StorePickup
           ? FulfilmentType.pickup
           : FulfilmentType.delivery,
       address: choice is HomeDelivery ? choice.address : '',
+      pinned: pinned,
       locationId: choice is StorePickup
           ? choice.locationId
           : ref.watch(locationsProvider).first.id,
@@ -132,6 +147,13 @@ class CheckoutNotifier extends Notifier<CheckoutDraft> {
 
   void setAddress(String address) => state = state.copyWith(address: address);
 
+  /// Stops delivering to the pinned current location, for this order and the
+  /// next ones, and goes back to the typed address.
+  void dropPinnedLocation() {
+    state = state.copyWith(pinned: () => null);
+    ref.read(currentLocationProvider.notifier).clear();
+  }
+
   void setLocation(String locationId) =>
       state = state.copyWith(locationId: locationId);
 
@@ -141,8 +163,9 @@ class CheckoutNotifier extends Notifier<CheckoutDraft> {
   void setTime(DateTime? scheduledFor) =>
       state = state.copyWith(scheduledFor: () => scheduledFor);
 
-  /// Places the order from the cart and empties the cart. Returns null, and
-  /// shows the form errors, when something required is missing.
+  /// Places the order from the cart and empties the cart. A pinned current
+  /// location is used up by it. Returns null, and shows the form errors, when
+  /// something required is missing.
   Order? placeOrder() {
     final lines = ref.read(cartLinesProvider);
     if (lines.isEmpty) return null;
@@ -151,6 +174,7 @@ class CheckoutNotifier extends Notifier<CheckoutDraft> {
       return null;
     }
 
+    final pinned = state.pinned;
     final order = ref
         .read(ordersProvider.notifier)
         .place(
@@ -163,6 +187,10 @@ class CheckoutNotifier extends Notifier<CheckoutDraft> {
               ),
           ],
           fulfilment: switch (state.type) {
+            FulfilmentType.delivery when pinned != null => HomeDelivery(
+              address: '',
+              point: pinned.point,
+            ),
             FulfilmentType.delivery => HomeDelivery(
               address: state.address.trim(),
             ),
@@ -173,6 +201,9 @@ class CheckoutNotifier extends Notifier<CheckoutDraft> {
         );
     state = state.copyWith(placedOrder: order);
     ref.read(cartProvider.notifier).clear();
+    if (state.type == FulfilmentType.delivery && pinned != null) {
+      ref.read(currentLocationProvider.notifier).clear();
+    }
     return order;
   }
 }

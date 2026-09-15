@@ -4,21 +4,33 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/app.dart';
+import 'package:davidan_prototype/core/location/location_result.dart';
+import 'package:davidan_prototype/core/location/location_service.dart';
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/storage/local_store.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
+import 'package:davidan_prototype/data/mock/mock_locations.dart';
+import 'package:davidan_prototype/data/models/chisinau_sector.dart';
+import 'package:davidan_prototype/data/models/customer_account.dart';
 import 'package:davidan_prototype/data/models/order.dart';
+import 'package:davidan_prototype/features/client/application/account_notifier.dart';
+import 'package:davidan_prototype/features/client/application/nearby.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+
+import 'fake_location_service.dart';
 
 /// "Now" in widget tests: 15 September 2026, 10:07.
 final testNow = DateTime(2026, 9, 15, 10, 7);
 
 /// Providers wired the way bootstrap() wires them, on emptied local storage
 /// and with [clock] as the time source ([testNow], standing still, by
-/// default). Pass an entry point's [overrides] (e.g. demoToolsOverrides) to
-/// test that build. Call from setUp; disposed on tear down.
+/// default). The phone's location comes from [locationService], a fake that
+/// reports it unavailable unless a test passes another. Pass an entry point's
+/// [overrides] (e.g. demoToolsOverrides) to test that build. Call from setUp;
+/// disposed on tear down.
 Future<ProviderContainer> createTestContainer({
   DateTime Function()? clock,
+  LocationService? locationService,
   List<Override> overrides = const [],
 }) async {
   final prefs = await LocalStore.openPreferences();
@@ -27,6 +39,10 @@ Future<ProviderContainer> createTestContainer({
     overrides: [
       sharedPreferencesProvider.overrideWithValue(prefs),
       clockProvider.overrideWithValue(clock ?? () => testNow),
+      locationServiceProvider.overrideWithValue(
+        locationService ??
+            FakeLocationService.failing(LocationFailure.unavailable),
+      ),
       ...overrides,
     ],
   );
@@ -40,7 +56,12 @@ Future<ProviderContainer> createTestContainer({
 Future<ProviderContainer> startApp() async {
   final prefs = await LocalStore.openPreferences();
   return ProviderContainer(
-    overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(prefs),
+      locationServiceProvider.overrideWithValue(
+        FakeLocationService.failing(LocationFailure.unavailable),
+      ),
+    ],
   );
 }
 
@@ -76,6 +97,24 @@ Future<void> tapVisible(WidgetTester tester, Finder finder) async {
   await tester.pumpAndSettle();
   await tester.tap(finder);
   await tester.pumpAndSettle();
+}
+
+/// Signs in the way the demo sign-in would, without its screens: +373 69 123
+/// 456, with the shop nearest [sector].
+CustomerAccount signInTestAccount(
+  ProviderContainer container, {
+  String name = 'Ana Popescu',
+  ChisinauSector sector = ChisinauSector.botanica,
+}) {
+  final account = CustomerAccount(
+    phone: '69123456',
+    name: name,
+    sector: sector,
+    nearestLocationId: nearestLocationToSector(sector, mockLocations).id,
+    matchedBy: ShopMatch.sector,
+  );
+  container.read(accountProvider.notifier).register(account);
+  return account;
 }
 
 /// Places an order the way checkout does, without going through its screen.

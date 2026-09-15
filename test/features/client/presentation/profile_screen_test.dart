@@ -10,7 +10,10 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
+import 'package:davidan_prototype/data/models/chisinau_sector.dart';
 import 'package:davidan_prototype/data/models/order.dart';
+import 'package:davidan_prototype/features/client/application/account_notifier.dart';
+import 'package:davidan_prototype/features/client/presentation/account/sign_in_phone_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/profile/profile_screen.dart';
@@ -34,9 +37,59 @@ void main() {
     expect(find.byType(ProfileScreen), findsOneWidget);
   });
 
+  testWidgets(
+    'signed out it is locked: no orders, and "Intră în cont" opens the '
+    'sign-in',
+    (tester) async {
+      placeTestOrder(container);
+      await pumpApp(tester, container, Routes.clientProfile);
+
+      expect(
+        inProfile(find.text(AppStrings.accountLockedTitle)),
+        findsOneWidget,
+      );
+      expect(inProfile(find.text(AppStrings.myOrdersTitle)), findsNothing);
+      expect(inProfile(find.text('138 lei')), findsNothing);
+
+      await tapVisible(tester, find.text(AppStrings.signInTitle));
+      expect(find.byType(SignInPhoneScreen), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'signed in: name, masked number, sector and nearest shop; signing out '
+    'locks it',
+    (tester) async {
+      signInTestAccount(
+        container,
+        name: 'Ana Popescu',
+        sector: ChisinauSector.buiucani,
+      );
+      await pumpApp(tester, container, Routes.clientProfile);
+
+      expect(inProfile(find.text('Ana Popescu')), findsOneWidget);
+      expect(inProfile(find.text('+373 69 *** 456')), findsOneWidget);
+      expect(
+        inProfile(find.text(AppStrings.sectorLabel(ChisinauSector.buiucani))),
+        findsOneWidget,
+      );
+      expect(inProfile(find.text(AppStrings.nearestShopTitle)), findsOneWidget);
+      expect(inProfile(find.text('DaviDan Buiucani')), findsOneWidget);
+
+      await tapVisible(tester, find.text(AppStrings.signOut));
+
+      expect(
+        inProfile(find.text(AppStrings.accountLockedTitle)),
+        findsOneWidget,
+      );
+      expect(container.read(accountProvider), isNull);
+    },
+  );
+
   testWidgets('without orders: an empty state that links to the menu', (
     tester,
   ) async {
+    signInTestAccount(container);
     await pumpApp(tester, container, Routes.clientProfile);
 
     expect(inProfile(find.text(AppStrings.ordersEmptyTitle)), findsOneWidget);
@@ -46,6 +99,7 @@ void main() {
   });
 
   testWidgets('the "Despre DaviDan" facts are gone', (tester) async {
+    signInTestAccount(container);
     placeTestOrder(container);
     await pumpApp(tester, container, Routes.clientProfile);
 
@@ -60,6 +114,7 @@ void main() {
     'order history: newest first, with date, fulfilment, total and a status '
     'that follows the store',
     (tester) async {
+      signInTestAccount(container);
       final delivery = placeTestOrder(container);
       final pickup = placeTestOrder(
         container,
@@ -96,6 +151,7 @@ void main() {
   );
 
   testWidgets('tapping an order opens it', (tester) async {
+    signInTestAccount(container);
     final order = placeTestOrder(container);
     await pumpApp(tester, container, Routes.clientProfile);
 
@@ -111,6 +167,7 @@ void main() {
   });
 
   testWidgets('fits a 360 x 640 phone with long addresses', (tester) async {
+    signInTestAccount(container, name: 'Alexandru-Constantin Popescu');
     placeTestOrder(
       container,
       fulfilment: const HomeDelivery(

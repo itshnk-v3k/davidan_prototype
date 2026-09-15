@@ -11,12 +11,13 @@ import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
+import 'package:davidan_prototype/features/client/application/account_notifier.dart';
 import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
 
 /// Branded screen the customer app opens on: the logo and tagline on a white
 /// card over a photo of DaviDan pastries. After [holdDuration] it moves on:
-/// to home when a delivery address or pickup shop was chosen before, or to
-/// the location screen on first run.
+/// to the demo sign-in until the customer signs in or skips it, then to the
+/// location screen while nothing is chosen, otherwise home.
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
@@ -36,8 +37,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     super.initState();
     _hold = Timer(SplashScreen.holdDuration, () {
+      final signedIn = ref.read(accountProvider) != null;
+      final skipped = ref.read(signInSkippedProvider);
       final firstRun = ref.read(fulfilmentChoiceProvider) == null;
-      context.go(firstRun ? Routes.clientLocation : Routes.clientHome);
+      if (!signedIn && !skipped) {
+        context.go(Routes.signIn);
+      } else {
+        context.go(firstRun ? Routes.clientLocation : Routes.clientHome);
+      }
     });
   }
 

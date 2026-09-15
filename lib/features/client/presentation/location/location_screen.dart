@@ -8,37 +8,69 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
+import 'package:davidan_prototype/core/widgets/link_card.dart';
 import 'package:davidan_prototype/core/widgets/option_tile.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/data/models/order.dart';
+import 'package:davidan_prototype/features/client/application/account_notifier.dart';
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
+import 'package:davidan_prototype/features/client/application/current_location_notifier.dart';
 import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/client/application/location_draft_notifier.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/fulfilment_fields.dart';
 
 /// Delivery address or pickup shop for the customer's orders. As in delivery
 /// apps' address pickers, a ready option (a recent address, a shop) is chosen
-/// with one tap, and a typed address is confirmed with a button. Opened by
-/// the splash screen on first run, and from the home location bar after.
+/// with one tap, and a typed address is confirmed with a button. At the top,
+/// "Folosește locația mea curentă" sets a delivery point for the next order
+/// only, falling back to the map picker when the location isn't available.
+///
+/// Opened by the splash on first run, from the home location bar after, and
+/// right after sign-up with [suggestNearest]: pickup, with the nearest shop
+/// selected until the customer confirms it.
 class LocationScreen extends ConsumerWidget {
-  const LocationScreen({super.key});
+  const LocationScreen({super.key, this.suggestNearest = false});
+
+  final bool suggestNearest;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final draft = ref.watch(locationDraftProvider);
+    final draft = ref.watch(locationDraftProvider(suggestNearest));
     final choice = ref.watch(fulfilmentChoiceProvider);
+    final locating = ref.watch(
+      currentLocationProvider.select((state) => state.locating),
+    );
+    final nearestId = ref.watch(accountProvider)?.nearestLocationId;
     LocationDraftNotifier location() =>
-        ref.read(locationDraftProvider.notifier);
+        ref.read(locationDraftProvider(suggestNearest).notifier);
     FulfilmentChoiceNotifier save() =>
         ref.read(fulfilmentChoiceProvider.notifier);
 
-    // Pushed from home, this route pops back there. On first run the splash
-    // opened it with go(), so there is nothing to pop: continue to home.
+    // Pushed from home, this route pops back there. On first run and after
+    // sign-up it was opened with go(), so there is nothing to pop: continue
+    // to home.
     void close() =>
         context.canPop() ? context.pop() : context.go(Routes.clientHome);
 
+    // Choosing an address or shop here also drops a location pinned for the
+    // next order: the customer just said where they want it.
+    void saved() {
+      ref.read(currentLocationProvider.notifier).clear();
+      close();
+    }
+
     void confirmAddress() {
-      if (location().confirmAddress()) close();
+      if (location().confirmAddress()) saved();
+    }
+
+    Future<void> useCurrentLocation() async {
+      final failure = await ref.read(currentLocationProvider.notifier).locate();
+      if (!context.mounted) return;
+      if (failure == null) {
+        close();
+      } else {
+        context.push(Routes.clientLocationMap(failure));
+      }
     }
 
     return Scaffold(
@@ -65,6 +97,15 @@ class LocationScreen extends ConsumerWidget {
                     style: AppTextStyles.bodySecondary,
                   ),
                   const SizedBox(height: AppSpacing.lg),
+                  LinkCard(
+                    icon: Icons.my_location_rounded,
+                    title: AppStrings.useCurrentLocation,
+                    hint: locating
+                        ? AppStrings.locating
+                        : AppStrings.useCurrentLocationHint,
+                    onTap: locating ? () {} : useCurrentLocation,
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
                   FulfilmentTypeChips(
                     selected: draft.type,
                     onChanged: (type) => location().setType(type),
@@ -88,7 +129,27 @@ class LocationScreen extends ConsumerWidget {
                       selected: choice is HomeDelivery ? choice.address : null,
                       onSelected: (address) {
                         save().chooseDelivery(address);
-                        close();
+                        saved();
+                      },
+                    ),
+                  ] else if (draft.pickupSelection case final selection?) ...[
+                    const Text(
+                      AppStrings.nearestSuggestion,
+                      style: AppTextStyles.bodySecondary,
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    PickupShopList(
+                      locations: ref.watch(locationsProvider),
+                      selectedId: selection,
+                      nearestId: nearestId,
+                      onSelected: (locationId) =>
+                          location().selectPickup(locationId),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    AppButton(
+                      label: AppStrings.confirmShop,
+                      onPressed: () {
+                        if (location().confirmPickup()) saved();
                       },
                     ),
                   ] else
@@ -97,9 +158,10 @@ class LocationScreen extends ConsumerWidget {
                       selectedId: choice is StorePickup
                           ? choice.locationId
                           : null,
+                      nearestId: nearestId,
                       onSelected: (locationId) {
                         save().choosePickup(locationId);
-                        close();
+                        saved();
                       },
                     ),
                 ],

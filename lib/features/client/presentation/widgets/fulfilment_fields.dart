@@ -79,13 +79,15 @@ class DeliveryAddressField extends StatelessWidget {
   }
 }
 
-/// A card per pickup shop, with its address and opening hours.
+/// A card per pickup shop, with its address and opening hours. The shop
+/// nearest a signed-in customer ([nearestId]) says so.
 class PickupShopList extends StatelessWidget {
   const PickupShopList({
     super.key,
     required this.locations,
     required this.selectedId,
     required this.onSelected,
+    this.nearestId,
   });
 
   final List<StoreLocation> locations;
@@ -93,6 +95,7 @@ class PickupShopList extends StatelessWidget {
   /// Null when no shop is chosen.
   final String? selectedId;
   final ValueChanged<String> onSelected;
+  final String? nearestId;
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +107,11 @@ class PickupShopList extends StatelessWidget {
             padding: EdgeInsets.only(top: index == 0 ? 0 : AppSpacing.sm),
             child: OptionTile(
               title: location.name,
-              subtitle: '${location.address} · ${location.openingHours}',
+              subtitle: [
+                if (location.id == nearestId) AppStrings.nearestToYou,
+                location.address,
+                location.openingHours,
+              ].join(' · '),
               icon: Icons.storefront_rounded,
               selected: location.id == selectedId,
               onTap: () => onSelected(location.id),
