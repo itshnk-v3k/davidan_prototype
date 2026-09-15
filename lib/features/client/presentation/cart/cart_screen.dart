@@ -52,7 +52,8 @@ class CartScreen extends ConsumerWidget {
                       separatorBuilder: (_, _) =>
                           const SizedBox(height: AppSpacing.sm),
                       itemBuilder: (context, index) {
-                        final (:product, :quantity) = lines[index];
+                        final (:product, :quantity, priceBani: _) =
+                            lines[index];
                         return CartLineTile(
                           product: product,
                           quantity: quantity,

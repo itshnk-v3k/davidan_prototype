@@ -1,11 +1,25 @@
 import 'package:flutter/foundation.dart';
 
-import 'package:davidan_prototype/data/models/cart_item.dart';
+/// Where an order is in its lifecycle. Which statuses an order goes through
+/// depends on how it is fulfilled: see [Order.statusFlow]. Saved by name, so
+/// renaming or removing a value needs a LocalStore.schemaVersion bump.
+enum OrderStatus {
+  /// Created by the customer app, waiting for the shop.
+  placed,
 
-/// Where an order is in its lifecycle. The customer app creates orders as
-/// [placed]; the store panel and courier app move them forward. Saved by
-/// name, so renaming a value needs a LocalStore.schemaVersion bump.
-enum OrderStatus { placed, preparing, ready, onTheWay, completed }
+  /// Set by the store panel's "Accept" button.
+  accepted,
+  preparing,
+
+  /// Packed, waiting for the customer (pickup) or the courier (delivery).
+  ready,
+
+  /// Delivery only: the courier has the order.
+  onTheWay,
+
+  /// Picked up in the shop, or handed over by the courier.
+  completed,
+}
 
 /// Paid when the order is received. DaviDan takes no online payments.
 enum PaymentMethod { cash, card }
@@ -46,6 +60,37 @@ final class StorePickup extends Fulfilment {
   Map<String, Object?> toJson() => {'type': 'pickup', 'locationId': locationId};
 }
 
+/// One line of an order. It records the unit price at the moment the order
+/// was placed, so order history doesn't change when catalog prices do.
+@immutable
+class OrderItem {
+  const OrderItem({
+    required this.productId,
+    required this.quantity,
+    required this.priceBani,
+  });
+
+  factory OrderItem.fromJson(Map<String, Object?> json) => OrderItem(
+    productId: json['productId']! as String,
+    quantity: json['quantity']! as int,
+    priceBani: json['priceBani']! as int,
+  );
+
+  final String productId;
+  final int quantity;
+
+  /// Unit price when the order was placed, in bani.
+  final int priceBani;
+
+  int get totalBani => priceBani * quantity;
+
+  Map<String, Object?> toJson() => {
+    'productId': productId,
+    'quantity': quantity,
+    'priceBani': priceBani,
+  };
+}
+
 /// An order placed from the customer app.
 @immutable
 class Order {
@@ -67,7 +112,7 @@ class Order {
       createdAt: DateTime.parse(json['createdAt']! as String),
       items: [
         for (final item in json['items']! as List<Object?>)
-          CartItem.fromJson(item! as Map<String, Object?>),
+          OrderItem.fromJson(item! as Map<String, Object?>),
       ],
       totalBani: json['totalBani']! as int,
       fulfilment: Fulfilment.fromJson(
@@ -79,13 +124,29 @@ class Order {
     );
   }
 
+  static const _deliveryFlow = [
+    OrderStatus.placed,
+    OrderStatus.accepted,
+    OrderStatus.preparing,
+    OrderStatus.ready,
+    OrderStatus.onTheWay,
+    OrderStatus.completed,
+  ];
+
+  static const _pickupFlow = [
+    OrderStatus.placed,
+    OrderStatus.accepted,
+    OrderStatus.preparing,
+    OrderStatus.ready,
+    OrderStatus.completed,
+  ];
+
   /// Order number shown to people, e.g. "DD-1001".
   final String id;
   final DateTime createdAt;
-  final List<CartItem> items;
+  final List<OrderItem> items;
 
-  /// Total when the order was placed, in bani. Later price changes in the
-  /// catalog don't change what the customer agreed to pay.
+  /// Sum of the item totals at their recorded prices, in bani.
   final int totalBani;
   final Fulfilment fulfilment;
   final PaymentMethod payment;
@@ -93,6 +154,31 @@ class Order {
 
   /// Requested delivery or pickup time, or null for "as soon as possible".
   final DateTime? scheduledFor;
+
+  /// Statuses this order goes through, first to last. Pickup orders have no
+  /// courier step.
+  List<OrderStatus> get statusFlow => switch (fulfilment) {
+    HomeDelivery() => _deliveryFlow,
+    StorePickup() => _pickupFlow,
+  };
+
+  /// The status after the current one, or null once the order is completed.
+  OrderStatus? get nextStatus {
+    final flow = statusFlow;
+    final index = flow.indexOf(status);
+    return index >= 0 && index < flow.length - 1 ? flow[index + 1] : null;
+  }
+
+  Order copyWith({OrderStatus? status}) => Order(
+    id: id,
+    createdAt: createdAt,
+    items: items,
+    totalBani: totalBani,
+    fulfilment: fulfilment,
+    payment: payment,
+    status: status ?? this.status,
+    scheduledFor: scheduledFor,
+  );
 
   Map<String, Object?> toJson() => {
     'id': id,

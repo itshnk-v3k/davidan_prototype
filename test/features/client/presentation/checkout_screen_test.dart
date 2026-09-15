@@ -102,8 +102,12 @@ void main() {
       expect(
         [for (final item in order.items) item.toJson()],
         [
-          {'productId': 'croissant-ciocolata', 'quantity': 1},
-          {'productId': 'coca-cola', 'quantity': 2},
+          {
+            'productId': 'croissant-ciocolata',
+            'quantity': 1,
+            'priceBani': 1900,
+          },
+          {'productId': 'coca-cola', 'quantity': 2, 'priceBani': 2500},
         ],
       );
       expect(container.read(cartProvider), isEmpty);
@@ -185,5 +189,21 @@ void main() {
     await tester.tap(find.text(AppStrings.pickup));
     await tester.pumpAndSettle();
     expect(find.text('DaviDan Buiucani'), findsOneWidget);
+  });
+
+  group('at 19:45', () {
+    setUp(() async {
+      container = await createTestContainer(now: DateTime(2026, 9, 15, 19, 45));
+      container.read(cartProvider.notifier).add('americano');
+    });
+
+    testWidgets('only "as soon as possible" is offered, no slot past 20:00', (
+      tester,
+    ) async {
+      await pumpApp(tester, container, Routes.clientCheckout);
+
+      expect(find.text(AppStrings.asSoonAsPossible), findsOneWidget);
+      expect(find.textContaining(RegExp(r'^\d\d:\d\d$')), findsNothing);
+    });
   });
 }

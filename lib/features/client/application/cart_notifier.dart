@@ -26,7 +26,11 @@ final cartLinesProvider = Provider<List<CartLine>>((ref) {
   return [
     for (final item in ref.watch(cartProvider))
       if (products[item.productId] case final product?)
-        (product: product, quantity: item.quantity),
+        (
+          product: product,
+          quantity: item.quantity,
+          priceBani: product.priceBani,
+        ),
   ];
 });
 
@@ -34,7 +38,7 @@ final cartLinesProvider = Provider<List<CartLine>>((ref) {
 final cartTotalProvider = Provider<int>(
   (ref) => ref
       .watch(cartLinesProvider)
-      .fold(0, (sum, line) => sum + line.product.priceBani * line.quantity),
+      .fold(0, (sum, line) => sum + line.priceBani * line.quantity),
 );
 
 /// Cart lines, saved to local storage on every change and restored on start.

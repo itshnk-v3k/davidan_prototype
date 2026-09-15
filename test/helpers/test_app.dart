@@ -11,14 +11,15 @@ import 'package:davidan_prototype/core/utils/time.dart';
 final testNow = DateTime(2026, 9, 15, 10, 7);
 
 /// Providers wired the way main() wires them, on emptied local storage and
-/// with the clock fixed at [testNow]. Call from setUp; disposed on tear down.
-Future<ProviderContainer> createTestContainer() async {
+/// with the clock fixed at [now] ([testNow] by default). Call from setUp;
+/// disposed on tear down.
+Future<ProviderContainer> createTestContainer({DateTime? now}) async {
   final prefs = await LocalStore.openPreferences();
   await prefs.clear();
   final container = ProviderContainer(
     overrides: [
       sharedPreferencesProvider.overrideWithValue(prefs),
-      clockProvider.overrideWithValue(() => testNow),
+      clockProvider.overrideWithValue(() => now ?? testNow),
     ],
   );
   addTearDown(container.dispose);

@@ -77,7 +77,7 @@ final orderLinesProvider = Provider.family<List<CartLine>, String>((
   return [
     for (final item in items)
       if (products[item.productId] case final product?)
-        (product: product, quantity: item.quantity),
+        (product: product, quantity: item.quantity, priceBani: item.priceBani),
   ];
 });
 
@@ -93,9 +93,17 @@ final checkoutTimeSlotsProvider = Provider.autoDispose<List<DateTime>>(
   (ref) => timeSlotsAfter(ref.watch(clockProvider)()),
 );
 
-/// Six half-hour slots, the first at least 30 minutes after [now]:
-/// 10:07 → 11:00, 11:30 … 13:30. Opening hours are ignored in the prototype.
+/// Scheduled times stay within this window of the current day.
+const _slotsFromHour = 8;
+const _slotsUntilHour = 20;
+
+/// Up to six half-hour slots today between 08:00 and 20:00, the first at least
+/// 30 minutes after [now]: 10:07 → 11:00 … 13:30, 06:10 → 08:00 … 10:30,
+/// 18:20 → 19:00, 19:30, 20:00. From 19:31 there are none, and the customer
+/// can only order "as soon as possible".
 List<DateTime> timeSlotsAfter(DateTime now) {
+  final opens = DateTime(now.year, now.month, now.day, _slotsFromHour);
+  final closes = DateTime(now.year, now.month, now.day, _slotsUntilHour);
   final earliest = now.add(const Duration(minutes: 30));
   final halfHour = DateTime(
     earliest.year,
@@ -104,10 +112,17 @@ List<DateTime> timeSlotsAfter(DateTime now) {
     earliest.hour,
     earliest.minute - earliest.minute % 30,
   );
-  final first = halfHour.isBefore(earliest)
+  var slot = halfHour.isBefore(earliest)
       ? halfHour.add(const Duration(minutes: 30))
       : halfHour;
-  return [for (var i = 0; i < 6; i++) first.add(Duration(minutes: 30 * i))];
+  if (slot.isBefore(opens)) slot = opens;
+
+  final slots = <DateTime>[];
+  while (slots.length < 6 && !slot.isAfter(closes)) {
+    slots.add(slot);
+    slot = slot.add(const Duration(minutes: 30));
+  }
+  return slots;
 }
 
 class CheckoutNotifier extends Notifier<CheckoutDraft> {
@@ -137,8 +152,8 @@ class CheckoutNotifier extends Notifier<CheckoutDraft> {
   /// Places the order from the cart and empties the cart. Returns null, and
   /// shows the form errors, when something required is missing.
   Order? placeOrder() {
-    final items = ref.read(cartProvider);
-    if (items.isEmpty) return null;
+    final lines = ref.read(cartLinesProvider);
+    if (lines.isEmpty) return null;
     if (state.addressMissing) {
       state = state.copyWith(showErrors: true);
       return null;
@@ -147,8 +162,14 @@ class CheckoutNotifier extends Notifier<CheckoutDraft> {
     final order = ref
         .read(ordersProvider.notifier)
         .place(
-          items: items,
-          totalBani: ref.read(cartTotalProvider),
+          items: [
+            for (final line in lines)
+              OrderItem(
+                productId: line.product.id,
+                quantity: line.quantity,
+                priceBani: line.priceBani,
+              ),
+          ],
           fulfilment: switch (state.type) {
             FulfilmentType.delivery => HomeDelivery(
               address: state.address.trim(),

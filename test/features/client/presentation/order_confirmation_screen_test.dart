@@ -11,7 +11,6 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
-import 'package:davidan_prototype/data/models/cart_item.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/client/presentation/home/home_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
@@ -32,8 +31,9 @@ void main() {
   }) => container
       .read(ordersProvider.notifier)
       .place(
-        items: const [CartItem(productId: 'kurtos-fistic', quantity: 2)],
-        totalBani: 11800,
+        items: const [
+          OrderItem(productId: 'kurtos-fistic', quantity: 2, priceBani: 5900),
+        ],
         fulfilment: fulfilment,
         payment: PaymentMethod.card,
         scheduledFor: scheduledFor,
@@ -60,6 +60,25 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('118 lei'), findsOneWidget);
+  });
+
+  testWidgets('the status updates when the store panel moves the order on', (
+    tester,
+  ) async {
+    final order = placeOrder();
+    await pumpApp(tester, container, Routes.clientOrder(order.id));
+    expect(
+      find.text(AppStrings.orderStatus(OrderStatus.placed)),
+      findsOneWidget,
+    );
+
+    container.read(ordersProvider.notifier).advance(order.id);
+    await tester.pump();
+
+    expect(
+      find.text(AppStrings.orderStatus(OrderStatus.accepted)),
+      findsOneWidget,
+    );
   });
 
   testWidgets('pickup orders show the shop', (tester) async {

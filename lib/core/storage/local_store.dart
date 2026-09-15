@@ -30,7 +30,9 @@ class LocalStore {
 
   /// Bump when a saved model changes shape. Data saved under the old version
   /// is then ignored instead of failing to decode.
-  static const schemaVersion = 1;
+  ///
+  /// 2: order statuses gained `accepted`; order items record their price.
+  static const schemaVersion = 2;
   static const _prefix = 'davidan.v$schemaVersion.';
 
   /// Opens storage limited to [StorageKeys.all]. Other data on the same

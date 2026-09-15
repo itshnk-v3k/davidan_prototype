@@ -36,7 +36,7 @@ class OrderSummaryCard extends StatelessWidget {
                 padding: EdgeInsets.only(top: index == 0 ? 0 : AppSpacing.sm),
                 child: SummaryRow(
                   label: AppStrings.lineItem(line.quantity, line.product.name),
-                  value: formatLei(line.product.priceBani * line.quantity),
+                  value: formatLei(line.priceBani * line.quantity),
                 ),
               ),
             const Divider(height: AppSpacing.xl, color: AppColors.border),

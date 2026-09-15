@@ -118,6 +118,7 @@ abstract final class AppStrings {
   static String orderNumber(String id) => 'Comanda nr. $id';
   static String orderStatus(OrderStatus status) => switch (status) {
     OrderStatus.placed => 'Plasată',
+    OrderStatus.accepted => 'Acceptată',
     OrderStatus.preparing => 'Se pregătește',
     OrderStatus.ready => 'Gata',
     OrderStatus.onTheWay => 'În drum spre tine',
