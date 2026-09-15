@@ -41,6 +41,10 @@ void main() {
   Finder inColumn(KdsColumn column, Finder finder) =>
       find.descendant(of: find.byKey(ValueKey(column)), matching: finder);
 
+  Finder notice(String orderId) =>
+      find.text(AppStrings.newOrderArrived(orderId));
+  final anyNotice = find.textContaining(AppStrings.newOrderArrived(''));
+
   OrderStatus statusOf(String orderId) =>
       container.read(orderByIdProvider(orderId))!.status;
 
@@ -50,6 +54,11 @@ void main() {
     String label,
   ) async {
     await tester.tap(inCard(orderId, find.text(label)));
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> waitOutNotice(WidgetTester tester) async {
+    await tester.pump(KdsScreen.noticeDuration);
     await tester.pumpAndSettle();
   }
 
@@ -102,20 +111,115 @@ void main() {
     },
   );
 
-  testWidgets('the timer turns red once an order has waited 15 minutes', (
+  testWidgets('the timer turns amber at 10 minutes and red at 15', (
     tester,
   ) async {
     final order = placeTestOrder(container);
-    now = testNow.add(const Duration(minutes: 14, seconds: 59));
+    now = testNow.add(const Duration(minutes: 9, seconds: 59));
     await pumpApp(tester, container, Routes.kds, size: tablet);
 
     Color? colorOf(String time) =>
         tester.widget<Text>(inCard(order.id, find.text(time))).style?.color;
-    expect(colorOf('14:59'), AppColors.textSecondary);
+    expect(colorOf('09:59'), AppColors.textSecondary);
+
+    now = now.add(const Duration(seconds: 1));
+    await tester.pump(const Duration(seconds: 1));
+    expect(colorOf('10:00'), AppColors.warning);
+
+    now = testNow.add(const Duration(minutes: 14, seconds: 59));
+    await tester.pump(const Duration(seconds: 1));
+    expect(colorOf('14:59'), AppColors.warning);
 
     now = now.add(const Duration(seconds: 1));
     await tester.pump(const Duration(seconds: 1));
     expect(colorOf('15:00'), AppColors.error);
+  });
+
+  testWidgets('new orders stand out until the shop accepts them', (
+    tester,
+  ) async {
+    final order = placeTestOrder(container);
+    await pumpApp(tester, container, Routes.kds, size: tablet);
+
+    BoxBorder? borderOf(String orderId) =>
+        (tester
+                    .widget<DecoratedBox>(
+                      find
+                          .descendant(
+                            of: card(orderId),
+                            matching: find.byType(DecoratedBox),
+                          )
+                          .first,
+                    )
+                    .decoration
+                as BoxDecoration)
+            .border;
+
+    expect(inCard(order.id, find.text(AppStrings.kdsNewTag)), findsOneWidget);
+    expect(borderOf(order.id), Border.all(color: AppColors.primary, width: 2));
+
+    await tapInCard(
+      tester,
+      order.id,
+      AppStrings.advanceTo(OrderStatus.accepted),
+    );
+
+    expect(inCard(order.id, find.text(AppStrings.kdsNewTag)), findsNothing);
+    expect(borderOf(order.id), Border.all(color: AppColors.border));
+  });
+
+  testWidgets(
+    'an order placed while the panel is open is announced; orders already '
+    'there and orders moving on are not',
+    (tester) async {
+      final waiting = placeTestOrder(container);
+      await pumpApp(tester, container, Routes.kds, size: tablet);
+      expect(anyNotice, findsNothing);
+
+      final arriving = placeTestOrder(container);
+      await tester.pumpAndSettle();
+
+      expect(notice(arriving.id), findsOneWidget);
+      expect(inColumn(KdsColumn.incoming, card(arriving.id)), findsOneWidget);
+      // It floats over the columns without catching taps meant for them.
+      expect(
+        find.ancestor(
+          of: notice(arriving.id),
+          matching: find.byWidgetPredicate(
+            (widget) => widget is IgnorePointer && widget.ignoring,
+          ),
+        ),
+        findsWidgets,
+      );
+
+      // Still up just before its time, gone after.
+      await tester.pump(KdsScreen.noticeDuration - const Duration(seconds: 1));
+      expect(notice(arriving.id), findsOneWidget);
+      await waitOutNotice(tester);
+      expect(anyNotice, findsNothing);
+
+      await tapInCard(
+        tester,
+        waiting.id,
+        AppStrings.advanceTo(OrderStatus.accepted),
+      );
+      expect(anyNotice, findsNothing);
+    },
+  );
+
+  testWidgets('a second arrival replaces the first notice', (tester) async {
+    await pumpApp(tester, container, Routes.kds, size: tablet);
+
+    final first = placeTestOrder(container);
+    await tester.pumpAndSettle();
+    final second = placeTestOrder(container);
+    await tester.pumpAndSettle();
+
+    expect(notice(second.id), findsOneWidget);
+    expect(notice(first.id), findsNothing);
+
+    await waitOutNotice(tester);
+    expect(anyNotice, findsNothing);
   });
 
   testWidgets('orders queue oldest first', (tester) async {
@@ -237,6 +341,10 @@ void main() {
     await pumpApp(tester, container, Routes.kds, size: const Size(360, 2400));
 
     expect(inColumn(KdsColumn.incoming, card(incoming.id)), findsOneWidget);
+    expect(
+      inCard(incoming.id, find.text(AppStrings.kdsNewTag)),
+      findsOneWidget,
+    );
     expect(inColumn(KdsColumn.inKitchen, card(inKitchen.id)), findsOneWidget);
     expect(inColumn(KdsColumn.ready, card(ready.id)), findsOneWidget);
     expect(

@@ -14,11 +14,13 @@ import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/courier/presentation/widgets/courier_order_details.dart';
 import 'package:davidan_prototype/features/orders/application/order_lines_provider.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/features/orders/presentation/widgets/courier_route_map.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_summary_card.dart';
 
-/// One delivery: where to go, what to collect, the items, and the courier's
-/// next step. Pickup orders and unknown ids show "not found".
+/// One delivery: where to go (with the route map once it's on the way), what
+/// to collect, the items, and the courier's next step. Pickup orders and
+/// unknown ids show "not found".
 class CourierDeliveryScreen extends ConsumerWidget {
   const CourierDeliveryScreen({super.key, required this.orderId});
 
@@ -85,6 +87,10 @@ class CourierDeliveryScreen extends ConsumerWidget {
                     child: OrderStatusPill(status: order.status),
                   ),
                   const SizedBox(height: AppSpacing.lg),
+                  if (order.status == OrderStatus.onTheWay) ...[
+                    CourierRouteMap(since: order.statusSince),
+                    const SizedBox(height: AppSpacing.lg),
+                  ],
                   DecoratedBox(
                     decoration: BoxDecoration(
                       color: AppColors.surface,

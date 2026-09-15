@@ -13,12 +13,15 @@ import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
+import 'package:davidan_prototype/features/client/application/favorites_notifier.dart';
 import 'package:davidan_prototype/features/client/application/product_quantity_notifier.dart';
+import 'package:davidan_prototype/features/client/presentation/widgets/favorite_toggle.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/product_image.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/quantity_stepper.dart';
 
-/// Product photo, name, price and ingredients, with a bar to pick a quantity
-/// and add it to the cart. Back returns to wherever the product was opened.
+/// Product photo, name, price and ingredients, with a heart to save it and a
+/// bar to pick a quantity and add it to the cart. Back returns to wherever
+/// the product was opened.
 class ProductDetailScreen extends ConsumerWidget {
   const ProductDetailScreen({super.key, required this.productId});
 
@@ -37,6 +40,8 @@ class ProductDetailScreen extends ConsumerWidget {
 
     final quantity = ref.watch(productQuantityProvider(productId));
     final inCart = ref.watch(cartQuantitiesProvider)[productId] ?? 0;
+    final favorite = ref.watch(favoriteIdsProvider).contains(productId);
+    final buttonsTop = MediaQuery.paddingOf(context).top + AppSpacing.md;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -50,12 +55,22 @@ class ProductDetailScreen extends ConsumerWidget {
                   child: ProductImage(path: product.image),
                 ),
                 Positioned(
-                  top: MediaQuery.paddingOf(context).top + AppSpacing.md,
+                  top: buttonsTop,
                   left: AppSpacing.gutter,
                   child: AppIconButton(
                     icon: Icons.arrow_back_rounded,
                     semanticLabel: AppStrings.back,
                     onPressed: goBack,
+                  ),
+                ),
+                Positioned(
+                  top: buttonsTop,
+                  right: AppSpacing.gutter,
+                  child: FavoriteToggle(
+                    productName: product.name,
+                    favorite: favorite,
+                    onToggle: () =>
+                        ref.read(favoritesProvider.notifier).toggle(productId),
                   ),
                 ),
               ],

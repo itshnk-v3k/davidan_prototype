@@ -15,7 +15,8 @@ import 'package:davidan_prototype/features/orders/application/orders_notifier.da
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
 
 /// A store panel ticket: order number, time since it was placed, delivery or
-/// pickup, the items to make, and the shop's next step.
+/// pickup, the items to make, and the shop's next step. A new order has a
+/// caramel border and a "NOUĂ" tag until the shop accepts it.
 class KdsOrderCard extends ConsumerWidget {
   const KdsOrderCard({super.key, required this.order});
 
@@ -24,6 +25,7 @@ class KdsOrderCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final lines = ref.watch(orderLinesProvider(order.id));
+    final isNew = order.status == OrderStatus.placed;
     final scheduledFor = order.scheduledFor;
     final time = scheduledFor == null
         ? AppStrings.asSoonAsPossible
@@ -42,7 +44,9 @@ class KdsOrderCard extends ConsumerWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppRadii.lg),
-        border: Border.all(color: AppColors.border),
+        border: isNew
+            ? Border.all(color: AppColors.primary, width: 2)
+            : Border.all(color: AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -51,7 +55,12 @@ class KdsOrderCard extends ConsumerWidget {
           children: [
             Row(
               children: [
-                Expanded(child: Text(order.id, style: AppTextStyles.title)),
+                Flexible(child: Text(order.id, style: AppTextStyles.title)),
+                if (isNew) ...[
+                  const SizedBox(width: AppSpacing.sm),
+                  const _NewTag(),
+                ],
+                const Spacer(),
                 ElapsedTimer(since: order.createdAt),
               ],
             ),
@@ -90,7 +99,7 @@ class KdsOrderCard extends ConsumerWidget {
                 label: AppStrings.advanceTo(next),
                 // Accepting a new order is the call to action; later steps
                 // are routine.
-                variant: order.status == OrderStatus.placed
+                variant: isNew
                     ? AppButtonVariant.primary
                     : AppButtonVariant.secondary,
                 onPressed: () =>
@@ -115,6 +124,27 @@ class KdsOrderCard extends ConsumerWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _NewTag extends StatelessWidget {
+  const _NewTag();
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(AppRadii.pill),
+      ),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.sm,
+          vertical: AppSpacing.xxs,
+        ),
+        child: Text(AppStrings.kdsNewTag, style: AppTextStyles.badge),
       ),
     );
   }

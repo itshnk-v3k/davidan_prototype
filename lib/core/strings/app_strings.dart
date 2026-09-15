@@ -160,11 +160,46 @@ abstract final class AppStrings {
   static const kdsEmptyMessage =
       'Comenzile plasate din aplicația clientului apar aici.';
   static const waitingForCourier = 'Așteaptă curierul';
+  static const kdsNewTag = 'NOUĂ';
+  static String newOrderArrived(String orderId) => 'Comandă nouă: $orderId';
   static String pickupAt(String shopName) => 'Ridicare · $shopName';
   static String timeSincePlaced(String elapsed) =>
       'Timp de la plasare: $elapsed';
 
+  // Favorites
+  static const favoritesTitle = 'Produse favorite';
+  static const favoritesEmptyTitle = 'Niciun produs favorit';
+  static const favoritesEmptyMessage =
+      'Apasă inima de pe un produs ca să-l găsești repede aici.';
+  static String addToFavorites(String productName) =>
+      'Adaugă $productName la favorite';
+  static String removeFromFavorites(String productName) =>
+      'Scoate $productName din favorite';
+
+  /// "Niciun produs salvat", "1 produs salvat", "3 produse salvate",
+  /// "20 de produse salvate".
+  static String savedProducts(int count) => switch (count) {
+    0 => 'Niciun produs salvat',
+    1 => '1 produs salvat',
+    _ when count % 100 == 0 || count % 100 >= 20 => '$count de produse salvate',
+    _ => '$count produse salvate',
+  };
+
+  // Delivery map
+  static String courierArrivesIn(int minutes) =>
+      'Curierul ajunge în aproximativ $minutes min';
+  static const courierArrived = 'Curierul a ajuns la adresă';
+
   // Courier app
+  static const courierOnline = 'Online';
+  static const courierOffline = 'Offline';
+  static const courierOnlineHint = 'Primești comenzi noi';
+  static const courierOfflineHint = 'Nu primești comenzi noi';
+  static const courierOnTheWaySection = 'Pe drum spre client';
+  static const courierReadySection = 'De preluat din local';
+  static const courierOfflineTitle = 'Ești offline';
+  static const courierOfflineMessage =
+      'Intră online ca să vezi comenzile de preluat din local.';
   static const courierEmptyTitle = 'Nicio livrare deocamdată';
   static const courierEmptyMessage =
       'Comenzile cu livrare apar aici când localul le marchează gata.';

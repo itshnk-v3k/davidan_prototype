@@ -10,7 +10,9 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
+import 'package:davidan_prototype/core/widgets/section_title.dart';
 import 'package:davidan_prototype/data/models/order.dart';
+import 'package:davidan_prototype/features/courier/application/courier_online_notifier.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_delivery_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/widgets/courier_order_card.dart';
@@ -31,6 +33,17 @@ void main() {
       card.order.id,
   ];
 
+  Finder group(String title) => find.widgetWithText(SectionTitle, title);
+  Finder card(String orderId) => find.widgetWithText(CourierOrderCard, orderId);
+  double topOf(WidgetTester tester, Finder finder) =>
+      tester.getTopLeft(finder).dy;
+
+  Order orderAt(OrderStatus status) {
+    final order = placeTestOrder(container);
+    advanceOrderTo(container, order.id, status);
+    return order;
+  }
+
   testWidgets('with nothing to deliver the list says so', (tester) async {
     await pumpApp(tester, container, Routes.courierOrders);
     expect(find.text(AppStrings.courierEmptyTitle), findsOneWidget);
@@ -46,23 +59,98 @@ void main() {
     'lists only deliveries that are ready or on the way, on the way first',
     (tester) async {
       placeTestOrder(container); // Still with the shop.
-      final ready = placeTestOrder(container);
-      advanceOrderTo(container, ready.id, OrderStatus.ready);
+      final ready = orderAt(OrderStatus.ready);
       final readyPickup = placeTestOrder(
         container,
         fulfilment: const StorePickup(locationId: 'centru'),
       );
       advanceOrderTo(container, readyPickup.id, OrderStatus.ready);
-      final onTheWay = placeTestOrder(container);
-      advanceOrderTo(container, onTheWay.id, OrderStatus.onTheWay);
-      final delivered = placeTestOrder(container);
-      advanceOrderTo(container, delivered.id, OrderStatus.completed);
+      final onTheWay = orderAt(OrderStatus.onTheWay);
+      orderAt(OrderStatus.completed);
 
       await pumpApp(tester, container, Routes.courierOrders);
 
       expect(listedOrderIds(tester), [onTheWay.id, ready.id]);
     },
   );
+
+  testWidgets(
+    'deliveries are grouped: on the way, then to collect from the shop, each '
+    'with its count',
+    (tester) async {
+      final readyFirst = orderAt(OrderStatus.ready);
+      final onTheWay = orderAt(OrderStatus.onTheWay);
+      final readySecond = orderAt(OrderStatus.ready);
+      await pumpApp(tester, container, Routes.courierOrders);
+
+      expect(listedOrderIds(tester), [
+        onTheWay.id,
+        readyFirst.id,
+        readySecond.id,
+      ]);
+      expect(
+        tester
+            .widget<SectionTitle>(group(AppStrings.courierOnTheWaySection))
+            .count,
+        1,
+      );
+      expect(
+        tester
+            .widget<SectionTitle>(group(AppStrings.courierReadySection))
+            .count,
+        2,
+      );
+      expect(
+        topOf(tester, card(onTheWay.id)),
+        lessThan(topOf(tester, group(AppStrings.courierReadySection))),
+      );
+      expect(
+        topOf(tester, group(AppStrings.courierReadySection)),
+        lessThan(topOf(tester, card(readyFirst.id))),
+      );
+    },
+  );
+
+  testWidgets(
+    'offline hides deliveries waiting at the shop but keeps those on the way',
+    (tester) async {
+      final ready = orderAt(OrderStatus.ready);
+      final onTheWay = orderAt(OrderStatus.onTheWay);
+      await pumpApp(tester, container, Routes.courierOrders);
+      expect(find.text(AppStrings.courierOnline), findsOneWidget);
+
+      await tester.tap(find.byType(Switch));
+      await tester.pumpAndSettle();
+
+      expect(container.read(courierOnlineProvider), isFalse);
+      expect(find.text(AppStrings.courierOffline), findsOneWidget);
+      expect(listedOrderIds(tester), [onTheWay.id]);
+      expect(group(AppStrings.courierReadySection), findsNothing);
+      expect(find.text(AppStrings.courierOfflineMessage), findsOneWidget);
+
+      await tester.tap(find.byType(Switch));
+      await tester.pumpAndSettle();
+
+      expect(container.read(courierOnlineProvider), isTrue);
+      expect(listedOrderIds(tester), [onTheWay.id, ready.id]);
+    },
+  );
+
+  testWidgets('offline with nothing on the way shows the offline state', (
+    tester,
+  ) async {
+    orderAt(OrderStatus.ready);
+    container.read(courierOnlineProvider.notifier).setOnline(false);
+    await pumpApp(tester, container, Routes.courierOrders);
+
+    expect(find.text(AppStrings.courierOfflineTitle), findsOneWidget);
+    expect(find.byType(CourierOrderCard), findsNothing);
+
+    // Tapping the row, not just the switch, goes back online.
+    await tester.tap(find.text(AppStrings.courierOffline));
+    await tester.pumpAndSettle();
+    expect(find.byType(CourierOrderCard), findsOneWidget);
+  });
 
   testWidgets('a card shows the address, time and what to collect', (
     tester,
@@ -75,9 +163,10 @@ void main() {
     advanceOrderTo(container, order.id, OrderStatus.ready);
     await pumpApp(tester, container, Routes.courierOrders);
 
-    final card = find.byType(CourierOrderCard);
-    Finder inCard(String text) =>
-        find.descendant(of: card, matching: find.text(text));
+    Finder inCard(String text) => find.descendant(
+      of: find.byType(CourierOrderCard),
+      matching: find.text(text),
+    );
     expect(inCard(order.id), findsOneWidget);
     expect(inCard(AppStrings.orderStatus(OrderStatus.ready)), findsOneWidget);
     expect(inCard('str. Ismail 88'), findsOneWidget);
@@ -94,8 +183,7 @@ void main() {
   });
 
   testWidgets('tapping a card opens that delivery', (tester) async {
-    final order = placeTestOrder(container);
-    advanceOrderTo(container, order.id, OrderStatus.ready);
+    final order = orderAt(OrderStatus.ready);
     await pumpApp(tester, container, Routes.courierOrders);
 
     await tapVisible(tester, find.byType(CourierOrderCard));
@@ -115,6 +203,7 @@ void main() {
       scheduledFor: DateTime(2026, 9, 15, 19, 30),
     );
     advanceOrderTo(container, order.id, OrderStatus.onTheWay);
+    orderAt(OrderStatus.ready);
     await pumpApp(
       tester,
       container,
@@ -122,6 +211,7 @@ void main() {
       size: const Size(360, 640),
     );
 
-    expect(find.byType(CourierOrderCard), findsOneWidget);
+    expect(find.byType(CourierOrdersScreen), findsOneWidget);
+    expect(card(order.id), findsOneWidget);
   });
 }

@@ -11,23 +11,26 @@ import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/utils/numbers.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
+import 'package:davidan_prototype/core/widgets/link_card.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/core/widgets/summary_row.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
+import 'package:davidan_prototype/features/client/application/favorites_notifier.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/fulfilment_detail_row.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
 
 /// Profile tab. The prototype has no accounts, so there is no sign-in or
-/// settings: the customer's orders with their live status, then a few facts
-/// about DaviDan.
+/// settings: a link to the saved products, the customer's orders with their
+/// live status, then a few facts about DaviDan.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final orders = ref.watch(ordersProvider);
+    final favoriteCount = ref.watch(favoritesProvider).length;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -46,6 +49,13 @@ class ProfileScreen extends ConsumerWidget {
                   AppSpacing.xl,
                 ),
                 children: [
+                  LinkCard(
+                    icon: Icons.favorite_rounded,
+                    title: AppStrings.favoritesTitle,
+                    hint: AppStrings.savedProducts(favoriteCount),
+                    onTap: () => context.push(Routes.clientFavorites),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
                   const _SectionTitle(AppStrings.myOrdersTitle),
                   if (orders.isEmpty)
                     EmptyState(

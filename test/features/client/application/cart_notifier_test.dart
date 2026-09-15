@@ -3,7 +3,6 @@
 @TestOn('browser')
 library;
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
@@ -11,17 +10,7 @@ import 'package:davidan_prototype/core/storage/local_store.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/launcher/application/demo_reset_notifier.dart';
 
-/// Boots providers the way main() does. Each call reads storage from scratch,
-/// like reloading the page.
-Future<ProviderContainer> startApp() async {
-  final prefs = await LocalStore.openPreferences();
-  return ProviderContainer(
-    overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
-  );
-}
-
-/// Lets fire-and-forget storage writes finish.
-Future<void> flushWrites() => Future<void>.delayed(Duration.zero);
+import '../../../helpers/test_app.dart';
 
 void main() {
   // `flutter test` doesn't run the web plugin registrant that `flutter run`

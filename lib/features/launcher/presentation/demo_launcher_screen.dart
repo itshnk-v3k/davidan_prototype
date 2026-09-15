@@ -10,6 +10,7 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
+import 'package:davidan_prototype/core/widgets/link_card.dart';
 import 'package:davidan_prototype/features/launcher/application/demo_reset_notifier.dart';
 
 /// Entry point of the prototype: pick which part of the system to show.
@@ -18,6 +19,35 @@ class DemoLauncherScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final roles = [
+      (
+        icon: Icons.shopping_bag_rounded,
+        title: AppStrings.launcherClient,
+        hint: AppStrings.launcherClientHint,
+        location: Routes.clientSplash,
+      ),
+      (
+        icon: Icons.delivery_dining_rounded,
+        title: AppStrings.launcherCourier,
+        hint: AppStrings.launcherCourierHint,
+        location: Routes.courierOrders,
+      ),
+      (
+        icon: Icons.storefront_rounded,
+        title: AppStrings.launcherKds,
+        hint: AppStrings.launcherKdsHint,
+        location: Routes.kds,
+      ),
+      // Only when the entry point registers demo tools (main_demo.dart).
+      for (final tool in ref.watch(demoToolsProvider))
+        (
+          icon: tool.icon,
+          title: tool.title,
+          hint: tool.hint,
+          location: tool.route.path,
+        ),
+    ];
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -37,31 +67,15 @@ class DemoLauncherScreen extends ConsumerWidget {
               style: AppTextStyles.bodySecondary,
             ),
             const SizedBox(height: AppSpacing.xl),
-            _RoleCard(
-              icon: Icons.shopping_bag_rounded,
-              title: AppStrings.launcherClient,
-              hint: AppStrings.launcherClientHint,
-              onTap: () => context.go(Routes.clientSplash),
-            ),
-            _RoleCard(
-              icon: Icons.delivery_dining_rounded,
-              title: AppStrings.launcherCourier,
-              hint: AppStrings.launcherCourierHint,
-              onTap: () => context.go(Routes.courierOrders),
-            ),
-            _RoleCard(
-              icon: Icons.storefront_rounded,
-              title: AppStrings.launcherKds,
-              hint: AppStrings.launcherKdsHint,
-              onTap: () => context.go(Routes.kds),
-            ),
-            // Only when the entry point registers demo tools (main_demo.dart).
-            for (final tool in ref.watch(demoToolsProvider))
-              _RoleCard(
-                icon: tool.icon,
-                title: tool.title,
-                hint: tool.hint,
-                onTap: () => context.go(tool.route.path),
+            for (final role in roles)
+              Padding(
+                padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                child: LinkCard(
+                  icon: role.icon,
+                  title: role.title,
+                  hint: role.hint,
+                  onTap: () => context.go(role.location),
+                ),
               ),
             const SizedBox(height: AppSpacing.lg),
             AppButton(
@@ -83,69 +97,6 @@ class DemoLauncherScreen extends ConsumerWidget {
               textAlign: TextAlign.center,
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _RoleCard extends StatelessWidget {
-  const _RoleCard({
-    required this.icon,
-    required this.title,
-    required this.hint,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String title;
-  final String hint;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.md),
-      child: Material(
-        color: AppColors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadii.lg),
-          side: const BorderSide(color: AppColors.border),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            child: Row(
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: AppColors.accentSoft,
-                    borderRadius: BorderRadius.circular(AppRadii.md),
-                  ),
-                  child: Icon(icon, color: AppColors.primary),
-                ),
-                const SizedBox(width: AppSpacing.lg),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(title, style: AppTextStyles.subtitle),
-                      const SizedBox(height: AppSpacing.xxs),
-                      Text(hint, style: AppTextStyles.bodySecondary),
-                    ],
-                  ),
-                ),
-                const Icon(
-                  Icons.chevron_right_rounded,
-                  color: AppColors.textSecondary,
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );

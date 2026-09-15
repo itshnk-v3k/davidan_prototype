@@ -11,8 +11,10 @@ abstract final class StorageKeys {
   static const cart = 'cart';
   static const orders = 'orders';
   static const fulfilment = 'fulfilment';
+  static const favorites = 'favorites';
+  static const courierOnline = 'courierOnline';
 
-  static const all = {cart, orders, fulfilment};
+  static const all = {cart, orders, fulfilment, favorites, courierOnline};
 }
 
 /// Opened once in main() before runApp and injected with a ProviderScope

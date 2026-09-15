@@ -14,12 +14,15 @@ import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/summary_row.dart';
+import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/features/orders/presentation/widgets/courier_route_map.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/fulfilment_detail_row.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
 
-/// Shown after checkout: the order number, its live status and what was
-/// chosen. A stand-in for the full order tracking screen.
+/// Shown after checkout: the order number, its live status, a map with the
+/// courier while a delivery is on the way, and what was chosen. A stand-in
+/// for the full order tracking screen.
 class OrderConfirmationScreen extends ConsumerWidget {
   const OrderConfirmationScreen({super.key, required this.orderId});
 
@@ -91,6 +94,11 @@ class OrderConfirmationScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpacing.md),
             Center(child: OrderStatusPill(status: order.status)),
+            // Pickup orders never get here: they have no courier step.
+            if (order.status == OrderStatus.onTheWay) ...[
+              const SizedBox(height: AppSpacing.xl),
+              CourierRouteMap(since: order.statusSince),
+            ],
             const SizedBox(height: AppSpacing.xl),
             DecoratedBox(
               decoration: BoxDecoration(

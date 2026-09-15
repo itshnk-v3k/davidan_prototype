@@ -106,10 +106,12 @@ class Order {
     required this.payment,
     required this.status,
     this.scheduledFor,
+    this.statusChangedAt,
   });
 
   factory Order.fromJson(Map<String, Object?> json) {
     final scheduledFor = json['scheduledFor'] as String?;
+    final statusChangedAt = json['statusChangedAt'] as String?;
     return Order(
       id: json['id']! as String,
       createdAt: DateTime.parse(json['createdAt']! as String),
@@ -124,6 +126,9 @@ class Order {
       payment: PaymentMethod.values.byName(json['payment']! as String),
       status: OrderStatus.values.byName(json['status']! as String),
       scheduledFor: scheduledFor == null ? null : DateTime.parse(scheduledFor),
+      statusChangedAt: statusChangedAt == null
+          ? null
+          : DateTime.parse(statusChangedAt),
     );
   }
 
@@ -158,6 +163,14 @@ class Order {
   /// Requested delivery or pickup time, or null for "as soon as possible".
   final DateTime? scheduledFor;
 
+  /// When the order moved to its current status. Null for orders saved before
+  /// the app recorded it.
+  final DateTime? statusChangedAt;
+
+  /// Since when the order has had its current status, falling back to when it
+  /// was placed for orders saved without [statusChangedAt].
+  DateTime get statusSince => statusChangedAt ?? createdAt;
+
   /// Statuses this order goes through, first to last. Pickup orders have no
   /// courier step.
   List<OrderStatus> get statusFlow => switch (fulfilment) {
@@ -187,7 +200,7 @@ class Order {
     OrderStatus.completed => null,
   };
 
-  Order copyWith({OrderStatus? status}) => Order(
+  Order copyWith({OrderStatus? status, DateTime? statusChangedAt}) => Order(
     id: id,
     createdAt: createdAt,
     items: items,
@@ -196,6 +209,7 @@ class Order {
     payment: payment,
     status: status ?? this.status,
     scheduledFor: scheduledFor,
+    statusChangedAt: statusChangedAt ?? this.statusChangedAt,
   );
 
   Map<String, Object?> toJson() => {
@@ -207,5 +221,6 @@ class Order {
     'payment': payment.name,
     'status': status.name,
     'scheduledFor': scheduledFor?.toIso8601String(),
+    'statusChangedAt': statusChangedAt?.toIso8601String(),
   };
 }

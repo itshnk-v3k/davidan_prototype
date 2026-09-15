@@ -7,6 +7,7 @@ import 'package:davidan_prototype/core/widgets/phone_frame.dart';
 import 'package:davidan_prototype/features/client/presentation/cart/cart_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/checkout/checkout_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/favorites/favorites_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/home/home_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/location/location_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
@@ -90,6 +91,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: Routes.clientProfile,
                     builder: (_, _) => const ProfileScreen(),
+                    routes: [
+                      // Inside the profile tab, so the bottom bar stays.
+                      GoRoute(
+                        path: 'favorites',
+                        builder: (_, _) => const FavoritesScreen(),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -10,14 +10,14 @@ import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/data/models/order.dart';
-import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/client/presentation/home/widgets/category_strip.dart';
 import 'package:davidan_prototype/features/client/presentation/home/widgets/promo_banner_carousel.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/product_grid.dart';
 
-/// Customer home: location bar, banners, categories and popular products.
+/// Customer home: logo, a location bar pinned at the top, banners,
+/// categories and popular products.
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -26,7 +26,6 @@ class HomeScreen extends ConsumerWidget {
     final banners = ref.watch(bannersProvider);
     final categories = ref.watch(categoriesProvider);
     final popular = ref.watch(popularProductsProvider);
-    final quantities = ref.watch(cartQuantitiesProvider);
     final location = switch (ref.watch(fulfilmentChoiceProvider)) {
       HomeDelivery(:final address) => (
         icon: Icons.location_on_rounded,
@@ -52,10 +51,16 @@ class HomeScreen extends ConsumerWidget {
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
-              child: _Header(
-                location: location,
-                onLocationTap: () => context.push(Routes.clientLocation),
+              child: _BrandRow(
                 onLauncherTap: () => context.go(Routes.launcher),
+              ),
+            ),
+            // Stays at the top while everything below scrolls beneath it, so
+            // the address or pickup shop is always one tap away.
+            PinnedHeaderSliver(
+              child: _LocationBar(
+                location: location,
+                onTap: () => context.push(Routes.clientLocation),
               ),
             ),
             SliverToBoxAdapter(
@@ -86,16 +91,7 @@ class HomeScreen extends ConsumerWidget {
                 onAction: () => context.go(Routes.clientMenu),
               ),
             ),
-            ProductGrid(
-              products: popular,
-              quantities: quantities,
-              onOpen: (product) =>
-                  context.push(Routes.clientProduct(product.id)),
-              onAdd: (product) =>
-                  ref.read(cartProvider.notifier).add(product.id),
-              onRemove: (product) =>
-                  ref.read(cartProvider.notifier).removeOne(product.id),
-            ),
+            ProductGrid(products: popular),
           ],
         ),
       ),
@@ -103,16 +99,9 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class _Header extends StatelessWidget {
-  const _Header({
-    required this.location,
-    required this.onLocationTap,
-    required this.onLauncherTap,
-  });
+class _BrandRow extends StatelessWidget {
+  const _BrandRow({required this.onLauncherTap});
 
-  /// What the location bar shows: the saved choice, or a prompt to make one.
-  final ({IconData icon, String label, String value}) location;
-  final VoidCallback onLocationTap;
   final VoidCallback onLauncherTap;
 
   @override
@@ -122,74 +111,92 @@ class _Header extends StatelessWidget {
         AppSpacing.gutter,
         AppSpacing.md,
         AppSpacing.gutter,
-        AppSpacing.lg,
+        0,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Row(
         children: [
-          Row(
-            children: [
-              Image.asset(AppAssets.logo, height: 26),
-              const Spacer(),
-              AppIconButton(
-                icon: Icons.apps_rounded,
-                semanticLabel: AppStrings.openLauncher,
-                onPressed: onLauncherTap,
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.md),
-          Material(
-            color: AppColors.surface,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppRadii.md),
-              side: const BorderSide(color: AppColors.border),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: onLocationTap,
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.sm + AppSpacing.xxs),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: const BoxDecoration(
-                        color: AppColors.accentSoft,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        location.icon,
-                        size: 20,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    const SizedBox(width: AppSpacing.md),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(location.label, style: AppTextStyles.caption),
-                          Text(
-                            location.value,
-                            style: AppTextStyles.bodyStrong,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: AppColors.textSecondary,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          Image.asset(AppAssets.logo, height: 26),
+          const Spacer(),
+          AppIconButton(
+            icon: Icons.apps_rounded,
+            semanticLabel: AppStrings.openLauncher,
+            onPressed: onLauncherTap,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _LocationBar extends StatelessWidget {
+  const _LocationBar({required this.location, required this.onTap});
+
+  /// What the bar shows: the saved choice, or a prompt to make one.
+  final ({IconData icon, String label, String value}) location;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    // Opaque, so the content scrolling beneath doesn't show through.
+    return ColoredBox(
+      color: AppColors.background,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.gutter,
+          AppSpacing.md,
+          AppSpacing.gutter,
+          AppSpacing.lg,
+        ),
+        child: Material(
+          color: AppColors.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadii.md),
+            side: const BorderSide(color: AppColors.border),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.sm + AppSpacing.xxs),
+              child: Row(
+                children: [
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: const BoxDecoration(
+                      color: AppColors.accentSoft,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      location.icon,
+                      size: 20,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(location.label, style: AppTextStyles.caption),
+                        Text(
+                          location.value,
+                          style: AppTextStyles.bodyStrong,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: AppColors.textSecondary,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -43,31 +43,40 @@ class OrdersNotifier extends Notifier<List<Order>> {
     DateTime? scheduledFor,
   }) {
     assert(items.isNotEmpty, 'An order needs at least one item');
+    final now = ref.read(clockProvider)();
     final order = Order(
       // Orders are never deleted (only a demo reset clears them all), so the
       // count gives the next free number.
       id: 'DD-${_firstNumber + state.length}',
-      createdAt: ref.read(clockProvider)(),
+      createdAt: now,
       items: items,
       totalBani: items.fold(0, (sum, item) => sum + item.totalBani),
       fulfilment: fulfilment,
       payment: payment,
       status: OrderStatus.placed,
       scheduledFor: scheduledFor,
+      statusChangedAt: now,
     );
     _save([order, ...state]);
     return order;
   }
 
-  /// Moves the order one step along its [Order.statusFlow]: the store panel
-  /// accepts, prepares and readies it; the courier app delivers it, or the
-  /// customer picks it up. Does nothing for a completed or unknown order.
+  /// Moves the order one step along its [Order.statusFlow], recording when:
+  /// the store panel accepts, prepares and readies it; the courier app
+  /// delivers it, or the customer picks it up. Does nothing for a completed
+  /// or unknown order.
   void advance(String orderId) {
     final index = state.indexWhere((order) => order.id == orderId);
     if (index < 0) return;
     final next = state[index].nextStatus;
     if (next == null) return;
-    _save([...state]..[index] = state[index].copyWith(status: next));
+    _save(
+      [...state]
+        ..[index] = state[index].copyWith(
+          status: next,
+          statusChangedAt: ref.read(clockProvider)(),
+        ),
+    );
   }
 
   void _save(List<Order> orders) {

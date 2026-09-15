@@ -34,6 +34,19 @@ Future<ProviderContainer> createTestContainer({
   return container;
 }
 
+/// Boots providers the way main() does, on whatever storage already holds.
+/// Each call reads storage from scratch, like reloading the page. Dispose the
+/// container when done.
+Future<ProviderContainer> startApp() async {
+  final prefs = await LocalStore.openPreferences();
+  return ProviderContainer(
+    overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+  );
+}
+
+/// Lets fire-and-forget storage writes finish.
+Future<void> flushWrites() => Future<void>.delayed(Duration.zero);
+
 /// Pumps the real app (router, screens, Notifiers) at [location]. The default
 /// viewport is phone-sized, so the app renders without the desktop frame.
 Future<void> pumpApp(
@@ -56,9 +69,10 @@ Future<void> pumpApp(
 Finder inScreen<T>(Finder finder) =>
     find.descendant(of: find.byType(T), matching: finder);
 
-/// Scrolls [finder] into view, then taps it.
+/// Scrolls [finder] to the middle of its scroll view, clear of any header
+/// pinned at the top, then taps it.
 Future<void> tapVisible(WidgetTester tester, Finder finder) async {
-  await tester.ensureVisible(finder);
+  await Scrollable.ensureVisible(tester.element(finder), alignment: 0.5);
   await tester.pumpAndSettle();
   await tester.tap(finder);
   await tester.pumpAndSettle();

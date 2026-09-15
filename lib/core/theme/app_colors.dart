@@ -28,8 +28,12 @@ abstract final class AppColors {
   static const textDisabled = Color(0xFFABABAB);
 
   // Feedback
-  /// Form errors. 6.5:1 on white.
+  /// Form errors and overdue timers. 6.5:1 on white.
   static const error = Color(0xFFB3261E);
+
+  /// Timers getting close to overdue. Amber dark enough for small text:
+  /// about 5:1 on white.
+  static const warning = Color(0xFFB45309);
 
   // Text and overlays on photos
   static const onImage = Color(0xFFFFFFFF);

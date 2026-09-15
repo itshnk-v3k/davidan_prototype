@@ -8,21 +8,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/storage/local_store.dart';
+import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/launcher/application/demo_reset_notifier.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 
-/// Boots providers the way main() does. Each call reads storage from scratch,
-/// like reloading the page.
-Future<ProviderContainer> startApp() async {
-  final prefs = await LocalStore.openPreferences();
-  return ProviderContainer(
-    overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
-  );
-}
-
-/// Lets fire-and-forget storage writes finish.
-Future<void> flushWrites() => Future<void>.delayed(Duration.zero);
+import '../../../helpers/test_app.dart';
 
 Order placeDelivery(ProviderContainer app) => app
     .read(ordersProvider.notifier)
@@ -162,6 +153,46 @@ void main() {
     );
   });
 
+  test(
+    'an order records when its status last changed, also after a restart',
+    () async {
+      final prefs = await LocalStore.openPreferences();
+      var now = DateTime(2026, 9, 15, 10);
+      final session = ProviderContainer(
+        overrides: [
+          sharedPreferencesProvider.overrideWithValue(prefs),
+          clockProvider.overrideWithValue(() => now),
+        ],
+      );
+      final order = placeDelivery(session);
+      expect(order.statusChangedAt, DateTime(2026, 9, 15, 10));
+
+      now = DateTime(2026, 9, 15, 10, 25);
+      session.read(ordersProvider.notifier).advance(order.id);
+      expect(
+        session.read(orderByIdProvider(order.id))!.statusSince,
+        DateTime(2026, 9, 15, 10, 25),
+      );
+      await flushWrites();
+      session.dispose();
+
+      final restarted = await startApp();
+      addTearDown(restarted.dispose);
+      expect(
+        restarted.read(orderByIdProvider(order.id))!.statusChangedAt,
+        DateTime(2026, 9, 15, 10, 25),
+      );
+    },
+  );
+
+  test('orders saved without a status time count it from placement', () {
+    final saved = placedOrderJson()..remove('statusChangedAt');
+    final order = Order.fromJson(saved);
+
+    expect(order.statusChangedAt, isNull);
+    expect(order.statusSince, DateTime(2026, 9, 15, 10));
+  });
+
   test('advancing an unknown order changes nothing', () async {
     final app = await startApp();
     addTearDown(app.dispose);
@@ -201,3 +232,19 @@ void main() {
     expect(app.read(ordersProvider), isEmpty);
   });
 }
+
+/// JSON of a placed delivery order, as saved before status times existed
+/// once `statusChangedAt` is removed.
+Map<String, Object?> placedOrderJson() => {
+  'id': 'DD-1001',
+  'createdAt': DateTime(2026, 9, 15, 10).toIso8601String(),
+  'items': [
+    {'productId': 'espresso', 'quantity': 1, 'priceBani': 1500},
+  ],
+  'totalBani': 1500,
+  'fulfilment': {'type': 'delivery', 'address': 'str. Ismail 88'},
+  'payment': 'cash',
+  'status': 'onTheWay',
+  'scheduledFor': null,
+  'statusChangedAt': DateTime(2026, 9, 15, 10, 30).toIso8601String(),
+};
