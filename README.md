@@ -21,8 +21,13 @@ A demo build for the client to review and decide what to keep or cut. This is no
 
 ```sh
 flutter pub get
-flutter run -d chrome --web-port=8080
+flutter run -d chrome --web-port=8080 -t lib/main_demo.dart
 ```
+
+There are two entry points:
+
+- `lib/main_demo.dart`: the app plus internal demo tools. The launcher then also shows **Toate rolurile**, a board with the customer's order, the store panel and the courier app side by side, updating live in one window. Use this one to present the prototype.
+- `lib/main.dart`: the app on its own. Demo tools live in `lib/demo_tools/`, which only `main_demo.dart` imports, so they are never compiled into this build.
 
 Always use a fixed `--web-port`. localStorage belongs to the origin (host + port), and `flutter run` picks a random port by default, so saved data looks lost between runs.
 
@@ -31,7 +36,7 @@ To clear saved data, open Chrome DevTools → Application → Storage → **Clea
 ## Demo build (works offline)
 
 ```sh
-flutter build web --release --no-web-resources-cdn
+flutter build web --release --no-web-resources-cdn -t lib/main_demo.dart
 ```
 
 `--no-web-resources-cdn` bundles Flutter's rendering engine instead of loading it from Google's CDN, and Roboto is bundled in `assets/fonts/`. The build makes no external requests, so it doesn't depend on the meeting room's wifi. Serve `build/web/` from any static server.

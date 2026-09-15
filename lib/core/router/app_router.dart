@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:davidan_prototype/core/router/demo_tool.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/phone_frame.dart';
@@ -148,6 +149,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       // --- Store panel (KDS): a tablet/desktop screen, outside the frame ---
       GoRoute(path: Routes.kds, builder: (_, _) => const KdsScreen()),
+
+      // --- Demo tools: none unless the entry point registers some ---
+      for (final tool in ref.watch(demoToolsProvider)) tool.route,
     ],
   );
   ref.onDispose(router.dispose);

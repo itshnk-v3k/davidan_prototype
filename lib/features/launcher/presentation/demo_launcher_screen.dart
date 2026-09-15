@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import 'package:davidan_prototype/core/router/demo_tool.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_assets.dart';
@@ -54,6 +55,14 @@ class DemoLauncherScreen extends ConsumerWidget {
               hint: AppStrings.launcherKdsHint,
               onTap: () => context.go(Routes.kds),
             ),
+            // Only when the entry point registers demo tools (main_demo.dart).
+            for (final tool in ref.watch(demoToolsProvider))
+              _RoleCard(
+                icon: tool.icon,
+                title: tool.title,
+                hint: tool.hint,
+                onTap: () => context.go(tool.route.path),
+              ),
             const SizedBox(height: AppSpacing.lg),
             AppButton(
               label: AppStrings.resetDemoData,

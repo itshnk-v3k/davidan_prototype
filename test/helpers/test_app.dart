@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -12,11 +13,13 @@ import 'package:davidan_prototype/features/orders/application/orders_notifier.da
 /// "Now" in widget tests: 15 September 2026, 10:07.
 final testNow = DateTime(2026, 9, 15, 10, 7);
 
-/// Providers wired the way main() wires them, on emptied local storage and
-/// with [clock] as the time source ([testNow], standing still, by default).
-/// Call from setUp; disposed on tear down.
+/// Providers wired the way bootstrap() wires them, on emptied local storage
+/// and with [clock] as the time source ([testNow], standing still, by
+/// default). Pass an entry point's [overrides] (e.g. demoToolsOverrides) to
+/// test that build. Call from setUp; disposed on tear down.
 Future<ProviderContainer> createTestContainer({
   DateTime Function()? clock,
+  List<Override> overrides = const [],
 }) async {
   final prefs = await LocalStore.openPreferences();
   await prefs.clear();
@@ -24,6 +27,7 @@ Future<ProviderContainer> createTestContainer({
     overrides: [
       sharedPreferencesProvider.overrideWithValue(prefs),
       clockProvider.overrideWithValue(clock ?? () => testNow),
+      ...overrides,
     ],
   );
   addTearDown(container.dispose);
