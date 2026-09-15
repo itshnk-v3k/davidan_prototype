@@ -36,21 +36,23 @@ class PhoneFrame extends StatelessWidget {
         : media.size;
 
     return ColoredBox(
-      color: framed ? AppColors.desktopBackdrop : AppColors.background,
+      color: framed
+          ? context.colors.desktopBackdrop
+          : context.colors.background,
       child: Center(
         child: Container(
           width: size.width,
           height: size.height,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-            color: AppColors.background,
+            color: context.colors.background,
             borderRadius: BorderRadius.circular(framed ? 32 : 0),
             boxShadow: framed
-                ? const [
+                ? [
                     BoxShadow(
-                      color: AppColors.shadow,
+                      color: context.colors.shadow,
                       blurRadius: 48,
-                      offset: Offset(0, 20),
+                      offset: const Offset(0, 20),
                     ),
                   ]
                 : null,

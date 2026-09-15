@@ -4,30 +4,43 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
-import 'package:davidan_prototype/core/theme/app_assets.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/core/widgets/brand_logo.dart';
 import 'package:davidan_prototype/data/mock/mock_sectors.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/client/application/current_location_notifier.dart';
 import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/client/presentation/home/widgets/category_strip.dart';
+import 'package:davidan_prototype/features/client/presentation/home/widgets/product_shelf.dart';
 import 'package:davidan_prototype/features/client/presentation/home/widgets/promo_banner_carousel.dart';
-import 'package:davidan_prototype/features/client/presentation/widgets/product_grid.dart';
+import 'package:davidan_prototype/features/client/presentation/widgets/cart_button.dart';
 
-/// Customer home: logo, a location bar pinned at the top, banners,
-/// categories and popular products.
+/// Customer home: logo, a location bar pinned at the top, banners and
+/// category tiles, then a row of DaviDan products and one row per category,
+/// each scrolling sideways with a link to the whole category. The layout of a
+/// shop page in Glovo or Yandex Eda: the menu can be browsed without leaving
+/// home, and the Meniu tab still holds every product.
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
+
+  static const _popularRowId = 'popular';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final banners = ref.watch(bannersProvider);
     final categories = ref.watch(categoriesProvider);
     final popular = ref.watch(popularProductsProvider);
+    final categoryRows = [
+      for (final category in categories)
+        (
+          category: category,
+          products: ref.watch(productsByCategoryProvider(category.id)),
+        ),
+    ];
     final pinned = ref.watch(
       currentLocationProvider.select((state) => state.pinned),
     );
@@ -62,7 +75,7 @@ class HomeScreen extends ConsumerWidget {
           };
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         bottom: false,
         child: CustomScrollView(
@@ -105,13 +118,31 @@ class HomeScreen extends ConsumerWidget {
               ),
             ),
             SliverToBoxAdapter(
-              child: _SectionTitle(
-                AppStrings.popularTitle,
-                actionLabel: AppStrings.seeAll,
-                onAction: () => context.go(Routes.clientMenu),
+              child: ProductShelf(
+                id: _popularRowId,
+                title: AppStrings.popularTitle,
+                products: popular,
+                onSeeAll: () => context.go(Routes.clientMenu),
               ),
             ),
-            ProductGrid(products: popular),
+            // Built as they scroll into view.
+            SliverList.builder(
+              itemCount: categoryRows.length,
+              itemBuilder: (context, index) {
+                final (:category, :products) = categoryRows[index];
+                void openCategory() =>
+                    context.go(Routes.clientCategory(category.id));
+                return ProductShelf(
+                  id: category.id,
+                  title: category.name,
+                  description: category.description,
+                  products: products,
+                  onSeeAll: openCategory,
+                  seeAllLabel: AppStrings.seeAllProducts(products.length),
+                );
+              },
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
           ],
         ),
       ),
@@ -135,13 +166,15 @@ class _BrandRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(AppAssets.logo, height: 26),
+          const BrandLogo(height: 26),
           const Spacer(),
           AppIconButton(
             icon: Icons.apps_rounded,
             semanticLabel: AppStrings.openLauncher,
             onPressed: onLauncherTap,
           ),
+          const SizedBox(width: AppSpacing.sm),
+          const CartButton(),
         ],
       ),
     );
@@ -169,7 +202,7 @@ class _LocationBar extends StatelessWidget {
 
     // Opaque, so the content scrolling beneath doesn't show through.
     return ColoredBox(
-      color: AppColors.background,
+      color: context.colors.background,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
           AppSpacing.gutter,
@@ -178,10 +211,10 @@ class _LocationBar extends StatelessWidget {
           AppSpacing.lg,
         ),
         child: Material(
-          color: AppColors.surface,
+          color: context.colors.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadii.md),
-            side: const BorderSide(color: AppColors.border),
+            side: BorderSide(color: context.colors.border),
           ),
           clipBehavior: Clip.antiAlias,
           child: InkWell(
@@ -193,14 +226,14 @@ class _LocationBar extends StatelessWidget {
                   Container(
                     width: 36,
                     height: 36,
-                    decoration: const BoxDecoration(
-                      color: AppColors.accentSoft,
+                    decoration: BoxDecoration(
+                      color: context.colors.accentSoft,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       location.icon,
                       size: 20,
-                      color: AppColors.primary,
+                      color: context.colors.primary,
                     ),
                   ),
                   const SizedBox(width: AppSpacing.md),
@@ -208,10 +241,10 @@ class _LocationBar extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(location.label, style: AppTextStyles.caption),
+                        Text(location.label, style: context.textStyles.caption),
                         Text(
                           location.value,
-                          style: AppTextStyles.bodyStrong,
+                          style: context.textStyles.bodyStrong,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -226,9 +259,9 @@ class _LocationBar extends StatelessWidget {
                       onPressed: onClear,
                     )
                   else
-                    const Icon(
+                    Icon(
                       Icons.keyboard_arrow_down_rounded,
-                      color: AppColors.textSecondary,
+                      color: context.colors.textSecondary,
                     ),
                 ],
               ),
@@ -241,38 +274,24 @@ class _LocationBar extends StatelessWidget {
 }
 
 class _SectionTitle extends StatelessWidget {
-  const _SectionTitle(this.title, {this.actionLabel, this.onAction});
+  const _SectionTitle(this.title);
 
   final String title;
-  final String? actionLabel;
-  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
-    final actionLabel = this.actionLabel;
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
         AppSpacing.xl,
-        AppSpacing.sm,
+        AppSpacing.gutter,
         AppSpacing.md,
       ),
       child: SizedBox(
         height: 32,
-        child: Row(
-          children: [
-            Expanded(child: Text(title, style: AppTextStyles.title)),
-            if (actionLabel != null)
-              TextButton(
-                onPressed: onAction,
-                style: TextButton.styleFrom(
-                  foregroundColor: AppColors.primary,
-                  textStyle: AppTextStyles.bodyStrong,
-                ),
-                child: Text(actionLabel),
-              ),
-          ],
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(title, style: context.textStyles.title),
         ),
       ),
     );

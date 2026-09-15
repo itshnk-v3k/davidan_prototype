@@ -21,7 +21,7 @@ class OrderStatusPill extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.accentSoft,
+        color: context.colors.accentSoft,
         borderRadius: BorderRadius.circular(AppRadii.pill),
       ),
       child: Padding(
@@ -36,12 +36,12 @@ class OrderStatusPill extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const DecoratedBox(
+              DecoratedBox(
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  color: context.colors.primary,
                   shape: BoxShape.circle,
                 ),
-                child: SizedBox.square(dimension: 8),
+                child: const SizedBox.square(dimension: 8),
               ),
               const SizedBox(width: AppSpacing.sm),
               AnimatedSwitcher(
@@ -53,7 +53,7 @@ class OrderStatusPill extends StatelessWidget {
                 child: Text(
                   AppStrings.orderStatus(status),
                   key: ValueKey(status),
-                  style: AppTextStyles.label,
+                  style: context.textStyles.label,
                 ),
               ),
             ],

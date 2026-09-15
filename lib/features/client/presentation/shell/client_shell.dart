@@ -1,17 +1,14 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
-import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
-import 'package:davidan_prototype/core/widgets/scale_pop.dart';
-import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 
-/// Customer app frame: the active tab plus the bottom navigation bar.
-class ClientShell extends ConsumerWidget {
+/// Customer app frame: the active tab plus the bottom navigation bar. The cart
+/// isn't a tab: each tab's header has a CartButton that opens it.
+class ClientShell extends StatelessWidget {
   const ClientShell({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
@@ -44,15 +41,12 @@ class ClientShell extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final cartCount = ref.watch(cartCountProvider);
-
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: navigationShell,
       bottomNavigationBar: _BottomNav(
         currentIndex: navigationShell.currentIndex,
-        cartCount: cartCount,
         // Tapping the active tab again returns it to its first screen.
         onTap: (index) => navigationShell.goBranch(
           index,
@@ -64,32 +58,25 @@ class ClientShell extends ConsumerWidget {
 }
 
 class _BottomNav extends StatelessWidget {
-  const _BottomNav({
-    required this.currentIndex,
-    required this.cartCount,
-    required this.onTap,
-  });
+  const _BottomNav({required this.currentIndex, required this.onTap});
 
   /// Same order as the branches of the StatefulShellRoute in app_router.dart.
   static const _items = <({IconData icon, String label})>[
     (icon: Icons.home_rounded, label: AppStrings.navHome),
     (icon: Icons.restaurant_menu_rounded, label: AppStrings.navMenu),
-    (icon: Icons.shopping_bag_rounded, label: AppStrings.navCart),
     (icon: Icons.favorite_rounded, label: AppStrings.navFavorites),
     (icon: Icons.person_rounded, label: AppStrings.navProfile),
   ];
-  static const _cartIndex = 2;
 
   final int currentIndex;
-  final int cartCount;
   final ValueChanged<int> onTap;
 
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        border: Border(top: BorderSide(color: AppColors.border)),
+      decoration: BoxDecoration(
+        color: context.colors.surface,
+        border: Border(top: BorderSide(color: context.colors.border)),
       ),
       child: SafeArea(
         top: false,
@@ -103,7 +90,6 @@ class _BottomNav extends StatelessWidget {
                     icon: item.icon,
                     label: item.label,
                     selected: index == currentIndex,
-                    badgeCount: index == _cartIndex ? cartCount : 0,
                     onTap: () => onTap(index),
                   ),
                 ),
@@ -120,61 +106,32 @@ class _NavItem extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.selected,
-    required this.badgeCount,
     required this.onTap,
   });
 
   final IconData icon;
   final String label;
   final bool selected;
-  final int badgeCount;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final color = selected ? AppColors.primary : AppColors.textSecondary;
+    final color = selected
+        ? context.colors.primary
+        : context.colors.textSecondary;
 
     return Semantics(
       selected: selected,
-      label: badgeCount > 0 ? AppStrings.itemsInCart(badgeCount) : null,
       child: InkWell(
         onTap: onTap,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Icon(icon, size: 24, color: color),
-                // The badge grows in with the first item, bumps each time the
-                // count goes up, and shrinks away when the cart empties. This
-                // is the "added" feedback from anywhere in the app.
-                Positioned(
-                  top: -6,
-                  right: -12,
-                  child: AnimatedSwitcher(
-                    duration: AppMotion.of(context, AppMotion.medium),
-                    switchInCurve: AppMotion.emphasized,
-                    transitionBuilder: (child, animation) =>
-                        ScaleTransition(scale: animation, child: child),
-                    child: badgeCount > 0
-                        ? ScalePop<int>(
-                            key: const ValueKey('badge'),
-                            value: badgeCount,
-                            shouldPop: (previous, current) =>
-                                current > previous,
-                            scale: 1.25,
-                            child: _Badge(count: badgeCount),
-                          )
-                        : const SizedBox.shrink(),
-                  ),
-                ),
-              ],
-            ),
+            Icon(icon, size: 24, color: color),
             const SizedBox(height: AppSpacing.xs),
             Text(
               label,
-              style: AppTextStyles.label.copyWith(
+              style: context.textStyles.label.copyWith(
                 color: color,
                 fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
               ),
@@ -182,28 +139,6 @@ class _NavItem extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _Badge extends StatelessWidget {
-  const _Badge({required this.count});
-
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 18,
-      constraints: const BoxConstraints(minWidth: 18),
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: AppColors.primary,
-        borderRadius: BorderRadius.circular(AppRadii.pill),
-        border: Border.all(color: AppColors.surface, width: 1.5),
-      ),
-      child: Text(count > 99 ? '99+' : '$count', style: AppTextStyles.badge),
     );
   }
 }

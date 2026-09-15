@@ -63,7 +63,9 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
                 width: i == _page ? 18 : 6,
                 height: 6,
                 decoration: BoxDecoration(
-                  color: i == _page ? AppColors.primary : AppColors.border,
+                  color: i == _page
+                      ? context.colors.primary
+                      : context.colors.border,
                   borderRadius: BorderRadius.circular(AppRadii.pill),
                 ),
               ),
@@ -101,8 +103,8 @@ class _BannerSlide extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      AppColors.scrim.withValues(alpha: 0),
-                      AppColors.scrim,
+                      context.colors.scrim.withValues(alpha: 0),
+                      context.colors.scrim,
                     ],
                     stops: const [0.3, 1],
                   ),
@@ -117,16 +119,16 @@ class _BannerSlide extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: AppTextStyles.title.copyWith(
-                        color: AppColors.onImage,
+                      style: context.textStyles.title.copyWith(
+                        color: context.colors.onImage,
                       ),
                     ),
                     if (subtitle != null) ...[
                       const SizedBox(height: AppSpacing.xxs),
                       Text(
                         subtitle,
-                        style: AppTextStyles.body.copyWith(
-                          color: AppColors.onImageSecondary,
+                        style: context.textStyles.body.copyWith(
+                          color: context.colors.onImageSecondary,
                         ),
                       ),
                     ],

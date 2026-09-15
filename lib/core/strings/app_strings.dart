@@ -26,10 +26,15 @@ abstract final class AppStrings {
       'pe acest dispozitiv.';
   static const openLauncher = 'Înapoi la prototip';
 
+  // Theme, in the profile and on the demo launcher
+  static const themeTitle = 'Tema aplicației';
+  static const themeDark = 'Întunecată';
+  static const themeLight = 'Luminoasă';
+  static const themeSystem = 'Ca telefonul';
+
   // Customer app navigation
   static const navHome = 'Acasă';
   static const navMenu = 'Meniu';
-  static const navCart = 'Coș';
   static const navFavorites = 'Favorite';
   static const navProfile = 'Profil';
 
@@ -156,8 +161,11 @@ abstract final class AppStrings {
   static const deliverTo = 'Livrare la';
   static const chooseAddress = 'Alege adresa sau localul';
   static const categoriesTitle = 'Categorii';
-  static const popularTitle = 'Populare';
-  static const seeAll = 'Vezi tot';
+  // davidan.md's headings: "Produse DaviDan" over its featured products and
+  // "Vezi mai mult" on its category list.
+  static const popularTitle = 'Produse DaviDan';
+  static const seeAll = 'Vezi mai mult';
+  static String seeAllProducts(int count) => 'Vezi toate cele $count produse';
 
   // Catalog
   static const categoryEmpty = 'Momentan nu sunt produse în această categorie.';
@@ -180,6 +188,10 @@ abstract final class AppStrings {
       'Scoate $productName din coș';
   static String itemsInCart(int count) => '$count produse în coș';
 
+  /// The cart button's label, with the count when the cart has anything.
+  static String openCart(int count) =>
+      count == 0 ? cartTitle : '$cartTitle, ${itemsInCart(count)}';
+
   // Cart
   static const cartEmptyTitle = 'Coșul tău e gol';
   static const cartEmptyMessage =
@@ -201,14 +213,17 @@ abstract final class AppStrings {
   static const deliveryTimeTitle = 'Ora livrării';
   static const pickupTimeTitle = 'Ora ridicării';
   static const asSoonAsPossible = 'Cât mai curând';
-  static const paymentTitle = 'Plata';
+
+  /// davidan.md's "Livrare și achitare" page calls it achitare, with cash or
+  /// the courier's POS terminal.
+  static const paymentTitle = 'Achitare';
   static const paymentOnDelivery = 'Plătești curierului, la primirea comenzii.';
   static const paymentOnPickup = 'Plătești în local, la ridicarea comenzii.';
   static const orderSummaryTitle = 'Comanda ta';
   static const placeOrder = 'Plasează comanda';
   static String paymentMethod(PaymentMethod method) => switch (method) {
     PaymentMethod.cash => 'Numerar',
-    PaymentMethod.card => 'Card prin terminal POS',
+    PaymentMethod.card => 'Card prin POS',
   };
 
   // Order confirmation

@@ -12,6 +12,7 @@ import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_assets.dart';
+import 'package:davidan_prototype/core/widgets/brand_logo.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/features/client/application/account_notifier.dart';
 import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
@@ -59,10 +60,7 @@ void main() {
         ),
         findsOneWidget,
       );
-      expect(
-        inScreen<SplashScreen>(find.image(const AssetImage(AppAssets.logo))),
-        findsOneWidget,
-      );
+      expect(inScreen<SplashScreen>(find.byType(BrandLogo)), findsOneWidget);
       expect(find.text(BrandFacts.tagline), findsOneWidget);
       expect(find.byType(SignInPhoneScreen), findsNothing);
 

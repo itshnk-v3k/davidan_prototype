@@ -31,7 +31,7 @@ class SignInCodeScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -52,7 +52,7 @@ class SignInCodeScreen extends ConsumerWidget {
                 children: [
                   Text(
                     AppStrings.codeSentTo(MoldovanPhone.format(draft.phone)),
-                    style: AppTextStyles.bodySecondary,
+                    style: context.textStyles.bodySecondary,
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   _CodeBoxes(
@@ -66,8 +66,8 @@ class SignInCodeScreen extends ConsumerWidget {
                     const SizedBox(height: AppSpacing.sm),
                     Text(
                       AppStrings.codeIncomplete,
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.error,
+                      style: context.textStyles.caption.copyWith(
+                        color: context.colors.error,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -80,8 +80,8 @@ class SignInCodeScreen extends ConsumerWidget {
                         .read(toastProvider.notifier)
                         .show(AppStrings.codeResent),
                     style: TextButton.styleFrom(
-                      foregroundColor: AppColors.primary,
-                      textStyle: AppTextStyles.bodyStrong,
+                      foregroundColor: context.colors.primary,
+                      textStyle: context.textStyles.bodyStrong,
                     ),
                     child: const Text(AppStrings.resendCode),
                   ),
@@ -120,15 +120,15 @@ class _CodeBoxes extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: context.colors.surface,
                     borderRadius: BorderRadius.circular(AppRadii.md),
                     border: index == code.length
-                        ? Border.all(color: AppColors.primary, width: 2)
-                        : Border.all(color: AppColors.border),
+                        ? Border.all(color: context.colors.primary, width: 2)
+                        : Border.all(color: context.colors.border),
                   ),
                   child: Text(
                     index < code.length ? code[index] : '',
-                    style: AppTextStyles.headline,
+                    style: context.textStyles.headline,
                   ),
                 ),
             ],

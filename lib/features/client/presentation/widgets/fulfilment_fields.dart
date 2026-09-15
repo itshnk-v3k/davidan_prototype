@@ -68,7 +68,7 @@ class DeliveryAddressField extends StatelessWidget {
       onFieldSubmitted: onSubmitted,
       keyboardType: TextInputType.streetAddress,
       textInputAction: TextInputAction.done,
-      style: AppTextStyles.body,
+      style: context.textStyles.body,
       decoration: InputDecoration(
         labelText: AppStrings.deliveryAddress,
         hintText: AppStrings.deliveryAddressHint,

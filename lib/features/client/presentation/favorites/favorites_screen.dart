@@ -8,6 +8,7 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/features/client/application/favorites_notifier.dart';
+import 'package:davidan_prototype/features/client/presentation/widgets/cart_button.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/product_grid.dart';
 
 /// Favorite tab: products saved with a heart, most recent first, in the same
@@ -20,13 +21,16 @@ class FavoritesScreen extends ConsumerWidget {
     final products = ref.watch(favoriteProductsProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         bottom: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ScreenHeader(title: AppStrings.favoritesTitle),
+            const ScreenHeader(
+              title: AppStrings.favoritesTitle,
+              actions: [CartButton()],
+            ),
             Expanded(
               child: products.isEmpty
                   ? EmptyState(

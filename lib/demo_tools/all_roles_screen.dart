@@ -87,7 +87,7 @@ class AllRolesScreen extends ConsumerWidget {
     );
 
     return Scaffold(
-      backgroundColor: AppColors.desktopBackdrop,
+      backgroundColor: context.colors.desktopBackdrop,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -105,9 +105,9 @@ class AllRolesScreen extends ConsumerWidget {
                 runSpacing: AppSpacing.sm,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     DemoToolStrings.trackedOrder,
-                    style: AppTextStyles.label,
+                    style: context.textStyles.label,
                   ),
                   for (final order in orders.take(_orderChipCount))
                     AppChip(
@@ -219,7 +219,7 @@ class _Panel extends StatelessWidget {
             left: AppSpacing.xs,
             bottom: AppSpacing.xs,
           ),
-          child: Text(label, style: AppTextStyles.label),
+          child: Text(label, style: context.textStyles.label),
         ),
         Expanded(
           child: ClipRRect(
@@ -237,9 +237,9 @@ class _NoOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ColoredBox(
-      color: AppColors.background,
-      child: EmptyState(
+    return ColoredBox(
+      color: context.colors.background,
+      child: const EmptyState(
         icon: Icons.receipt_long_rounded,
         title: DemoToolStrings.noOrderTitle,
         message: DemoToolStrings.noOrderMessage,

@@ -26,10 +26,10 @@ class ElapsedTimer extends StatelessWidget {
         final elapsed = now.difference(since);
         final text = formatElapsed(elapsed);
         final color = elapsed >= overdueAfter
-            ? AppColors.error
+            ? context.colors.error
             : elapsed >= warnAfter
-            ? AppColors.warning
-            : AppColors.textSecondary;
+            ? context.colors.warning
+            : context.colors.textSecondary;
 
         return Semantics(
           label: AppStrings.timeSincePlaced(text),
@@ -41,7 +41,7 @@ class ElapsedTimer extends StatelessWidget {
               const SizedBox(width: AppSpacing.xs),
               Text(
                 text,
-                style: AppTextStyles.bodyStrong.copyWith(
+                style: context.textStyles.bodyStrong.copyWith(
                   color: color,
                   fontFeatures: const [FontFeature.tabularFigures()],
                 ),

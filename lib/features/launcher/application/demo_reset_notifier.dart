@@ -19,7 +19,7 @@ class DemoResetNotifier extends Notifier<void> {
   void build() {}
 
   Future<void> reset() async {
-    await ref.read(localStoreProvider).clearAll();
+    await ref.read(localStoreProvider).clearDemoData();
     // Every Notifier that restores saved state must be invalidated here, so
     // it re-runs build() against the now-empty storage.
     ref

@@ -30,12 +30,12 @@ class OptionTile extends StatelessWidget {
       inMutuallyExclusiveGroup: true,
       checked: selected,
       child: Material(
-        color: AppColors.surface,
+        color: context.colors.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadii.md),
           side: selected
-              ? const BorderSide(color: AppColors.primary, width: 2)
-              : const BorderSide(color: AppColors.border),
+              ? BorderSide(color: context.colors.primary, width: 2)
+              : BorderSide(color: context.colors.border),
         ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -48,11 +48,11 @@ class OptionTile extends StatelessWidget {
                   Container(
                     width: 40,
                     height: 40,
-                    decoration: const BoxDecoration(
-                      color: AppColors.accentSoft,
+                    decoration: BoxDecoration(
+                      color: context.colors.accentSoft,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(icon, size: 20, color: AppColors.primary),
+                    child: Icon(icon, size: 20, color: context.colors.primary),
                   ),
                   const SizedBox(width: AppSpacing.md),
                 ],
@@ -60,10 +60,10 @@ class OptionTile extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title, style: AppTextStyles.bodyStrong),
+                      Text(title, style: context.textStyles.bodyStrong),
                       if (subtitle != null) ...[
                         const SizedBox(height: AppSpacing.xxs),
-                        Text(subtitle, style: AppTextStyles.caption),
+                        Text(subtitle, style: context.textStyles.caption),
                       ],
                     ],
                   ),
@@ -74,7 +74,9 @@ class OptionTile extends StatelessWidget {
                       ? Icons.radio_button_checked_rounded
                       : Icons.radio_button_unchecked_rounded,
                   size: 22,
-                  color: selected ? AppColors.primary : AppColors.textDisabled,
+                  color: selected
+                      ? context.colors.primary
+                      : context.colors.textDisabled,
                 ),
               ],
             ),

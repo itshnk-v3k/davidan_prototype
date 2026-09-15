@@ -12,7 +12,7 @@ class AppIconButton extends StatelessWidget {
     required this.icon,
     required this.onPressed,
     required this.semanticLabel,
-    this.iconColor = AppColors.textPrimary,
+    this.iconColor,
     this.size = 40,
     this.emphasized = false,
   });
@@ -20,7 +20,9 @@ class AppIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onPressed;
   final String semanticLabel;
-  final Color iconColor;
+
+  /// The theme's primary text colour when null.
+  final Color? iconColor;
   final double size;
 
   /// Pops the icon once each time this turns true, e.g. a heart being saved.
@@ -32,8 +34,8 @@ class AppIconButton extends StatelessWidget {
       button: true,
       label: semanticLabel,
       child: Material(
-        color: AppColors.surface,
-        shape: const CircleBorder(side: BorderSide(color: AppColors.border)),
+        color: context.colors.surface,
+        shape: CircleBorder(side: BorderSide(color: context.colors.border)),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onPressed,
@@ -48,7 +50,7 @@ class AppIconButton extends StatelessWidget {
                   icon,
                   key: ValueKey(icon),
                   size: size * 0.55,
-                  color: iconColor,
+                  color: iconColor ?? context.colors.textPrimary,
                 ),
               ),
             ),

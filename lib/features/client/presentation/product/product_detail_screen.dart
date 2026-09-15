@@ -24,9 +24,17 @@ import 'package:davidan_prototype/features/client/presentation/widgets/quantity_
 /// bar to pick a quantity and add it to the cart. Back returns to wherever
 /// the product was opened.
 class ProductDetailScreen extends ConsumerWidget {
-  const ProductDetailScreen({super.key, required this.productId});
+  const ProductDetailScreen({
+    super.key,
+    required this.productId,
+    this.heroScope,
+  });
 
   final String productId;
+
+  /// The row the product was opened from, when home shows it in more than
+  /// one, so the photo flies back and forth with that card.
+  final String? heroScope;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -45,7 +53,7 @@ class ProductDetailScreen extends ConsumerWidget {
     final buttonsTop = MediaQuery.paddingOf(context).top + AppSpacing.md;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
@@ -55,7 +63,10 @@ class ProductDetailScreen extends ConsumerWidget {
                   aspectRatio: 1,
                   child: ProductImage(
                     path: product.image,
-                    heroTag: ProductImage.heroTagFor(product.id),
+                    heroTag: ProductImage.heroTagFor(
+                      product.id,
+                      scope: heroScope,
+                    ),
                   ),
                 ),
                 Positioned(
@@ -131,16 +142,19 @@ class _ProductInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(product.name, style: AppTextStyles.headline),
+        Text(product.name, style: context.textStyles.headline),
         const SizedBox(height: AppSpacing.sm),
         Row(
           children: [
-            Text(formatLei(product.priceBani), style: AppTextStyles.priceLarge),
+            Text(
+              formatLei(product.priceBani),
+              style: context.textStyles.priceLarge,
+            ),
             if (inCartCount > 0) ...[
               const SizedBox(width: AppSpacing.md),
               DecoratedBox(
                 decoration: BoxDecoration(
-                  color: AppColors.accentSoft,
+                  color: context.colors.accentSoft,
                   borderRadius: BorderRadius.circular(AppRadii.pill),
                 ),
                 child: Padding(
@@ -150,7 +164,7 @@ class _ProductInfo extends StatelessWidget {
                   ),
                   child: Text(
                     AppStrings.inCart(inCartCount),
-                    style: AppTextStyles.label,
+                    style: context.textStyles.label,
                   ),
                 ),
               ),
@@ -159,12 +173,9 @@ class _ProductInfo extends StatelessWidget {
         ),
         if (description != null) ...[
           const SizedBox(height: AppSpacing.xl),
-          const Text(
-            AppStrings.descriptionTitle,
-            style: AppTextStyles.subtitle,
-          ),
+          Text(AppStrings.descriptionTitle, style: context.textStyles.subtitle),
           const SizedBox(height: AppSpacing.sm),
-          Text(description, style: AppTextStyles.bodySecondary),
+          Text(description, style: context.textStyles.bodySecondary),
         ],
       ],
     );
@@ -189,9 +200,9 @@ class _AddToCartBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        border: Border(top: BorderSide(color: AppColors.border)),
+      decoration: BoxDecoration(
+        color: context.colors.surface,
+        border: Border(top: BorderSide(color: context.colors.border)),
       ),
       child: SafeArea(
         top: false,
@@ -205,7 +216,7 @@ class _AddToCartBar extends StatelessWidget {
                 onDecrement: onDecrement,
                 incrementLabel: AppStrings.increaseQuantity,
                 decrementLabel: AppStrings.decreaseQuantity,
-                buttonSize: 44,
+                buttonSize: 42,
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(
@@ -230,7 +241,7 @@ class _ProductNotFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.gutter),
@@ -246,15 +257,15 @@ class _ProductNotFound extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              const Icon(
+              Icon(
                 Icons.search_off_rounded,
                 size: 48,
-                color: AppColors.accent,
+                color: context.colors.accent,
               ),
               const SizedBox(height: AppSpacing.md),
-              const Text(
+              Text(
                 AppStrings.productNotFound,
-                style: AppTextStyles.subtitle,
+                style: context.textStyles.subtitle,
                 textAlign: TextAlign.center,
               ),
               const Spacer(),

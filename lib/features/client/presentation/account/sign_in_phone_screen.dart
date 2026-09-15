@@ -40,7 +40,7 @@ class SignInPhoneScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -58,9 +58,9 @@ class SignInPhoneScreen extends ConsumerWidget {
                   AppSpacing.xl,
                 ),
                 children: [
-                  const Text(
+                  Text(
                     AppStrings.signInPrompt,
-                    style: AppTextStyles.bodySecondary,
+                    style: context.textStyles.bodySecondary,
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   TextFormField(
@@ -76,7 +76,7 @@ class SignInPhoneScreen extends ConsumerWidget {
                       FilteringTextInputFormatter.digitsOnly,
                       LengthLimitingTextInputFormatter(MoldovanPhone.length),
                     ],
-                    style: AppTextStyles.body,
+                    style: context.textStyles.body,
                     decoration: InputDecoration(
                       labelText: AppStrings.phoneLabel,
                       hintText: AppStrings.phoneHint,

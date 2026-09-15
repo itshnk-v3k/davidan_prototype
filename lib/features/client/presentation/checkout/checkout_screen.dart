@@ -64,7 +64,7 @@ class CheckoutScreen extends ConsumerWidget {
     final delivery = draft.type == FulfilmentType.delivery;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -121,7 +121,7 @@ class CheckoutScreen extends ConsumerWidget {
                         delivery
                             ? AppStrings.paymentOnDelivery
                             : AppStrings.paymentOnPickup,
-                        style: AppTextStyles.bodySecondary,
+                        style: context.textStyles.bodySecondary,
                       ),
                       for (final method in PaymentMethod.values)
                         Padding(
@@ -222,9 +222,9 @@ class _PinnedLocationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         borderRadius: BorderRadius.circular(AppRadii.md),
-        border: Border.all(color: AppColors.primary, width: 2),
+        border: Border.all(color: context.colors.primary, width: 2),
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
@@ -245,7 +245,7 @@ class _PinnedLocationCard extends StatelessWidget {
               padding: const EdgeInsets.only(left: 32, top: AppSpacing.xxs),
               child: Text(
                 formatCoordinates(pinned.point),
-                style: AppTextStyles.caption,
+                style: context.textStyles.caption,
               ),
             ),
             Align(
@@ -253,8 +253,8 @@ class _PinnedLocationCard extends StatelessWidget {
               child: TextButton(
                 onPressed: onDrop,
                 style: TextButton.styleFrom(
-                  foregroundColor: AppColors.primary,
-                  textStyle: AppTextStyles.bodyStrong,
+                  foregroundColor: context.colors.primary,
+                  textStyle: context.textStyles.bodyStrong,
                 ),
                 child: const Text(AppStrings.typeAddressInstead),
               ),
@@ -279,7 +279,7 @@ class _Section extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(title, style: AppTextStyles.subtitle),
+          Text(title, style: context.textStyles.subtitle),
           const SizedBox(height: AppSpacing.md),
           ...children,
         ],
@@ -297,7 +297,7 @@ class _EmptyCheckout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

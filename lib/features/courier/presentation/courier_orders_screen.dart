@@ -70,7 +70,7 @@ class CourierOrdersScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -107,10 +107,10 @@ class _OnlineSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.surface,
+      color: context.colors.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadii.md),
-        side: const BorderSide(color: AppColors.border),
+        side: BorderSide(color: context.colors.border),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -127,7 +127,9 @@ class _OnlineSwitch extends StatelessWidget {
               children: [
                 DecoratedBox(
                   decoration: BoxDecoration(
-                    color: online ? AppColors.primary : AppColors.textDisabled,
+                    color: online
+                        ? context.colors.primary
+                        : context.colors.textDisabled,
                     shape: BoxShape.circle,
                   ),
                   child: const SizedBox.square(dimension: 10),
@@ -141,13 +143,13 @@ class _OnlineSwitch extends StatelessWidget {
                         online
                             ? AppStrings.courierOnline
                             : AppStrings.courierOffline,
-                        style: AppTextStyles.bodyStrong,
+                        style: context.textStyles.bodyStrong,
                       ),
                       Text(
                         online
                             ? AppStrings.courierOnlineHint
                             : AppStrings.courierOfflineHint,
-                        style: AppTextStyles.caption,
+                        style: context.textStyles.caption,
                       ),
                     ],
                   ),
@@ -205,18 +207,18 @@ class _OfflineNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       children: [
         Icon(
           Icons.power_settings_new_rounded,
           size: 20,
-          color: AppColors.textSecondary,
+          color: context.colors.textSecondary,
         ),
-        SizedBox(width: AppSpacing.sm),
+        const SizedBox(width: AppSpacing.sm),
         Expanded(
           child: Text(
             AppStrings.courierOfflineMessage,
-            style: AppTextStyles.bodySecondary,
+            style: context.textStyles.bodySecondary,
           ),
         ),
       ],

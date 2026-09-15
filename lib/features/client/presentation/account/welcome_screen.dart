@@ -25,7 +25,7 @@ class WelcomeScreen extends ConsumerWidget {
 
     if (account == null) {
       return Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.colors.background,
         body: SafeArea(
           child: EmptyState(
             icon: Icons.lock_outline_rounded,
@@ -39,7 +39,7 @@ class WelcomeScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         bottom: false,
         child: ListView(
@@ -52,14 +52,14 @@ class WelcomeScreen extends ConsumerWidget {
                 child: Container(
                   width: 88,
                   height: 88,
-                  decoration: const BoxDecoration(
-                    color: AppColors.accentSoft,
+                  decoration: BoxDecoration(
+                    color: context.colors.accentSoft,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.waving_hand_rounded,
                     size: 44,
-                    color: AppColors.primary,
+                    color: context.colors.primary,
                   ),
                 ),
               ),
@@ -67,13 +67,13 @@ class WelcomeScreen extends ConsumerWidget {
             const SizedBox(height: AppSpacing.lg),
             Text(
               AppStrings.welcomeTitle(account.name),
-              style: AppTextStyles.headline,
+              style: context.textStyles.headline,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.xs),
-            const Text(
+            Text(
               AppStrings.welcomeMessage,
-              style: AppTextStyles.bodySecondary,
+              style: context.textStyles.bodySecondary,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.xl),

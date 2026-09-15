@@ -5,8 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Keys of everything the app saves. When a new Notifier persists state, add
-/// its key here and invalidate that Notifier in DemoResetNotifier.
+/// Keys of everything the app saves. When a new Notifier persists demo data,
+/// add its key to [demoData] and invalidate that Notifier in
+/// DemoResetNotifier. A preference that should survive a demo reset goes in
+/// [settings] instead.
 abstract final class StorageKeys {
   static const cart = 'cart';
   static const orders = 'orders';
@@ -16,8 +18,10 @@ abstract final class StorageKeys {
   static const account = 'account';
   static const signInSkipped = 'signInSkipped';
   static const currentLocation = 'currentLocation';
+  static const themeMode = 'themeMode';
 
-  static const all = {
+  /// What a demo reset deletes.
+  static const demoData = {
     cart,
     orders,
     fulfilment,
@@ -27,6 +31,11 @@ abstract final class StorageKeys {
     signInSkipped,
     currentLocation,
   };
+
+  /// Kept when the demo is reset.
+  static const settings = {themeMode};
+
+  static const all = {...demoData, ...settings};
 }
 
 /// Opened once in main() before runApp and injected with a ProviderScope
@@ -88,6 +97,8 @@ class LocalStore {
     unawaited(_prefs.remove('$_prefix$key'));
   }
 
-  /// Removes all saved demo data.
-  Future<void> clearAll() => _prefs.clear();
+  /// Removes all saved demo data. [StorageKeys.settings] stay.
+  Future<void> clearDemoData() => Future.wait([
+    for (final key in StorageKeys.demoData) _prefs.remove('$_prefix$key'),
+  ]);
 }

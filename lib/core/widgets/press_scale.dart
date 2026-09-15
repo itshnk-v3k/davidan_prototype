@@ -9,9 +9,17 @@ import 'package:davidan_prototype/core/theme/app_motion.dart';
 /// and when a button inside the card takes the press instead, so a card
 /// doesn't shrink while the grid scrolls or while its heart is tapped.
 class PressScale extends StatefulWidget {
-  const PressScale({super.key, required this.builder});
+  const PressScale({
+    super.key,
+    required this.builder,
+    this.scale = AppMotion.pressedScale,
+  });
 
   final Widget Function(ValueChanged<bool> onHighlightChanged) builder;
+
+  /// How far it shrinks: [AppMotion.pressedScale], or
+  /// [AppMotion.pressedScaleButton] for small round buttons.
+  final double scale;
 
   @override
   State<PressScale> createState() => _PressScaleState();
@@ -28,7 +36,7 @@ class _PressScaleState extends State<PressScale> {
   @override
   Widget build(BuildContext context) {
     return AnimatedScale(
-      scale: _pressed ? AppMotion.pressedScale : 1,
+      scale: _pressed ? widget.scale : 1,
       duration: AppMotion.of(context, AppMotion.fast),
       curve: AppMotion.standard,
       child: widget.builder(_setPressed),

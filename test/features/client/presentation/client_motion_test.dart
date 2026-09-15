@@ -20,6 +20,8 @@ import 'package:davidan_prototype/core/widgets/scale_pop.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/client/presentation/cart/widgets/cart_line_tile.dart';
 import 'package:davidan_prototype/features/client/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/home/widgets/category_strip.dart';
+import 'package:davidan_prototype/features/client/presentation/home/widgets/product_shelf.dart';
 import 'package:davidan_prototype/features/client/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/favorite_toggle.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/product_card.dart';
@@ -78,17 +80,35 @@ void main() {
       // Open the menu on the croissant's category and come back home: both
       // tabs now hold a card with its photo, and the hidden one must stay out
       // of the flight.
-      await tapVisible(tester, inScreen<HomeScreen>(find.text('Patiserie')));
+      await tapVisible(
+        tester,
+        find.descendant(
+          of: find.byType(CategoryStrip),
+          matching: find.text('Patiserie'),
+        ),
+      );
       expect(productCard(name), findsOneWidget);
       await tester.tap(find.text(AppStrings.navHome));
       await tester.pumpAndSettle();
       expect(find.byType(HomeScreen), findsOneWidget);
 
-      await tapAndWait(tester, inCard(name, find.text(name)));
+      // Home shows the croissant in two rows; this is its Produse DaviDan
+      // card.
+      final homeCard = find.descendant(
+        of: find.byWidgetPredicate(
+          (widget) =>
+              widget is ProductShelf && widget.title == AppStrings.popularTitle,
+        ),
+        matching: productCard(name),
+      );
+      Finder inHomeCard(Finder finder) =>
+          find.descendant(of: homeCard, matching: finder);
+
+      await tapAndWait(tester, inHomeCard(find.text(name)));
 
       // In flight, the photo leaves the card and hasn't landed on the page.
       expect(find.byType(ProductDetailScreen), findsOneWidget);
-      expect(inCard(name, find.byType(Image)), findsNothing);
+      expect(inHomeCard(find.byType(Image)), findsNothing);
       expect(inScreen<ProductDetailScreen>(find.byType(Image)), findsNothing);
 
       await tester.pumpAndSettle();
@@ -101,7 +121,7 @@ void main() {
 
       await tester.pumpAndSettle();
       expect(find.byType(ProductDetailScreen), findsNothing);
-      expect(inCard(name, find.byType(Image)), findsOneWidget);
+      expect(inHomeCard(find.byType(Image)), findsOneWidget);
     },
   );
 

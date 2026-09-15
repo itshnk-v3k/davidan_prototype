@@ -28,16 +28,18 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isPrimary = variant == AppButtonVariant.primary;
-    final foreground = isPrimary ? AppColors.onPrimary : AppColors.textPrimary;
+    final foreground = isPrimary
+        ? context.colors.onPrimary
+        : context.colors.textPrimary;
 
     return PressScale(
       builder: (onHighlightChanged) => Material(
-        color: isPrimary ? AppColors.primary : AppColors.surface,
+        color: isPrimary ? context.colors.primary : context.colors.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadii.md),
           side: isPrimary
               ? BorderSide.none
-              : const BorderSide(color: AppColors.border),
+              : BorderSide(color: context.colors.border),
         ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -63,7 +65,9 @@ class AppButton extends StatelessWidget {
                       child: Text(
                         label,
                         key: ValueKey(label),
-                        style: AppTextStyles.button.copyWith(color: foreground),
+                        style: context.textStyles.button.copyWith(
+                          color: foreground,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ),

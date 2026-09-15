@@ -8,6 +8,7 @@ class MenuCategory {
     required this.id,
     required this.name,
     required this.image,
+    this.description,
   });
 
   final String id;
@@ -15,4 +16,8 @@ class MenuCategory {
 
   /// Bundled asset path for the category tile.
   final String image;
+
+  /// The category's blurb from davidan.md, quoted as written. Null when the
+  /// site has none.
+  final String? description;
 }

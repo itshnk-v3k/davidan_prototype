@@ -5,13 +5,15 @@ import 'package:material_ui/material_ui.dart';
 import 'package:davidan_prototype/core/router/demo_tool.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
-import 'package:davidan_prototype/core/theme/app_assets.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/theme/theme_mode_notifier.dart';
 import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
+import 'package:davidan_prototype/core/widgets/brand_logo.dart';
 import 'package:davidan_prototype/core/widgets/link_card.dart';
+import 'package:davidan_prototype/core/widgets/theme_mode_selector.dart';
 import 'package:davidan_prototype/features/launcher/application/demo_reset_notifier.dart';
 
 /// Entry point of the prototype: pick which part of the system to show.
@@ -50,7 +52,7 @@ class DemoLauncherScreen extends ConsumerWidget {
     ];
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(AppSpacing.xl),
@@ -58,14 +60,14 @@ class DemoLauncherScreen extends ConsumerWidget {
             const SizedBox(height: AppSpacing.lg),
             Align(
               alignment: Alignment.centerLeft,
-              child: Image.asset(AppAssets.logo, height: 32),
+              child: const BrandLogo(height: 32),
             ),
             const SizedBox(height: AppSpacing.xxl),
-            const Text(AppStrings.launcherTitle, style: AppTextStyles.display),
+            Text(AppStrings.launcherTitle, style: context.textStyles.display),
             const SizedBox(height: AppSpacing.xs),
-            const Text(
+            Text(
               AppStrings.launcherSubtitle,
-              style: AppTextStyles.bodySecondary,
+              style: context.textStyles.bodySecondary,
             ),
             const SizedBox(height: AppSpacing.xl),
             for (final role in roles)
@@ -79,6 +81,11 @@ class DemoLauncherScreen extends ConsumerWidget {
                 ),
               ),
             const SizedBox(height: AppSpacing.lg),
+            ThemeModeSelector(
+              selected: ref.watch(themeModeProvider),
+              onSelected: ref.read(themeModeProvider.notifier).select,
+            ),
+            const SizedBox(height: AppSpacing.xl),
             AppButton(
               label: AppStrings.resetDemoData,
               icon: Icons.restart_alt_rounded,
@@ -92,9 +99,9 @@ class DemoLauncherScreen extends ConsumerWidget {
               },
             ),
             const SizedBox(height: AppSpacing.xl),
-            const Text(
+            Text(
               AppStrings.launcherFooter,
-              style: AppTextStyles.caption,
+              style: context.textStyles.caption,
               textAlign: TextAlign.center,
             ),
           ],

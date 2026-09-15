@@ -14,8 +14,8 @@ import 'package:davidan_prototype/features/client/presentation/cart/widgets/cart
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/total_bar.dart';
 
-/// Cart tab: every line with a quantity stepper, the running total and the
-/// way on to checkout.
+/// Cart, opened over the tabs by their cart button: every line with a quantity
+/// stepper, the running total and the way on to checkout.
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
 
@@ -26,13 +26,19 @@ class CartScreen extends ConsumerWidget {
     CartNotifier cart() => ref.read(cartProvider.notifier);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         bottom: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ScreenHeader(title: AppStrings.cartTitle),
+            ScreenHeader(
+              title: AppStrings.cartTitle,
+              // Opened straight from a link, there's nothing to go back to.
+              onBack: () => context.canPop()
+                  ? context.pop()
+                  : context.go(Routes.clientHome),
+            ),
             Expanded(
               // Removing the last line crossfades to the empty state.
               child: AnimatedSwitcher(

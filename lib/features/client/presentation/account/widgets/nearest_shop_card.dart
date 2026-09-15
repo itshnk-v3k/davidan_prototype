@@ -23,9 +23,9 @@ class NearestShopCard extends ConsumerWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         borderRadius: BorderRadius.circular(AppRadii.lg),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.colors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -35,14 +35,14 @@ class NearestShopCard extends ConsumerWidget {
             Container(
               width: 40,
               height: 40,
-              decoration: const BoxDecoration(
-                color: AppColors.accentSoft,
+              decoration: BoxDecoration(
+                color: context.colors.accentSoft,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.storefront_rounded,
                 size: 20,
-                color: AppColors.primary,
+                color: context.colors.primary,
               ),
             ),
             const SizedBox(width: AppSpacing.md),
@@ -50,15 +50,15 @@ class NearestShopCard extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     AppStrings.nearestShopTitle,
-                    style: AppTextStyles.caption,
+                    style: context.textStyles.caption,
                   ),
                   const SizedBox(height: AppSpacing.xxs),
-                  Text(shop.name, style: AppTextStyles.bodyStrong),
+                  Text(shop.name, style: context.textStyles.bodyStrong),
                   Text(
                     '${shop.address} · ${shop.openingHours}',
-                    style: AppTextStyles.caption,
+                    style: context.textStyles.caption,
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
@@ -72,8 +72,8 @@ class NearestShopCard extends ConsumerWidget {
                         ),
                       ),
                     },
-                    style: AppTextStyles.label.copyWith(
-                      color: AppColors.primary,
+                    style: context.textStyles.label.copyWith(
+                      color: context.colors.primary,
                     ),
                   ),
                 ],

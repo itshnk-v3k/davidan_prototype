@@ -7,6 +7,7 @@ import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/theme/theme_mode_notifier.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/utils/phone.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
@@ -14,6 +15,7 @@ import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/core/widgets/summary_row.dart';
+import 'package:davidan_prototype/core/widgets/theme_mode_selector.dart';
 import 'package:davidan_prototype/data/models/customer_account.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/client/application/account_notifier.dart';
@@ -25,6 +27,7 @@ import 'package:davidan_prototype/features/orders/presentation/widgets/order_sta
 /// Profile tab. Locked until the customer goes through the demo sign-in;
 /// then their name, number, sector and nearest shop, their orders with a
 /// live status, and a way to sign out. Saved products have their own tab.
+/// The theme switch is there either way.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
@@ -32,9 +35,13 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final account = ref.watch(accountProvider);
     final orders = ref.watch(ordersProvider);
+    final themeSelector = ThemeModeSelector(
+      selected: ref.watch(themeModeProvider),
+      onSelected: ref.read(themeModeProvider.notifier).select,
+    );
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -43,12 +50,28 @@ class ProfileScreen extends ConsumerWidget {
             const ScreenHeader(title: AppStrings.profileTitle),
             Expanded(
               child: account == null
-                  ? EmptyState(
-                      icon: Icons.lock_outline_rounded,
-                      title: AppStrings.accountLockedTitle,
-                      message: AppStrings.accountLockedMessage,
-                      actionLabel: AppStrings.signInTitle,
-                      onAction: () => context.push(Routes.signIn),
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: EmptyState(
+                            icon: Icons.lock_outline_rounded,
+                            title: AppStrings.accountLockedTitle,
+                            message: AppStrings.accountLockedMessage,
+                            actionLabel: AppStrings.signInTitle,
+                            onAction: () => context.push(Routes.signIn),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            AppSpacing.gutter,
+                            0,
+                            AppSpacing.gutter,
+                            AppSpacing.xl,
+                          ),
+                          child: themeSelector,
+                        ),
+                      ],
                     )
                   : ListView(
                       padding: const EdgeInsets.fromLTRB(
@@ -84,6 +107,8 @@ class ProfileScreen extends ConsumerWidget {
                             ),
                           ),
                         const SizedBox(height: AppSpacing.xl),
+                        themeSelector,
+                        const SizedBox(height: AppSpacing.xl),
                         AppButton(
                           label: AppStrings.signOut,
                           icon: Icons.logout_rounded,
@@ -92,9 +117,9 @@ class ProfileScreen extends ConsumerWidget {
                               ref.read(accountProvider.notifier).signOut(),
                         ),
                         const SizedBox(height: AppSpacing.lg),
-                        const Text(
+                        Text(
                           AppStrings.demoProfileNote,
-                          style: AppTextStyles.caption,
+                          style: context.textStyles.caption,
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -117,9 +142,9 @@ class _AccountCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         borderRadius: BorderRadius.circular(AppRadii.lg),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.colors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -129,13 +154,15 @@ class _AccountCard extends StatelessWidget {
               width: 56,
               height: 56,
               alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                color: AppColors.primary,
+              decoration: BoxDecoration(
+                color: context.colors.primary,
                 shape: BoxShape.circle,
               ),
               child: Text(
                 account.name.characters.first.toUpperCase(),
-                style: AppTextStyles.title.copyWith(color: AppColors.onPrimary),
+                style: context.textStyles.title.copyWith(
+                  color: context.colors.onPrimary,
+                ),
               ),
             ),
             const SizedBox(width: AppSpacing.lg),
@@ -143,15 +170,15 @@ class _AccountCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(account.name, style: AppTextStyles.subtitle),
+                  Text(account.name, style: context.textStyles.subtitle),
                   const SizedBox(height: AppSpacing.xxs),
                   Text(
                     MoldovanPhone.masked(account.phone),
-                    style: AppTextStyles.bodySecondary,
+                    style: context.textStyles.bodySecondary,
                   ),
                   Text(
                     AppStrings.sectorLabel(account.sector),
-                    style: AppTextStyles.caption,
+                    style: context.textStyles.caption,
                   ),
                 ],
               ),
@@ -172,7 +199,7 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: AppSpacing.sm, bottom: AppSpacing.md),
-      child: Text(title, style: AppTextStyles.subtitle),
+      child: Text(title, style: context.textStyles.subtitle),
     );
   }
 }
@@ -188,10 +215,10 @@ class _OrderHistoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.surface,
+      color: context.colors.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadii.lg),
-        side: const BorderSide(color: AppColors.border),
+        side: BorderSide(color: context.colors.border),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -209,12 +236,12 @@ class _OrderHistoryCard extends StatelessWidget {
                       children: [
                         Text(
                           AppStrings.orderNumber(order.id),
-                          style: AppTextStyles.subtitle,
+                          style: context.textStyles.subtitle,
                         ),
                         const SizedBox(height: AppSpacing.xxs),
                         Text(
                           formatDateTime(order.createdAt),
-                          style: AppTextStyles.caption,
+                          style: context.textStyles.caption,
                         ),
                       ],
                     ),
@@ -225,7 +252,7 @@ class _OrderHistoryCard extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.md),
               FulfilmentDetailRow(fulfilment: order.fulfilment),
-              const Divider(height: AppSpacing.xl, color: AppColors.border),
+              Divider(height: AppSpacing.xl, color: context.colors.border),
               SummaryRow(
                 label: AppStrings.total,
                 value: formatLei(order.totalBani),

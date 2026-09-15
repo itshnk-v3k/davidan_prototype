@@ -22,9 +22,9 @@ class OrderSummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         borderRadius: BorderRadius.circular(AppRadii.lg),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.colors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -39,7 +39,7 @@ class OrderSummaryCard extends StatelessWidget {
                   value: formatLei(line.priceBani * line.quantity),
                 ),
               ),
-            const Divider(height: AppSpacing.xl, color: AppColors.border),
+            Divider(height: AppSpacing.xl, color: context.colors.border),
             SummaryRow(
               label: AppStrings.total,
               value: formatLei(totalBani),

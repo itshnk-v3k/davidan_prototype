@@ -22,6 +22,10 @@ abstract final class AppMotion {
   /// Pressed buttons and cards shrink to this scale.
   static const pressedScale = 0.98;
 
+  /// Small round buttons (the stepper's plus and minus) shrink further, or
+  /// the press wouldn't show on a 32 px circle.
+  static const pressedScaleButton = 0.88;
+
   /// [duration], or zero when the device is set to remove animations.
   static Duration of(BuildContext context, Duration duration) =>
       MediaQuery.disableAnimationsOf(context) ? Duration.zero : duration;

@@ -17,10 +17,10 @@ class CourierOrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.surface,
+      color: context.colors.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadii.lg),
-        side: const BorderSide(color: AppColors.border),
+        side: BorderSide(color: context.colors.border),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -33,7 +33,7 @@ class CourierOrderCard extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: Text(order.id, style: AppTextStyles.subtitle),
+                    child: Text(order.id, style: context.textStyles.subtitle),
                   ),
                   OrderStatusPill(status: order.status),
                 ],

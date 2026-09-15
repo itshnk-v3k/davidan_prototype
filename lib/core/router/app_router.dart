@@ -125,14 +125,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               StatefulShellBranch(
                 routes: [
                   GoRoute(
-                    path: Routes.clientCart,
-                    builder: (_, _) => const CartScreen(),
-                  ),
-                ],
-              ),
-              StatefulShellBranch(
-                routes: [
-                  GoRoute(
                     path: Routes.clientFavorites,
                     builder: (_, _) => const FavoritesScreen(),
                   ),
@@ -150,10 +142,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           // Full-screen routes above the tabs (no bottom bar). Screens push
           // these, so back returns to the screen they were opened from.
+          // The cart is pushed by the tabs' cart button.
+          GoRoute(
+            path: Routes.clientCart,
+            builder: (_, _) => const CartScreen(),
+          ),
           GoRoute(
             path: '/client/product/:productId',
             builder: (_, state) => ProductDetailScreen(
               productId: state.pathParameters['productId']!,
+              heroScope: state.uri.queryParameters['from'],
             ),
           ),
           GoRoute(

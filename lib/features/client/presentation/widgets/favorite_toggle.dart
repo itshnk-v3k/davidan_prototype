@@ -24,7 +24,7 @@ class FavoriteToggle extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppIconButton(
       icon: favorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-      iconColor: favorite ? AppColors.primary : AppColors.textPrimary,
+      iconColor: favorite ? context.colors.primary : context.colors.textPrimary,
       size: size,
       emphasized: favorite,
       semanticLabel: favorite

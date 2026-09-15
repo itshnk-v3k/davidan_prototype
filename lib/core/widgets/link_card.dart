@@ -22,10 +22,10 @@ class LinkCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.surface,
+      color: context.colors.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadii.lg),
-        side: const BorderSide(color: AppColors.border),
+        side: BorderSide(color: context.colors.border),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -38,25 +38,25 @@ class LinkCard extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: AppColors.accentSoft,
+                  color: context.colors.accentSoft,
                   borderRadius: BorderRadius.circular(AppRadii.md),
                 ),
-                child: Icon(icon, color: AppColors.primary),
+                child: Icon(icon, color: context.colors.primary),
               ),
               const SizedBox(width: AppSpacing.lg),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: AppTextStyles.subtitle),
+                    Text(title, style: context.textStyles.subtitle),
                     const SizedBox(height: AppSpacing.xxs),
-                    Text(hint, style: AppTextStyles.bodySecondary),
+                    Text(hint, style: context.textStyles.bodySecondary),
                   ],
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.chevron_right_rounded,
-                color: AppColors.textSecondary,
+                color: context.colors.textSecondary,
               ),
             ],
           ),

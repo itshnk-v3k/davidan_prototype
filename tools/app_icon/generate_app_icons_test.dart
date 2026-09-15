@@ -19,7 +19,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:davidan_prototype/core/theme/app_colors.dart';
+import 'package:davidan_prototype/core/theme/app_palette.dart';
 
 /// Where the wheat "D" sits in logo-davidan.webp (600 × 111), in pixels.
 const _glyph = Rect.fromLTWH(318, 0, 102, 111);
@@ -87,7 +87,7 @@ void main() {
       ) {
         canvas.drawRect(
           Rect.fromLTWH(0, 0, size, size),
-          Paint()..color = AppColors.accent,
+          Paint()..color = AppPalette.caramel500,
         );
         _drawGlyph(
           canvas,
@@ -110,7 +110,7 @@ void _roundedIcon(Canvas canvas, ui.Image logo, double size) {
       Rect.fromLTWH(0, 0, size, size),
       Radius.circular(size * 0.22),
     ),
-    Paint()..color = AppColors.accent,
+    Paint()..color = AppPalette.caramel500,
   );
   _drawGlyph(
     canvas,
@@ -139,10 +139,7 @@ void _drawGlyph(Canvas canvas, ui.Image logo, Rect target) {
     ),
     Paint()
       ..filterQuality = FilterQuality.high
-      ..colorFilter = const ColorFilter.mode(
-        AppColors.onPrimary,
-        BlendMode.srcIn,
-      ),
+      ..colorFilter = const ColorFilter.mode(AppPalette.white, BlendMode.srcIn),
   );
 }
 

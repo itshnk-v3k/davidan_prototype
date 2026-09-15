@@ -42,11 +42,11 @@ class KdsOrderCard extends ConsumerWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         borderRadius: BorderRadius.circular(AppRadii.lg),
         border: isNew
-            ? Border.all(color: AppColors.primary, width: 2)
-            : Border.all(color: AppColors.border),
+            ? Border.all(color: context.colors.primary, width: 2)
+            : Border.all(color: context.colors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -55,7 +55,9 @@ class KdsOrderCard extends ConsumerWidget {
           children: [
             Row(
               children: [
-                Flexible(child: Text(order.id, style: AppTextStyles.title)),
+                Flexible(
+                  child: Text(order.id, style: context.textStyles.title),
+                ),
                 if (isNew) ...[
                   const SizedBox(width: AppSpacing.sm),
                   const _NewTag(),
@@ -73,23 +75,23 @@ class KdsOrderCard extends ConsumerWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(icon, size: 18, color: AppColors.textSecondary),
+                Icon(icon, size: 18, color: context.colors.textSecondary),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
                     '$fulfilment · $time',
-                    style: AppTextStyles.bodySecondary,
+                    style: context.textStyles.bodySecondary,
                   ),
                 ),
               ],
             ),
-            const Divider(height: AppSpacing.xl, color: AppColors.border),
+            Divider(height: AppSpacing.xl, color: context.colors.border),
             for (final line in lines)
               Padding(
                 padding: const EdgeInsets.only(bottom: AppSpacing.xs),
                 child: Text(
                   AppStrings.lineItem(line.quantity, line.product.name),
-                  style: AppTextStyles.bodyStrong,
+                  style: context.textStyles.bodyStrong,
                 ),
               ),
             const SizedBox(height: AppSpacing.md),
@@ -106,18 +108,18 @@ class KdsOrderCard extends ConsumerWidget {
                     ref.read(ordersProvider.notifier).advance(order.id),
               )
             else if (order.nextStepBy == OrderActor.courier)
-              const Row(
+              Row(
                 children: [
                   Icon(
                     Icons.delivery_dining_rounded,
                     size: 18,
-                    color: AppColors.textSecondary,
+                    color: context.colors.textSecondary,
                   ),
-                  SizedBox(width: AppSpacing.sm),
+                  const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Text(
                       AppStrings.waitingForCourier,
-                      style: AppTextStyles.bodySecondary,
+                      style: context.textStyles.bodySecondary,
                     ),
                   ),
                 ],
@@ -136,15 +138,15 @@ class _NewTag extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: context.colors.primary,
         borderRadius: BorderRadius.circular(AppRadii.pill),
       ),
-      child: const Padding(
-        padding: EdgeInsets.symmetric(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.sm,
           vertical: AppSpacing.xxs,
         ),
-        child: Text(AppStrings.kdsNewTag, style: AppTextStyles.badge),
+        child: Text(AppStrings.kdsNewTag, style: context.textStyles.badge),
       ),
     );
   }

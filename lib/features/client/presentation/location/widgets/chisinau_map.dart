@@ -72,6 +72,7 @@ class ChisinauMap extends StatelessWidget {
                       Positioned.fill(
                         child: CustomPaint(
                           painter: _MapPainter(
+                            colors: context.colors,
                             cityCentre: toOffset(
                               sectorCentres[ChisinauSector.centru]!,
                             ),
@@ -92,8 +93,8 @@ class ChisinauMap extends StatelessWidget {
                           child: Text(
                             AppStrings.sectorName(sector),
                             textAlign: TextAlign.center,
-                            style: AppTextStyles.label.copyWith(
-                              color: AppColors.textSecondary,
+                            style: context.textStyles.label.copyWith(
+                              color: context.colors.textSecondary,
                             ),
                           ),
                         ),
@@ -113,10 +114,10 @@ class ChisinauMap extends StatelessWidget {
                         top: pin.dy - _pinSize,
                         width: _pinSize,
                         height: _pinSize,
-                        child: const Icon(
+                        child: Icon(
                           Icons.location_on_rounded,
                           size: _pinSize,
-                          color: AppColors.primary,
+                          color: context.colors.primary,
                         ),
                       ),
                     ],
@@ -134,27 +135,27 @@ class ChisinauMap extends StatelessWidget {
 /// Sector areas as soft circles, joined to the centre by avenue-like lines.
 class _MapPainter extends CustomPainter {
   const _MapPainter({
+    required this.colors,
     required this.cityCentre,
     required this.areas,
     required this.radius,
   });
 
+  /// A painter has no BuildContext, so the widget passes the theme's colours.
+  final AppColors colors;
   final Offset cityCentre;
   final List<Offset> areas;
   final double radius;
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawRect(
-      Offset.zero & size,
-      Paint()..color = AppColors.surfaceMuted,
-    );
-    final area = Paint()..color = AppColors.accentSoft.withValues(alpha: 0.7);
+    canvas.drawRect(Offset.zero & size, Paint()..color = colors.surfaceMuted);
+    final area = Paint()..color = colors.accentSoft.withValues(alpha: 0.7);
     for (final centre in areas) {
       canvas.drawCircle(centre, radius, area);
     }
     final avenue = Paint()
-      ..color = AppColors.surface
+      ..color = colors.surface
       ..strokeWidth = 8
       ..strokeCap = StrokeCap.round;
     for (final centre in areas) {
@@ -164,6 +165,7 @@ class _MapPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_MapPainter oldDelegate) =>
+      oldDelegate.colors != colors ||
       oldDelegate.cityCentre != cityCentre ||
       oldDelegate.radius != radius ||
       !listEquals(oldDelegate.areas, areas);
@@ -176,14 +178,14 @@ class _ShopPin extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         shape: BoxShape.circle,
-        border: Border.all(color: AppColors.primary, width: 2),
+        border: Border.all(color: context.colors.primary, width: 2),
       ),
-      child: const Icon(
+      child: Icon(
         Icons.storefront_rounded,
         size: 16,
-        color: AppColors.primary,
+        color: context.colors.primary,
       ),
     );
   }

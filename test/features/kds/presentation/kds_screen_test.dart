@@ -118,21 +118,22 @@ void main() {
     now = testNow.add(const Duration(minutes: 9, seconds: 59));
     await pumpApp(tester, container, Routes.kds, size: tablet);
 
+    final colors = tester.element(card(order.id)).colors;
     Color? colorOf(String time) =>
         tester.widget<Text>(inCard(order.id, find.text(time))).style?.color;
-    expect(colorOf('09:59'), AppColors.textSecondary);
+    expect(colorOf('09:59'), colors.textSecondary);
 
     now = now.add(const Duration(seconds: 1));
     await tester.pump(const Duration(seconds: 1));
-    expect(colorOf('10:00'), AppColors.warning);
+    expect(colorOf('10:00'), colors.warning);
 
     now = testNow.add(const Duration(minutes: 14, seconds: 59));
     await tester.pump(const Duration(seconds: 1));
-    expect(colorOf('14:59'), AppColors.warning);
+    expect(colorOf('14:59'), colors.warning);
 
     now = now.add(const Duration(seconds: 1));
     await tester.pump(const Duration(seconds: 1));
-    expect(colorOf('15:00'), AppColors.error);
+    expect(colorOf('15:00'), colors.error);
   });
 
   testWidgets('new orders stand out until the shop accepts them', (
@@ -155,8 +156,9 @@ void main() {
                 as BoxDecoration)
             .border;
 
+    final colors = tester.element(card(order.id)).colors;
     expect(inCard(order.id, find.text(AppStrings.kdsNewTag)), findsOneWidget);
-    expect(borderOf(order.id), Border.all(color: AppColors.primary, width: 2));
+    expect(borderOf(order.id), Border.all(color: colors.primary, width: 2));
 
     await tapInCard(
       tester,
@@ -165,7 +167,7 @@ void main() {
     );
 
     expect(inCard(order.id, find.text(AppStrings.kdsNewTag)), findsNothing);
-    expect(borderOf(order.id), Border.all(color: AppColors.border));
+    expect(borderOf(order.id), Border.all(color: colors.border));
   });
 
   testWidgets(

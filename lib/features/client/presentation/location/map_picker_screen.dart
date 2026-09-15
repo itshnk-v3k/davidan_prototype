@@ -52,7 +52,7 @@ class _MapPickerScreenState extends ConsumerState<MapPickerScreen> {
     final failure = widget.failure;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -80,9 +80,9 @@ class _MapPickerScreenState extends ConsumerState<MapPickerScreen> {
                     ),
                     const SizedBox(height: AppSpacing.md),
                   ],
-                  const Text(
+                  Text(
                     AppStrings.mapPickerHint,
-                    style: AppTextStyles.bodySecondary,
+                    style: context.textStyles.bodySecondary,
                   ),
                   const SizedBox(height: AppSpacing.md),
                   ChisinauMap(
@@ -119,7 +119,7 @@ class _MapPickerScreenState extends ConsumerState<MapPickerScreen> {
                     ),
                     child: Text(
                       formatCoordinates(_point),
-                      style: AppTextStyles.caption,
+                      style: context.textStyles.caption,
                     ),
                   ),
                 ],

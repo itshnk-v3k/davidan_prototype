@@ -23,13 +23,13 @@ class TopNotice extends StatelessWidget {
         type: MaterialType.transparency,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: AppColors.primary,
+            color: context.colors.primary,
             borderRadius: BorderRadius.circular(AppRadii.pill),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: AppColors.shadow,
+                color: context.colors.shadow,
                 blurRadius: 12,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -41,13 +41,13 @@ class TopNotice extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(icon, size: 18, color: AppColors.onPrimary),
+                Icon(icon, size: 18, color: context.colors.onPrimary),
                 const SizedBox(width: AppSpacing.sm),
                 Flexible(
                   child: Text(
                     message,
-                    style: AppTextStyles.bodyStrong.copyWith(
-                      color: AppColors.onPrimary,
+                    style: context.textStyles.bodyStrong.copyWith(
+                      color: context.colors.onPrimary,
                     ),
                   ),
                 ),

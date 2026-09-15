@@ -23,15 +23,15 @@ class DetailRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 20, color: AppColors.primary),
+        Icon(icon, size: 20, color: context.colors.primary),
         const SizedBox(width: AppSpacing.md),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: AppTextStyles.caption),
+              Text(label, style: context.textStyles.caption),
               const SizedBox(height: AppSpacing.xxs),
-              Text(value, style: AppTextStyles.bodyStrong),
+              Text(value, style: context.textStyles.bodyStrong),
             ],
           ),
         ),

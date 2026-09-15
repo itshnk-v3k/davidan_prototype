@@ -4,32 +4,48 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 
-/// Material widgets (ripples, cursors, snack bars) still read ThemeData for
-/// their defaults. This maps the design tokens onto it once so no Material
-/// purple leaks in. Screens style themselves with AppColors / AppTextStyles.
+/// The two themes, built by one function from their token sets.
+///
+/// The tokens ride along as ThemeExtensions: screens style themselves with
+/// `context.colors` and `context.textStyles`. Material widgets (ripples,
+/// cursors, text fields) still read ThemeData for their defaults, so the
+/// tokens are mapped onto it too and no Material purple leaks in.
 abstract final class AppTheme {
-  static ThemeData light() {
+  static ThemeData dark() =>
+      _build(Brightness.dark, AppColors.dark, AppTextStyles.dark);
+
+  static ThemeData light() =>
+      _build(Brightness.light, AppColors.light, AppTextStyles.light);
+
+  static ThemeData _build(
+    Brightness brightness,
+    AppColors colors,
+    AppTextStyles textStyles,
+  ) {
     final colorScheme =
         ColorScheme.fromSeed(
-          seedColor: AppColors.primary,
+          seedColor: colors.primary,
+          brightness: brightness,
           dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
         ).copyWith(
-          primary: AppColors.primary,
-          onPrimary: AppColors.onPrimary,
-          secondary: AppColors.accent,
-          surface: AppColors.surface,
-          onSurface: AppColors.textPrimary,
-          onSurfaceVariant: AppColors.textSecondary,
-          outline: AppColors.border,
-          error: AppColors.error,
+          primary: colors.primary,
+          onPrimary: colors.onPrimary,
+          secondary: colors.accent,
+          surface: colors.surface,
+          onSurface: colors.textPrimary,
+          onSurfaceVariant: colors.textSecondary,
+          outline: colors.border,
+          error: colors.error,
         );
 
     return ThemeData(
       fontFamily: AppTextStyles.fontFamily,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: AppColors.background,
+      extensions: [colors, textStyles],
+      scaffoldBackgroundColor: colors.background,
+      dividerColor: colors.border,
       splashFactory: InkRipple.splashFactory,
-      splashColor: AppColors.accentSoft,
+      splashColor: colors.accentSoft,
       highlightColor: Colors.transparent,
       // One page transition on every platform, so the web demo and the
       // Android app feel the same: new pages fade forwards. On Android the
@@ -38,34 +54,34 @@ abstract final class AppTheme {
         builders: {
           for (final platform in TargetPlatform.values)
             platform: platform == TargetPlatform.android
-                ? const PredictiveBackPageTransitionsBuilder(
-                    fallbackColor: AppColors.background,
+                ? PredictiveBackPageTransitionsBuilder(
+                    fallbackColor: colors.background,
                   )
-                : const FadeForwardsPageTransitionsBuilder(
-                    backgroundColor: AppColors.background,
+                : FadeForwardsPageTransitionsBuilder(
+                    backgroundColor: colors.background,
                   ),
         },
       ),
-      textSelectionTheme: const TextSelectionThemeData(
-        cursorColor: AppColors.primary,
-        selectionHandleColor: AppColors.primary,
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: colors.primary,
+        selectionHandleColor: colors.primary,
       ),
       inputDecorationTheme: InputDecorationThemeData(
         filled: true,
-        fillColor: AppColors.surface,
-        labelStyle: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
-        hintStyle: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
-        errorStyle: AppTextStyles.caption.copyWith(color: AppColors.error),
-        prefixIconColor: AppColors.textSecondary,
+        fillColor: colors.surface,
+        labelStyle: textStyles.bodySecondary,
+        hintStyle: textStyles.bodySecondary,
+        errorStyle: textStyles.caption.copyWith(color: colors.error),
+        prefixIconColor: colors.textSecondary,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.md,
         ),
-        border: _inputBorder(AppColors.border),
-        enabledBorder: _inputBorder(AppColors.border),
-        focusedBorder: _inputBorder(AppColors.primary, width: 2),
-        errorBorder: _inputBorder(AppColors.error),
-        focusedErrorBorder: _inputBorder(AppColors.error, width: 2),
+        border: _inputBorder(colors.border),
+        enabledBorder: _inputBorder(colors.border),
+        focusedBorder: _inputBorder(colors.primary, width: 2),
+        errorBorder: _inputBorder(colors.error),
+        focusedErrorBorder: _inputBorder(colors.error, width: 2),
       ),
     );
   }

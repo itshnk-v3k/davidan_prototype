@@ -38,7 +38,7 @@ class CourierDeliveryScreen extends ConsumerWidget {
 
     if (order == null || order.fulfilment is! HomeDelivery) {
       return Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.colors.background,
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -64,7 +64,7 @@ class CourierDeliveryScreen extends ConsumerWidget {
     final lines = ref.watch(orderLinesProvider(order.id));
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -94,9 +94,9 @@ class CourierDeliveryScreen extends ConsumerWidget {
                   ],
                   DecoratedBox(
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: context.colors.surface,
                       borderRadius: BorderRadius.circular(AppRadii.lg),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: context.colors.border),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(AppSpacing.lg),
@@ -104,9 +104,9 @@ class CourierDeliveryScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xl),
-                  const Text(
+                  Text(
                     AppStrings.itemsTitle,
-                    style: AppTextStyles.subtitle,
+                    style: context.textStyles.subtitle,
                   ),
                   const SizedBox(height: AppSpacing.md),
                   OrderSummaryCard(lines: lines, totalBani: order.totalBani),
@@ -144,9 +144,9 @@ class _ActionBar extends StatelessWidget {
     final duration = AppMotion.of(context, AppMotion.medium);
 
     return DecoratedBox(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        border: Border(top: BorderSide(color: AppColors.border)),
+      decoration: BoxDecoration(
+        color: context.colors.surface,
+        border: Border(top: BorderSide(color: context.colors.border)),
       ),
       child: SafeArea(
         top: false,
@@ -169,18 +169,18 @@ class _ActionBar extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
                             Icons.check_circle_rounded,
                             size: 20,
-                            color: AppColors.primary,
+                            color: context.colors.primary,
                           ),
-                          SizedBox(width: AppSpacing.sm),
+                          const SizedBox(width: AppSpacing.sm),
                           Text(
                             AppStrings.deliveryCompleted,
-                            style: AppTextStyles.bodyStrong,
+                            style: context.textStyles.bodyStrong,
                           ),
                         ],
                       ),
@@ -192,9 +192,9 @@ class _ActionBar extends StatelessWidget {
                       ),
                     ],
                   ),
-                  _ => const Text(
+                  _ => Text(
                     AppStrings.courierWaitingForStore,
-                    style: AppTextStyles.bodySecondary,
+                    style: context.textStyles.bodySecondary,
                     textAlign: TextAlign.center,
                   ),
                 },

@@ -75,7 +75,7 @@ class _KdsScreenState extends ConsumerState<KdsScreen> {
     final announcedOrderId = _announcedOrderId;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -157,7 +157,7 @@ class _SideBySide extends StatelessWidget {
                 child: DecoratedBox(
                   key: ValueKey(column),
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceMuted,
+                    color: context.colors.surfaceMuted,
                     borderRadius: BorderRadius.circular(AppRadii.lg),
                   ),
                   child: Padding(
@@ -169,10 +169,10 @@ class _SideBySide extends StatelessWidget {
                         const SizedBox(height: AppSpacing.md),
                         Expanded(
                           child: orders.isEmpty
-                              ? const Center(
+                              ? Center(
                                   child: Text(
                                     AppStrings.kdsColumnEmpty,
-                                    style: AppTextStyles.bodySecondary,
+                                    style: context.textStyles.bodySecondary,
                                   ),
                                 )
                               : ListView.separated(
@@ -223,9 +223,9 @@ class _Stacked extends StatelessWidget {
                 _ColumnTitle(column: column, count: orders.length),
                 const SizedBox(height: AppSpacing.md),
                 if (orders.isEmpty)
-                  const Text(
+                  Text(
                     AppStrings.kdsColumnEmpty,
-                    style: AppTextStyles.bodySecondary,
+                    style: context.textStyles.bodySecondary,
                   )
                 else
                   for (final (index, order) in orders.indexed)

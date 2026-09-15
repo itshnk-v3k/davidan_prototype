@@ -36,7 +36,7 @@ class SignInDetailsScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,7 +62,7 @@ class SignInDetailsScreen extends ConsumerWidget {
                     textCapitalization: TextCapitalization.words,
                     textInputAction: TextInputAction.done,
                     autofillHints: const [AutofillHints.name],
-                    style: AppTextStyles.body,
+                    style: context.textStyles.body,
                     decoration: InputDecoration(
                       labelText: AppStrings.nameLabel,
                       prefixIcon: const Icon(Icons.person_outline_rounded),
@@ -72,9 +72,9 @@ class SignInDetailsScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xl),
-                  const Text(
+                  Text(
                     AppStrings.sectorTitle,
-                    style: AppTextStyles.subtitle,
+                    style: context.textStyles.subtitle,
                   ),
                   const SizedBox(height: AppSpacing.md),
                   Wrap(
@@ -93,8 +93,8 @@ class SignInDetailsScreen extends ConsumerWidget {
                     const SizedBox(height: AppSpacing.sm),
                     Text(
                       AppStrings.sectorMissing,
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.error,
+                      style: context.textStyles.caption.copyWith(
+                        color: context.colors.error,
                       ),
                     ),
                   ],
@@ -155,7 +155,7 @@ class _LocateSection extends StatelessWidget {
         ),
         if (message != null) ...[
           const SizedBox(height: AppSpacing.sm),
-          Text(message, style: AppTextStyles.bodySecondary),
+          Text(message, style: context.textStyles.bodySecondary),
         ],
       ],
     );

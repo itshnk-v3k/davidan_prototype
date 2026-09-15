@@ -36,10 +36,10 @@ class CartLineTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.surface,
+      color: context.colors.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadii.lg),
-        side: const BorderSide(color: AppColors.border),
+        side: BorderSide(color: context.colors.border),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -66,19 +66,19 @@ class CartLineTile extends StatelessWidget {
                   children: [
                     Text(
                       product.name,
-                      style: AppTextStyles.bodyStrong,
+                      style: context.textStyles.bodyStrong,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: AppSpacing.xs),
                     Text(
                       formatLei(product.priceBani * quantity),
-                      style: AppTextStyles.price,
+                      style: context.textStyles.price,
                     ),
                     if (quantity > 1)
                       Text(
                         AppStrings.unitPrice(formatLei(product.priceBani)),
-                        style: AppTextStyles.caption,
+                        style: context.textStyles.caption,
                       ),
                   ],
                 ),
@@ -126,12 +126,12 @@ class _RemoveButton extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onTap,
-          child: const SizedBox.square(
+          child: SizedBox.square(
             dimension: 32,
             child: Icon(
               Icons.delete_outline_rounded,
               size: 20,
-              color: AppColors.textSecondary,
+              color: context.colors.textSecondary,
             ),
           ),
         ),

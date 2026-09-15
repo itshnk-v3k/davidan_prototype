@@ -36,7 +36,7 @@ class OrderConfirmationScreen extends ConsumerWidget {
 
     if (order == null) {
       return Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.colors.background,
         body: SafeArea(
           child: EmptyState(
             icon: Icons.receipt_long_rounded,
@@ -51,7 +51,7 @@ class OrderConfirmationScreen extends ConsumerWidget {
     final scheduledFor = order.scheduledFor;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         bottom: false,
         child: ListView(
@@ -73,28 +73,28 @@ class OrderConfirmationScreen extends ConsumerWidget {
                 child: Container(
                   width: 88,
                   height: 88,
-                  decoration: const BoxDecoration(
-                    color: AppColors.accentSoft,
+                  decoration: BoxDecoration(
+                    color: context.colors.accentSoft,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.check_rounded,
                     size: 48,
-                    color: AppColors.primary,
+                    color: context.colors.primary,
                   ),
                 ),
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
-            const Text(
+            Text(
               AppStrings.orderPlacedTitle,
-              style: AppTextStyles.headline,
+              style: context.textStyles.headline,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
               AppStrings.orderNumber(order.id),
-              style: AppTextStyles.bodySecondary,
+              style: context.textStyles.bodySecondary,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.md),
@@ -107,9 +107,9 @@ class OrderConfirmationScreen extends ConsumerWidget {
             const SizedBox(height: AppSpacing.xl),
             DecoratedBox(
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: context.colors.surface,
                 borderRadius: BorderRadius.circular(AppRadii.lg),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: context.colors.border),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(AppSpacing.lg),
@@ -131,9 +131,9 @@ class OrderConfirmationScreen extends ConsumerWidget {
                       label: AppStrings.paymentTitle,
                       value: AppStrings.paymentMethod(order.payment),
                     ),
-                    const Divider(
+                    Divider(
                       height: AppSpacing.xl,
-                      color: AppColors.border,
+                      color: context.colors.border,
                     ),
                     SummaryRow(
                       label: AppStrings.total,
@@ -145,9 +145,9 @@ class OrderConfirmationScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
-            const Text(
+            Text(
               AppStrings.trackingComingSoon,
-              style: AppTextStyles.caption,
+              style: context.textStyles.caption,
               textAlign: TextAlign.center,
             ),
           ],

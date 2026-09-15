@@ -14,6 +14,7 @@ import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/client/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/home/widgets/category_strip.dart';
 import 'package:davidan_prototype/features/client/presentation/product/product_detail_screen.dart';
 
 import '../../../helpers/test_app.dart';
@@ -29,7 +30,13 @@ void main() {
     tester,
   ) async {
     await pumpApp(tester, container, Routes.clientHome);
-    await tapVisible(tester, inScreen<HomeScreen>(find.text('Patiserie')));
+    await tapVisible(
+      tester,
+      find.descendant(
+        of: find.byType(CategoryStrip),
+        matching: find.text('Patiserie'),
+      ),
+    );
 
     expect(find.byType(CatalogScreen), findsOneWidget);
     expect(
@@ -77,9 +84,10 @@ void main() {
 
   testWidgets('back from product detail returns to home', (tester) async {
     await pumpApp(tester, container, Routes.clientHome);
+    // In two rows (Produse DaviDan and Kurtos); either opens it.
     await tapVisible(
       tester,
-      inScreen<HomeScreen>(find.text('Kurtos cu zahăr și scorțișoară')),
+      inScreen<HomeScreen>(find.text('Kurtos cu zahăr și scorțișoară')).first,
     );
     expect(find.byType(ProductDetailScreen), findsOneWidget);
 

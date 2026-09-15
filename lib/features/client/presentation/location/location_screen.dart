@@ -74,7 +74,7 @@ class LocationScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -92,9 +92,9 @@ class LocationScreen extends ConsumerWidget {
                   AppSpacing.xl,
                 ),
                 children: [
-                  const Text(
+                  Text(
                     AppStrings.locationPrompt,
-                    style: AppTextStyles.bodySecondary,
+                    style: context.textStyles.bodySecondary,
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   LinkCard(
@@ -133,9 +133,9 @@ class LocationScreen extends ConsumerWidget {
                       },
                     ),
                   ] else if (draft.pickupSelection case final selection?) ...[
-                    const Text(
+                    Text(
                       AppStrings.nearestSuggestion,
-                      style: AppTextStyles.bodySecondary,
+                      style: context.textStyles.bodySecondary,
                     ),
                     const SizedBox(height: AppSpacing.md),
                     PickupShopList(
@@ -195,9 +195,9 @@ class _RecentAddresses extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
+          Text(
             AppStrings.recentAddressesTitle,
-            style: AppTextStyles.subtitle,
+            style: context.textStyles.subtitle,
           ),
           for (final address in addresses)
             Padding(

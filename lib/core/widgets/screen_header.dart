@@ -10,13 +10,23 @@ import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 /// Title row at the top of a screen.
 ///
 /// Without [onBack] it heads a top-level screen (a customer tab, the courier
-/// list, the store panel): a large title and the button back to the demo
-/// launcher. With [onBack] it leads with a back button instead.
+/// list, the store panel): a large title, the button back to the demo
+/// launcher and any [actions]. With [onBack] it leads with a back button
+/// instead.
 class ScreenHeader extends StatelessWidget {
-  const ScreenHeader({super.key, required this.title, this.onBack});
+  const ScreenHeader({
+    super.key,
+    required this.title,
+    this.onBack,
+    this.actions = const [],
+  });
 
   final String title;
   final VoidCallback? onBack;
+
+  /// Buttons at the far right of a top-level header, after the launcher
+  /// button, such as the customer tabs' cart button.
+  final List<Widget> actions;
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +42,18 @@ class ScreenHeader extends StatelessWidget {
       child: Row(
         children: onBack == null
             ? [
-                Expanded(child: Text(title, style: AppTextStyles.headline)),
+                Expanded(
+                  child: Text(title, style: context.textStyles.headline),
+                ),
                 AppIconButton(
                   icon: Icons.apps_rounded,
                   semanticLabel: AppStrings.openLauncher,
                   onPressed: () => context.go(Routes.launcher),
                 ),
+                for (final action in actions) ...[
+                  const SizedBox(width: AppSpacing.sm),
+                  action,
+                ],
               ]
             : [
                 AppIconButton(
@@ -46,7 +62,7 @@ class ScreenHeader extends StatelessWidget {
                   onPressed: onBack,
                 ),
                 const SizedBox(width: AppSpacing.md),
-                Expanded(child: Text(title, style: AppTextStyles.title)),
+                Expanded(child: Text(title, style: context.textStyles.title)),
               ],
       ),
     );

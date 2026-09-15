@@ -12,7 +12,7 @@ import 'package:davidan_prototype/features/client/presentation/widgets/favorite_
 import 'package:davidan_prototype/features/client/presentation/widgets/product_image.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/quantity_stepper.dart';
 
-/// Grid card: photo with a favourite heart, name, price, and an add button
+/// Product card: photo with a favourite heart, name, price, and an add button
 /// that turns into a quantity stepper once the product is in the cart.
 /// Tapping anywhere else on the card opens the product; the photo flies to
 /// the product page.
@@ -26,6 +26,8 @@ class ProductCard extends StatelessWidget {
     required this.onAdd,
     required this.onRemove,
     required this.onToggleFavorite,
+    this.heroScope,
+    this.compact = false,
   });
 
   final Product product;
@@ -36,14 +38,63 @@ class ProductCard extends StatelessWidget {
   final VoidCallback onRemove;
   final VoidCallback onToggleFavorite;
 
+  /// See [ProductImage.heroTagFor].
+  final String? heroScope;
+
+  /// For the narrow cards of home's rows: the price gets its own line, with
+  /// the add button or stepper under it, instead of sharing one.
+  final bool compact;
+
   @override
   Widget build(BuildContext context) {
+    final price = Text(
+      formatLei(product.priceBani),
+      style: context.textStyles.price,
+    );
+    final cartControl = AnimatedSwitcher(
+      duration: AppMotion.of(context, AppMotion.medium),
+      transitionBuilder: (child, animation) => FadeTransition(
+        opacity: animation,
+        child: ScaleTransition(
+          scale: Tween(
+            begin: 0.8,
+            end: 1.0,
+          ).chain(CurveTween(curve: AppMotion.emphasized)).animate(animation),
+          alignment: Alignment.centerRight,
+          child: child,
+        ),
+      ),
+      // Both sit at the right edge, so the stepper grows out of the add button.
+      layoutBuilder: (current, previous) => Stack(
+        alignment: Alignment.centerRight,
+        children: [...previous, ?current],
+      ),
+      child: quantity == 0
+          ? Padding(
+              key: const ValueKey('add'),
+              padding: const EdgeInsets.all(QuantityStepper.inset),
+              child: RoundIconButton(
+                icon: Icons.add_rounded,
+                semanticLabel: AppStrings.addToCart(product.name),
+                onTap: onAdd,
+              ),
+            )
+          : QuantityStepper(
+              key: const ValueKey('stepper'),
+              quantity: quantity,
+              onIncrement: onAdd,
+              onDecrement: onRemove,
+              incrementLabel: AppStrings.addToCart(product.name),
+              decrementLabel: AppStrings.removeOneFromCart(product.name),
+            ),
+    );
+
     return PressScale(
       builder: (onHighlightChanged) => Material(
-        color: AppColors.surface,
+        color: context.colors.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadii.lg),
-          side: const BorderSide(color: AppColors.border),
+          side: BorderSide(color: context.colors.border),
         ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -59,7 +110,10 @@ class ProductCard extends StatelessWidget {
                   children: [
                     ProductImage(
                       path: product.image,
-                      heroTag: ProductImage.heroTagFor(product.id),
+                      heroTag: ProductImage.heroTagFor(
+                        product.id,
+                        scope: heroScope,
+                      ),
                     ),
                     Positioned(
                       top: AppSpacing.sm,
@@ -87,67 +141,25 @@ class ProductCard extends StatelessWidget {
                     children: [
                       Text(
                         product.name,
-                        style: AppTextStyles.bodyStrong,
+                        style: context.textStyles.bodyStrong,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const Spacer(),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              formatLei(product.priceBani),
-                              style: AppTextStyles.price,
-                            ),
-                          ),
-                          AnimatedSwitcher(
-                            duration: AppMotion.of(context, AppMotion.medium),
-                            transitionBuilder: (child, animation) =>
-                                FadeTransition(
-                                  opacity: animation,
-                                  child: ScaleTransition(
-                                    scale: Tween(begin: 0.8, end: 1.0)
-                                        .chain(
-                                          CurveTween(
-                                            curve: AppMotion.emphasized,
-                                          ),
-                                        )
-                                        .animate(animation),
-                                    alignment: Alignment.centerRight,
-                                    child: child,
-                                  ),
-                                ),
-                            // Both sit at the right edge, so the stepper grows
-                            // out of the add button.
-                            layoutBuilder: (current, previous) => Stack(
-                              alignment: Alignment.centerRight,
-                              children: [...previous, ?current],
-                            ),
-                            child: quantity == 0
-                                ? RoundIconButton(
-                                    key: const ValueKey('add'),
-                                    icon: Icons.add_rounded,
-                                    semanticLabel: AppStrings.addToCart(
-                                      product.name,
-                                    ),
-                                    onTap: onAdd,
-                                  )
-                                : QuantityStepper(
-                                    key: const ValueKey('stepper'),
-                                    quantity: quantity,
-                                    onIncrement: onAdd,
-                                    onDecrement: onRemove,
-                                    incrementLabel: AppStrings.addToCart(
-                                      product.name,
-                                    ),
-                                    decrementLabel:
-                                        AppStrings.removeOneFromCart(
-                                          product.name,
-                                        ),
-                                  ),
-                          ),
-                        ],
-                      ),
+                      if (compact) ...[
+                        price,
+                        const SizedBox(height: AppSpacing.xs),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: cartControl,
+                        ),
+                      ] else
+                        Row(
+                          children: [
+                            Expanded(child: price),
+                            cartControl,
+                          ],
+                        ),
                     ],
                   ),
                 ),

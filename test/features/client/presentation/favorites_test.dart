@@ -80,36 +80,6 @@ void main() {
     expect(isSaved(tester, heartOn('Coca Cola')), isTrue);
   });
 
-  testWidgets('the bottom bar has five tabs on a 360 px phone, in the order '
-      'Acasă, Meniu, Coș, Favorite, Profil, each in its own fifth', (
-    tester,
-  ) async {
-    await pumpApp(
-      tester,
-      container,
-      Routes.clientHome,
-      size: const Size(360, 640),
-    );
-
-    const labels = [
-      AppStrings.navHome,
-      AppStrings.navMenu,
-      AppStrings.navCart,
-      AppStrings.navFavorites,
-      AppStrings.navProfile,
-    ];
-    // Only positions: flutter_test draws text in a test font where most glyphs
-    // are a full em wide, so label widths here say nothing about Roboto.
-    const tabWidth = 360 / 5;
-    for (final (index, label) in labels.indexed) {
-      expect(
-        tester.getCenter(find.text(label)).dx,
-        closeTo(tabWidth * index + tabWidth / 2, 1),
-        reason: label,
-      );
-    }
-  });
-
   testWidgets(
     'the Favorite tab lists saved products, newest first, with the bottom bar '
     'and no back button; unsaving one removes it',
@@ -124,7 +94,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(FavoritesScreen), findsOneWidget);
-      expect(find.text(AppStrings.navCart), findsOneWidget);
+      expect(find.text(AppStrings.navProfile), findsOneWidget);
       expect(
         inScreen<FavoritesScreen>(find.byIcon(Icons.arrow_back_rounded)),
         findsNothing,

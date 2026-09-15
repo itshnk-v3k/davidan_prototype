@@ -14,27 +14,24 @@ class ProductImage extends StatelessWidget {
   /// product page. A tag may appear only once per screen.
   final Object? heroTag;
 
-  static Object heroTagFor(String productId) => 'product-photo:$productId';
-
-  static const _placeholder = ColoredBox(
-    color: AppColors.accentSoft,
-    child: Center(
-      child: Icon(Icons.restaurant_rounded, size: 32, color: AppColors.accent),
-    ),
-  );
+  /// With a [scope] (the row a card sits in), the same product can be shown
+  /// in several rows of one screen without two photos sharing a tag.
+  static Object heroTagFor(String productId, {String? scope}) => scope == null
+      ? 'product-photo:$productId'
+      : 'product-photo:$scope:$productId';
 
   @override
   Widget build(BuildContext context) {
     final path = this.path;
     final heroTag = this.heroTag;
     final image = path == null
-        ? _placeholder
+        ? const _Placeholder()
         : ColoredBox(
-            color: AppColors.accentSoft,
+            color: context.colors.accentSoft,
             child: Image.asset(
               path,
               fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => _placeholder,
+              errorBuilder: (_, _, _) => const _Placeholder(),
               // A photo already in memory shows at once. One still being
               // decoded (fast scrolling on a phone) fades in over the tint
               // instead of popping in.
@@ -50,5 +47,23 @@ class ProductImage extends StatelessWidget {
             ),
           );
     return heroTag == null ? image : Hero(tag: heroTag, child: image);
+  }
+}
+
+class _Placeholder extends StatelessWidget {
+  const _Placeholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: context.colors.accentSoft,
+      child: Center(
+        child: Icon(
+          Icons.restaurant_rounded,
+          size: 32,
+          color: context.colors.accent,
+        ),
+      ),
+    );
   }
 }

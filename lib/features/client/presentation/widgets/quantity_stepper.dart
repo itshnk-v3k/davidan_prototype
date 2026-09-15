@@ -1,12 +1,15 @@
+import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/widgets/press_scale.dart';
 
-/// Round icon button: filled for "add", outlined for "remove". A null [onTap]
-/// renders it disabled.
+/// Round icon button: solid caramel when [filled] ("add"), a caramel tint
+/// otherwise ("remove"). It shrinks while pressed and ticks on phones that
+/// support haptics. A null [onTap] renders it disabled.
 class RoundIconButton extends StatelessWidget {
   const RoundIconButton({
     super.key,
@@ -25,13 +28,18 @@ class RoundIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+    final onTap = this.onTap;
     final enabled = onTap != null;
-    final background = filled
-        ? (enabled ? AppColors.primary : AppColors.border)
-        : Colors.transparent;
-    final foreground = filled
-        ? AppColors.onPrimary
-        : (enabled ? AppColors.primary : AppColors.textDisabled);
+    final (background, foreground) = switch ((filled, enabled)) {
+      (true, true) => (colors.primary, colors.onPrimary),
+      (false, true) => (
+        QuantityStepper.paletteFor(colors).tonal,
+        colors.primary,
+      ),
+      (true, false) => (colors.border, colors.textDisabled),
+      (false, false) => (Colors.transparent, colors.textDisabled),
+    };
 
     return Semantics(
       button: true,
@@ -42,15 +50,38 @@ class RoundIconButton extends StatelessWidget {
       child: GestureDetector(
         onTap: enabled ? null : () {},
         excludeFromSemantics: true,
-        child: Material(
-          color: background,
-          shape: const CircleBorder(),
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: onTap,
-            child: SizedBox.square(
-              dimension: size,
-              child: Icon(icon, size: size * 0.6, color: foreground),
+        child: PressScale(
+          scale: AppMotion.pressedScaleButton,
+          builder: (onHighlightChanged) => DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: filled && enabled
+                  ? [
+                      BoxShadow(
+                        color: colors.shadow,
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Material(
+              color: background,
+              shape: const CircleBorder(),
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                onTap: onTap == null
+                    ? null
+                    : () {
+                        HapticFeedback.selectionClick();
+                        onTap();
+                      },
+                onHighlightChanged: onHighlightChanged,
+                child: SizedBox.square(
+                  dimension: size,
+                  child: Icon(icon, size: size * 0.62, color: foreground),
+                ),
+              ),
             ),
           ),
         ),
@@ -59,7 +90,9 @@ class RoundIconButton extends StatelessWidget {
   }
 }
 
-/// "− quantity +" pill. A null [onDecrement] disables the minus button.
+/// "− quantity +" in one pill: both buttons sit inset in a muted track, the
+/// minus on a caramel tint and the plus in solid caramel. A null
+/// [onDecrement] disables the minus button.
 class QuantityStepper extends StatelessWidget {
   const QuantityStepper({
     super.key,
@@ -76,39 +109,68 @@ class QuantityStepper extends StatelessWidget {
   final VoidCallback? onDecrement;
   final String incrementLabel;
   final String decrementLabel;
+
+  /// The stepper is this plus twice [inset] tall.
   final double buttonSize;
+
+  /// Space between the track's edge and its buttons. A card's add button
+  /// keeps the same space around it, so the stepper's plus appears exactly
+  /// where the add button was.
+  static const inset = 3.0;
+
+  /// Share of caramel in the minus button's tint.
+  static const _tintShare = 0.16;
+
+  /// The track and the minus button's tint in [colors]' theme, both opaque, so
+  /// the contrast test checks the colours actually drawn.
+  static ({Color track, Color tonal}) paletteFor(AppColors colors) => (
+    track: colors.surfaceMuted,
+    tonal: Color.alphaBlend(
+      colors.primary.withValues(alpha: _tintShare),
+      colors.surfaceMuted,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
     final large = buttonSize >= 40;
+    final numberStyle =
+        (large ? context.textStyles.subtitle : context.textStyles.bodyStrong)
+            .copyWith(
+              fontWeight: FontWeight.w700,
+              fontFeatures: const [FontFeature.tabularFigures()],
+            );
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.accentSoft,
+        color: paletteFor(context.colors).track,
         borderRadius: BorderRadius.circular(AppRadii.pill),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          RoundIconButton(
-            icon: Icons.remove_rounded,
-            filled: false,
-            semanticLabel: decrementLabel,
-            onTap: onDecrement,
-            size: buttonSize,
-          ),
-          _RollingCount(
-            quantity: quantity,
-            width: buttonSize * 0.75,
-            style: large ? AppTextStyles.subtitle : AppTextStyles.bodyStrong,
-          ),
-          RoundIconButton(
-            icon: Icons.add_rounded,
-            semanticLabel: incrementLabel,
-            onTap: onIncrement,
-            size: buttonSize,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(inset),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RoundIconButton(
+              icon: Icons.remove_rounded,
+              filled: false,
+              semanticLabel: decrementLabel,
+              onTap: onDecrement,
+              size: buttonSize,
+            ),
+            _RollingCount(
+              quantity: quantity,
+              width: buttonSize * 0.8,
+              style: numberStyle,
+            ),
+            RoundIconButton(
+              icon: Icons.add_rounded,
+              semanticLabel: incrementLabel,
+              onTap: onIncrement,
+              size: buttonSize,
+            ),
+          ],
+        ),
       ),
     );
   }

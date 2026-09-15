@@ -18,12 +18,12 @@ class SectionTitle extends StatelessWidget {
 
     return Row(
       children: [
-        Flexible(child: Text(title, style: AppTextStyles.subtitle)),
+        Flexible(child: Text(title, style: context.textStyles.subtitle)),
         if (count != null) ...[
           const SizedBox(width: AppSpacing.sm),
           DecoratedBox(
             decoration: BoxDecoration(
-              color: AppColors.accentSoft,
+              color: context.colors.accentSoft,
               borderRadius: BorderRadius.circular(AppRadii.pill),
             ),
             child: Padding(
@@ -31,7 +31,7 @@ class SectionTitle extends StatelessWidget {
                 horizontal: AppSpacing.sm,
                 vertical: AppSpacing.xxs,
               ),
-              child: Text('$count', style: AppTextStyles.label),
+              child: Text('$count', style: context.textStyles.label),
             ),
           ),
         ],

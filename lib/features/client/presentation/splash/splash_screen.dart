@@ -10,12 +10,13 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/widgets/brand_logo.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/features/client/application/account_notifier.dart';
 import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
 
-/// Branded screen the customer app opens on: the logo and tagline on a white
-/// card over a photo of DaviDan pastries. After [holdDuration] it moves on:
+/// Branded screen the customer app opens on: the logo and tagline on a card
+/// over a photo of DaviDan pastries. After [holdDuration] it moves on:
 /// to the demo sign-in until the customer signs in or skips it, then to the
 /// location screen while nothing is chosen, otherwise home.
 class SplashScreen extends ConsumerStatefulWidget {
@@ -58,8 +59,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Dark like the photo, so it doesn't flash while the photo decodes.
-      backgroundColor: AppColors.textPrimary,
+      // Dark like the photo in either theme, so it doesn't flash while the
+      // photo decodes.
+      backgroundColor: AppColors.dark.background,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -83,8 +85,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  AppColors.scrim.withValues(alpha: 0.35),
-                  AppColors.scrim,
+                  context.colors.scrim.withValues(alpha: 0.35),
+                  context.colors.scrim,
                 ],
               ),
             ),
@@ -95,13 +97,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 padding: const EdgeInsets.all(AppSpacing.xl),
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: context.colors.surface,
                     borderRadius: BorderRadius.circular(AppRadii.xl),
-                    boxShadow: const [
+                    boxShadow: [
                       BoxShadow(
-                        color: AppColors.shadow,
+                        color: context.colors.shadow,
                         blurRadius: 24,
-                        offset: Offset(0, 8),
+                        offset: const Offset(0, 8),
                       ),
                     ],
                   ),
@@ -110,11 +112,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.asset(AppAssets.logo, height: 48),
+                        const BrandLogo(height: 48),
                         const SizedBox(height: AppSpacing.lg),
-                        const Text(
+                        Text(
                           BrandFacts.tagline,
-                          style: AppTextStyles.bodySecondary,
+                          style: context.textStyles.bodySecondary,
                           textAlign: TextAlign.center,
                         ),
                       ],

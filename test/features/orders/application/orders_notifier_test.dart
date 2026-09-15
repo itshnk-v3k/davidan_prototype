@@ -56,7 +56,7 @@ void main() {
 
   setUp(() async {
     final app = await startApp();
-    await app.read(localStoreProvider).clearAll();
+    await app.read(localStoreProvider).clearDemoData();
     app.dispose();
   });
 

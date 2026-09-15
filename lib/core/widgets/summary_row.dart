@@ -26,15 +26,17 @@ class SummaryRow extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: emphasized ? AppTextStyles.subtitle : AppTextStyles.body,
+            style: emphasized
+                ? context.textStyles.subtitle
+                : context.textStyles.body,
           ),
         ),
         const SizedBox(width: AppSpacing.md),
         Text(
           value,
           style: emphasized
-              ? AppTextStyles.priceLarge
-              : AppTextStyles.bodyStrong,
+              ? context.textStyles.priceLarge
+              : context.textStyles.bodyStrong,
         ),
       ],
     );

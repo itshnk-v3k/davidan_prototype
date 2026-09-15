@@ -506,7 +506,7 @@ const mockProducts = <Product>[
   ),
 ];
 
-/// Products shown in the home screen's "Populare" section, in order.
+/// Products shown in the home screen's "Produse DaviDan" section, in order.
 const mockPopularProductIds = <String>[
   'kurtos-scortisoara',
   'new-york-roll-fistic',

@@ -27,7 +27,17 @@ abstract final class Routes {
   static const clientCart = '/client/cart';
   static const clientFavorites = '/client/favorites';
   static const clientProfile = '/client/profile';
-  static String clientProduct(String productId) => '/client/product/$productId';
+
+  /// [heroScope] names the row the product was opened from when a screen
+  /// shows it in more than one (home's rows), so its photo flies from the card
+  /// that was tapped.
+  static String clientProduct(String productId, {String? heroScope}) =>
+      heroScope == null
+      ? '/client/product/$productId'
+      : Uri(
+          path: '/client/product/$productId',
+          queryParameters: {'from': heroScope},
+        ).toString();
   static const clientCheckout = '/client/checkout';
   static String clientOrder(String orderId) => '/client/orders/$orderId';
 

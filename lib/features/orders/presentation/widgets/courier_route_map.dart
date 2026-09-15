@@ -64,7 +64,7 @@ class CourierRouteMap extends StatelessWidget {
                 Icon(
                   arrived ? Icons.check_circle_rounded : Icons.schedule_rounded,
                   size: 18,
-                  color: AppColors.primary,
+                  color: context.colors.primary,
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
@@ -77,7 +77,7 @@ class CourierRouteMap extends StatelessWidget {
                               tripDuration.inMinutes,
                             ),
                           ),
-                    style: AppTextStyles.bodyStrong,
+                    style: context.textStyles.bodyStrong,
                   ),
                 ),
               ],
@@ -125,7 +125,11 @@ class _MapView extends StatelessWidget {
           children: [
             Positioned.fill(
               child: CustomPaint(
-                painter: _MapPainter(route: route, progress: value),
+                painter: _MapPainter(
+                  colors: context.colors,
+                  route: route,
+                  progress: value,
+                ),
               ),
             ),
             _centeredOn(
@@ -157,20 +161,23 @@ class _MapView extends StatelessWidget {
 
 /// Streets, the whole route, and the part the courier has covered.
 class _MapPainter extends CustomPainter {
-  const _MapPainter({required this.route, required this.progress});
+  const _MapPainter({
+    required this.colors,
+    required this.route,
+    required this.progress,
+  });
 
+  /// A painter has no BuildContext, so the widget passes the theme's colours.
+  final AppColors colors;
   final Path route;
   final double progress;
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawRect(
-      Offset.zero & size,
-      Paint()..color = AppColors.surfaceMuted,
-    );
+    canvas.drawRect(Offset.zero & size, Paint()..color = colors.surfaceMuted);
 
     final street = Paint()
-      ..color = AppColors.surface
+      ..color = colors.surface
       ..strokeWidth = 12;
     for (final x in CourierRouteMap._streetsX) {
       canvas.drawLine(
@@ -192,20 +199,19 @@ class _MapPainter extends CustomPainter {
       ..strokeWidth = 5
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
-    canvas.drawPath(
-      route,
-      line..color = AppColors.accent.withValues(alpha: 0.4),
-    );
+    canvas.drawPath(route, line..color = colors.accent.withValues(alpha: 0.4));
     final metric = route.computeMetrics().first;
     canvas.drawPath(
       metric.extractPath(0, metric.length * progress),
-      line..color = AppColors.primary,
+      line..color = colors.primary,
     );
   }
 
   @override
   bool shouldRepaint(_MapPainter oldDelegate) =>
-      oldDelegate.progress != progress || oldDelegate.route != route;
+      oldDelegate.colors != colors ||
+      oldDelegate.progress != progress ||
+      oldDelegate.route != route;
 }
 
 class _Pin extends StatelessWidget {
@@ -217,11 +223,11 @@ class _Pin extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         shape: BoxShape.circle,
-        border: Border.all(color: AppColors.primary, width: 2),
+        border: Border.all(color: context.colors.primary, width: 2),
       ),
-      child: Icon(icon, size: 18, color: AppColors.primary),
+      child: Icon(icon, size: 18, color: context.colors.primary),
     );
   }
 }
@@ -231,22 +237,22 @@ class _CourierMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DecoratedBox(
+    return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: context.colors.primary,
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadow,
+            color: context.colors.shadow,
             blurRadius: 8,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Icon(
         Icons.delivery_dining_rounded,
         size: 20,
-        color: AppColors.onPrimary,
+        color: context.colors.onPrimary,
       ),
     );
   }

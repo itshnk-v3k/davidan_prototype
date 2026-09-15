@@ -20,7 +20,7 @@ class InfoNote extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.accentSoft,
+        color: context.colors.accentSoft,
         borderRadius: BorderRadius.circular(AppRadii.md),
       ),
       child: Padding(
@@ -28,9 +28,9 @@ class InfoNote extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, size: 18, color: AppColors.primary),
+            Icon(icon, size: 18, color: context.colors.primary),
             const SizedBox(width: AppSpacing.sm),
-            Expanded(child: Text(text, style: AppTextStyles.body)),
+            Expanded(child: Text(text, style: context.textStyles.body)),
           ],
         ),
       ),

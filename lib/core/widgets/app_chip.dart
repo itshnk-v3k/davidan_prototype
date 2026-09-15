@@ -21,18 +21,20 @@ class AppChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foreground = selected ? AppColors.onPrimary : AppColors.textPrimary;
+    final foreground = selected
+        ? context.colors.onPrimary
+        : context.colors.textPrimary;
     final icon = this.icon;
 
     return Semantics(
       button: true,
       selected: selected,
       child: Material(
-        color: selected ? AppColors.primary : AppColors.surface,
+        color: selected ? context.colors.primary : context.colors.surface,
         shape: StadiumBorder(
           side: selected
               ? BorderSide.none
-              : const BorderSide(color: AppColors.border),
+              : BorderSide(color: context.colors.border),
         ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -52,7 +54,9 @@ class AppChip extends StatelessWidget {
                 Flexible(
                   child: Text(
                     label,
-                    style: AppTextStyles.bodyStrong.copyWith(color: foreground),
+                    style: context.textStyles.bodyStrong.copyWith(
+                      color: foreground,
+                    ),
                   ),
                 ),
               ],
