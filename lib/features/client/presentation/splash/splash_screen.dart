@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -10,27 +12,38 @@ import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
 
-/// Branded screen the customer app opens on. Right after its first frame it
-/// moves on: to home when a delivery address or pickup shop was chosen
-/// before, or to the location screen on first run. There is nothing else to
-/// wait for, because bootstrap() loads saved state before the app starts.
+/// Branded screen the customer app opens on. After [holdDuration] it moves
+/// on: to home when a delivery address or pickup shop was chosen before, or
+/// to the location screen on first run.
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
+
+  /// Long enough for the brand to register in a live demo. The routing check
+  /// itself needs no wait, because bootstrap() loads saved state before the
+  /// app starts.
+  static const holdDuration = Duration(milliseconds: 1200);
 
   @override
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+  late final Timer _hold;
+
   @override
   void initState() {
     super.initState();
-    // The router can't change location while a frame is being built.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
+    _hold = Timer(SplashScreen.holdDuration, () {
       final firstRun = ref.read(fulfilmentChoiceProvider) == null;
       context.go(firstRun ? Routes.clientLocation : Routes.clientHome);
     });
+  }
+
+  @override
+  void dispose() {
+    // Leaving the splash early (e.g. browser back) must not navigate later.
+    _hold.cancel();
+    super.dispose();
   }
 
   @override

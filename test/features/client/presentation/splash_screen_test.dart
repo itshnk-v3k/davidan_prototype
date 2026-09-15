@@ -26,30 +26,43 @@ void main() {
 
   setUp(() async => container = await createTestContainer());
 
-  testWidgets('shows the logo and tagline, then moves on by itself', (
+  /// Opens the customer app from the launcher and waits out the splash.
+  Future<void> enterCustomerApp(WidgetTester tester) async {
+    await pumpApp(tester, container, Routes.launcher);
+    await tapVisible(tester, find.text(AppStrings.launcherClient));
+    expect(find.byType(SplashScreen), findsOneWidget);
+
+    await tester.pump(SplashScreen.holdDuration);
+    await tester.pumpAndSettle();
+    expect(find.byType(SplashScreen), findsNothing);
+  }
+
+  testWidgets('shows the logo and tagline for the whole hold, then moves on', (
     tester,
   ) async {
     await pumpApp(tester, container, Routes.launcher);
     container.read(appRouterProvider).go(Routes.clientSplash);
-    // A new page is built offstage on its first frame and shows from the
-    // second. The next screen only starts sliding in over it after that.
-    await tester.pump(const Duration(milliseconds: 16));
-    await tester.pump(const Duration(milliseconds: 16));
+    // Builds the splash, which starts its hold.
+    await tester.pump();
 
+    await tester.pump(
+      SplashScreen.holdDuration - const Duration(milliseconds: 1),
+    );
     expect(find.byType(SplashScreen), findsOneWidget);
     expect(inScreen<SplashScreen>(find.byType(Image)), findsOneWidget);
     expect(find.text(BrandFacts.tagline), findsOneWidget);
+    expect(find.byType(LocationScreen), findsNothing);
 
+    await tester.pump(const Duration(milliseconds: 1));
     await tester.pumpAndSettle();
     expect(find.byType(SplashScreen), findsNothing);
+    expect(find.byType(LocationScreen), findsOneWidget);
   });
 
   testWidgets('first run: the launcher opens location selection, and choosing '
       'continues to home', (tester) async {
-    await pumpApp(tester, container, Routes.launcher);
-    await tapVisible(tester, find.text(AppStrings.launcherClient));
+    await enterCustomerApp(tester);
 
-    expect(find.byType(SplashScreen), findsNothing);
     expect(find.byType(LocationScreen), findsOneWidget);
     // Replaced the splash, so there is no back button.
     expect(find.byIcon(Icons.arrow_back_rounded), findsNothing);
@@ -65,10 +78,8 @@ void main() {
     container
         .read(fulfilmentChoiceProvider.notifier)
         .chooseDelivery('str. Ismail 88');
-    await pumpApp(tester, container, Routes.launcher);
-    await tapVisible(tester, find.text(AppStrings.launcherClient));
+    await enterCustomerApp(tester);
 
-    expect(find.byType(SplashScreen), findsNothing);
     expect(find.byType(LocationScreen), findsNothing);
     expect(inScreen<HomeScreen>(find.text('str. Ismail 88')), findsOneWidget);
   });
