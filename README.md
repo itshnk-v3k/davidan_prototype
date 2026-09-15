@@ -26,18 +26,30 @@ flutter run -d chrome --web-port=8080 -t lib/main_demo.dart
 
 There are two entry points:
 
-- `lib/main_demo.dart`: the app plus internal demo tools. The launcher then also shows **Toate rolurile**, a board with the customer's order, the store panel and the courier app side by side, updating live in one window. Use this one to present the prototype.
-- `lib/main.dart`: the app on its own. Demo tools live in `lib/demo_tools/`, which only `main_demo.dart` imports, so they are never compiled into this build.
+- `lib/main_demo.dart`: the app plus internal demo tools. The launcher then also shows **Toate rolurile**, a board with the customer's order, the store panel and the courier app side by side, updating live in one window. Use this one when you want to show the board.
+- `lib/main.dart`: the app on its own, used for the regular client-facing demo. Demo tools live in `lib/demo_tools/`, which only `main_demo.dart` imports, so they are never compiled into this build.
 
 Always use a fixed `--web-port`. localStorage belongs to the origin (host + port), and `flutter run` picks a random port by default, so saved data looks lost between runs.
 
 To clear saved data, open Chrome DevTools → Application → Storage → **Clear site data** for `localhost:8080`.
 
-## Demo build (works offline)
+## Demo builds (work offline)
+
+There is one build per entry point. Both need the same flags.
+
+**Regular client demo** (`lib/main.dart`, without the all-roles board):
+
+```sh
+flutter build web --release --no-web-resources-cdn
+```
+
+**All-roles board build** (`lib/main_demo.dart`):
 
 ```sh
 flutter build web --release --no-web-resources-cdn -t lib/main_demo.dart
 ```
+
+> **Warning:** both builds write to `build/web/`, so only the most recently built entry point is served from there. Rebuild the one you need right before presenting.
 
 `--no-web-resources-cdn` bundles Flutter's rendering engine instead of loading it from Google's CDN, and Roboto is bundled in `assets/fonts/`. The build makes no external requests, so it doesn't depend on the meeting room's wifi. Serve `build/web/` from any static server.
 
