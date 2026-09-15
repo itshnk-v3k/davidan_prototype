@@ -10,8 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract final class StorageKeys {
   static const cart = 'cart';
   static const orders = 'orders';
+  static const fulfilment = 'fulfilment';
 
-  static const all = {cart, orders};
+  static const all = {cart, orders, fulfilment};
 }
 
 /// Opened once in main() before runApp and injected with a ProviderScope

@@ -9,8 +9,10 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
+import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/client/presentation/home/widgets/category_strip.dart';
 import 'package:davidan_prototype/features/client/presentation/home/widgets/promo_banner_carousel.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/product_grid.dart';
@@ -25,6 +27,23 @@ class HomeScreen extends ConsumerWidget {
     final categories = ref.watch(categoriesProvider);
     final popular = ref.watch(popularProductsProvider);
     final quantities = ref.watch(cartQuantitiesProvider);
+    final location = switch (ref.watch(fulfilmentChoiceProvider)) {
+      HomeDelivery(:final address) => (
+        icon: Icons.location_on_rounded,
+        label: AppStrings.deliverTo,
+        value: address,
+      ),
+      StorePickup(:final locationId) => (
+        icon: Icons.storefront_rounded,
+        label: AppStrings.pickupFrom,
+        value: ref.watch(locationByIdProvider(locationId))?.name ?? locationId,
+      ),
+      null => (
+        icon: Icons.location_on_rounded,
+        label: AppStrings.deliverTo,
+        value: AppStrings.chooseAddress,
+      ),
+    };
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -34,6 +53,7 @@ class HomeScreen extends ConsumerWidget {
           slivers: [
             SliverToBoxAdapter(
               child: _Header(
+                location: location,
                 onLocationTap: () => context.push(Routes.clientLocation),
                 onLauncherTap: () => context.go(Routes.launcher),
               ),
@@ -84,8 +104,14 @@ class HomeScreen extends ConsumerWidget {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({required this.onLocationTap, required this.onLauncherTap});
+  const _Header({
+    required this.location,
+    required this.onLocationTap,
+    required this.onLauncherTap,
+  });
 
+  /// What the location bar shows: the saved choice, or a prompt to make one.
+  final ({IconData icon, String label, String value}) location;
   final VoidCallback onLocationTap;
   final VoidCallback onLauncherTap;
 
@@ -133,23 +159,20 @@ class _Header extends StatelessWidget {
                         color: AppColors.accentSoft,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
-                        Icons.location_on_rounded,
+                      child: Icon(
+                        location.icon,
                         size: 20,
                         color: AppColors.primary,
                       ),
                     ),
                     const SizedBox(width: AppSpacing.md),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(location.label, style: AppTextStyles.caption),
                           Text(
-                            AppStrings.deliverTo,
-                            style: AppTextStyles.caption,
-                          ),
-                          Text(
-                            AppStrings.chooseAddress,
+                            location.value,
                             style: AppTextStyles.bodyStrong,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

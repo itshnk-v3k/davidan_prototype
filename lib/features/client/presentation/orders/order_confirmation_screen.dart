@@ -14,9 +14,8 @@ import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/summary_row.dart';
-import 'package:davidan_prototype/data/models/order.dart';
-import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/features/orders/presentation/widgets/fulfilment_detail_row.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
 
 /// Shown after checkout: the order number, its live status and what was
@@ -45,21 +44,6 @@ class OrderConfirmationScreen extends ConsumerWidget {
       );
     }
 
-    final fulfilment = switch (order.fulfilment) {
-      HomeDelivery(:final address) => (
-        icon: Icons.delivery_dining_rounded,
-        label: AppStrings.deliverTo,
-        value: address,
-      ),
-      StorePickup(:final locationId) => (
-        icon: Icons.storefront_rounded,
-        label: AppStrings.pickupFrom,
-        value: switch (ref.watch(locationByIdProvider(locationId))) {
-          final location? => '${location.name} · ${location.address}',
-          null => locationId,
-        },
-      ),
-    };
     final scheduledFor = order.scheduledFor;
 
     return Scaffold(
@@ -119,11 +103,7 @@ class OrderConfirmationScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    DetailRow(
-                      icon: fulfilment.icon,
-                      label: fulfilment.label,
-                      value: fulfilment.value,
-                    ),
+                    FulfilmentDetailRow(fulfilment: order.fulfilment),
                     const SizedBox(height: AppSpacing.md),
                     DetailRow(
                       icon: Icons.schedule_rounded,

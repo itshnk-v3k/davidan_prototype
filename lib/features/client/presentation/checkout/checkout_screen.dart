@@ -17,6 +17,8 @@ import 'package:davidan_prototype/data/models/store_location.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/client/application/checkout_notifier.dart';
+import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
+import 'package:davidan_prototype/features/client/presentation/widgets/fulfilment_fields.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/total_bar.dart';
 import 'package:davidan_prototype/features/orders/application/order_lines_provider.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_summary_card.dart';
@@ -176,55 +178,22 @@ class _FulfilmentSection extends StatelessWidget {
     return _Section(
       title: AppStrings.fulfilmentTitle,
       children: [
-        Wrap(
-          spacing: AppSpacing.sm,
-          runSpacing: AppSpacing.sm,
-          children: [
-            AppChip(
-              label: AppStrings.delivery,
-              icon: Icons.delivery_dining_rounded,
-              selected: delivery,
-              onTap: () => onTypeChanged(FulfilmentType.delivery),
-            ),
-            AppChip(
-              label: AppStrings.pickup,
-              icon: Icons.storefront_rounded,
-              selected: !delivery,
-              onTap: () => onTypeChanged(FulfilmentType.pickup),
-            ),
-          ],
-        ),
+        FulfilmentTypeChips(selected: draft.type, onChanged: onTypeChanged),
         const SizedBox(height: AppSpacing.md),
         if (delivery)
-          TextFormField(
-            // The draft owns the text: switching to pickup and back recreates
-            // the field with what was typed before.
+          // The draft owns the text: switching to pickup and back recreates
+          // the field with what was typed before.
+          DeliveryAddressField(
             initialValue: draft.address,
             onChanged: onAddressChanged,
-            keyboardType: TextInputType.streetAddress,
-            textInputAction: TextInputAction.done,
-            style: AppTextStyles.body,
-            decoration: InputDecoration(
-              labelText: AppStrings.deliveryAddress,
-              hintText: AppStrings.deliveryAddressHint,
-              prefixIcon: const Icon(Icons.location_on_outlined),
-              errorText: draft.showErrors && draft.addressMissing
-                  ? AppStrings.deliveryAddressMissing
-                  : null,
-            ),
+            showMissingError: draft.showErrors && draft.addressMissing,
           )
         else
-          for (final (index, location) in locations.indexed)
-            Padding(
-              padding: EdgeInsets.only(top: index == 0 ? 0 : AppSpacing.sm),
-              child: OptionTile(
-                title: location.name,
-                subtitle: '${location.address} · ${location.openingHours}',
-                icon: Icons.storefront_rounded,
-                selected: location.id == draft.locationId,
-                onTap: () => onLocationSelected(location.id),
-              ),
-            ),
+          PickupShopList(
+            locations: locations,
+            selectedId: draft.locationId,
+            onSelected: onLocationSelected,
+          ),
       ],
     );
   }

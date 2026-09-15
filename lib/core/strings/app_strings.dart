@@ -31,7 +31,6 @@ abstract final class AppStrings {
   static const navProfile = 'Profil';
 
   // Screen titles
-  static const splashTitle = 'Ecran de pornire';
   static const locationTitle = 'Livrare sau ridicare';
   static const menuTitle = 'Meniu';
   static const cartTitle = 'Coșul meu';
@@ -40,12 +39,29 @@ abstract final class AppStrings {
   static const courierOrdersTitle = 'Comenzi de livrat';
   static const kdsTitle = launcherKds;
 
-  // Placeholder screens
-  static const placeholderBody =
-      'Acest ecran este în lucru și va fi construit în etapele următoare.';
+  // Navigation
   static const back = 'Înapoi';
-  static const continueLabel = 'Continuă';
   static const backHome = 'Înapoi acasă';
+
+  // Location
+  static const locationPrompt =
+      'Alege cum primești comenzile. Poți schimba oricând din bara de sus '
+      'a ecranului Acasă.';
+  static const confirmAddress = 'Livrează la această adresă';
+  static const recentAddressesTitle = 'Adrese folosite recent';
+
+  // Profile
+  static const myOrdersTitle = 'Comenzile mele';
+  static const ordersEmptyTitle = 'Nicio comandă încă';
+  static const ordersEmptyMessage =
+      'Comenzile tale apar aici, cu statusul lor la zi.';
+  static const aboutTitle = 'Despre DaviDan';
+  static const aboutEmployees = 'Angajați';
+  static const aboutLocations = 'Locații';
+  static const aboutKurtosSold = 'Kurtoși vânduți';
+  static const demoProfileNote =
+      'Profil demonstrativ, fără cont și autentificare.';
+  static String moreThan(String count) => '$count+';
 
   // Home
   static const deliverTo = 'Livrare la';

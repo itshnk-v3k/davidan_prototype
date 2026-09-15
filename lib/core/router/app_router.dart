@@ -3,16 +3,17 @@ import 'package:go_router/go_router.dart';
 
 import 'package:davidan_prototype/core/router/demo_tool.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/phone_frame.dart';
-import 'package:davidan_prototype/core/widgets/placeholder_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/cart/cart_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/checkout/checkout_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/location/location_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/product/product_detail_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/profile/profile_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/shell/client_shell.dart';
+import 'package:davidan_prototype/features/client/presentation/splash/splash_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_delivery_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
 import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
@@ -36,28 +37,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
 
           // --- Customer app ---
+          // The launcher enters the customer app here. The splash replaces
+          // itself with home, or with the location screen on first run.
           GoRoute(
             path: Routes.clientSplash,
-            builder: (_, _) => const PlaceholderScreen(
-              title: AppStrings.splashTitle,
-              location: Routes.clientSplash,
-              links: [
-                PlaceholderLink(
-                  AppStrings.continueLabel,
-                  Routes.clientLocation,
-                ),
-              ],
-            ),
+            builder: (_, _) => const SplashScreen(),
           ),
+          // Opened with go() on first run, pushed from the home location bar
+          // afterwards.
           GoRoute(
             path: Routes.clientLocation,
-            builder: (_, _) => const PlaceholderScreen(
-              title: AppStrings.locationTitle,
-              location: Routes.clientLocation,
-              links: [
-                PlaceholderLink(AppStrings.continueLabel, Routes.clientHome),
-              ],
-            ),
+            builder: (_, _) => const LocationScreen(),
           ),
           // Tabs: each branch keeps its own navigation stack. Keep the branch
           // order in sync with the bottom navigation items in ClientShell.
@@ -99,10 +89,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 routes: [
                   GoRoute(
                     path: Routes.clientProfile,
-                    builder: (_, _) => const PlaceholderScreen(
-                      title: AppStrings.profileTitle,
-                      location: Routes.clientProfile,
-                    ),
+                    builder: (_, _) => const ProfileScreen(),
                   ),
                 ],
               ),

@@ -5,9 +5,8 @@ import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
+import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
-
-enum FulfilmentType { delivery, pickup }
 
 /// What the customer has filled in on the checkout screen so far.
 @immutable
@@ -110,15 +109,24 @@ List<DateTime> timeSlotsAfter(DateTime now) {
 }
 
 class CheckoutNotifier extends Notifier<CheckoutDraft> {
+  /// Starts from the delivery address or pickup shop saved on the location
+  /// screen, if there is one.
   @override
-  CheckoutDraft build() => CheckoutDraft(
-    type: FulfilmentType.delivery,
-    address: '',
-    locationId: ref.watch(locationsProvider).first.id,
-    payment: PaymentMethod.cash,
-    scheduledFor: null,
-    showErrors: false,
-  );
+  CheckoutDraft build() {
+    final choice = ref.watch(fulfilmentChoiceProvider);
+    return CheckoutDraft(
+      type: choice is StorePickup
+          ? FulfilmentType.pickup
+          : FulfilmentType.delivery,
+      address: choice is HomeDelivery ? choice.address : '',
+      locationId: choice is StorePickup
+          ? choice.locationId
+          : ref.watch(locationsProvider).first.id,
+      payment: PaymentMethod.cash,
+      scheduledFor: null,
+      showErrors: false,
+    );
+  }
 
   void setType(FulfilmentType type) => state = state.copyWith(type: type);
 

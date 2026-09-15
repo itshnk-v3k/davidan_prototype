@@ -10,8 +10,10 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
+import 'package:davidan_prototype/core/widgets/option_tile.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
+import 'package:davidan_prototype/features/client/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/client/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/checkout/checkout_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
@@ -189,6 +191,47 @@ void main() {
     await tester.tap(find.text(AppStrings.pickup));
     await tester.pumpAndSettle();
     expect(find.text('DaviDan Buiucani'), findsOneWidget);
+  });
+
+  testWidgets('starts from the delivery address saved on the location screen', (
+    tester,
+  ) async {
+    container
+        .read(fulfilmentChoiceProvider.notifier)
+        .chooseDelivery('str. Ismail 88');
+    await pumpApp(tester, container, Routes.clientCheckout);
+
+    expect(
+      inScreen<CheckoutScreen>(find.text('str. Ismail 88')),
+      findsOneWidget,
+    );
+    await tester.tap(placeOrderButton);
+    await tester.pumpAndSettle();
+
+    final [order] = container.read(ordersProvider);
+    expect((order.fulfilment as HomeDelivery).address, 'str. Ismail 88');
+  });
+
+  testWidgets('starts from the pickup shop saved on the location screen', (
+    tester,
+  ) async {
+    container.read(fulfilmentChoiceProvider.notifier).choosePickup('buiucani');
+    await pumpApp(tester, container, Routes.clientCheckout);
+
+    expect(find.byType(TextFormField), findsNothing);
+    expect(
+      tester
+          .widget<OptionTile>(
+            find.widgetWithText(OptionTile, 'DaviDan Buiucani'),
+          )
+          .selected,
+      isTrue,
+    );
+    await tester.tap(placeOrderButton);
+    await tester.pumpAndSettle();
+
+    final [order] = container.read(ordersProvider);
+    expect((order.fulfilment as StorePickup).locationId, 'buiucani');
   });
 
   group('at 19:45', () {
