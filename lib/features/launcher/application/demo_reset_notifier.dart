@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:davidan_prototype/core/storage/local_store.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
+import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 
 final demoResetProvider = NotifierProvider<DemoResetNotifier, void>(
   DemoResetNotifier.new,
@@ -16,6 +17,8 @@ class DemoResetNotifier extends Notifier<void> {
     await ref.read(localStoreProvider).clearAll();
     // Every Notifier that restores saved state must be invalidated here, so
     // it re-runs build() against the now-empty storage.
-    ref.invalidate(cartProvider);
+    ref
+      ..invalidate(cartProvider)
+      ..invalidate(ordersProvider);
   }
 }

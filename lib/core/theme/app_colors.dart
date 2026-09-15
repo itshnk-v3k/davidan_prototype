@@ -27,6 +27,10 @@ abstract final class AppColors {
   static const textSecondary = Color(0xFF6F6F6F);
   static const textDisabled = Color(0xFFABABAB);
 
+  // Feedback
+  /// Form errors. 6.5:1 on white.
+  static const error = Color(0xFFB3261E);
+
   // Text and overlays on photos
   static const onImage = Color(0xFFFFFFFF);
   static const onImageSecondary = Color(0xE6FFFFFF);

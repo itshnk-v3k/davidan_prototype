@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
+import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 
 /// Material widgets (ripples, cursors, snack bars) still read ThemeData for
@@ -20,6 +21,7 @@ abstract final class AppTheme {
           onSurface: AppColors.textPrimary,
           onSurfaceVariant: AppColors.textSecondary,
           outline: AppColors.border,
+          error: AppColors.error,
         );
 
     return ThemeData(
@@ -38,6 +40,29 @@ abstract final class AppTheme {
         contentTextStyle: AppTextStyles.body.copyWith(color: AppColors.onImage),
         behavior: SnackBarBehavior.floating,
       ),
+      inputDecorationTheme: InputDecorationThemeData(
+        filled: true,
+        fillColor: AppColors.surface,
+        labelStyle: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+        hintStyle: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+        errorStyle: AppTextStyles.caption.copyWith(color: AppColors.error),
+        prefixIconColor: AppColors.textSecondary,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md,
+        ),
+        border: _inputBorder(AppColors.border),
+        enabledBorder: _inputBorder(AppColors.border),
+        focusedBorder: _inputBorder(AppColors.primary, width: 2),
+        errorBorder: _inputBorder(AppColors.error),
+        focusedErrorBorder: _inputBorder(AppColors.error, width: 2),
+      ),
     );
   }
+
+  static OutlineInputBorder _inputBorder(Color color, {double width = 1}) =>
+      OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppRadii.md),
+        borderSide: BorderSide(color: color, width: width),
+      );
 }

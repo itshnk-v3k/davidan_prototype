@@ -2,13 +2,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:davidan_prototype/data/mock/mock_banners.dart';
 import 'package:davidan_prototype/data/mock/mock_categories.dart';
+import 'package:davidan_prototype/data/mock/mock_locations.dart';
 import 'package:davidan_prototype/data/mock/mock_products.dart';
 import 'package:davidan_prototype/data/models/menu_category.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/data/models/promo_banner.dart';
+import 'package:davidan_prototype/data/models/store_location.dart';
 
-// The only place the customer app reads mock catalog data. Swapping in a real
-// API later means changing these providers, not the screens.
+// The only place the customer app reads mock catalog and shop data. Swapping
+// in a real API later means changing these providers, not the screens.
 
 final categoriesProvider = Provider<List<MenuCategory>>(
   (ref) => mockCategories,
@@ -17,6 +19,17 @@ final categoriesProvider = Provider<List<MenuCategory>>(
 final productsProvider = Provider<List<Product>>((ref) => mockProducts);
 
 final bannersProvider = Provider<List<PromoBanner>>((ref) => mockBanners);
+
+/// Shops where an order can be picked up.
+final locationsProvider = Provider<List<StoreLocation>>((ref) => mockLocations);
+
+/// Null when no shop has this id.
+final locationByIdProvider = Provider.family<StoreLocation?, String>(
+  (ref, locationId) => ref
+      .watch(locationsProvider)
+      .where((location) => location.id == locationId)
+      .firstOrNull,
+);
 
 final productsByIdProvider = Provider<Map<String, Product>>(
   (ref) => {

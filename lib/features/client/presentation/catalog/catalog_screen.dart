@@ -7,11 +7,11 @@ import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
-import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/client/presentation/catalog/widgets/category_chips.dart';
 import 'package:davidan_prototype/features/client/presentation/widgets/product_grid.dart';
+import 'package:davidan_prototype/features/client/presentation/widgets/tab_header.dart';
 
 /// Products of one category, with chips to switch category in place.
 ///
@@ -37,29 +37,7 @@ class CatalogScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.gutter,
-                AppSpacing.md,
-                AppSpacing.gutter,
-                AppSpacing.md,
-              ),
-              child: Row(
-                children: [
-                  const Expanded(
-                    child: Text(
-                      AppStrings.menuTitle,
-                      style: AppTextStyles.headline,
-                    ),
-                  ),
-                  AppIconButton(
-                    icon: Icons.apps_rounded,
-                    semanticLabel: AppStrings.openLauncher,
-                    onPressed: () => context.go(Routes.launcher),
-                  ),
-                ],
-              ),
-            ),
+            const TabHeader(title: AppStrings.menuTitle),
             CategoryChips(
               categories: categories,
               selectedId: category.id,

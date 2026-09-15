@@ -5,13 +5,17 @@ import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/phone_frame.dart';
 import 'package:davidan_prototype/core/widgets/placeholder_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/cart/cart_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/catalog/catalog_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/checkout/checkout_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/shell/client_shell.dart';
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
 
-/// Order id used by placeholder links until real orders exist.
+/// Order id used by the courier placeholder links until that app reads
+/// OrdersNotifier.
 const _demoOrderId = 'DD-1042';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -87,17 +91,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 routes: [
                   GoRoute(
                     path: Routes.clientCart,
-                    builder: (_, _) => const PlaceholderScreen(
-                      title: AppStrings.cartTitle,
-                      location: Routes.clientCart,
-                      links: [
-                        PlaceholderLink(
-                          AppStrings.goToCheckout,
-                          Routes.clientCheckout,
-                          push: true,
-                        ),
-                      ],
-                    ),
+                    builder: (_, _) => const CartScreen(),
                   ),
                 ],
               ),
@@ -124,25 +118,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: Routes.clientCheckout,
-            builder: (_, _) => PlaceholderScreen(
-              title: AppStrings.checkoutTitle,
-              location: Routes.clientCheckout,
-              links: [
-                PlaceholderLink(
-                  AppStrings.placeOrder,
-                  Routes.clientOrder(_demoOrderId),
-                ),
-              ],
-            ),
+            builder: (_, _) => const CheckoutScreen(),
           ),
+          // Opened with go() after checkout, so back doesn't return to the
+          // emptied checkout.
           GoRoute(
             path: '/client/orders/:orderId',
-            builder: (_, state) => PlaceholderScreen(
-              title: AppStrings.orderTrackingTitle,
-              location: Routes.clientOrder(state.pathParameters['orderId']!),
-              links: const [
-                PlaceholderLink(AppStrings.backHome, Routes.clientHome),
-              ],
+            builder: (_, state) => OrderConfirmationScreen(
+              orderId: state.pathParameters['orderId']!,
             ),
           ),
 

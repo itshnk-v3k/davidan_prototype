@@ -36,15 +36,21 @@ class RoundIconButton extends StatelessWidget {
       button: true,
       enabled: enabled,
       label: semanticLabel,
-      child: Material(
-        color: background,
-        shape: const CircleBorder(),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: SizedBox.square(
-            dimension: size,
-            child: Icon(icon, size: size * 0.6, color: foreground),
+      // A disabled InkWell ignores taps, so they would reach a tappable card
+      // underneath (a cart line opens its product). Swallow them instead.
+      child: GestureDetector(
+        onTap: enabled ? null : () {},
+        excludeFromSemantics: true,
+        child: Material(
+          color: background,
+          shape: const CircleBorder(),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: onTap,
+            child: SizedBox.square(
+              dimension: size,
+              child: Icon(icon, size: size * 0.6, color: foreground),
+            ),
           ),
         ),
       ),

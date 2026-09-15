@@ -9,8 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// its key here and invalidate that Notifier in DemoResetNotifier.
 abstract final class StorageKeys {
   static const cart = 'cart';
+  static const orders = 'orders';
 
-  static const all = {cart};
+  static const all = {cart, orders};
 }
 
 /// Opened once in main() before runApp and injected with a ProviderScope

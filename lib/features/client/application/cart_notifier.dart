@@ -20,6 +20,23 @@ final cartQuantitiesProvider = Provider<Map<String, int>>(
   },
 );
 
+/// Cart lines with their products, in the order they were added.
+final cartLinesProvider = Provider<List<CartLine>>((ref) {
+  final products = ref.watch(productsByIdProvider);
+  return [
+    for (final item in ref.watch(cartProvider))
+      if (products[item.productId] case final product?)
+        (product: product, quantity: item.quantity),
+  ];
+});
+
+/// Cart total in bani.
+final cartTotalProvider = Provider<int>(
+  (ref) => ref
+      .watch(cartLinesProvider)
+      .fold(0, (sum, line) => sum + line.product.priceBani * line.quantity),
+);
+
 /// Cart lines, saved to local storage on every change and restored on start.
 class CartNotifier extends Notifier<List<CartItem>> {
   @override
@@ -58,6 +75,14 @@ class CartNotifier extends Notifier<List<CartItem>> {
           item
         else if (item.quantity > 1)
           item.copyWith(quantity: item.quantity - 1),
+    ]);
+  }
+
+  /// Removes the whole line, whatever its quantity.
+  void remove(String productId) {
+    _save([
+      for (final item in state)
+        if (item.productId != productId) item,
     ]);
   }
 

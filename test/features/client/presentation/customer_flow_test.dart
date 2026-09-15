@@ -8,60 +8,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
-import 'package:davidan_prototype/app.dart';
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/storage/local_store.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/client/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/home/home_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/product/product_detail_screen.dart';
 
+import '../../../helpers/test_app.dart';
+
 void main() {
   setUpAll(() => SharedPreferencesAsyncWeb.registerWith(null));
 
   late ProviderContainer container;
 
-  setUp(() async {
-    final prefs = await LocalStore.openPreferences();
-    await prefs.clear();
-    container = ProviderContainer(
-      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
-    );
-    addTearDown(container.dispose);
-  });
-
-  Future<void> pumpApp(WidgetTester tester, String location) async {
-    // Phone-sized viewport, so the app renders without the desktop frame.
-    tester.view.physicalSize = const Size(400, 900);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.reset);
-
-    await tester.pumpWidget(
-      UncontrolledProviderScope(
-        container: container,
-        child: const DaviDanApp(),
-      ),
-    );
-    container.read(appRouterProvider).go(location);
-    await tester.pumpAndSettle();
-  }
-
-  Finder inScreen<T>(Finder finder) =>
-      find.descendant(of: find.byType(T), matching: finder);
-
-  Future<void> tapVisible(WidgetTester tester, Finder finder) async {
-    await tester.ensureVisible(finder);
-    await tester.pumpAndSettle();
-    await tester.tap(finder);
-    await tester.pumpAndSettle();
-  }
+  setUp(() async => container = await createTestContainer());
 
   testWidgets('home category opens the catalog; chips switch category', (
     tester,
   ) async {
-    await pumpApp(tester, Routes.clientHome);
+    await pumpApp(tester, container, Routes.clientHome);
     await tapVisible(tester, inScreen<HomeScreen>(find.text('Patiserie')));
 
     expect(find.byType(CatalogScreen), findsOneWidget);
@@ -82,7 +49,7 @@ void main() {
   testWidgets('card opens detail; add to cart adds the chosen quantity', (
     tester,
   ) async {
-    await pumpApp(tester, Routes.clientCategory('bauturi'));
+    await pumpApp(tester, container, Routes.clientCategory('bauturi'));
     await tapVisible(tester, inScreen<CatalogScreen>(find.text('Coca Cola')));
 
     expect(find.byType(ProductDetailScreen), findsOneWidget);
@@ -109,7 +76,7 @@ void main() {
   });
 
   testWidgets('back from product detail returns to home', (tester) async {
-    await pumpApp(tester, Routes.clientHome);
+    await pumpApp(tester, container, Routes.clientHome);
     await tapVisible(
       tester,
       inScreen<HomeScreen>(find.text('Kurtos cu zahăr și scorțișoară')),
@@ -126,7 +93,7 @@ void main() {
   testWidgets('description appears only for products that have one', (
     tester,
   ) async {
-    await pumpApp(tester, Routes.clientProduct('placinta-branza'));
+    await pumpApp(tester, container, Routes.clientProduct('placinta-branza'));
     expect(find.text(AppStrings.descriptionTitle), findsOneWidget);
 
     container.read(appRouterProvider).go(Routes.clientProduct('kurtos-fistic'));
@@ -135,7 +102,7 @@ void main() {
   });
 
   testWidgets('unknown product id shows not found', (tester) async {
-    await pumpApp(tester, Routes.clientProduct('no-such-product'));
+    await pumpApp(tester, container, Routes.clientProduct('no-such-product'));
     expect(find.text(AppStrings.productNotFound), findsOneWidget);
   });
 }

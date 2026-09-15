@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 
-/// A product line in the cart. Orders will reuse it for their line items.
+import 'package:davidan_prototype/data/models/product.dart';
+
+/// A product line in the cart. Orders reuse it for their line items.
 @immutable
 class CartItem {
   const CartItem({required this.productId, required this.quantity});
@@ -21,3 +23,6 @@ class CartItem {
     'quantity': quantity,
   };
 }
+
+/// A cart line with its product looked up in the catalog, ready to display.
+typedef CartLine = ({Product product, int quantity});
