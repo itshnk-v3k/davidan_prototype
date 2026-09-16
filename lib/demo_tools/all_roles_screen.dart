@@ -8,14 +8,16 @@ import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_chip.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/demo_tools/demo_tool_strings.dart';
-import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
-import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_delivery_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
+import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
+import 'package:davidan_prototype/features/food/application/shop_providers.dart';
 import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
 
 /// Internal demo aid, not part of the app: the customer's order screen, the
 /// store panel and the courier app side by side on the same orders, so one
@@ -49,10 +51,11 @@ class AllRolesScreen extends ConsumerWidget {
         orders.firstOrNull;
 
     void placeTestOrder(Fulfilment fulfilment) {
-      final products = ref.read(productsByIdProvider);
+      final products = ref.read(productsByIdProvider(Brand.bakery));
       final order = ref
           .read(ordersProvider.notifier)
           .place(
+            brand: Brand.bakery,
             items: [
               for (final (productId, quantity) in _testItems)
                 if (products[productId] case final product?)

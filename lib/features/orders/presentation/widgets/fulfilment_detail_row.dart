@@ -4,7 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/data/models/order.dart';
-import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
+import 'package:davidan_prototype/features/food/application/shop_providers.dart';
 import 'package:davidan_prototype/features/orders/presentation/delivery_address.dart';
 
 /// How the customer gets an order: "Livrare la / str. Ismail 88", or

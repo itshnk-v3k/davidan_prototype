@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -5,23 +6,24 @@ import 'package:davidan_prototype/core/location/location_result.dart';
 import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/widgets/phone_frame.dart';
-import 'package:davidan_prototype/features/client/presentation/account/sign_in_code_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/account/sign_in_details_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/account/sign_in_phone_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/account/welcome_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/cart/cart_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/catalog/catalog_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/checkout/checkout_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/favorites/favorites_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/home/home_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/location/location_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/location/map_picker_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/product/product_detail_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/profile/profile_screen.dart';
-import 'package:davidan_prototype/features/client/presentation/shell/client_shell.dart';
-import 'package:davidan_prototype/features/client/presentation/splash/splash_screen.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
+import 'package:davidan_prototype/features/account/presentation/location/location_screen.dart';
+import 'package:davidan_prototype/features/account/presentation/location/map_picker_screen.dart';
+import 'package:davidan_prototype/features/account/presentation/profile/profile_screen.dart';
+import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_code_screen.dart';
+import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_details_screen.dart';
+import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_phone_screen.dart';
+import 'package:davidan_prototype/features/account/presentation/sign_in/welcome_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/cart/cart_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/favorites/favorites_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
+import 'package:davidan_prototype/features/hub/presentation/client_shell.dart';
+import 'package:davidan_prototype/features/hub/presentation/splash/splash_screen.dart';
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
+import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final extraApps = ref.watch(extraAppsProvider);
@@ -106,7 +108,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 routes: [
                   GoRoute(
                     path: Routes.clientHome,
-                    builder: (_, _) => const HomeScreen(),
+                    builder: (_, _) => const HomeScreen(brand: Brand.bakery),
                   ),
                 ],
               ),
@@ -119,6 +121,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     // path only, so switching category reuses this page
                     // without a transition and just rebuilds CatalogScreen.
                     builder: (_, state) => CatalogScreen(
+                      brand: Brand.bakery,
                       categoryId: state.uri.queryParameters['category'],
                     ),
                   ),
@@ -144,21 +147,28 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           // Full-screen routes above the tabs (no bottom bar). Screens push
           // these, so back returns to the screen they were opened from.
-          // The cart is pushed by the tabs' cart button.
+          // The cart is pushed by the tabs' cart button. Each names its brand
+          // (Routes.brandCart and the others); an unknown brand goes home.
           GoRoute(
-            path: Routes.clientCart,
-            builder: (_, _) => const CartScreen(),
+            path: '/b/:${Routes.brandParam}/cart',
+            redirect: _unknownBrandGoesHome,
+            builder: (_, state) => CartScreen(brand: _brandIn(state)!),
           ),
           GoRoute(
-            path: '/client/product/:productId',
+            path: '/b/:${Routes.brandParam}/product/:productId',
+            redirect: _unknownBrandGoesHome,
             builder: (_, state) => ProductDetailScreen(
-              productId: state.pathParameters['productId']!,
+              productKey: (
+                brand: _brandIn(state)!,
+                id: state.pathParameters['productId']!,
+              ),
               heroScope: state.uri.queryParameters['from'],
             ),
           ),
           GoRoute(
-            path: Routes.clientCheckout,
-            builder: (_, _) => const CheckoutScreen(),
+            path: '/b/:${Routes.brandParam}/checkout',
+            redirect: _unknownBrandGoesHome,
+            builder: (_, state) => CheckoutScreen(brand: _brandIn(state)!),
           ),
           // Opened with go() after checkout, so back doesn't return to the
           // emptied checkout.
@@ -182,3 +192,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   ref.onDispose(router.dispose);
   return router;
 });
+
+/// The brand a `/b/:brand/...` URL names, or null when it names none.
+Brand? _brandIn(GoRouterState state) =>
+    Brand.values.asNameMap()[state.pathParameters[Routes.brandParam]];
+
+String? _unknownBrandGoesHome(BuildContext _, GoRouterState state) =>
+    _brandIn(state) == null ? Routes.clientHome : null;

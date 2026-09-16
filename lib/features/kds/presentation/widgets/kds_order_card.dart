@@ -8,7 +8,7 @@ import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/data/models/order.dart';
-import 'package:davidan_prototype/features/client/application/catalog_providers.dart';
+import 'package:davidan_prototype/features/food/application/shop_providers.dart';
 import 'package:davidan_prototype/features/kds/presentation/widgets/elapsed_timer.dart';
 import 'package:davidan_prototype/features/orders/application/order_lines_provider.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';

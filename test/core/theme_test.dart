@@ -15,8 +15,9 @@ import 'package:davidan_prototype/core/theme/app_assets.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/theme_mode_notifier.dart';
 import 'package:davidan_prototype/core/widgets/brand_logo.dart';
-import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
-import 'package:davidan_prototype/features/client/presentation/profile/profile_screen.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
+import 'package:davidan_prototype/features/account/presentation/profile/profile_screen.dart';
+import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/launcher/application/demo_reset_notifier.dart';
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
 import 'package:davidan_prototype/staff/staff_build.dart';
@@ -107,16 +108,16 @@ void main() {
 
   test('resetting the demo data keeps the chosen theme', () async {
     container.read(themeModeProvider.notifier).select(ThemeMode.light);
-    container.read(cartProvider.notifier).add('americano');
+    container.read(cartProvider(Brand.bakery).notifier).add('americano');
 
     await container.read(demoResetProvider.notifier).reset();
 
-    expect(container.read(cartCountProvider), 0);
+    expect(container.read(cartCountProvider(Brand.bakery)), 0);
     expect(container.read(themeModeProvider), ThemeMode.light);
     final restarted = await startApp();
     addTearDown(restarted.dispose);
     expect(restarted.read(themeModeProvider), ThemeMode.light);
-    expect(restarted.read(cartCountProvider), 0);
+    expect(restarted.read(cartCountProvider(Brand.bakery)), 0);
   });
 
   testWidgets('"Ca telefonul" follows the phone\'s light or dark setting', (
@@ -150,7 +151,7 @@ void main() {
         (Routes.launcher, const Size(400, 900)),
         (Routes.clientHome, const Size(400, 900)),
         (Routes.clientMenu, const Size(400, 900)),
-        (Routes.clientCart, const Size(400, 900)),
+        (Routes.brandCart(Brand.bakery), const Size(400, 900)),
         (Routes.clientFavorites, const Size(400, 900)),
         (Routes.clientProfile, const Size(400, 900)),
         (Routes.signIn, const Size(400, 900)),

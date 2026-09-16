@@ -9,6 +9,7 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/storage/local_store.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/launcher/application/demo_reset_notifier.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
@@ -18,6 +19,7 @@ import '../../../helpers/test_app.dart';
 Order placeDelivery(ProviderContainer app) => app
     .read(ordersProvider.notifier)
     .place(
+      brand: Brand.bakery,
       items: const [
         OrderItem(productId: 'espresso', quantity: 2, priceBani: 1500),
         OrderItem(
@@ -34,6 +36,7 @@ Order placeDelivery(ProviderContainer app) => app
 Order placePickup(ProviderContainer app) => app
     .read(ordersProvider.notifier)
     .place(
+      brand: Brand.bakery,
       items: const [
         OrderItem(productId: 'americano', quantity: 1, priceBani: 2000),
       ],
@@ -237,6 +240,7 @@ void main() {
 /// once `statusChangedAt` is removed.
 Map<String, Object?> placedOrderJson() => {
   'id': 'DD-1001',
+  'brand': 'bakery',
   'createdAt': DateTime(2026, 9, 15, 10).toIso8601String(),
   'items': [
     {'productId': 'espresso', 'quantity': 1, 'priceBani': 1500},

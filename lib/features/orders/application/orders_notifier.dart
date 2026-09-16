@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:davidan_prototype/core/storage/local_store.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 
 final ordersProvider = NotifierProvider<OrdersNotifier, List<Order>>(
@@ -34,9 +35,10 @@ class OrdersNotifier extends Notifier<List<Order>> {
       ref.watch(localStoreProvider).read(StorageKeys.orders, _decode) ??
       const [];
 
-  /// Creates an order with status [OrderStatus.placed] and returns it. The
-  /// total is the sum of [items] at their recorded prices.
+  /// Creates an order of [brand]'s products with status [OrderStatus.placed]
+  /// and returns it. The total is the sum of [items] at their recorded prices.
   Order place({
+    required Brand brand,
     required List<OrderItem> items,
     required Fulfilment fulfilment,
     required PaymentMethod payment,
@@ -48,6 +50,7 @@ class OrdersNotifier extends Notifier<List<Order>> {
       // Orders are never deleted (only a demo reset clears them all), so the
       // count gives the next free number.
       id: 'DD-${_firstNumber + state.length}',
+      brand: brand,
       createdAt: now,
       items: items,
       totalBani: items.fold(0, (sum, item) => sum + item.totalBani),

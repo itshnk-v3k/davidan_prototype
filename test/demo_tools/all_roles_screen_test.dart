@@ -15,11 +15,11 @@ import 'package:davidan_prototype/core/widgets/app_chip.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/demo_tools/all_roles_screen.dart';
 import 'package:davidan_prototype/demo_tools/demo_tool_strings.dart';
-import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_delivery_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
 import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
 import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../helpers/test_app.dart';

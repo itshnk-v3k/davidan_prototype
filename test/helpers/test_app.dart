@@ -9,12 +9,13 @@ import 'package:davidan_prototype/core/location/location_service.dart';
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/storage/local_store.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
-import 'package:davidan_prototype/data/mock/mock_locations.dart';
+import 'package:davidan_prototype/data/mock/bakery/bakery_shops.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/chisinau_sector.dart';
 import 'package:davidan_prototype/data/models/customer_account.dart';
 import 'package:davidan_prototype/data/models/order.dart';
-import 'package:davidan_prototype/features/client/application/account_notifier.dart';
-import 'package:davidan_prototype/features/client/application/nearby.dart';
+import 'package:davidan_prototype/features/account/application/account_notifier.dart';
+import 'package:davidan_prototype/features/account/application/nearby.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 
 import 'fake_location_service.dart';
@@ -114,7 +115,7 @@ CustomerAccount signInTestAccount(
     phone: '69123456',
     name: name,
     sector: sector,
-    nearestLocationId: nearestLocationToSector(sector, mockLocations).id,
+    nearestLocationId: nearestLocationToSector(sector, bakeryShops).id,
     matchedBy: ShopMatch.sector,
   );
   container.read(accountProvider.notifier).register(account);
@@ -131,6 +132,7 @@ Order placeTestOrder(
 }) => container
     .read(ordersProvider.notifier)
     .place(
+      brand: Brand.bakery,
       items: const [
         OrderItem(productId: 'kurtos-fistic', quantity: 2, priceBani: 5900),
         OrderItem(productId: 'americano', quantity: 1, priceBani: 2000),

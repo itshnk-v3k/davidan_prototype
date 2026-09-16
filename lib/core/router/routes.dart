@@ -1,4 +1,6 @@
 import 'package:davidan_prototype/core/location/location_result.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
+import 'package:davidan_prototype/data/models/product.dart';
 
 /// Route paths. Widgets navigate with these instead of string literals.
 abstract final class Routes {
@@ -24,22 +26,22 @@ abstract final class Routes {
     path: clientMenu,
     queryParameters: {'category': categoryId},
   ).toString();
-  static const clientCart = '/client/cart';
   static const clientFavorites = '/client/favorites';
   static const clientProfile = '/client/profile';
+  static String clientOrder(String orderId) => '/client/orders/$orderId';
+
+  // A brand's product, cart and checkout. Every brand has its own cart.
+  static const brandParam = 'brand';
 
   /// [heroScope] names the row the product was opened from when a screen
   /// shows it in more than one (home's rows), so its photo flies from the card
   /// that was tapped.
-  static String clientProduct(String productId, {String? heroScope}) =>
-      heroScope == null
-      ? '/client/product/$productId'
-      : Uri(
-          path: '/client/product/$productId',
-          queryParameters: {'from': heroScope},
-        ).toString();
-  static const clientCheckout = '/client/checkout';
-  static String clientOrder(String orderId) => '/client/orders/$orderId';
+  static String brandProduct(ProductKey product, {String? heroScope}) => Uri(
+    path: '/b/${product.brand.name}/product/${product.id}',
+    queryParameters: {'from': ?heroScope},
+  ).toString();
+  static String brandCart(Brand brand) => '/b/${brand.name}/cart';
+  static String brandCheckout(Brand brand) => '/b/${brand.name}/checkout';
 
   // Demo sign-in (no real SMS): phone, code, details, then a welcome
   static const signIn = '/client/sign-in';

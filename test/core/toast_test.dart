@@ -14,7 +14,8 @@ import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/widgets/toast_host.dart';
-import 'package:davidan_prototype/features/client/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
+import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
 
 import '../helpers/test_app.dart';
 
@@ -37,7 +38,11 @@ void main() {
     'adding from the product page confirms at the top of the screen, and the '
     'toast goes away on its own',
     (tester) async {
-      await pumpApp(tester, container, Routes.clientProduct('coca-cola'));
+      await pumpApp(
+        tester,
+        container,
+        Routes.brandProduct((brand: Brand.bakery, id: 'coca-cola')),
+      );
       await tester.tap(find.text(AppStrings.addToCartTotal('25 lei')));
       await tester.pumpAndSettle();
 

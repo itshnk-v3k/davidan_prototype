@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/geo_point.dart';
 
 /// Where an order is in its lifecycle. Which statuses an order goes through
@@ -108,11 +109,12 @@ class OrderItem {
   };
 }
 
-/// An order placed from the customer app.
+/// An order placed from the customer app, from one brand's cart.
 @immutable
 class Order {
   const Order({
     required this.id,
+    required this.brand,
     required this.createdAt,
     required this.items,
     required this.totalBani,
@@ -128,6 +130,7 @@ class Order {
     final statusChangedAt = json['statusChangedAt'] as String?;
     return Order(
       id: json['id']! as String,
+      brand: Brand.values.byName(json['brand']! as String),
       createdAt: DateTime.parse(json['createdAt']! as String),
       items: [
         for (final item in json['items']! as List<Object?>)
@@ -165,6 +168,9 @@ class Order {
 
   /// Order number shown to people, e.g. "DD-1001".
   final String id;
+
+  /// The brand whose products were ordered.
+  final Brand brand;
   final DateTime createdAt;
   final List<OrderItem> items;
 
@@ -216,6 +222,7 @@ class Order {
 
   Order copyWith({OrderStatus? status, DateTime? statusChangedAt}) => Order(
     id: id,
+    brand: brand,
     createdAt: createdAt,
     items: items,
     totalBani: totalBani,
@@ -228,6 +235,7 @@ class Order {
 
   Map<String, Object?> toJson() => {
     'id': id,
+    'brand': brand.name,
     'createdAt': createdAt.toIso8601String(),
     'items': [for (final item in items) item.toJson()],
     'totalBani': totalBani,

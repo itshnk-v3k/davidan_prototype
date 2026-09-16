@@ -1,9 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 
 Order orderWith(Fulfilment fulfilment, OrderStatus status) => Order(
   id: 'DD-1001',
+  brand: Brand.bakery,
   createdAt: DateTime(2026, 9, 15, 10),
   items: const [],
   totalBani: 0,

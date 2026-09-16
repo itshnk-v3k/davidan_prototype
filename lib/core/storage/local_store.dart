@@ -5,12 +5,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:davidan_prototype/data/models/brand.dart';
+
 /// Keys of everything the app saves. When a new Notifier persists demo data,
 /// add its key to [demoData] and invalidate that Notifier in
 /// DemoResetNotifier. A preference that should survive a demo reset goes in
 /// [settings] instead.
 abstract final class StorageKeys {
-  static const cart = 'cart';
+  /// One cart per brand.
+  static String cartOf(Brand brand) => 'cart.${brand.name}';
+
   static const orders = 'orders';
   static const fulfilment = 'fulfilment';
   static const favorites = 'favorites';
@@ -21,8 +25,8 @@ abstract final class StorageKeys {
   static const themeMode = 'themeMode';
 
   /// What a demo reset deletes.
-  static const demoData = {
-    cart,
+  static final demoData = {
+    for (final brand in Brand.values) cartOf(brand),
     orders,
     fulfilment,
     favorites,
@@ -35,7 +39,7 @@ abstract final class StorageKeys {
   /// Kept when the demo is reset.
   static const settings = {themeMode};
 
-  static const all = {...demoData, ...settings};
+  static final all = {...demoData, ...settings};
 }
 
 /// Opened once in main() before runApp and injected with a ProviderScope
@@ -56,7 +60,8 @@ class LocalStore {
   /// is then ignored instead of failing to decode.
   ///
   /// 2: order statuses gained `accepted`; order items record their price.
-  static const schemaVersion = 2;
+  /// 3: orders, carts and favourites belong to a brand.
+  static const schemaVersion = 3;
   static const _prefix = 'davidan.v$schemaVersion.';
 
   /// Opens storage limited to [StorageKeys.all]. Other data on the same

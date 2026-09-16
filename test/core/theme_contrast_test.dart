@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
-import 'package:davidan_prototype/features/client/presentation/widgets/quantity_stepper.dart';
+import 'package:davidan_prototype/features/food/presentation/widgets/quantity_stepper.dart';
 
 double contrast(Color a, Color b) {
   final la = a.computeLuminance();
