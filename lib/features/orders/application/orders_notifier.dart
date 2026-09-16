@@ -26,6 +26,15 @@ final activeOrdersProvider = Provider<List<Order>>(
   ],
 );
 
+/// [brand]'s most recent order, or null before its first: what "Comandă din
+/// nou" repeats.
+final lastOrderOfProvider = Provider.family<Order?, Brand>(
+  (ref, brand) => ref
+      .watch(ordersProvider)
+      .where((order) => order.brand == brand)
+      .firstOrNull,
+);
+
 /// Sorts oldest first, the way the shop and couriers work through orders.
 /// Orders placed in the same instant keep their number order.
 int byPlacementTime(Order a, Order b) {

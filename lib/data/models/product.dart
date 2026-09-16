@@ -38,8 +38,8 @@ class Product {
   /// the site has none; never invented.
   final String? description;
 
-  /// The site's "Masa" as written, e.g. "250g", "150g, 50g" or "400ml". Null
-  /// when the site gives none.
+  /// The site's "Masa" as written, e.g. "250g", "150g, 50g" or "400ml", or the
+  /// volume on the product's label ("0,5L"). Null when neither gives one.
   final String? weight;
 
   /// The site's "Bucăți" as written, e.g. "24 buc". Null when the site gives

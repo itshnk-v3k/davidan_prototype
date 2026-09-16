@@ -412,13 +412,14 @@ const bakeryProducts = <Product>[
     priceBani: 2500,
     image: '${_img}sprite.webp',
   ),
-  // The site lists both waters as "Apa DaviDan"; still/sparkling is inferred
-  // from the bottle colour (blue / green) in the photos.
+  // The site lists both waters as "Apa DaviDan", with the variants "Naturală"
+  // and "Gazată"; which photo is which comes from the bottles' labels. The
+  // ids predate those names and are kept, since carts and orders save them.
   Product(
     brand: Brand.bakery,
     id: 'apa-davidan-plata',
     categoryId: BakeryCategoryIds.bauturi,
-    name: 'Apa DaviDan plată',
+    name: 'Apa DaviDan naturală',
     priceBani: 1500,
     image: '${_img}apa-davidan-plata.webp',
   ),
@@ -426,7 +427,7 @@ const bakeryProducts = <Product>[
     brand: Brand.bakery,
     id: 'apa-davidan-carbogazoasa',
     categoryId: BakeryCategoryIds.bauturi,
-    name: 'Apa DaviDan carbogazoasă',
+    name: 'Apa DaviDan gazată',
     priceBani: 1500,
     image: '${_img}apa-davidan-carbogazoasa.webp',
   ),

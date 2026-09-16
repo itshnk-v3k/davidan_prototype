@@ -23,6 +23,7 @@ import 'package:davidan_prototype/features/food/presentation/catalog/catalog_scr
 import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/favorites/favorites_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/water_home_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/brand_info_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/brand_intro_screen.dart';
@@ -163,13 +164,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               final brand && (Brand.bakery || Brand.sushi) => BrandHomeScreen(
                 brand: brand,
               ),
+              Brand.water => const WaterHomeScreen(),
               // The client has no restaurant menu yet: its intro stays.
               Brand.restaurant => const BrandIntroScreen(
                 brand: Brand.restaurant,
               ),
-              // TEMPORARY until their own pages are built (hub round steps 6
-              // and 7).
-              final brand => BrandIntroScreen(brand: brand, inProgress: true),
+              // TEMPORARY until its own pages are built (hub round step 7).
+              Brand.carRental => const BrandIntroScreen(
+                brand: Brand.carRental,
+                inProgress: true,
+              ),
             }),
           ),
           GoRoute(

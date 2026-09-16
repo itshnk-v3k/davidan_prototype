@@ -4,6 +4,7 @@ import 'package:davidan_prototype/data/mock/bakery/bakery_products.dart';
 import 'package:davidan_prototype/data/mock/sushi/sushi_banners.dart';
 import 'package:davidan_prototype/data/mock/sushi/sushi_categories.dart';
 import 'package:davidan_prototype/data/mock/sushi/sushi_products.dart';
+import 'package:davidan_prototype/data/mock/water/water_catalog.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/brand_catalog.dart';
 
@@ -20,5 +21,10 @@ const mockCatalogs = <Brand, BrandCatalog>{
     products: bakeryProducts,
     banners: bakeryBanners,
     popularProductIds: bakeryPopularProductIds,
+  ),
+  // One page with both bottles: no categories, so no menu page.
+  Brand.water: BrandCatalog(
+    products: waterProducts,
+    popularProductIds: waterPopularProductIds,
   ),
 };

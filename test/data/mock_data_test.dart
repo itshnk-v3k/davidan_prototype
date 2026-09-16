@@ -1,5 +1,6 @@
 // Checks the mock data against the files it comes from: the bundled images,
-// and davidansushi.md's menu and legal pages in docs/sources/. Reads files,
+// davidan.md's water listing, and davidansushi.md's menu and legal pages in
+// docs/sources/. Reads files,
 // so it runs on the VM and `--platform chrome` skips it:
 //   flutter test test/data/mock_data_test.dart
 @TestOn('vm')
@@ -16,6 +17,7 @@ import 'package:davidan_prototype/data/mock/mock_catalogs.dart';
 import 'package:davidan_prototype/data/mock/sushi/sushi_categories.dart';
 import 'package:davidan_prototype/data/mock/sushi/sushi_info.dart';
 import 'package:davidan_prototype/data/mock/sushi/sushi_products.dart';
+import 'package:davidan_prototype/data/mock/water/water_catalog.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 
 void main() {
@@ -54,6 +56,44 @@ void main() {
       }
     },
   );
+
+  test('Apa DaviDan sells davidan.md\'s two waters at its price, named as the '
+      'bakery names the same bottles', () {
+    final shop = jsonDecode(
+      File('docs/sources/data/davidan_md_products.json').readAsStringSync(),
+    ) as Map<String, Object?>;
+    final listing = [
+      for (final product in shop['products']! as List<Object?>)
+        product! as Map<String, Object?>,
+    ].singleWhere((product) => product['handle'] == 'dorna');
+    expect(
+      [
+        for (final variant in listing['variants']! as List<Object?>)
+          (
+            (variant! as Map<String, Object?>)['title'],
+            (variant as Map<String, Object?>)['price'],
+          ),
+      ],
+      [('Naturală', '15.00'), ('Gazată', '15.00')],
+    );
+
+    final bakery = {
+      for (final product in mockCatalogs[Brand.bakery]!.products)
+        product.id: product,
+    };
+    expect(
+      [for (final p in waterProducts) p.name],
+      ['Apa DaviDan naturală', 'Apa DaviDan gazată'],
+    );
+    for (final water in waterProducts) {
+      expect(water.priceBani, 1500, reason: water.id);
+      expect(bakery[water.id]?.name, water.name, reason: water.id);
+      expect(bakery[water.id]?.image, water.image, reason: water.id);
+    }
+    expect(mockCatalogs[Brand.water]!.popularProductIds, [
+      for (final p in waterProducts) p.id,
+    ]);
+  });
 
   group('DaviDan Sushi matches davidansushi.md', () {
     final source = jsonDecode(

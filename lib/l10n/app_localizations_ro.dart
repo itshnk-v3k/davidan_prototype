@@ -552,6 +552,16 @@ class AppLocalizationsRo extends AppLocalizations {
       'Fiecare meniu are coșul lui. Coșurile în care ai adăugat ceva apar aici.';
 
   @override
+  String get lastOrderTitle => 'Ultima comandă';
+
+  @override
+  String get orderAgain => 'Comandă din nou';
+
+  @override
+  String get orderAgainHint =>
+      'După prima comandă, o poți repeta de aici cu o singură apăsare.';
+
+  @override
   String get cartEmptyTitle => 'Coșul tău e gol';
 
   @override

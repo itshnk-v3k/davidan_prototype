@@ -447,6 +447,18 @@
   },
   "openCartsEmptyTitle": "Nimic în coș deocamdată",
   "openCartsEmptyMessage": "Fiecare meniu are coșul lui. Coșurile în care ai adăugat ceva apar aici.",
+  "lastOrderTitle": "Ultima comandă",
+  "@lastOrderTitle": {
+    "description": "Heading of a brand's most recent order on its page (the water page), above the button that repeats it."
+  },
+  "orderAgain": "Comandă din nou",
+  "@orderAgain": {
+    "description": "Button that puts the items of the brand's last order back in its cart."
+  },
+  "orderAgainHint": "După prima comandă, o poți repeta de aici cu o singură apăsare.",
+  "@orderAgainHint": {
+    "description": "Shown instead of the last order before the brand's first one."
+  },
   "cartEmptyTitle": "Coșul tău e gol",
   "cartEmptyMessage": "Adaugă produse din meniu, apoi revino aici ca să finalizezi comanda.",
   "browseMenu": "Vezi meniul",

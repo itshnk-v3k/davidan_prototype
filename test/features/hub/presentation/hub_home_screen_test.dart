@@ -20,6 +20,7 @@ import 'package:davidan_prototype/features/account/presentation/location/locatio
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/water_home_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/brand_intro_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/client_shell.dart';
@@ -194,8 +195,8 @@ void main() {
 
   testWidgets(
     '"Pentru tine" signed out, "{first name}, pentru tine" signed in, with the '
-    'sushi\'s and the bakery\'s popular products taking turns; adding from '
-    'it fills that product\'s brand\'s cart',
+    'sushi\'s, the bakery\'s and the water\'s popular products taking turns; '
+    'adding from it fills that product\'s brand\'s cart',
     (tester) async {
       await pumpApp(tester, container, Routes.clientHome);
       final sheet = find.byType(ForYouSheet);
@@ -221,10 +222,18 @@ void main() {
 
       final bakery = container.read(popularProductsProvider(Brand.bakery));
       final sushi = container.read(popularProductsProvider(Brand.sushi));
+      final water = container.read(popularProductsProvider(Brand.water));
       final forYou = container.read(forYouProductsProvider);
-      // In the hub's brand order: Sushi's bubble comes before Patiserie's.
-      expect(forYou.take(4), [sushi[0], bakery[0], sushi[1], bakery[1]]);
-      expect(forYou, hasLength(bakery.length + sushi.length));
+      // In the hub's brand order: Sushi, Patiserie, Apă naturală.
+      expect(forYou.take(6), [
+        sushi[0],
+        bakery[0],
+        water[0],
+        sushi[1],
+        bakery[1],
+        water[1],
+      ]);
+      expect(forYou, hasLength(bakery.length + sushi.length + water.length));
       final [first, second, ...] = forYou;
       for (final product in [first, second]) {
         await tapVisible(
@@ -257,22 +266,24 @@ void main() {
   );
 
   testWidgets(
-    'Sushi and Patiserie open their homes full screen, without the bottom '
-    'bar, and back returns to the hub',
+    'Sushi, Patiserie and Apă naturală open their pages full screen, without '
+    'the bottom bar, and back returns to the hub',
     (tester) async {
       await pumpApp(tester, container, Routes.clientHome);
 
-      for (final brand in [Brand.sushi, Brand.bakery]) {
+      for (final brand in [Brand.sushi, Brand.bakery, Brand.water]) {
         await open(tester, brand);
 
-        expect(
-          tester.widget<BrandHomeScreen>(find.byType(BrandHomeScreen)).brand,
-          brand,
-        );
+        if (brand == Brand.water) {
+          expect(find.byType(WaterHomeScreen), findsOneWidget);
+        } else {
+          expect(
+            tester.widget<BrandHomeScreen>(find.byType(BrandHomeScreen)).brand,
+            brand,
+          );
+        }
         expect(find.text(ro.navOrders), findsNothing, reason: '$brand');
-        await tester.tap(
-          inScreen<BrandHomeScreen>(find.byIcon(Icons.arrow_back_rounded)),
-        );
+        await tester.tap(find.byIcon(Icons.arrow_back_rounded).first);
         await tester.pumpAndSettle();
         expect(find.byType(HubHomeScreen), findsOneWidget, reason: '$brand');
         expect(find.byType(ClientShell), findsOneWidget, reason: '$brand');
@@ -329,33 +340,26 @@ void main() {
   );
 
   testWidgets(
-    'Apă naturală and Rent Car open a temporary page that says it is still '
-    'being built, with their source\'s one line',
+    'Rent Car opens a temporary page that says it is still being built, with '
+    'its site\'s one line',
     (tester) async {
       await pumpApp(tester, container, Routes.clientHome);
 
-      for (final brand in [Brand.water, Brand.carRental]) {
-        await open(tester, brand);
+      await open(tester, Brand.carRental);
 
-        expect(find.byType(BrandIntroScreen), findsOneWidget, reason: '$brand');
-        expect(find.text(ro.navOrders), findsNothing, reason: '$brand');
-        expect(find.text(ro.inProgressTitle), findsOneWidget, reason: '$brand');
-        expect(
-          find.text(ro.inProgressMessage),
-          findsOneWidget,
-          reason: '$brand',
-        );
-        expect(find.text(ro.comingSoonTitle), findsNothing, reason: '$brand');
-        expect(
-          find.text(brandIntros[brand]!.description!),
-          findsOneWidget,
-          reason: '$brand',
-        );
+      expect(find.byType(BrandIntroScreen), findsOneWidget);
+      expect(find.text(ro.navOrders), findsNothing);
+      expect(find.text(ro.inProgressTitle), findsOneWidget);
+      expect(find.text(ro.inProgressMessage), findsOneWidget);
+      expect(find.text(ro.comingSoonTitle), findsNothing);
+      expect(
+        find.text(brandIntros[Brand.carRental]!.description!),
+        findsOneWidget,
+      );
 
-        await tester.tap(find.byIcon(Icons.arrow_back_rounded));
-        await tester.pumpAndSettle();
-        expect(find.byType(HubHomeScreen), findsOneWidget, reason: '$brand');
-      }
+      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      await tester.pumpAndSettle();
+      expect(find.byType(HubHomeScreen), findsOneWidget);
     },
   );
 

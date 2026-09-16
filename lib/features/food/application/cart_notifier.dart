@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:davidan_prototype/core/storage/local_store.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/cart_item.dart';
+import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 
 /// One cart per brand, the way delivery apps keep one basket per shop: each
@@ -100,6 +101,19 @@ class CartNotifier extends Notifier<List<CartItem>> {
             ]
           : [...state, CartItem(productId: productId, quantity: quantity)],
     );
+  }
+
+  /// Adds every item of [order], one of this brand's past orders, to what the
+  /// cart already holds, at today's prices. Products no longer sold are
+  /// skipped.
+  void repeat(Order order) {
+    assert(order.brand == brand, 'Repeat an order in its own brand\'s cart');
+    final products = ref.read(productsByIdProvider(brand));
+    for (final item in order.items) {
+      if (products.containsKey(item.productId)) {
+        add(item.productId, quantity: item.quantity);
+      }
+    }
   }
 
   /// Removes one unit; the line disappears when its quantity reaches zero.

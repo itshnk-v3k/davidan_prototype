@@ -29,9 +29,6 @@ const brandIntros = <Brand, BrandIntro>{
   Brand.water: BrandIntro(
     name: 'Apă naturală',
     image: '${_img}apa-davidan-plata.webp',
-    description:
-        'Apa purificată și revitalizantă pe care o oferim este esențială '
-        'pentru sănătatea ta',
   ),
   Brand.carRental: BrandIntro(
     name: 'Rent Car',

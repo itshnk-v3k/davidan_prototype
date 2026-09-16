@@ -980,6 +980,24 @@ abstract class AppLocalizations {
   /// **'Fiecare meniu are coșul lui. Coșurile în care ai adăugat ceva apar aici.'**
   String get openCartsEmptyMessage;
 
+  /// Heading of a brand's most recent order on its page (the water page), above the button that repeats it.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ultima comandă'**
+  String get lastOrderTitle;
+
+  /// Button that puts the items of the brand's last order back in its cart.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comandă din nou'**
+  String get orderAgain;
+
+  /// Shown instead of the last order before the brand's first one.
+  ///
+  /// In ro, this message translates to:
+  /// **'După prima comandă, o poți repeta de aici cu o singură apăsare.'**
+  String get orderAgainHint;
+
   /// No description provided for @cartEmptyTitle.
   ///
   /// In ro, this message translates to:

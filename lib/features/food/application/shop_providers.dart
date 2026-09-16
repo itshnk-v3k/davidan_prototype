@@ -11,8 +11,8 @@ import 'package:davidan_prototype/data/models/store_location.dart';
 final locationsProvider = Provider<List<StoreLocation>>((ref) => bakeryShops);
 
 /// Where [brand]'s orders can be picked up. Empty for a brand whose orders are
-/// only delivered: no sushi source names a place to pick one up, and the
-/// bakery's shops don't sell sushi.
+/// only delivered: no sushi or water source names a place to pick one up, and
+/// the bakery's shops don't sell sushi.
 final pickupShopsProvider = Provider.family<List<StoreLocation>, Brand>(
   (ref, brand) => switch (brand) {
     Brand.bakery => ref.watch(locationsProvider),

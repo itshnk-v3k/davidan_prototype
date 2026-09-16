@@ -187,6 +187,10 @@ sushi     vinaria-din-vale-rose             https://davidansushi.md/wp-content/u
 banners   banner-deserturi              https://davidan.md/cdn/shop/files/banner_DaviDan.webp
 banners   banner-croissante             https://davidan.md/cdn/shop/files/380520837_610910601256167_1781447760104501231_n.jpg
 
+# Apa DaviDan: both 0,5L bottles on white, from davidan.md's blog post "Apa
+# DaviDan, puritate și refrescare în fiecare sticlă"
+banners   banner-apa-davidan            https://davidan.md/cdn/shop/articles/photo_5294145748012305182_y.jpg
+
 # DaviDan Sushi's homepage slider (its only slide, "Dulciuri Nipone")
 banners   banner-sushi-dulciuri-nipone  https://davidansushi.md/wp-content/uploads/2023/12/home-desert-slider-min.jpg
 
