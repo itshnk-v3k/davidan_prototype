@@ -33,7 +33,7 @@ done
 # never upscaled.
 settings_for() {
   case "$1" in
-    products | sushi) echo "800 80" ;;
+    products | sushi | cars) echo "800 80" ;;
     banners) echo "900 80" ;;
     brand) echo "600 90" ;;
     *) return 1 ;;

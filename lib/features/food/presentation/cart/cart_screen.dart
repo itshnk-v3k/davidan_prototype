@@ -6,6 +6,7 @@ import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
+import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
@@ -93,7 +94,7 @@ class CartScreen extends ConsumerWidget {
       bottomNavigationBar: lines.isEmpty
           ? null
           : TotalBar(
-              totalBani: total,
+              total: context.l10n.formatLei(total),
               actionLabel: context.l10n.continueOrder,
               onAction: () => context.push(Routes.brandCheckout(brand)),
             ),

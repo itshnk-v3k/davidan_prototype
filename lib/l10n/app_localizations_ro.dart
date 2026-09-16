@@ -116,13 +116,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get comingSoonTitle => 'În curând';
 
   @override
-  String get inProgressTitle => 'În lucru';
-
-  @override
-  String get inProgressMessage =>
-      'Pagina acestui brand se construiește într-o etapă următoare a prototipului.';
-
-  @override
   String forYouTitle(String name) {
     return '$name, pentru tine';
   }
@@ -398,6 +391,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get brandInfoAddress => 'Adresa';
 
   @override
+  String get brandInfoHours => 'Program';
+
+  @override
   String get brandInfoPhone => 'Telefon';
 
   @override
@@ -416,6 +412,212 @@ class AppLocalizationsRo extends AppLocalizations {
   String legalDocumentHint(String website) {
     return 'Textul de pe $website';
   }
+
+  @override
+  String priceEuro(String amount) {
+    return '$amount €';
+  }
+
+  @override
+  String rentalFleetHint(String fee) {
+    return 'Prețul pe zi scade cu cât închiriezi mai multe zile. La fiecare rezervare se adaugă taxa de locație de $fee și suma de asigurare a mașinii.';
+  }
+
+  @override
+  String rentalPriceFrom(String price) {
+    return 'de la $price / zi';
+  }
+
+  @override
+  String rentalPricePerDay(String price) {
+    return '$price / zi';
+  }
+
+  @override
+  String rentalPriceForTier(String price, String tier) {
+    return '$price / zi pentru $tier';
+  }
+
+  @override
+  String rentalTierRange(int from, int to) {
+    String _temp0 = intl.Intl.pluralLogic(
+      to,
+      locale: localeName,
+      other: '$to de zile',
+      few: '$to zile',
+      one: '$to zi',
+    );
+    return '$from–$_temp0';
+  }
+
+  @override
+  String rentalTierFrom(int from) {
+    String _temp0 = intl.Intl.pluralLogic(
+      from,
+      locale: localeName,
+      other: '$from de zile',
+      few: '$from zile',
+      one: '$from zi',
+    );
+    return '$_temp0 sau mai mult';
+  }
+
+  @override
+  String rentalSeats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de locuri',
+      few: '$count locuri',
+      one: '$count loc',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get rentalSpecYear => 'Anul mașinii';
+
+  @override
+  String get rentalSpecFuel => 'Combustibil';
+
+  @override
+  String get rentalSpecGearbox => 'Cutie de viteze';
+
+  @override
+  String get rentalSpecConsumption => 'Consumul de combustibil';
+
+  @override
+  String get rentalSpecPassengers => 'Max pasageri';
+
+  @override
+  String get rentalSpecEngine => 'Capacitatea motorului';
+
+  @override
+  String get rentalSpecDoors => 'Uși';
+
+  @override
+  String get rentalSpecMileage => 'Kilometraj';
+
+  @override
+  String get rentalFeaturesTitle => 'Dotări';
+
+  @override
+  String get rentalPricesTitle => 'Prețuri pe zile';
+
+  @override
+  String get rentalLocationFee => 'Taxa de locație';
+
+  @override
+  String get rentalInsurance => 'Suma de asigurare';
+
+  @override
+  String get rentalFeesNote =>
+      'Taxa de locație și suma de asigurare se adaugă o singură dată la fiecare rezervare, oricâte zile ar avea.';
+
+  @override
+  String get rentalDocumentsTitle => 'Acte necesare';
+
+  @override
+  String get rentalRequestAction => 'Cerere de rezervare';
+
+  @override
+  String get rentalRequestTitle => 'Cerere de rezervare';
+
+  @override
+  String get rentalPickupTitle => 'Ridicare';
+
+  @override
+  String get rentalReturnTitle => 'Predare';
+
+  @override
+  String get rentalLocationAirport => 'Aeroport Chișinău';
+
+  @override
+  String get rentalLocationChisinau => 'Chișinău';
+
+  @override
+  String get rentalDateLabel => 'Data';
+
+  @override
+  String get rentalTimeLabel => 'Ora';
+
+  @override
+  String get rentalPickupPassed =>
+      'Ora ridicării a trecut deja. Alege una mai târzie.';
+
+  @override
+  String get rentalReturnNotAfterPickup =>
+      'Predarea trebuie să fie după ridicare.';
+
+  @override
+  String get rentalExtrasTitle => 'Servicii suplimentare';
+
+  @override
+  String get rentalExtraChildSeat => 'Scaun pentru copii';
+
+  @override
+  String get rentalExtraUnlimitedKm => 'Kilometri nelimitați';
+
+  @override
+  String rentalPriceWholeRental(String price) {
+    return '$price / rezervare';
+  }
+
+  @override
+  String get rentalContactTitle => 'Datele tale';
+
+  @override
+  String get rentalNotesLabel => 'Informații suplimentare';
+
+  @override
+  String get rentalQuoteTitle => 'Prețul rezervării';
+
+  @override
+  String rentalDaysAtRate(int days, String rate) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days de zile',
+      few: '$days zile',
+      one: '$days zi',
+    );
+    return '$_temp0 × $rate';
+  }
+
+  @override
+  String rentalRateForTier(String tier) {
+    return 'Prețul pe zi pentru $tier';
+  }
+
+  @override
+  String get rentalNoPaymentNote =>
+      'Nu plătești nimic acum. Te contactăm ca să confirmăm rezervarea.';
+
+  @override
+  String get rentalSendRequest => 'Trimite cererea';
+
+  @override
+  String get rentalRequestSentTitle => 'Cererea a fost trimisă';
+
+  @override
+  String get rentalWillContact => 'Vă vom contacta în curând.';
+
+  @override
+  String rentalBookingNumber(String id) {
+    return 'Cererea nr. $id';
+  }
+
+  @override
+  String get rentalBookingStatus => 'Cerere trimisă';
+
+  @override
+  String get rentalBookingNotFound => 'Cererea nu a fost găsită.';
+
+  @override
+  String get rentalCar => 'Mașina';
+
+  @override
+  String get rentalContact => 'Contact';
 
   @override
   String get demoProfileNote =>

@@ -1,6 +1,6 @@
 # Source images for tools/fetch_and_optimize_images.sh
 # Columns (whitespace-separated): kind  slug  source-url
-#   kind -> output folder assets/images/<kind>/ (products | sushi | banners | brand)
+#   kind -> output folder assets/images/<kind>/ (products | sushi | cars | banners | brand)
 #   slug -> output file name <slug>.webp (referenced from lib/data/mock/)
 # Add a line and rerun the script; unchanged entries are skipped.
 
@@ -182,6 +182,19 @@ sushi     sprite-500ml                      https://davidansushi.md/wp-content/u
 sushi     vinaria-din-vale-feteasca-alba    https://davidansushi.md/wp-content/uploads/2024/10/MOTIVE-Feteasca-Alba.jpg
 sushi     vinaria-din-vale-feteasca-neagra  https://davidansushi.md/wp-content/uploads/2024/10/MOTIVE-Feteasca-Neagra.jpg
 sushi     vinaria-din-vale-rose             https://davidansushi.md/wp-content/uploads/2024/10/MOTIVE-Rose.jpg
+
+# --- Rent Car: each car's featured photo (davidanrentcar.md/toate-masinile/) ---
+cars      audi-q5-2012                          https://davidanrentcar.md/wp-content/uploads/2025/02/Q52012.jpg
+cars      audi-q5-2021                          https://davidanrentcar.md/wp-content/uploads/2025/02/Q7-900-x-600-px.jpg
+cars      bmw-x5                                https://davidanrentcar.md/wp-content/uploads/2025/05/BMW-1.jpg
+cars      dacia-lodgy                           https://davidanrentcar.md/wp-content/uploads/2025/05/L1.jpg
+cars      dacia-1-0-benzina-gpl-2022            https://davidanrentcar.md/wp-content/uploads/2025/02/Dacia.jpg
+cars      dacia-sandero                         https://davidanrentcar.md/wp-content/uploads/2025/05/S2.jpg
+cars      ford-focus                            https://davidanrentcar.md/wp-content/uploads/2025/05/titlu.jpg
+cars      ford-kuga                             https://davidanrentcar.md/wp-content/uploads/2025/05/k1.jpg
+cars      mercedes-benz-e-class-2017-diesel     https://davidanrentcar.md/wp-content/uploads/2025/02/Mercedes-E.jpg
+cars      porsche-cayenne-3-0-plug-in-hybrid    https://davidanrentcar.md/wp-content/uploads/2025/02/Porsche.jpg
+cars      toyota-rav4-2-5-plug-in               https://davidanrentcar.md/wp-content/uploads/2025/02/Rav4.jpg
 
 # --- Home banners (davidan.md homepage slider) ---
 banners   banner-deserturi              https://davidan.md/cdn/shop/files/banner_DaviDan.webp

@@ -55,14 +55,6 @@
   "@comingSoonTitle": {
     "description": "Title of a brand's page when the brand has no menu in the app, e.g. the restaurant."
   },
-  "inProgressTitle": "În lucru",
-  "@inProgressTitle": {
-    "description": "Title of a brand's page the prototype hasn't built yet. Temporary."
-  },
-  "inProgressMessage": "Pagina acestui brand se construiește într-o etapă următoare a prototipului.",
-  "@inProgressMessage": {
-    "description": "Note on a brand's page the prototype hasn't built yet. Temporary."
-  },
   "forYouTitle": "{name}, pentru tine",
   "@forYouTitle": {
     "description": "Heading of the hub's row of products from every brand, with the signed-in customer's first name.",
@@ -295,6 +287,10 @@
   "brandContactsTitle": "Contacte",
   "brandInfoDeliveryArea": "Zona de livrare",
   "brandInfoAddress": "Adresa",
+  "brandInfoHours": "Program",
+  "@brandInfoHours": {
+    "description": "Opening hours on a brand's information page, e.g. DaviDan Rent Car's \"Lucrăm 24/24\"."
+  },
   "brandInfoPhone": "Telefon",
   "brandInfoEmail": "E-mail",
   "brandInfoInstagram": "Instagram",
@@ -309,6 +305,270 @@
         "example": "davidansushi.md"
       }
     }
+  },
+  "priceEuro": "{amount} €",
+  "@priceEuro": {
+    "description": "A price in euros, as DaviDan Rent Car prices its cars. amount is already formatted, e.g. \"19\".",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "19"
+      }
+    }
+  },
+  "rentalFleetHint": "Prețul pe zi scade cu cât închiriezi mai multe zile. La fiecare rezervare se adaugă taxa de locație de {fee} și suma de asigurare a mașinii.",
+  "@rentalFleetHint": {
+    "description": "Note above the car list: the per-day price depends on the rental length, and every booking adds the location fee and the car's insurance amount.",
+    "placeholders": {
+      "fee": {
+        "type": "String",
+        "example": "11 €"
+      }
+    }
+  },
+  "rentalPriceFrom": "de la {price} / zi",
+  "@rentalPriceFrom": {
+    "description": "A car's lowest price per day (for 21 days or more), as davidanrentcar.md's slider words it (\"De la 19 € / ziua\").",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "19 €"
+      }
+    }
+  },
+  "rentalPricePerDay": "{price} / zi",
+  "@rentalPricePerDay": {
+    "description": "A price per day.",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "30 €"
+      }
+    }
+  },
+  "rentalPriceForTier": "{price} / zi pentru {tier}",
+  "@rentalPriceForTier": {
+    "description": "A car's price per day for a band of rental lengths. tier is rentalTierRange or rentalTierFrom.",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "30 €"
+      },
+      "tier": {
+        "type": "String",
+        "example": "1–3 zile"
+      }
+    }
+  },
+  "rentalTierRange": "{from}–{to, plural, one{{to} zi} few{{to} zile} other{{to} de zile}}",
+  "@rentalTierRange": {
+    "description": "A band of rental lengths, e.g. \"1–3 zile\", \"11–20 de zile\".",
+    "placeholders": {
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      }
+    }
+  },
+  "rentalTierFrom": "{from, plural, one{{from} zi} few{{from} zile} other{{from} de zile}} sau mai mult",
+  "@rentalTierFrom": {
+    "description": "The last band of rental lengths, with no end: \"21 de zile sau mai mult\".",
+    "placeholders": {
+      "from": {
+        "type": "int"
+      }
+    }
+  },
+  "rentalSeats": "{count, plural, one{{count} loc} few{{count} locuri} other{{count} de locuri}}",
+  "@rentalSeats": {
+    "description": "How many people a car seats, on its card.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "rentalSpecYear": "Anul mașinii",
+  "@rentalSpecYear": {
+    "description": "Car spec label, as on davidanrentcar.md."
+  },
+  "rentalSpecFuel": "Combustibil",
+  "@rentalSpecFuel": {
+    "description": "Car spec label, as on davidanrentcar.md."
+  },
+  "rentalSpecGearbox": "Cutie de viteze",
+  "@rentalSpecGearbox": {
+    "description": "Car spec label, as on davidanrentcar.md."
+  },
+  "rentalSpecConsumption": "Consumul de combustibil",
+  "@rentalSpecConsumption": {
+    "description": "Car spec label, as on davidanrentcar.md."
+  },
+  "rentalSpecPassengers": "Max pasageri",
+  "@rentalSpecPassengers": {
+    "description": "Car spec label, as on davidanrentcar.md."
+  },
+  "rentalSpecEngine": "Capacitatea motorului",
+  "@rentalSpecEngine": {
+    "description": "Car spec label, as on davidanrentcar.md."
+  },
+  "rentalSpecDoors": "Uși",
+  "@rentalSpecDoors": {
+    "description": "Car spec label, as on davidanrentcar.md."
+  },
+  "rentalSpecMileage": "Kilometraj",
+  "@rentalSpecMileage": {
+    "description": "Car spec label, as on davidanrentcar.md."
+  },
+  "rentalFeaturesTitle": "Dotări",
+  "@rentalFeaturesTitle": {
+    "description": "Heading of a car's equipment list; davidanrentcar.md's descriptions call it \"Dotări\"."
+  },
+  "rentalPricesTitle": "Prețuri pe zile",
+  "@rentalPricesTitle": {
+    "description": "Heading of a car's price table; davidanrentcar.md's is \"Tabel de Prețuri pe Zile\"."
+  },
+  "rentalLocationFee": "Taxa de locație",
+  "@rentalLocationFee": {
+    "description": "Fee added to every rental, labelled as in davidanrentcar.md's cart."
+  },
+  "rentalInsurance": "Suma de asigurare",
+  "@rentalInsurance": {
+    "description": "The car's insurance amount added to every rental, labelled as in davidanrentcar.md's cart."
+  },
+  "rentalFeesNote": "Taxa de locație și suma de asigurare se adaugă o singură dată la fiecare rezervare, oricâte zile ar avea.",
+  "@rentalFeesNote": {
+    "description": "Under a car's price table."
+  },
+  "rentalDocumentsTitle": "Acte necesare",
+  "@rentalDocumentsTitle": {
+    "description": "Heading of what the driver must show; davidanrentcar.md's terms call it \"Acte Necesare pentru Închiriere\"."
+  },
+  "rentalRequestAction": "Cerere de rezervare",
+  "@rentalRequestAction": {
+    "description": "Button on a car's page that opens the request form; davidanrentcar.md's tab name."
+  },
+  "rentalRequestTitle": "Cerere de rezervare",
+  "@rentalRequestTitle": {
+    "description": "Title of the request form; davidanrentcar.md's tab name."
+  },
+  "rentalPickupTitle": "Ridicare",
+  "@rentalPickupTitle": {
+    "description": "Where and when the car is picked up."
+  },
+  "rentalReturnTitle": "Predare",
+  "@rentalReturnTitle": {
+    "description": "Where and when the car is returned."
+  },
+  "rentalLocationAirport": "Aeroport Chișinău",
+  "@rentalLocationAirport": {
+    "description": "Pickup or return place offered by davidanrentcar.md."
+  },
+  "rentalLocationChisinau": "Chișinău",
+  "@rentalLocationChisinau": {
+    "description": "Pickup or return place offered by davidanrentcar.md."
+  },
+  "rentalDateLabel": "Data",
+  "@rentalDateLabel": {
+    "description": "Date field of the request form."
+  },
+  "rentalTimeLabel": "Ora",
+  "@rentalTimeLabel": {
+    "description": "Time field of the request form."
+  },
+  "rentalPickupPassed": "Ora ridicării a trecut deja. Alege una mai târzie.",
+  "rentalReturnNotAfterPickup": "Predarea trebuie să fie după ridicare.",
+  "rentalExtrasTitle": "Servicii suplimentare",
+  "@rentalExtrasTitle": {
+    "description": "davidanrentcar.md's \"Serviciu suplimentar\"."
+  },
+  "rentalExtraChildSeat": "Scaun pentru copii",
+  "@rentalExtraChildSeat": {
+    "description": "Extra service, as named on davidanrentcar.md."
+  },
+  "rentalExtraUnlimitedKm": "Kilometri nelimitați",
+  "@rentalExtraUnlimitedKm": {
+    "description": "Extra service, as named on davidanrentcar.md."
+  },
+  "rentalPriceWholeRental": "{price} / rezervare",
+  "@rentalPriceWholeRental": {
+    "description": "Price of an extra charged once per rental; davidanrentcar.md writes \"10,00 € / Total\".",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "10 €"
+      }
+    }
+  },
+  "rentalContactTitle": "Datele tale",
+  "@rentalContactTitle": {
+    "description": "Heading of the name and phone fields of the request form."
+  },
+  "rentalNotesLabel": "Informații suplimentare",
+  "@rentalNotesLabel": {
+    "description": "Optional notes field; davidanrentcar.md's placeholder."
+  },
+  "rentalQuoteTitle": "Prețul rezervării",
+  "@rentalQuoteTitle": {
+    "description": "Heading of the price breakdown."
+  },
+  "rentalDaysAtRate": "{days, plural, one{{days} zi} few{{days} zile} other{{days} de zile}} × {rate}",
+  "@rentalDaysAtRate": {
+    "description": "Price breakdown: the days charged at the price per day.",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "rate": {
+        "type": "String",
+        "example": "30 €"
+      }
+    }
+  },
+  "rentalRateForTier": "Prețul pe zi pentru {tier}",
+  "@rentalRateForTier": {
+    "description": "Price breakdown: which band of rental lengths the price per day is for. tier is rentalTierRange or rentalTierFrom.",
+    "placeholders": {
+      "tier": {
+        "type": "String",
+        "example": "1–3 zile"
+      }
+    }
+  },
+  "rentalNoPaymentNote": "Nu plătești nimic acum. Te contactăm ca să confirmăm rezervarea.",
+  "@rentalNoPaymentNote": {
+    "description": "Under the request form's price."
+  },
+  "rentalSendRequest": "Trimite cererea",
+  "rentalRequestSentTitle": "Cererea a fost trimisă",
+  "rentalWillContact": "Vă vom contacta în curând.",
+  "@rentalWillContact": {
+    "description": "Under the sent request, quoting davidanrentcar.md's thank-you page (formal, as the site words it)."
+  },
+  "rentalBookingNumber": "Cererea nr. {id}",
+  "@rentalBookingNumber": {
+    "description": "Title of a car rental request.",
+    "placeholders": {
+      "id": {
+        "type": "String",
+        "example": "RC-1001"
+      }
+    }
+  },
+  "rentalBookingStatus": "Cerere trimisă",
+  "@rentalBookingStatus": {
+    "description": "Status of a car rental request: sent, waiting to be confirmed by phone."
+  },
+  "rentalBookingNotFound": "Cererea nu a fost găsită.",
+  "rentalCar": "Mașina",
+  "@rentalCar": {
+    "description": "Label of the car on a sent request."
+  },
+  "rentalContact": "Contact",
+  "@rentalContact": {
+    "description": "Label of the name and phone on a sent request."
   },
   "demoProfileNote": "Cont demonstrativ, fără verificare reală prin SMS.",
   "deliverTo": "Livrare la",

@@ -2,7 +2,15 @@ import 'package:flutter/foundation.dart';
 
 /// What a line of a brand's information page is about. Its label and icon
 /// are UI text; its value is the brand's.
-enum BrandInfoKind { deliveryArea, address, phone, email, instagram, company }
+enum BrandInfoKind {
+  deliveryArea,
+  address,
+  hours,
+  phone,
+  email,
+  instagram,
+  company,
+}
 
 /// A brand's information page: its contacts and legal pages, quoted from its
 /// site (docs/sources/). Only what the site says; a brand whose site has none

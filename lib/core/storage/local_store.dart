@@ -16,6 +16,7 @@ abstract final class StorageKeys {
   static String cartOf(Brand brand) => 'cart.${brand.name}';
 
   static const orders = 'orders';
+  static const rentalBookings = 'rentalBookings';
   static const fulfilment = 'fulfilment';
   static const favorites = 'favorites';
   static const courierOnline = 'courierOnline';
@@ -29,6 +30,7 @@ abstract final class StorageKeys {
   static final demoData = {
     for (final brand in Brand.values) cartOf(brand),
     orders,
+    rentalBookings,
     fulfilment,
     favorites,
     courierOnline,

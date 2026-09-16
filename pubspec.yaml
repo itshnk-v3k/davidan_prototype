@@ -72,6 +72,7 @@ flutter:
   assets:
     - assets/images/products/
     - assets/images/sushi/
+    - assets/images/cars/
     - assets/images/banners/
     - assets/images/brand/
 

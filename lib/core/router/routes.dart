@@ -34,6 +34,10 @@ abstract final class Routes {
   static const clientProfile = '/client/profile';
   static String clientOrder(String orderId) => '$clientOrders/$orderId';
 
+  /// A car rental request, full screen above the tabs.
+  static String clientBooking(String bookingId) =>
+      '/client/bookings/$bookingId';
+
   /// Every brand's cart that has something in it, full screen above the tabs.
   static const openCarts = '/client/carts';
 
@@ -57,6 +61,11 @@ abstract final class Routes {
   ).toString();
   static String brandCart(Brand brand) => '/b/${brand.name}/cart';
   static String brandCheckout(Brand brand) => '/b/${brand.name}/checkout';
+
+  /// A car of the rental fleet, and its request form.
+  static String rentalCar(String carId) =>
+      '${brandHome(Brand.carRental)}/car/$carId';
+  static String rentalRequest(String carId) => '${rentalCar(carId)}/request';
 
   /// The brand's contacts and legal pages, for a brand that has them.
   static String brandInfo(Brand brand) => '/b/${brand.name}/info';

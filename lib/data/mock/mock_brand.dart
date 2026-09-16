@@ -1,3 +1,4 @@
+import 'package:davidan_prototype/data/mock/rental/rental_info.dart';
 import 'package:davidan_prototype/data/mock/sushi/sushi_info.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/brand_info.dart';
@@ -12,8 +13,8 @@ abstract final class BrandFacts {
 const _img = 'assets/images/products/';
 
 /// Every brand's bubble on the hub, in [Brand] order. Names, lines and photos
-/// are davidan.md's homepage tiles; Rent Car's are its own site's (its name
-/// and page title), and it has no photo in the app yet.
+/// are davidan.md's homepage tiles; Rent Car's photo is the car on the first
+/// slide of davidanrentcar.md's homepage.
 const brandIntros = <Brand, BrandIntro>{
   Brand.restaurant: BrandIntro(
     name: 'Restaurant',
@@ -32,10 +33,13 @@ const brandIntros = <Brand, BrandIntro>{
   ),
   Brand.carRental: BrandIntro(
     name: 'Rent Car',
-    description: 'Mașini de Închiriat Rapid și Simplu',
+    image: 'assets/images/cars/audi-q5-2021.webp',
   ),
 };
 
 /// The brands with an information page (contacts and legal pages). A brand
 /// missing here has none: the bakery's legal pages name another shop.
-const brandInfos = <Brand, BrandInfo>{Brand.sushi: sushiInfo};
+const brandInfos = <Brand, BrandInfo>{
+  Brand.sushi: sushiInfo,
+  Brand.carRental: rentalInfo,
+};

@@ -24,6 +24,7 @@ class BrandInfoScreen extends StatelessWidget {
   static IconData _iconOf(BrandInfoKind kind) => switch (kind) {
     BrandInfoKind.deliveryArea => Icons.delivery_dining_rounded,
     BrandInfoKind.address => Icons.location_on_rounded,
+    BrandInfoKind.hours => Icons.schedule_rounded,
     BrandInfoKind.phone => Icons.phone_rounded,
     BrandInfoKind.email => Icons.mail_outline_rounded,
     BrandInfoKind.instagram => Icons.photo_camera_outlined,

@@ -18,10 +18,12 @@ import 'package:davidan_prototype/features/food/presentation/widgets/cart_button
 import 'package:davidan_prototype/features/hub/presentation/widgets/active_orders_strip.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/brand_bubbles.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/for_you_sheet.dart';
+import 'package:davidan_prototype/features/orders/application/customer_requests_provider.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The Acasă tab: DaviDan's logo and the way into every brand's cart, where
-/// orders go (pinned at the top), the orders still on their way, the brands as bubbles on DaviDan's caramel, each
+/// orders go (pinned at the top), the orders and rental requests still under
+/// way, the brands as bubbles on DaviDan's caramel, each
 /// opening the brand full screen above the tabs, and "pentru tine", products
 /// from every brand.
 class HubHomeScreen extends ConsumerWidget {
@@ -89,7 +91,12 @@ class HubHomeScreen extends ConsumerWidget {
             ),
             SliverToBoxAdapter(
               child: ActiveOrdersStrip(
-                onOpen: (order) => context.push(Routes.clientOrder(order.id)),
+                onOpen: (request) => context.push(switch (request) {
+                  OrderRequest(:final order) => Routes.clientOrder(order.id),
+                  BookingRequest(:final booking) => Routes.clientBooking(
+                    booking.id,
+                  ),
+                }),
               ),
             ),
             SliverToBoxAdapter(

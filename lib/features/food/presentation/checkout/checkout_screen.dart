@@ -7,6 +7,7 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/utils/distance.dart';
+import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/app_chip.dart';
 import 'package:davidan_prototype/core/widgets/detail_row.dart';
@@ -155,7 +156,7 @@ class CheckoutScreen extends ConsumerWidget {
         ),
       ),
       bottomNavigationBar: TotalBar(
-        totalBani: total,
+        total: context.l10n.formatLei(total),
         actionLabel: context.l10n.placeOrder,
         onAction: () {
           final order = checkout().placeOrder();

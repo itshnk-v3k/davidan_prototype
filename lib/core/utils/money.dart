@@ -9,4 +9,8 @@ extension MoneyFormat on AppLocalizations {
       rest == 0 ? '$lei' : '$lei,${rest.toString().padLeft(2, '0')}',
     );
   }
+
+  /// Formats a price in whole euros, as DaviDan Rent Car prices its cars:
+  /// 19 → "19 €".
+  String formatEuro(int euros) => priceEuro('$euros');
 }

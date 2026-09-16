@@ -4,6 +4,8 @@ import 'package:davidan_prototype/core/location/location_result.dart';
 import 'package:davidan_prototype/data/models/brand_info.dart';
 import 'package:davidan_prototype/data/models/chisinau_sector.dart';
 import 'package:davidan_prototype/data/models/order.dart';
+import 'package:davidan_prototype/data/models/rental_booking.dart';
+import 'package:davidan_prototype/data/models/rental_car.dart';
 import 'package:davidan_prototype/l10n/app_localizations.dart';
 
 export 'package:davidan_prototype/l10n/app_localizations.dart';
@@ -55,10 +57,38 @@ extension AppLocalizationsOfEnums on AppLocalizations {
   String brandInfoLabel(BrandInfoKind kind) => switch (kind) {
     BrandInfoKind.deliveryArea => brandInfoDeliveryArea,
     BrandInfoKind.address => brandInfoAddress,
+    BrandInfoKind.hours => brandInfoHours,
     BrandInfoKind.phone => brandInfoPhone,
     BrandInfoKind.email => brandInfoEmail,
     BrandInfoKind.instagram => brandInfoInstagram,
     BrandInfoKind.company => brandInfoCompany,
+  };
+
+  String rentalSpecLabel(RentalSpec spec) => switch (spec) {
+    RentalSpec.year => rentalSpecYear,
+    RentalSpec.fuel => rentalSpecFuel,
+    RentalSpec.gearbox => rentalSpecGearbox,
+    RentalSpec.consumption => rentalSpecConsumption,
+    RentalSpec.passengers => rentalSpecPassengers,
+    RentalSpec.engine => rentalSpecEngine,
+    RentalSpec.doors => rentalSpecDoors,
+    RentalSpec.mileage => rentalSpecMileage,
+  };
+
+  /// "1–3 zile", or "21 de zile sau mai mult" for the last band.
+  String rentalTier(RentalTier tier) => switch (tier.toDays) {
+    final toDays? => rentalTierRange(tier.fromDays, toDays),
+    null => rentalTierFrom(tier.fromDays),
+  };
+
+  String rentalLocation(RentalLocation location) => switch (location) {
+    RentalLocation.airport => rentalLocationAirport,
+    RentalLocation.chisinau => rentalLocationChisinau,
+  };
+
+  String rentalExtra(RentalExtra extra) => switch (extra) {
+    RentalExtra.childSeat => rentalExtraChildSeat,
+    RentalExtra.unlimitedKm => rentalExtraUnlimitedKm,
   };
 
   String paymentMethod(PaymentMethod method) => switch (method) {

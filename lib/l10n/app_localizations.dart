@@ -302,18 +302,6 @@ abstract class AppLocalizations {
   /// **'În curând'**
   String get comingSoonTitle;
 
-  /// Title of a brand's page the prototype hasn't built yet. Temporary.
-  ///
-  /// In ro, this message translates to:
-  /// **'În lucru'**
-  String get inProgressTitle;
-
-  /// Note on a brand's page the prototype hasn't built yet. Temporary.
-  ///
-  /// In ro, this message translates to:
-  /// **'Pagina acestui brand se construiește într-o etapă următoare a prototipului.'**
-  String get inProgressMessage;
-
   /// Heading of the hub's row of products from every brand, with the signed-in customer's first name.
   ///
   /// In ro, this message translates to:
@@ -788,6 +776,12 @@ abstract class AppLocalizations {
   /// **'Adresa'**
   String get brandInfoAddress;
 
+  /// Opening hours on a brand's information page, e.g. DaviDan Rent Car's "Lucrăm 24/24".
+  ///
+  /// In ro, this message translates to:
+  /// **'Program'**
+  String get brandInfoHours;
+
   /// No description provided for @brandInfoPhone.
   ///
   /// In ro, this message translates to:
@@ -823,6 +817,306 @@ abstract class AppLocalizations {
   /// In ro, this message translates to:
   /// **'Textul de pe {website}'**
   String legalDocumentHint(String website);
+
+  /// A price in euros, as DaviDan Rent Car prices its cars. amount is already formatted, e.g. "19".
+  ///
+  /// In ro, this message translates to:
+  /// **'{amount} €'**
+  String priceEuro(String amount);
+
+  /// Note above the car list: the per-day price depends on the rental length, and every booking adds the location fee and the car's insurance amount.
+  ///
+  /// In ro, this message translates to:
+  /// **'Prețul pe zi scade cu cât închiriezi mai multe zile. La fiecare rezervare se adaugă taxa de locație de {fee} și suma de asigurare a mașinii.'**
+  String rentalFleetHint(String fee);
+
+  /// A car's lowest price per day (for 21 days or more), as davidanrentcar.md's slider words it ("De la 19 € / ziua").
+  ///
+  /// In ro, this message translates to:
+  /// **'de la {price} / zi'**
+  String rentalPriceFrom(String price);
+
+  /// A price per day.
+  ///
+  /// In ro, this message translates to:
+  /// **'{price} / zi'**
+  String rentalPricePerDay(String price);
+
+  /// A car's price per day for a band of rental lengths. tier is rentalTierRange or rentalTierFrom.
+  ///
+  /// In ro, this message translates to:
+  /// **'{price} / zi pentru {tier}'**
+  String rentalPriceForTier(String price, String tier);
+
+  /// A band of rental lengths, e.g. "1–3 zile", "11–20 de zile".
+  ///
+  /// In ro, this message translates to:
+  /// **'{from}–{to, plural, one{{to} zi} few{{to} zile} other{{to} de zile}}'**
+  String rentalTierRange(int from, int to);
+
+  /// The last band of rental lengths, with no end: "21 de zile sau mai mult".
+  ///
+  /// In ro, this message translates to:
+  /// **'{from, plural, one{{from} zi} few{{from} zile} other{{from} de zile}} sau mai mult'**
+  String rentalTierFrom(int from);
+
+  /// How many people a car seats, on its card.
+  ///
+  /// In ro, this message translates to:
+  /// **'{count, plural, one{{count} loc} few{{count} locuri} other{{count} de locuri}}'**
+  String rentalSeats(int count);
+
+  /// Car spec label, as on davidanrentcar.md.
+  ///
+  /// In ro, this message translates to:
+  /// **'Anul mașinii'**
+  String get rentalSpecYear;
+
+  /// Car spec label, as on davidanrentcar.md.
+  ///
+  /// In ro, this message translates to:
+  /// **'Combustibil'**
+  String get rentalSpecFuel;
+
+  /// Car spec label, as on davidanrentcar.md.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cutie de viteze'**
+  String get rentalSpecGearbox;
+
+  /// Car spec label, as on davidanrentcar.md.
+  ///
+  /// In ro, this message translates to:
+  /// **'Consumul de combustibil'**
+  String get rentalSpecConsumption;
+
+  /// Car spec label, as on davidanrentcar.md.
+  ///
+  /// In ro, this message translates to:
+  /// **'Max pasageri'**
+  String get rentalSpecPassengers;
+
+  /// Car spec label, as on davidanrentcar.md.
+  ///
+  /// In ro, this message translates to:
+  /// **'Capacitatea motorului'**
+  String get rentalSpecEngine;
+
+  /// Car spec label, as on davidanrentcar.md.
+  ///
+  /// In ro, this message translates to:
+  /// **'Uși'**
+  String get rentalSpecDoors;
+
+  /// Car spec label, as on davidanrentcar.md.
+  ///
+  /// In ro, this message translates to:
+  /// **'Kilometraj'**
+  String get rentalSpecMileage;
+
+  /// Heading of a car's equipment list; davidanrentcar.md's descriptions call it "Dotări".
+  ///
+  /// In ro, this message translates to:
+  /// **'Dotări'**
+  String get rentalFeaturesTitle;
+
+  /// Heading of a car's price table; davidanrentcar.md's is "Tabel de Prețuri pe Zile".
+  ///
+  /// In ro, this message translates to:
+  /// **'Prețuri pe zile'**
+  String get rentalPricesTitle;
+
+  /// Fee added to every rental, labelled as in davidanrentcar.md's cart.
+  ///
+  /// In ro, this message translates to:
+  /// **'Taxa de locație'**
+  String get rentalLocationFee;
+
+  /// The car's insurance amount added to every rental, labelled as in davidanrentcar.md's cart.
+  ///
+  /// In ro, this message translates to:
+  /// **'Suma de asigurare'**
+  String get rentalInsurance;
+
+  /// Under a car's price table.
+  ///
+  /// In ro, this message translates to:
+  /// **'Taxa de locație și suma de asigurare se adaugă o singură dată la fiecare rezervare, oricâte zile ar avea.'**
+  String get rentalFeesNote;
+
+  /// Heading of what the driver must show; davidanrentcar.md's terms call it "Acte Necesare pentru Închiriere".
+  ///
+  /// In ro, this message translates to:
+  /// **'Acte necesare'**
+  String get rentalDocumentsTitle;
+
+  /// Button on a car's page that opens the request form; davidanrentcar.md's tab name.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cerere de rezervare'**
+  String get rentalRequestAction;
+
+  /// Title of the request form; davidanrentcar.md's tab name.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cerere de rezervare'**
+  String get rentalRequestTitle;
+
+  /// Where and when the car is picked up.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ridicare'**
+  String get rentalPickupTitle;
+
+  /// Where and when the car is returned.
+  ///
+  /// In ro, this message translates to:
+  /// **'Predare'**
+  String get rentalReturnTitle;
+
+  /// Pickup or return place offered by davidanrentcar.md.
+  ///
+  /// In ro, this message translates to:
+  /// **'Aeroport Chișinău'**
+  String get rentalLocationAirport;
+
+  /// Pickup or return place offered by davidanrentcar.md.
+  ///
+  /// In ro, this message translates to:
+  /// **'Chișinău'**
+  String get rentalLocationChisinau;
+
+  /// Date field of the request form.
+  ///
+  /// In ro, this message translates to:
+  /// **'Data'**
+  String get rentalDateLabel;
+
+  /// Time field of the request form.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ora'**
+  String get rentalTimeLabel;
+
+  /// No description provided for @rentalPickupPassed.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ora ridicării a trecut deja. Alege una mai târzie.'**
+  String get rentalPickupPassed;
+
+  /// No description provided for @rentalReturnNotAfterPickup.
+  ///
+  /// In ro, this message translates to:
+  /// **'Predarea trebuie să fie după ridicare.'**
+  String get rentalReturnNotAfterPickup;
+
+  /// davidanrentcar.md's "Serviciu suplimentar".
+  ///
+  /// In ro, this message translates to:
+  /// **'Servicii suplimentare'**
+  String get rentalExtrasTitle;
+
+  /// Extra service, as named on davidanrentcar.md.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scaun pentru copii'**
+  String get rentalExtraChildSeat;
+
+  /// Extra service, as named on davidanrentcar.md.
+  ///
+  /// In ro, this message translates to:
+  /// **'Kilometri nelimitați'**
+  String get rentalExtraUnlimitedKm;
+
+  /// Price of an extra charged once per rental; davidanrentcar.md writes "10,00 € / Total".
+  ///
+  /// In ro, this message translates to:
+  /// **'{price} / rezervare'**
+  String rentalPriceWholeRental(String price);
+
+  /// Heading of the name and phone fields of the request form.
+  ///
+  /// In ro, this message translates to:
+  /// **'Datele tale'**
+  String get rentalContactTitle;
+
+  /// Optional notes field; davidanrentcar.md's placeholder.
+  ///
+  /// In ro, this message translates to:
+  /// **'Informații suplimentare'**
+  String get rentalNotesLabel;
+
+  /// Heading of the price breakdown.
+  ///
+  /// In ro, this message translates to:
+  /// **'Prețul rezervării'**
+  String get rentalQuoteTitle;
+
+  /// Price breakdown: the days charged at the price per day.
+  ///
+  /// In ro, this message translates to:
+  /// **'{days, plural, one{{days} zi} few{{days} zile} other{{days} de zile}} × {rate}'**
+  String rentalDaysAtRate(int days, String rate);
+
+  /// Price breakdown: which band of rental lengths the price per day is for. tier is rentalTierRange or rentalTierFrom.
+  ///
+  /// In ro, this message translates to:
+  /// **'Prețul pe zi pentru {tier}'**
+  String rentalRateForTier(String tier);
+
+  /// Under the request form's price.
+  ///
+  /// In ro, this message translates to:
+  /// **'Nu plătești nimic acum. Te contactăm ca să confirmăm rezervarea.'**
+  String get rentalNoPaymentNote;
+
+  /// No description provided for @rentalSendRequest.
+  ///
+  /// In ro, this message translates to:
+  /// **'Trimite cererea'**
+  String get rentalSendRequest;
+
+  /// No description provided for @rentalRequestSentTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cererea a fost trimisă'**
+  String get rentalRequestSentTitle;
+
+  /// Under the sent request, quoting davidanrentcar.md's thank-you page (formal, as the site words it).
+  ///
+  /// In ro, this message translates to:
+  /// **'Vă vom contacta în curând.'**
+  String get rentalWillContact;
+
+  /// Title of a car rental request.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cererea nr. {id}'**
+  String rentalBookingNumber(String id);
+
+  /// Status of a car rental request: sent, waiting to be confirmed by phone.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cerere trimisă'**
+  String get rentalBookingStatus;
+
+  /// No description provided for @rentalBookingNotFound.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cererea nu a fost găsită.'**
+  String get rentalBookingNotFound;
+
+  /// Label of the car on a sent request.
+  ///
+  /// In ro, this message translates to:
+  /// **'Mașina'**
+  String get rentalCar;
+
+  /// Label of the name and phone on a sent request.
+  ///
+  /// In ro, this message translates to:
+  /// **'Contact'**
+  String get rentalContact;
 
   /// No description provided for @demoProfileNote.
   ///

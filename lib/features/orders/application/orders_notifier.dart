@@ -17,15 +17,6 @@ final orderByIdProvider = Provider.family<Order?, String>(
       .firstOrNull,
 );
 
-/// Orders not yet completed, from every brand, newest first: the hub's strip
-/// of orders on their way.
-final activeOrdersProvider = Provider<List<Order>>(
-  (ref) => [
-    for (final order in ref.watch(ordersProvider))
-      if (order.status != OrderStatus.completed) order,
-  ],
-);
-
 /// [brand]'s most recent order, or null before its first: what "Comandă din
 /// nou" repeats.
 final lastOrderOfProvider = Provider.family<Order?, Brand>(

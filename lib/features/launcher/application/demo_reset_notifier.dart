@@ -8,6 +8,7 @@ import 'package:davidan_prototype/features/account/application/fulfilment_choice
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/favorites_notifier.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/features/rental/application/rental_bookings_notifier.dart';
 
 final demoResetProvider = NotifierProvider<DemoResetNotifier, void>(
   DemoResetNotifier.new,
@@ -26,6 +27,7 @@ class DemoResetNotifier extends Notifier<void> {
     ref
       ..invalidate(cartProvider)
       ..invalidate(ordersProvider)
+      ..invalidate(rentalBookingsProvider)
       ..invalidate(fulfilmentChoiceProvider)
       ..invalidate(favoritesProvider)
       ..invalidate(accountProvider)

@@ -325,39 +325,11 @@ void main() {
             .assetName,
         'assets/images/products/orez-pui.webp',
       );
-      expect(
-        inScreen<BrandIntroScreen>(find.text(ro.inProgressTitle)),
-        findsNothing,
-      );
       expect(inScreen<BrandIntroScreen>(find.text(ro.menuTitle)), findsNothing);
 
       await tester.tap(
         inScreen<BrandIntroScreen>(find.byIcon(Icons.arrow_back_rounded)),
       );
-      await tester.pumpAndSettle();
-      expect(find.byType(HubHomeScreen), findsOneWidget);
-    },
-  );
-
-  testWidgets(
-    'Rent Car opens a temporary page that says it is still being built, with '
-    'its site\'s one line',
-    (tester) async {
-      await pumpApp(tester, container, Routes.clientHome);
-
-      await open(tester, Brand.carRental);
-
-      expect(find.byType(BrandIntroScreen), findsOneWidget);
-      expect(find.text(ro.navOrders), findsNothing);
-      expect(find.text(ro.inProgressTitle), findsOneWidget);
-      expect(find.text(ro.inProgressMessage), findsOneWidget);
-      expect(find.text(ro.comingSoonTitle), findsNothing);
-      expect(
-        find.text(brandIntros[Brand.carRental]!.description!),
-        findsOneWidget,
-      );
-
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
       await tester.pumpAndSettle();
       expect(find.byType(HubHomeScreen), findsOneWidget);
     },

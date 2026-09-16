@@ -34,6 +34,11 @@ import 'package:davidan_prototype/features/hub/presentation/splash/splash_screen
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/orders/presentation/orders_screen.dart';
+import 'package:davidan_prototype/features/rental/application/rental_providers.dart';
+import 'package:davidan_prototype/features/rental/presentation/car_detail_screen.dart';
+import 'package:davidan_prototype/features/rental/presentation/rental_booking_screen.dart';
+import 'package:davidan_prototype/features/rental/presentation/rental_home_screen.dart';
+import 'package:davidan_prototype/features/rental/presentation/rental_request_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final extraApps = ref.watch(extraAppsProvider);
@@ -169,11 +174,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               Brand.restaurant => const BrandIntroScreen(
                 brand: Brand.restaurant,
               ),
-              // TEMPORARY until its own pages are built (hub round step 7).
-              Brand.carRental => const BrandIntroScreen(
-                brand: Brand.carRental,
-                inProgress: true,
-              ),
+              Brand.carRental => const RentalHomeScreen(),
             }),
           ),
           GoRoute(
@@ -258,6 +259,36 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
+          // A car of the rental fleet, pushed from its card, and its request
+          // form, pushed from the car. Only Rent Car has cars: any other
+          // brand, or a car the fleet doesn't have, shows the brand's home.
+          GoRoute(
+            path: '/b/:${Routes.brandParam}/car/:carId',
+            redirect: (context, state) =>
+                _unknownBrandGoesHome(context, state) ??
+                (_brandIn(state) != Brand.carRental ||
+                        ref.read(
+                              rentalCarByIdProvider(
+                                state.pathParameters['carId']!,
+                              ),
+                            ) ==
+                            null
+                    ? Routes.brandHome(_brandIn(state)!)
+                    : null),
+            builder: (_, state) => _branded(
+              state,
+              CarDetailScreen(carId: state.pathParameters['carId']!),
+            ),
+            routes: [
+              GoRoute(
+                path: 'request',
+                builder: (_, state) => _branded(
+                  state,
+                  RentalRequestScreen(carId: state.pathParameters['carId']!),
+                ),
+              ),
+            ],
+          ),
           // Pushed by the carts button on the hub's Acasă and Favorite tabs.
           GoRoute(
             path: Routes.openCarts,
@@ -269,6 +300,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: '/client/orders/:orderId',
             builder: (_, state) => OrderConfirmationScreen(
               orderId: state.pathParameters['orderId']!,
+            ),
+          ),
+
+          // Opened with go() once a car rental request is sent, so back
+          // doesn't return to the sent form; pushed from Comenzi and the hub.
+          GoRoute(
+            path: '/client/bookings/:bookingId',
+            builder: (_, state) => RentalBookingScreen(
+              bookingId: state.pathParameters['bookingId']!,
             ),
           ),
 
