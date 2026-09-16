@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import 'package:davidan_prototype/core/location/location_result.dart';
+import 'package:davidan_prototype/data/models/brand_info.dart';
 import 'package:davidan_prototype/data/models/chisinau_sector.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/l10n/app_localizations.dart';
@@ -50,6 +51,15 @@ extension AppLocalizationsOfEnums on AppLocalizations {
 
   String locationFailedUseSector(LocationFailure failure) =>
       findShopBySectorAfter(locationFailure(failure));
+
+  String brandInfoLabel(BrandInfoKind kind) => switch (kind) {
+    BrandInfoKind.deliveryArea => brandInfoDeliveryArea,
+    BrandInfoKind.address => brandInfoAddress,
+    BrandInfoKind.phone => brandInfoPhone,
+    BrandInfoKind.email => brandInfoEmail,
+    BrandInfoKind.instagram => brandInfoInstagram,
+    BrandInfoKind.company => brandInfoCompany,
+  };
 
   String paymentMethod(PaymentMethod method) => switch (method) {
     PaymentMethod.cash => paymentCash,

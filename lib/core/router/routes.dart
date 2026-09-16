@@ -34,6 +34,9 @@ abstract final class Routes {
   static const clientProfile = '/client/profile';
   static String clientOrder(String orderId) => '$clientOrders/$orderId';
 
+  /// Every brand's cart that has something in it, full screen above the tabs.
+  static const openCarts = '/client/carts';
+
   // A brand, full screen above the hub: its home, menu, product, cart and
   // checkout. Every brand has its own cart.
   static const brandParam = 'brand';
@@ -54,6 +57,13 @@ abstract final class Routes {
   ).toString();
   static String brandCart(Brand brand) => '/b/${brand.name}/cart';
   static String brandCheckout(Brand brand) => '/b/${brand.name}/checkout';
+
+  /// The brand's contacts and legal pages, for a brand that has them.
+  static String brandInfo(Brand brand) => '/b/${brand.name}/info';
+
+  /// One of the brand's legal pages, by its slug on the brand's site.
+  static String brandLegal(Brand brand, String documentId) =>
+      '${brandInfo(brand)}/$documentId';
 
   // Demo sign-in (no real SMS): phone, code, details, then a welcome
   static const signIn = '/client/sign-in';

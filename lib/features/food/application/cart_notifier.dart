@@ -49,6 +49,22 @@ final cartTotalProvider = Provider.family<int, Brand>(
       .fold(0, (sum, line) => sum + line.priceBani * line.quantity),
 );
 
+/// Every brand's cart that has something in it, in the hub's brand order,
+/// with its number of items and total in bani.
+final openCartsProvider =
+    Provider<List<({Brand brand, int count, int totalBani})>>(
+      (ref) => [
+        for (final brand in Brand.values)
+          if (ref.watch(cartCountProvider(brand)) case final count
+              when count > 0)
+            (
+              brand: brand,
+              count: count,
+              totalBani: ref.watch(cartTotalProvider(brand)),
+            ),
+      ],
+    );
+
 /// One brand's cart lines, saved to local storage on every change and
 /// restored on start.
 class CartNotifier extends Notifier<List<CartItem>> {

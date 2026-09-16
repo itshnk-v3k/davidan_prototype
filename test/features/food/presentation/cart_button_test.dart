@@ -1,5 +1,6 @@
-// The hub's bottom tabs, and the cart button at the top right of a brand's
-// pages, which replaced the cart tab, in the real app, in Chrome:
+// The hub's bottom tabs, and the cart buttons at the top right of a brand's
+// pages and of the hub's tabs, which replaced the cart tab, in the real app,
+// in Chrome:
 //   flutter test --platform chrome
 @TestOn('browser')
 library;
@@ -67,24 +68,26 @@ void main() {
   });
 
   testWidgets(
-    'a brand\'s home and menu, and the Favorite tab, show the cart button at '
-    'the top right; the hub, Comenzi and Profil do not',
+    'a brand\'s home and menu show its cart button at the top right, and '
+    'Acasă and Favorite the button for every cart; Comenzi and Profil show '
+    'neither',
     (tester) async {
-      for (final (route, screen) in [
-        (Routes.brandHome(Brand.bakery), BrandHomeScreen),
-        (Routes.brandMenu(Brand.bakery), CatalogScreen),
-        (Routes.clientFavorites, FavoritesScreen),
+      for (final (route, screen, button) in [
+        (Routes.brandHome(Brand.bakery), BrandHomeScreen, CartButton),
+        (Routes.brandMenu(Brand.sushi), CatalogScreen, CartButton),
+        (Routes.clientHome, HubHomeScreen, OpenCartsButton),
+        (Routes.clientFavorites, FavoritesScreen, OpenCartsButton),
       ]) {
         await pumpApp(tester, container, route);
 
-        final button = inScreenOf(screen, find.byType(CartButton));
-        expect(button, findsOneWidget, reason: route);
+        final found = inScreenOf(screen, find.byType(button));
+        expect(found, findsOneWidget, reason: route);
         expect(
-          tester.getTopRight(button).dx,
+          tester.getTopRight(found).dx,
           closeTo(400 - 16, 1),
           reason: route,
         );
-        expect(tester.getTopLeft(button).dy, lessThan(80), reason: route);
+        expect(tester.getTopLeft(found).dy, lessThan(80), reason: route);
         expect(
           inScreenOf(screen, find.byIcon(Icons.receipt_long_rounded)),
           findsOneWidget,
@@ -93,13 +96,12 @@ void main() {
       }
 
       for (final (route, screen) in [
-        (Routes.clientHome, HubHomeScreen),
         (Routes.clientOrders, OrdersScreen),
         (Routes.clientProfile, ProfileScreen),
       ]) {
         await pumpApp(tester, container, route);
         expect(
-          inScreenOf(screen, find.byType(CartButton)),
+          inScreenOf(screen, find.byIcon(Icons.receipt_long_rounded)),
           findsNothing,
           reason: route,
         );

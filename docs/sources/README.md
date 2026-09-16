@@ -1,8 +1,9 @@
 # Content sources
 
 Where the prototype's copy, prices and policies come from. Every product name,
-price, blurb and legal text in `lib/data/mock/` and `assets/legal/` must trace
-back to one of these files. When something isn't in them, the app says so or
+price, blurb and legal text in `lib/data/mock/` must trace back to one of these
+files (`test/data/mock_data_test.dart` checks the sushi menu and legal pages
+against them). When something isn't in them, the app says so or
 leaves it out; it is never invented.
 
 Collected on 2026-09-16 with raw `curl` (not a summarising fetcher), so quoted
@@ -44,7 +45,12 @@ Reported to the client; the app works around them as noted.
   ladanut.md. The app leaves them out.
 - **Delivery fees are not shown.** The bakery's 35 lei and the sushi site's
   40 lei / free over 500 lei (in a block the site hides) are the client's
-  pricing decision, so the app shows no delivery fee.
+  pricing decision, so the app shows no delivery fee. The sushi Termeni și
+  Condiții, quoted in full, still say delivery costs are shown when ordering.
+- **Sushi photo links have moved.** The store API (and so
+  `davidansushi_md_menu.json`) still lists `.jpg` originals that now return
+  404; the same photos are served as `.png` (a few stay `.jpg`).
+  `tools/image_manifest.txt` has the working links, checked on 2026-09-16.
 - **Restaurant has no menu anywhere.** The app shows "În curând" with the
   site's one sentence and photo.
 - **Water has only the 0,5L bottles.** The 19 L jug is mentioned on Instagram

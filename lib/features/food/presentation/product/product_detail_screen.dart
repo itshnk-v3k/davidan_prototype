@@ -21,8 +21,9 @@ import 'package:davidan_prototype/features/food/presentation/widgets/quantity_st
 import 'package:davidan_prototype/l10n/app_language.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// Product photo, name, price and ingredients, with a heart to save it and a
-/// bar to pick a quantity and add it to the cart. Back returns to wherever
+/// Product photo, name, price, pieces and weight (when the brand's site gives
+/// them) and ingredients, with a heart to save it and a bar to pick a quantity
+/// and add it to the cart. Back returns to wherever
 /// the product was opened.
 class ProductDetailScreen extends ConsumerWidget {
   const ProductDetailScreen({
@@ -145,6 +146,12 @@ class _ProductInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final description = product.description;
+    final pieces = product.pieces;
+    final weight = product.weight;
+    final size = [
+      if (pieces != null) context.l10n.productPieces(pieces),
+      if (weight != null) context.l10n.productWeight(weight),
+    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,6 +185,10 @@ class _ProductInfo extends StatelessWidget {
             ],
           ],
         ),
+        if (size.isNotEmpty) ...[
+          const SizedBox(height: AppSpacing.sm),
+          Text(size.join(' · '), style: context.textStyles.bodySecondary),
+        ],
         if (description != null) ...[
           const SizedBox(height: AppSpacing.xl),
           Text(

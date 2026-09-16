@@ -13,10 +13,9 @@ import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// The way into [brand]'s cart, at the top right of the brand's pages (and,
-/// until the hub lists every cart, of the Favorite tab): a receipt icon with
-/// the number of items in the cart. The cart opens over the screen it was
-/// opened from, so back returns there.
+/// The way into [brand]'s cart, at the top right of the brand's pages: a
+/// receipt icon with the number of items in the cart. The cart opens over the
+/// screen it was opened from, so back returns there.
 class CartButton extends ConsumerWidget {
   const CartButton({super.key, required this.brand});
 
@@ -26,13 +25,56 @@ class CartButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final count = ref.watch(cartCountProvider(brand));
 
+    return _ReceiptButton(
+      count: count,
+      semanticLabel: context.l10n.openCart(count),
+      onPressed: () => context.push(Routes.brandCart(brand)),
+    );
+  }
+}
+
+/// The way into every brand's cart from the hub's tabs, where no one brand is
+/// open: the same receipt icon, counting the items in all the carts, opening
+/// the list of carts that have something in them.
+class OpenCartsButton extends ConsumerWidget {
+  const OpenCartsButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final count = ref.watch(
+      openCartsProvider.select(
+        (carts) => carts.fold(0, (sum, cart) => sum + cart.count),
+      ),
+    );
+
+    return _ReceiptButton(
+      count: count,
+      semanticLabel: context.l10n.openCarts(count),
+      onPressed: () => context.push(Routes.openCarts),
+    );
+  }
+}
+
+class _ReceiptButton extends StatelessWidget {
+  const _ReceiptButton({
+    required this.count,
+    required this.semanticLabel,
+    required this.onPressed,
+  });
+
+  final int count;
+  final String semanticLabel;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
         AppIconButton(
           icon: Icons.receipt_long_rounded,
-          semanticLabel: context.l10n.openCart(count),
-          onPressed: () => context.push(Routes.brandCart(brand)),
+          semanticLabel: semanticLabel,
+          onPressed: onPressed,
         ),
         // The badge grows in with the first item, bumps each time the count
         // goes up, and shrinks away when the cart empties. This is the

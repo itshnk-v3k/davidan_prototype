@@ -16,7 +16,7 @@ import 'package:davidan_prototype/l10n/l10n.dart';
 /// sources say, never an invented menu.
 ///
 /// [inProgress] marks a brand whose pages the prototype just hasn't built yet
-/// (sushi, water and car rental, until hub round steps 5–7): "În lucru", with
+/// (water and car rental, until hub round steps 6 and 7): "În lucru", with
 /// a note saying so, rather than suggesting the brand has nothing to offer.
 class BrandIntroScreen extends StatelessWidget {
   const BrandIntroScreen({

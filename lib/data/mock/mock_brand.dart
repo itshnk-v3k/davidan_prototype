@@ -1,4 +1,6 @@
+import 'package:davidan_prototype/data/mock/sushi/sushi_info.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
+import 'package:davidan_prototype/data/models/brand_info.dart';
 import 'package:davidan_prototype/data/models/brand_intro.dart';
 
 /// Company slogan from davidan.md, for the splash screen.
@@ -19,13 +21,7 @@ const brandIntros = <Brand, BrandIntro>{
     description:
         'Experiențe culinare de neuitat într-un ambient elegant și primitor.',
   ),
-  Brand.sushi: BrandIntro(
-    name: 'Sushi',
-    image: '${_img}ebi-roll.webp',
-    description:
-        'Delicii proaspete, rafinate și autentice, direct din tradiția '
-        'japoneză.',
-  ),
+  Brand.sushi: BrandIntro(name: 'Sushi', image: '${_img}ebi-roll.webp'),
   Brand.bakery: BrandIntro(
     name: 'Patiserie',
     image: '${_img}kurtos-scortisoara.webp',
@@ -42,3 +38,7 @@ const brandIntros = <Brand, BrandIntro>{
     description: 'Mașini de Închiriat Rapid și Simplu',
   ),
 };
+
+/// The brands with an information page (contacts and legal pages). A brand
+/// missing here has none: the bakery's legal pages name another shop.
+const brandInfos = <Brand, BrandInfo>{Brand.sushi: sushiInfo};

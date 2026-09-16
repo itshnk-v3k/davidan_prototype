@@ -29,7 +29,8 @@ import 'package:davidan_prototype/features/orders/presentation/widgets/order_sum
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Checkout of one brand's cart: delivery address (or a pinned current
-/// location) or pickup shop, time, payment on receipt and the order summary.
+/// location) or, for a brand with shops to pick up from, a pickup shop, then
+/// time, payment on receipt and the order summary.
 /// Placing the order empties that cart and opens its confirmation.
 class CheckoutScreen extends ConsumerWidget {
   const CheckoutScreen({super.key, required this.brand});
@@ -57,7 +58,7 @@ class CheckoutScreen extends ConsumerWidget {
     }
 
     final slots = ref.watch(checkoutTimeSlotsProvider);
-    final locations = ref.watch(locationsProvider);
+    final locations = ref.watch(pickupShopsProvider(brand));
     // Not `placedOrder?.totalBani ?? ref.watch(...)`: the `??` context would
     // infer watch<int?> and make the total nullable.
     final total = placedOrder == null
@@ -176,6 +177,9 @@ class _FulfilmentSection extends StatelessWidget {
   });
 
   final CheckoutDraft draft;
+
+  /// Where the brand's orders can be picked up. Empty for a brand that only
+  /// delivers: no choice between delivery and pickup is shown.
   final List<StoreLocation> locations;
   final ValueChanged<FulfilmentType> onTypeChanged;
   final ValueChanged<String> onAddressChanged;
@@ -190,8 +194,10 @@ class _FulfilmentSection extends StatelessWidget {
     return _Section(
       title: context.l10n.fulfilmentTitle,
       children: [
-        FulfilmentTypeChips(selected: draft.type, onChanged: onTypeChanged),
-        const SizedBox(height: AppSpacing.md),
+        if (locations.isNotEmpty) ...[
+          FulfilmentTypeChips(selected: draft.type, onChanged: onTypeChanged),
+          const SizedBox(height: AppSpacing.md),
+        ],
         if (delivery && pinned != null)
           _PinnedLocationCard(pinned: pinned, onDrop: onDropPinned)
         else if (delivery)

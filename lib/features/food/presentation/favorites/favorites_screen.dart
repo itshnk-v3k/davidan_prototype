@@ -6,7 +6,6 @@ import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
-import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/favorites_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_grid.dart';
@@ -30,8 +29,9 @@ class FavoritesScreen extends ConsumerWidget {
           children: [
             ScreenHeader(
               title: context.l10n.favoritesTitle,
-              // The bakery is the only brand with a menu so far.
-              actions: const [CartButton(brand: Brand.bakery)],
+              // Saved products come from every brand, so this opens the list
+              // of every brand's cart.
+              actions: const [OpenCartsButton()],
             ),
             Expanded(
               child: products.isEmpty

@@ -6,7 +6,8 @@ Clickable prototype of a delivery platform for DaviDan, a bakery chain in Moldov
 
 A demo build for the client to review and decide what to keep or cut. This is not production code.
 
-- **Customer app**: a hub with DaviDan's five brands as bubbles (Restaurant, Sushi, Patiserie, Apă naturală, Rent Car) and the tabs Acasă, Comenzi, Favorite and Profil; demo sign-in (no real SMS), location selection with "use my current location". A brand opens full screen above the tabs. So far only the bakery (Patiserie) has its menu, product, cart, checkout and order tracking; Restaurant shows "În curând" (the client has no menu), and Sushi, Apă naturală and Rent Car show a temporary "În lucru" page until their own pages are built. Don't show those three to the client yet.
+- **Customer app**: a hub with DaviDan's five brands as bubbles (Restaurant, Sushi, Patiserie, Apă naturală, Rent Car) and the tabs Acasă, Comenzi, Favorite and Profil; demo sign-in (no real SMS), location selection with "use my current location". A brand opens full screen above the tabs. So far the bakery (Patiserie) and Sushi have their menu, product, cart, checkout and order tracking, and Sushi also has an information page with its contacts and legal pages; Restaurant shows "În curând" (the client has no menu), and Apă naturală and Rent Car show a temporary "În lucru" page until their own pages are built. Don't show those two to the client yet.
+- **Carts**: each brand has its own cart and checkout. The receipt button on Acasă and Favorite lists every cart that has something in it. Sushi orders are delivered only: no source names a place to pick them up.
 - **Courier app** and **store panel (KDS)**: kept for phase 2, but left out of the client demo at the client's request. They are only in the staff build (see below).
 
 Without the store panel and courier, the customer app simulates them: a placed order is accepted after 15 seconds and delivered about five minutes later, with the courier map while it is on the way. Timings are in `lib/features/orders/application/order_simulation.dart`.
@@ -105,7 +106,7 @@ flutter build apk --release
 flutter build apk --release -t lib/main_staff.dart
 ```
 
-Output: `build/app/outputs/flutter-apk/app-release.apk`, about 54 MB. The first build takes about 3 minutes; later ones are faster.
+Output: `build/app/outputs/flutter-apk/app-release.apk`, about 54 MB (measured before the sushi menu's photos, which add about 4 MB). The first build takes about 3 minutes; later ones are faster.
 
 > **Warning:** both builds write the same `app-release.apk` and share one app ID, so on the phone one replaces the other. Rebuild the one you need right before sending it.
 

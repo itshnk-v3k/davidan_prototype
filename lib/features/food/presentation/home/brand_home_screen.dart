@@ -8,6 +8,7 @@ import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/brand_logo.dart';
+import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/category_strip.dart';
@@ -111,7 +112,8 @@ class BrandHomeScreen extends ConsumerWidget {
   }
 }
 
-/// Back to the hub, the logo and the brand's cart.
+/// Back to the hub, the brand's logo, its information page (for a brand that
+/// has one) and its cart.
 class _BrandHeader extends StatelessWidget {
   const _BrandHeader({required this.brand});
 
@@ -119,6 +121,8 @@ class _BrandHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final info = brandInfos[brand];
+
     // Opaque, so the content scrolling beneath doesn't show through.
     return ColoredBox(
       color: context.colors.background,
@@ -139,8 +143,16 @@ class _BrandHeader extends StatelessWidget {
                   : context.go(Routes.clientHome),
             ),
             const SizedBox(width: AppSpacing.md),
-            const BrandLogo(height: 26),
+            BrandLogo(height: 26, brand: brand),
             const Spacer(),
+            if (info != null) ...[
+              AppIconButton(
+                icon: Icons.info_outline_rounded,
+                semanticLabel: context.l10n.openBrandInfo(info.name),
+                onPressed: () => context.push(Routes.brandInfo(brand)),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+            ],
             CartButton(brand: brand),
           ],
         ),

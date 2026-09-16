@@ -764,6 +764,66 @@ abstract class AppLocalizations {
   /// **'Toate'**
   String get allBrands;
 
+  /// Screen reader label of the info button on a brand's home.
+  ///
+  /// In ro, this message translates to:
+  /// **'Informații despre {brandName}'**
+  String openBrandInfo(String brandName);
+
+  /// No description provided for @brandContactsTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Contacte'**
+  String get brandContactsTitle;
+
+  /// No description provided for @brandInfoDeliveryArea.
+  ///
+  /// In ro, this message translates to:
+  /// **'Zona de livrare'**
+  String get brandInfoDeliveryArea;
+
+  /// No description provided for @brandInfoAddress.
+  ///
+  /// In ro, this message translates to:
+  /// **'Adresa'**
+  String get brandInfoAddress;
+
+  /// No description provided for @brandInfoPhone.
+  ///
+  /// In ro, this message translates to:
+  /// **'Telefon'**
+  String get brandInfoPhone;
+
+  /// No description provided for @brandInfoEmail.
+  ///
+  /// In ro, this message translates to:
+  /// **'E-mail'**
+  String get brandInfoEmail;
+
+  /// No description provided for @brandInfoInstagram.
+  ///
+  /// In ro, this message translates to:
+  /// **'Instagram'**
+  String get brandInfoInstagram;
+
+  /// No description provided for @brandInfoCompany.
+  ///
+  /// In ro, this message translates to:
+  /// **'Companie'**
+  String get brandInfoCompany;
+
+  /// No description provided for @legalDocumentsTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Informații legale'**
+  String get legalDocumentsTitle;
+
+  /// Under a legal page's title on a brand's information page.
+  ///
+  /// In ro, this message translates to:
+  /// **'Textul de pe {website}'**
+  String legalDocumentHint(String website);
+
   /// No description provided for @demoProfileNote.
   ///
   /// In ro, this message translates to:
@@ -817,6 +877,18 @@ abstract class AppLocalizations {
   /// In ro, this message translates to:
   /// **'Descriere'**
   String get descriptionTitle;
+
+  /// Product page: how many pieces, labelled as on davidansushi.md. pieces is the site's value as written.
+  ///
+  /// In ro, this message translates to:
+  /// **'Bucăți: {pieces}'**
+  String productPieces(String pieces);
+
+  /// Product page: weight or volume, labelled as on davidansushi.md. weight is the site's value as written.
+  ///
+  /// In ro, this message translates to:
+  /// **'Masa: {weight}'**
+  String productWeight(String weight);
 
   /// No description provided for @productNotFound.
   ///
@@ -883,6 +955,30 @@ abstract class AppLocalizations {
   /// In ro, this message translates to:
   /// **'{count, plural, =0{Coșul meu} one{Coșul meu, {count} produs în coș} few{Coșul meu, {count} produse în coș} other{Coșul meu, {count} de produse în coș}}'**
   String openCart(int count);
+
+  /// The hub's list of every brand's cart that has something in it.
+  ///
+  /// In ro, this message translates to:
+  /// **'Coșurile mele'**
+  String get openCartsTitle;
+
+  /// Screen reader label of the hub's carts button: openCartsTitle, plus the products in every cart.
+  ///
+  /// In ro, this message translates to:
+  /// **'{count, plural, =0{Coșurile mele} one{Coșurile mele, {count} produs în coș} few{Coșurile mele, {count} produse în coș} other{Coșurile mele, {count} de produse în coș}}'**
+  String openCarts(int count);
+
+  /// No description provided for @openCartsEmptyTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Nimic în coș deocamdată'**
+  String get openCartsEmptyTitle;
+
+  /// No description provided for @openCartsEmptyMessage.
+  ///
+  /// In ro, this message translates to:
+  /// **'Fiecare meniu are coșul lui. Coșurile în care ai adăugat ceva apar aici.'**
+  String get openCartsEmptyMessage;
 
   /// No description provided for @cartEmptyTitle.
   ///

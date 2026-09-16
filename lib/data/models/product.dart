@@ -18,6 +18,8 @@ class Product {
     required this.priceBani,
     this.image,
     this.description,
+    this.weight,
+    this.pieces,
   });
 
   /// The brand that sells it.
@@ -32,9 +34,17 @@ class Product {
   /// Bundled asset path, or null to show a branded placeholder tile.
   final String? image;
 
-  /// Ingredient list from davidan.md. Null when the site has none; never
-  /// invented.
+  /// Ingredient list (or a set's contents) from the brand's site. Null when
+  /// the site has none; never invented.
   final String? description;
+
+  /// The site's "Masa" as written, e.g. "250g", "150g, 50g" or "400ml". Null
+  /// when the site gives none.
+  final String? weight;
+
+  /// The site's "Bucăți" as written, e.g. "24 buc". Null when the site gives
+  /// none.
+  final String? pieces;
 
   ProductKey get key => (brand: brand, id: id);
 }

@@ -282,6 +282,34 @@
   "@allBrands": {
     "description": "Filter chip showing orders from every brand."
   },
+  "openBrandInfo": "Informații despre {brandName}",
+  "@openBrandInfo": {
+    "description": "Screen reader label of the info button on a brand's home.",
+    "placeholders": {
+      "brandName": {
+        "type": "String",
+        "example": "DaviDan Sushi"
+      }
+    }
+  },
+  "brandContactsTitle": "Contacte",
+  "brandInfoDeliveryArea": "Zona de livrare",
+  "brandInfoAddress": "Adresa",
+  "brandInfoPhone": "Telefon",
+  "brandInfoEmail": "E-mail",
+  "brandInfoInstagram": "Instagram",
+  "brandInfoCompany": "Companie",
+  "legalDocumentsTitle": "Informații legale",
+  "legalDocumentHint": "Textul de pe {website}",
+  "@legalDocumentHint": {
+    "description": "Under a legal page's title on a brand's information page.",
+    "placeholders": {
+      "website": {
+        "type": "String",
+        "example": "davidansushi.md"
+      }
+    }
+  },
   "demoProfileNote": "Cont demonstrativ, fără verificare reală prin SMS.",
   "deliverTo": "Livrare la",
   "chooseAddress": "Alege adresa sau localul",
@@ -305,6 +333,26 @@
   },
   "categoryEmpty": "Momentan nu sunt produse în această categorie.",
   "descriptionTitle": "Descriere",
+  "productPieces": "Bucăți: {pieces}",
+  "@productPieces": {
+    "description": "Product page: how many pieces, labelled as on davidansushi.md. pieces is the site's value as written.",
+    "placeholders": {
+      "pieces": {
+        "type": "String",
+        "example": "24 buc"
+      }
+    }
+  },
+  "productWeight": "Masa: {weight}",
+  "@productWeight": {
+    "description": "Product page: weight or volume, labelled as on davidansushi.md. weight is the site's value as written.",
+    "placeholders": {
+      "weight": {
+        "type": "String",
+        "example": "150g, 50g"
+      }
+    }
+  },
   "productNotFound": "Produsul nu a fost găsit.",
   "increaseQuantity": "Mărește cantitatea",
   "decreaseQuantity": "Micșorează cantitatea",
@@ -384,6 +432,21 @@
       }
     }
   },
+  "openCartsTitle": "Coșurile mele",
+  "@openCartsTitle": {
+    "description": "The hub's list of every brand's cart that has something in it."
+  },
+  "openCarts": "{count, plural, =0{Coșurile mele} one{Coșurile mele, {count} produs în coș} few{Coșurile mele, {count} produse în coș} other{Coșurile mele, {count} de produse în coș}}",
+  "@openCarts": {
+    "description": "Screen reader label of the hub's carts button: openCartsTitle, plus the products in every cart.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "openCartsEmptyTitle": "Nimic în coș deocamdată",
+  "openCartsEmptyMessage": "Fiecare meniu are coșul lui. Coșurile în care ai adăugat ceva apar aici.",
   "cartEmptyTitle": "Coșul tău e gol",
   "cartEmptyMessage": "Adaugă produse din meniu, apoi revino aici ca să finalizezi comanda.",
   "browseMenu": "Vezi meniul",

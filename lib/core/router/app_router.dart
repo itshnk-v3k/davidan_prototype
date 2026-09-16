@@ -7,6 +7,7 @@ import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/widgets/phone_frame.dart';
+import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/account/presentation/location/location_screen.dart';
 import 'package:davidan_prototype/features/account/presentation/location/map_picker_screen.dart';
@@ -17,14 +18,17 @@ import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_
 import 'package:davidan_prototype/features/account/presentation/sign_in/welcome_screen.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/food/presentation/cart/cart_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/cart/open_carts_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/favorites/favorites_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
+import 'package:davidan_prototype/features/hub/presentation/brand_info_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/brand_intro_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/client_shell.dart';
 import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
+import 'package:davidan_prototype/features/hub/presentation/legal_document_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/splash/splash_screen.dart';
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
@@ -156,13 +160,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: '/b/:${Routes.brandParam}',
             redirect: _unknownBrandGoesHome,
             builder: (_, state) => _branded(state, switch (_brandIn(state)!) {
-              Brand.bakery => const BrandHomeScreen(brand: Brand.bakery),
+              final brand && (Brand.bakery || Brand.sushi) => BrandHomeScreen(
+                brand: brand,
+              ),
               // The client has no restaurant menu yet: its intro stays.
               Brand.restaurant => const BrandIntroScreen(
                 brand: Brand.restaurant,
               ),
-              // TEMPORARY until their own pages are built (hub round steps
-              // 5, 6 and 7).
+              // TEMPORARY until their own pages are built (hub round steps 6
+              // and 7).
               final brand => BrandIntroScreen(brand: brand, inProgress: true),
             }),
           ),
@@ -211,6 +217,47 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             redirect: _unknownBrandGoesHome,
             builder: (_, state) =>
                 _branded(state, CheckoutScreen(brand: _brandIn(state)!)),
+          ),
+          // Pushed by the brand home's info button, for a brand that has an
+          // information page; any other brand shows its home instead. A legal
+          // page the brand doesn't have shows the information page.
+          GoRoute(
+            path: '/b/:${Routes.brandParam}/info',
+            redirect: (context, state) =>
+                _unknownBrandGoesHome(context, state) ??
+                (brandInfos[_brandIn(state)!] == null
+                    ? Routes.brandHome(_brandIn(state)!)
+                    : null),
+            builder: (_, state) =>
+                _branded(state, BrandInfoScreen(brand: _brandIn(state)!)),
+            routes: [
+              GoRoute(
+                path: ':documentId',
+                redirect: (_, state) {
+                  final brand = _brandIn(state);
+                  final documentId = state.pathParameters['documentId'];
+                  final documents = brandInfos[brand]?.documents ?? const [];
+                  if (documents.any((document) => document.id == documentId)) {
+                    return null;
+                  }
+                  return brand == null
+                      ? Routes.clientHome
+                      : Routes.brandInfo(brand);
+                },
+                builder: (_, state) => _branded(
+                  state,
+                  LegalDocumentScreen(
+                    brand: _brandIn(state)!,
+                    documentId: state.pathParameters['documentId']!,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // Pushed by the carts button on the hub's Acasă and Favorite tabs.
+          GoRoute(
+            path: Routes.openCarts,
+            builder: (_, _) => const OpenCartsScreen(),
           ),
           // Opened with go() after checkout, so back doesn't return to the
           // emptied checkout.

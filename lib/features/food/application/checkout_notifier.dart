@@ -34,7 +34,7 @@ class CheckoutDraft {
   /// set, a delivery goes there instead of to [address].
   final PinnedLocation? pinned;
 
-  /// Selected pickup shop.
+  /// Selected pickup shop. Empty for a brand with nowhere to pick up.
   final String locationId;
   final PaymentMethod payment;
 
@@ -124,29 +124,39 @@ class CheckoutNotifier extends Notifier<CheckoutDraft> {
   final Brand brand;
 
   /// Starts from a pinned current location if there is one, otherwise from
-  /// the delivery address or pickup shop saved on the location screen.
+  /// the delivery address or pickup shop saved on the location screen. A
+  /// brand with nowhere to pick up starts from delivery.
   @override
   CheckoutDraft build() {
     final choice = ref.watch(fulfilmentChoiceProvider);
+    final shops = ref.watch(pickupShopsProvider(brand));
     // Read, not watched: placing the order clears the pinned point, and a
     // rebuild then would drop the placed order this screen still shows.
     final pinned = ref.read(currentLocationProvider).pinned;
+    final pickupShop = choice is StorePickup
+        ? shops.where((shop) => shop.id == choice.locationId).firstOrNull
+        : null;
     return CheckoutDraft(
-      type: pinned == null && choice is StorePickup
+      type: pinned == null && pickupShop != null
           ? FulfilmentType.pickup
           : FulfilmentType.delivery,
       address: choice is HomeDelivery ? choice.address : '',
       pinned: pinned,
-      locationId: choice is StorePickup
-          ? choice.locationId
-          : ref.watch(locationsProvider).first.id,
+      locationId: (pickupShop ?? shops.firstOrNull)?.id ?? '',
       payment: PaymentMethod.cash,
       scheduledFor: null,
       showErrors: false,
     );
   }
 
-  void setType(FulfilmentType type) => state = state.copyWith(type: type);
+  /// Pickup is ignored for a brand with nowhere to pick up.
+  void setType(FulfilmentType type) {
+    if (type == FulfilmentType.pickup &&
+        ref.read(pickupShopsProvider(brand)).isEmpty) {
+      return;
+    }
+    state = state.copyWith(type: type);
+  }
 
   void setAddress(String address) => state = state.copyWith(address: address);
 

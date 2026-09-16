@@ -384,6 +384,40 @@ class AppLocalizationsRo extends AppLocalizations {
   String get allBrands => 'Toate';
 
   @override
+  String openBrandInfo(String brandName) {
+    return 'Informații despre $brandName';
+  }
+
+  @override
+  String get brandContactsTitle => 'Contacte';
+
+  @override
+  String get brandInfoDeliveryArea => 'Zona de livrare';
+
+  @override
+  String get brandInfoAddress => 'Adresa';
+
+  @override
+  String get brandInfoPhone => 'Telefon';
+
+  @override
+  String get brandInfoEmail => 'E-mail';
+
+  @override
+  String get brandInfoInstagram => 'Instagram';
+
+  @override
+  String get brandInfoCompany => 'Companie';
+
+  @override
+  String get legalDocumentsTitle => 'Informații legale';
+
+  @override
+  String legalDocumentHint(String website) {
+    return 'Textul de pe $website';
+  }
+
+  @override
   String get demoProfileNote =>
       'Cont demonstrativ, fără verificare reală prin SMS.';
 
@@ -419,6 +453,16 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get descriptionTitle => 'Descriere';
+
+  @override
+  String productPieces(String pieces) {
+    return 'Bucăți: $pieces';
+  }
+
+  @override
+  String productWeight(String weight) {
+    return 'Masa: $weight';
+  }
 
   @override
   String get productNotFound => 'Produsul nu a fost găsit.';
@@ -483,6 +527,29 @@ class AppLocalizationsRo extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get openCartsTitle => 'Coșurile mele';
+
+  @override
+  String openCarts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Coșurile mele, $count de produse în coș',
+      few: 'Coșurile mele, $count produse în coș',
+      one: 'Coșurile mele, $count produs în coș',
+      zero: 'Coșurile mele',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get openCartsEmptyTitle => 'Nimic în coș deocamdată';
+
+  @override
+  String get openCartsEmptyMessage =>
+      'Fiecare meniu are coșul lui. Coșurile în care ai adăugat ceva apar aici.';
 
   @override
   String get cartEmptyTitle => 'Coșul tău e gol';

@@ -14,13 +14,14 @@ import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/account/application/current_location_notifier.dart';
 import 'package:davidan_prototype/features/account/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/food/application/shop_providers.dart';
+import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/active_orders_strip.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/brand_bubbles.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/for_you_sheet.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// The Acasă tab: DaviDan's logo, where orders go (pinned at the top), the
-/// orders still on their way, the brands as bubbles on DaviDan's caramel, each
+/// The Acasă tab: DaviDan's logo and the way into every brand's cart, where
+/// orders go (pinned at the top), the orders still on their way, the brands as bubbles on DaviDan's caramel, each
 /// opening the brand full screen above the tabs, and "pentru tine", products
 /// from every brand.
 class HubHomeScreen extends ConsumerWidget {
@@ -104,6 +105,7 @@ class HubHomeScreen extends ConsumerWidget {
   }
 }
 
+/// The logo, the launcher button (staff build only) and the carts button.
 class _HubHeader extends StatelessWidget {
   const _HubHeader({required this.onLauncherTap});
 
@@ -125,12 +127,15 @@ class _HubHeader extends StatelessWidget {
           children: [
             const BrandLogo(height: 26),
             const Spacer(),
-            if (onLauncherTap case final onLauncherTap?)
+            if (onLauncherTap case final onLauncherTap?) ...[
               AppIconButton(
                 icon: Icons.apps_rounded,
                 semanticLabel: context.l10n.openLauncher,
                 onPressed: onLauncherTap,
               ),
+              const SizedBox(width: AppSpacing.sm),
+            ],
+            const OpenCartsButton(),
           ],
         ),
       ),
