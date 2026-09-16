@@ -24,6 +24,12 @@ abstract final class Routes {
   // The hub's tabs
   static const clientHome = '/client/home';
   static const clientOrders = '/client/orders';
+
+  /// The Comenzi tab showing only [brand]'s orders.
+  static String clientOrdersOf(Brand brand) => Uri(
+    path: clientOrders,
+    queryParameters: {'brand': brand.name},
+  ).toString();
   static const clientFavorites = '/client/favorites';
   static const clientProfile = '/client/profile';
   static String clientOrder(String orderId) => '$clientOrders/$orderId';

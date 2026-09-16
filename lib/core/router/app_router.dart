@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:davidan_prototype/core/location/location_result.dart';
 import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
+import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/widgets/phone_frame.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/account/presentation/location/location_screen.dart';
@@ -120,7 +121,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 routes: [
                   GoRoute(
                     path: Routes.clientOrders,
-                    builder: (_, _) => const OrdersScreen(),
+                    // The brand filter is a query parameter
+                    // (Routes.clientOrdersOf), like the menu's category.
+                    builder: (_, state) => OrdersScreen(
+                      brand: _brandNamed(state.uri.queryParameters['brand']),
+                    ),
                   ),
                 ],
               ),
@@ -150,7 +155,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/b/:${Routes.brandParam}',
             redirect: _unknownBrandGoesHome,
-            builder: (_, state) => switch (_brandIn(state)!) {
+            builder: (_, state) => _branded(state, switch (_brandIn(state)!) {
               Brand.bakery => const BrandHomeScreen(brand: Brand.bakery),
               // The client has no restaurant menu yet: its intro stays.
               Brand.restaurant => const BrandIntroScreen(
@@ -159,7 +164,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               // TEMPORARY until their own pages are built (hub round steps
               // 5, 6 and 7).
               final brand => BrandIntroScreen(brand: brand, inProgress: true),
-            },
+            }),
           ),
           GoRoute(
             path: '/b/:${Routes.brandParam}/menu',
@@ -172,32 +177,40 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             // The category is a query parameter (Routes.brandMenu). Switching
             // category replaces this page, keeping its key, so there is no
             // transition and CatalogScreen just rebuilds.
-            builder: (_, state) => CatalogScreen(
-              brand: _brandIn(state)!,
-              categoryId: state.uri.queryParameters['category'],
+            builder: (_, state) => _branded(
+              state,
+              CatalogScreen(
+                brand: _brandIn(state)!,
+                categoryId: state.uri.queryParameters['category'],
+              ),
             ),
           ),
           // Pushed by the brand's cart button.
           GoRoute(
             path: '/b/:${Routes.brandParam}/cart',
             redirect: _unknownBrandGoesHome,
-            builder: (_, state) => CartScreen(brand: _brandIn(state)!),
+            builder: (_, state) =>
+                _branded(state, CartScreen(brand: _brandIn(state)!)),
           ),
           GoRoute(
             path: '/b/:${Routes.brandParam}/product/:productId',
             redirect: _unknownBrandGoesHome,
-            builder: (_, state) => ProductDetailScreen(
-              productKey: (
-                brand: _brandIn(state)!,
-                id: state.pathParameters['productId']!,
+            builder: (_, state) => _branded(
+              state,
+              ProductDetailScreen(
+                productKey: (
+                  brand: _brandIn(state)!,
+                  id: state.pathParameters['productId']!,
+                ),
+                heroScope: state.uri.queryParameters['from'],
               ),
-              heroScope: state.uri.queryParameters['from'],
             ),
           ),
           GoRoute(
             path: '/b/:${Routes.brandParam}/checkout',
             redirect: _unknownBrandGoesHome,
-            builder: (_, state) => CheckoutScreen(brand: _brandIn(state)!),
+            builder: (_, state) =>
+                _branded(state, CheckoutScreen(brand: _brandIn(state)!)),
           ),
           // Opened with go() after checkout, so back doesn't return to the
           // emptied checkout.
@@ -224,7 +237,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
 /// The brand a `/b/:brand/...` URL names, or null when it names none.
 Brand? _brandIn(GoRouterState state) =>
-    Brand.values.asNameMap()[state.pathParameters[Routes.brandParam]];
+    _brandNamed(state.pathParameters[Routes.brandParam]);
+
+Brand? _brandNamed(String? name) => Brand.values.asNameMap()[name];
+
+/// A brand's screen in the brand's colours.
+Widget _branded(GoRouterState state, Widget screen) =>
+    BrandTheme(brand: _brandIn(state)!, child: screen);
 
 String? _unknownBrandGoesHome(BuildContext _, GoRouterState state) =>
     _brandIn(state) == null ? Routes.clientHome : null;

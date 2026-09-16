@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:davidan_prototype/data/mock/mock_catalogs.dart';
@@ -69,5 +71,19 @@ final popularProductsProvider = Provider.family<List<Product>, Brand>((
   return [
     for (final id in ref.watch(brandCatalogProvider(brand)).popularProductIds)
       ?byId[id],
+  ];
+});
+
+/// The hub's "pentru tine" row: every brand's popular products, the brands
+/// taking turns in the client's order, so each brand with a menu shows early.
+final forYouProductsProvider = Provider<List<Product>>((ref) {
+  final perBrand = [
+    for (final brand in Brand.values) ref.watch(popularProductsProvider(brand)),
+  ];
+  final longest = perBrand.fold(0, (most, list) => math.max(most, list.length));
+  return [
+    for (var index = 0; index < longest; index++)
+      for (final products in perBrand)
+        if (index < products.length) products[index],
   ];
 });

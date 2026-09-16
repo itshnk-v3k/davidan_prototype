@@ -123,6 +123,14 @@ class AppLocalizationsRu extends AppLocalizations {
       'Pagina acestui brand se construiește într-o etapă următoare a prototipului.';
 
   @override
+  String forYouTitle(String name) {
+    return '$name, pentru tine';
+  }
+
+  @override
+  String get forYouTitleSignedOut => 'Pentru tine';
+
+  @override
   String get locationPrompt =>
       'Alege cum primești comenzile. Poți schimba oricând din bara de sus a ecranului Acasă.';
 
@@ -365,6 +373,15 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get ordersEmptyMessage =>
       'Comenzile tale apar aici, cu statusul lor la zi.';
+
+  @override
+  String get ordersActiveTitle => 'În curs';
+
+  @override
+  String get ordersPastTitle => 'Finalizate';
+
+  @override
+  String get allBrands => 'Toate';
 
   @override
   String get demoProfileNote =>

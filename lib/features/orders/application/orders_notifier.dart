@@ -17,6 +17,15 @@ final orderByIdProvider = Provider.family<Order?, String>(
       .firstOrNull,
 );
 
+/// Orders not yet completed, from every brand, newest first: the hub's strip
+/// of orders on their way.
+final activeOrdersProvider = Provider<List<Order>>(
+  (ref) => [
+    for (final order in ref.watch(ordersProvider))
+      if (order.status != OrderStatus.completed) order,
+  ],
+);
+
 /// Sorts oldest first, the way the shop and couriers work through orders.
 /// Orders placed in the same instant keep their number order.
 int byPlacementTime(Order a, Order b) {

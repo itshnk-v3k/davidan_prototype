@@ -8,27 +8,33 @@ import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/connected_product_card.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// One row of the home screen: a heading with "Vezi mai mult", the site's
-/// blurb when there is one, and the products side by side, scrolling
-/// sideways. Cards are narrow enough that the next one peeks in at the edge,
-/// which is what tells people the row scrolls. With [seeAllLabel] the row
-/// ends in a tile that opens the whole list too.
+/// One row of products: a heading with "Vezi mai mult" (when there is a list
+/// to open), the site's blurb when there is one, and the products side by
+/// side, scrolling sideways. Cards are narrow enough that the next one peeks
+/// in at the edge, which is what tells people the row scrolls. With
+/// [seeAllLabel] the row ends in a tile that opens the whole list too.
 class ProductShelf extends StatelessWidget {
   const ProductShelf({
     super.key,
     required this.id,
     required this.title,
     required this.products,
-    required this.onSeeAll,
+    this.onSeeAll,
     this.description,
     this.seeAllLabel,
-  });
+  }) : assert(
+         seeAllLabel == null || onSeeAll != null,
+         'The end tile needs onSeeAll',
+       );
 
   /// Tells this row's cards apart from the same product's cards in other rows.
   final String id;
   final String title;
   final List<Product> products;
-  final VoidCallback onSeeAll;
+
+  /// Null for a row with no whole list behind it, like the hub's mix of
+  /// brands: no "Vezi mai mult".
+  final VoidCallback? onSeeAll;
   final String? description;
   final String? seeAllLabel;
 
@@ -40,6 +46,7 @@ class ProductShelf extends StatelessWidget {
   Widget build(BuildContext context) {
     final description = this.description;
     final seeAllLabel = this.seeAllLabel;
+    final onSeeAll = this.onSeeAll;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -63,14 +70,15 @@ class ProductShelf extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                TextButton(
-                  onPressed: onSeeAll,
-                  style: TextButton.styleFrom(
-                    foregroundColor: context.colors.primary,
-                    textStyle: context.textStyles.bodyStrong,
+                if (onSeeAll != null)
+                  TextButton(
+                    onPressed: onSeeAll,
+                    style: TextButton.styleFrom(
+                      foregroundColor: context.colors.primary,
+                      textStyle: context.textStyles.bodyStrong,
+                    ),
+                    child: Text(context.l10n.seeAll),
                   ),
-                  child: Text(context.l10n.seeAll),
-                ),
               ],
             ),
           ),
@@ -106,7 +114,7 @@ class ProductShelf extends StatelessWidget {
                       heroScope: id,
                       compact: true,
                     )
-                  : _SeeAllTile(label: seeAllLabel!, onTap: onSeeAll),
+                  : _SeeAllTile(label: seeAllLabel!, onTap: onSeeAll!),
             ),
           ),
         ),

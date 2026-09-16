@@ -14,12 +14,15 @@ import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/account/application/current_location_notifier.dart';
 import 'package:davidan_prototype/features/account/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/food/application/shop_providers.dart';
+import 'package:davidan_prototype/features/hub/presentation/widgets/active_orders_strip.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/brand_bubbles.dart';
+import 'package:davidan_prototype/features/hub/presentation/widgets/for_you_sheet.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// The Acasă tab: DaviDan's logo, where orders go (pinned at the top), and
-/// the brands as bubbles on DaviDan's caramel, each opening the brand full
-/// screen above the tabs.
+/// The Acasă tab: DaviDan's logo, where orders go (pinned at the top), the
+/// orders still on their way, the brands as bubbles on DaviDan's caramel, each
+/// opening the brand full screen above the tabs, and "pentru tine", products
+/// from every brand.
 class HubHomeScreen extends ConsumerWidget {
   const HubHomeScreen({super.key});
 
@@ -84,11 +87,16 @@ class HubHomeScreen extends ConsumerWidget {
               ),
             ),
             SliverToBoxAdapter(
+              child: ActiveOrdersStrip(
+                onOpen: (order) => context.push(Routes.clientOrder(order.id)),
+              ),
+            ),
+            SliverToBoxAdapter(
               child: BrandBubbles(
                 onOpen: (brand) => context.push(Routes.brandHome(brand)),
               ),
             ),
-            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
+            const SliverToBoxAdapter(child: ForYouSheet()),
           ],
         ),
       ),

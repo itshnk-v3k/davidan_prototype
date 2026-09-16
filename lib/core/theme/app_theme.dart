@@ -3,6 +3,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/theme/brand_colors.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
 
 /// The two themes, built by one function from their token sets.
 ///
@@ -16,6 +18,16 @@ abstract final class AppTheme {
 
   static ThemeData light() =>
       _build(Brightness.light, AppColors.light, AppTextStyles.light);
+
+  /// The theme for [brightness] in [brand]'s colours (BrandColors), built
+  /// once per brand and brightness.
+  static ThemeData forBrand(Brand brand, Brightness brightness) =>
+      _brandThemes.putIfAbsent((brand, brightness), () {
+        final colors = BrandColors.of(brand, brightness);
+        return _build(brightness, colors, AppTextStyles.from(colors));
+      });
+
+  static final _brandThemes = <(Brand, Brightness), ThemeData>{};
 
   static ThemeData _build(
     Brightness brightness,

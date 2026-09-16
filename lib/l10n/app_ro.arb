@@ -63,6 +63,20 @@
   "@inProgressMessage": {
     "description": "Note on a brand's page the prototype hasn't built yet. Temporary."
   },
+  "forYouTitle": "{name}, pentru tine",
+  "@forYouTitle": {
+    "description": "Heading of the hub's row of products from every brand, with the signed-in customer's first name.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Ana"
+      }
+    }
+  },
+  "forYouTitleSignedOut": "Pentru tine",
+  "@forYouTitleSignedOut": {
+    "description": "forYouTitle when no one is signed in."
+  },
   "locationPrompt": "Alege cum primești comenzile. Poți schimba oricând din bara de sus a ecranului Acasă.",
   "confirmAddress": "Livrează la această adresă",
   "recentAddressesTitle": "Adrese folosite recent",
@@ -256,6 +270,18 @@
   "myOrdersTitle": "Comenzile mele",
   "ordersEmptyTitle": "Nicio comandă încă",
   "ordersEmptyMessage": "Comenzile tale apar aici, cu statusul lor la zi.",
+  "ordersActiveTitle": "În curs",
+  "@ordersActiveTitle": {
+    "description": "Comenzi tab section: orders not yet completed."
+  },
+  "ordersPastTitle": "Finalizate",
+  "@ordersPastTitle": {
+    "description": "Comenzi tab section: completed orders."
+  },
+  "allBrands": "Toate",
+  "@allBrands": {
+    "description": "Filter chip showing orders from every brand."
+  },
   "demoProfileNote": "Cont demonstrativ, fără verificare reală prin SMS.",
   "deliverTo": "Livrare la",
   "chooseAddress": "Alege adresa sau localul",

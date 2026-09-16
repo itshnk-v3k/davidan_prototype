@@ -24,6 +24,39 @@ abstract final class AppPalette {
   /// Near-black brown for text on a caramel fill in the dark theme.
   static const espresso = Color(0xFF1F1408);
 
+  // Red of DaviDan Sushi and DaviDan Rent Car: both sites use #DD3333 for
+  // their buttons, so the two brands share it
+  /// Red for text and icons on dark surfaces: 4.8:1 on [ink850].
+  static const crimson300 = Color(0xFFE66666);
+
+  /// The sites' red. Decoration and large shapes only.
+  static const crimson500 = Color(0xFFDD3333);
+
+  /// Red for text and buttons on light surfaces: 4.8:1 on [mist] and 5.4:1
+  /// with white text.
+  static const crimson700 = Color(0xFFCF2222);
+
+  static const crimson100 = Color(0xFFF2DEDE);
+  static const crimson950 = Color(0xFF361C1C);
+
+  /// Near-black red for text on a [crimson300] fill.
+  static const crimsonInk = Color(0xFF1F0505);
+
+  // Blue of Apa DaviDan: no site has one, so it is the label of the still
+  // water bottle in its davidan.md photo (the mean of the label's blue pixels)
+  /// Blue for text and icons on dark surfaces: 4.8:1 on [ink850].
+  static const blue300 = Color(0xFF5B8EE6);
+
+  /// The label's blue, for text and buttons on light surfaces: 8.7:1 on
+  /// [mist] and 9.8:1 with white text.
+  static const blue700 = Color(0xFF15408C);
+
+  static const blue100 = Color(0xFFDEE5F2);
+  static const blue950 = Color(0xFF1B2536);
+
+  /// Near-black blue for text on a [blue300] fill.
+  static const blueInk = Color(0xFF050E1F);
+
   // Warm darks, close to the brown backdrops of the product photos
   static const ink950 = Color(0xFF121110);
   static const ink900 = Color(0xFF1C1A17);

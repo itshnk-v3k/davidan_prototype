@@ -7,6 +7,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
+import 'package:davidan_prototype/core/theme/brand_colors.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/quantity_stepper.dart';
 
 double contrast(Color a, Color b) {
@@ -16,11 +18,18 @@ double contrast(Color a, Color b) {
 }
 
 void main() {
+  // DaviDan's own sets, then each brand's (the same set with its accent).
   for (final (name, colors) in [
-    ('dark', AppColors.dark),
-    ('light', AppColors.light),
+    ('dark theme', AppColors.dark),
+    ('light theme', AppColors.light),
+    for (final brand in Brand.values)
+      for (final brightness in Brightness.values)
+        (
+          '${brand.name} in the ${brightness.name} theme',
+          BrandColors.of(brand, brightness),
+        ),
   ]) {
-    group('$name theme', () {
+    group(name, () {
       test('text is at least 4.5:1 on every surface', () {
         for (final (textName, text) in [
           ('textPrimary', colors.textPrimary),

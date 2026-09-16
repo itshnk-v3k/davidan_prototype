@@ -128,16 +128,18 @@ CustomerAccount signInTestAccount(
 }
 
 /// Places an order the way checkout does, without going through its screen.
-/// The default items total 138 lei.
+/// The default items total 138 lei. They are bakery products, so an order
+/// from another [brand] shows no lines, only its total.
 Order placeTestOrder(
   ProviderContainer container, {
+  Brand brand = Brand.bakery,
   Fulfilment fulfilment = const HomeDelivery(address: 'str. Ismail 88'),
   PaymentMethod payment = PaymentMethod.cash,
   DateTime? scheduledFor,
 }) => container
     .read(ordersProvider.notifier)
     .place(
-      brand: Brand.bakery,
+      brand: brand,
       items: const [
         OrderItem(productId: 'kurtos-fistic', quantity: 2, priceBani: 5900),
         OrderItem(productId: 'americano', quantity: 1, priceBani: 2000),

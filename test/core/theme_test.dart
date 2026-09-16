@@ -12,11 +12,14 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_assets.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
+import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/theme/theme_mode_notifier.dart';
 import 'package:davidan_prototype/core/widgets/brand_logo.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/account/presentation/profile/profile_screen.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
+import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
+import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
 import 'package:davidan_prototype/features/launcher/application/demo_reset_notifier.dart';
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
 import 'package:davidan_prototype/staff/staff_build.dart';
@@ -72,6 +75,56 @@ void main() {
       expect(
         tester.element(find.byType(ProfileScreen)).colors,
         AppColors.light,
+      );
+    },
+  );
+
+  /// The roles a brand changes.
+  (Color, Color, Color, Color) accentOf(AppColors colors) =>
+      (colors.primary, colors.onPrimary, colors.accent, colors.accentSoft);
+
+  testWidgets(
+    'a brand\'s pages take its accent in both themes; the hub, and the bakery '
+    'and restaurant, keep DaviDan\'s caramel',
+    (tester) async {
+      for (final mode in [ThemeMode.dark, ThemeMode.light]) {
+        container.read(themeModeProvider.notifier).select(mode);
+        final brightness = mode == ThemeMode.dark
+            ? Brightness.dark
+            : Brightness.light;
+        final daviDan = mode == ThemeMode.dark
+            ? AppColors.dark
+            : AppColors.light;
+
+        await pumpApp(tester, container, Routes.clientHome);
+        expect(
+          accentOf(tester.element(find.byType(HubHomeScreen)).colors),
+          accentOf(daviDan),
+        );
+
+        for (final brand in Brand.values) {
+          await pumpApp(tester, container, Routes.brandHome(brand));
+          final page = find.byType(Scaffold).last;
+          expect(
+            accentOf(tester.element(page).colors),
+            accentOf(BrandColors.of(brand, brightness)),
+            reason: '$brand, $mode',
+          );
+        }
+        await pumpApp(tester, container, Routes.brandMenu(Brand.bakery));
+        expect(
+          accentOf(tester.element(find.byType(CatalogScreen)).colors),
+          accentOf(daviDan),
+        );
+      }
+
+      expect(
+        BrandColors.of(Brand.sushi, Brightness.dark).primary,
+        isNot(AppColors.dark.primary),
+      );
+      expect(
+        BrandColors.of(Brand.water, Brightness.light).primary,
+        isNot(AppColors.light.primary),
       );
     },
   );

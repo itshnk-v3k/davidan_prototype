@@ -314,6 +314,18 @@ abstract class AppLocalizations {
   /// **'Pagina acestui brand se construiește într-o etapă următoare a prototipului.'**
   String get inProgressMessage;
 
+  /// Heading of the hub's row of products from every brand, with the signed-in customer's first name.
+  ///
+  /// In ro, this message translates to:
+  /// **'{name}, pentru tine'**
+  String forYouTitle(String name);
+
+  /// forYouTitle when no one is signed in.
+  ///
+  /// In ro, this message translates to:
+  /// **'Pentru tine'**
+  String get forYouTitleSignedOut;
+
   /// No description provided for @locationPrompt.
   ///
   /// In ro, this message translates to:
@@ -733,6 +745,24 @@ abstract class AppLocalizations {
   /// In ro, this message translates to:
   /// **'Comenzile tale apar aici, cu statusul lor la zi.'**
   String get ordersEmptyMessage;
+
+  /// Comenzi tab section: orders not yet completed.
+  ///
+  /// In ro, this message translates to:
+  /// **'În curs'**
+  String get ordersActiveTitle;
+
+  /// Comenzi tab section: completed orders.
+  ///
+  /// In ro, this message translates to:
+  /// **'Finalizate'**
+  String get ordersPastTitle;
+
+  /// Filter chip showing orders from every brand.
+  ///
+  /// In ro, this message translates to:
+  /// **'Toate'**
+  String get allBrands;
 
   /// No description provided for @demoProfileNote.
   ///

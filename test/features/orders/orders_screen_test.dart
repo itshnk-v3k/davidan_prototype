@@ -9,6 +9,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
+import 'package:davidan_prototype/core/widgets/app_chip.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_phone_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
@@ -98,6 +100,67 @@ void main() {
         inOrders(find.text(ro.orderStatus(OrderStatus.onTheWay))),
         findsOneWidget,
       );
+    },
+  );
+
+  testWidgets('orders on their way are under "În curs", completed ones under '
+      '"Finalizate", and an order moves down once completed', (tester) async {
+    signInTestAccount(container);
+    final done = placeTestOrder(container);
+    advanceOrderTo(container, done.id, OrderStatus.completed);
+    final onItsWay = placeTestOrder(container);
+    await pumpApp(tester, container, Routes.clientOrders);
+
+    double top(Finder finder) => tester.getTopLeft(finder).dy;
+    final active = inOrders(find.text(ro.ordersActiveTitle));
+    final past = inOrders(find.text(ro.ordersPastTitle));
+    expect(top(active), lessThan(top(find.text(ro.orderNumber(onItsWay.id)))));
+    expect(top(find.text(ro.orderNumber(onItsWay.id))), lessThan(top(past)));
+    expect(top(past), lessThan(top(find.text(ro.orderNumber(done.id)))));
+
+    advanceOrderTo(container, onItsWay.id, OrderStatus.completed);
+    await tester.pumpAndSettle();
+    expect(active, findsNothing);
+    expect(past, findsOneWidget);
+    expect(top(past), lessThan(top(find.text(ro.orderNumber(onItsWay.id)))));
+  });
+
+  testWidgets(
+    'each card names its brand; chips appear once orders come from two '
+    'brands, filter the list and keep the filter in the link',
+    (tester) async {
+      signInTestAccount(container);
+      final bakery = placeTestOrder(container);
+      await pumpApp(tester, container, Routes.clientOrders);
+      expect(inOrders(find.text('Patiserie')), findsOneWidget);
+      expect(inOrders(find.text(ro.allBrands)), findsNothing);
+
+      final sushi = placeTestOrder(container, brand: Brand.sushi);
+      await tester.pumpAndSettle();
+      final chips = find.byType(AppChip);
+      expect(
+        [for (final chip in tester.widgetList<AppChip>(chips)) chip.label],
+        [ro.allBrands, 'Sushi', 'Patiserie'],
+      );
+
+      await tester.tap(find.widgetWithText(AppChip, 'Sushi'));
+      await tester.pumpAndSettle();
+      expect(inOrders(find.text(ro.orderNumber(sushi.id))), findsOneWidget);
+      expect(inOrders(find.text(ro.orderNumber(bakery.id))), findsNothing);
+      expect(
+        tester.widget<OrdersScreen>(find.byType(OrdersScreen)).brand,
+        Brand.sushi,
+      );
+
+      await tester.tap(find.widgetWithText(AppChip, ro.allBrands));
+      await tester.pumpAndSettle();
+      expect(inOrders(find.text(ro.orderNumber(sushi.id))), findsOneWidget);
+      expect(inOrders(find.text(ro.orderNumber(bakery.id))), findsOneWidget);
+
+      // A link to a brand without orders shows them all.
+      await pumpApp(tester, container, Routes.clientOrdersOf(Brand.water));
+      expect(inOrders(find.text(ro.orderNumber(sushi.id))), findsOneWidget);
+      expect(inOrders(find.text(ro.orderNumber(bakery.id))), findsOneWidget);
     },
   );
 
