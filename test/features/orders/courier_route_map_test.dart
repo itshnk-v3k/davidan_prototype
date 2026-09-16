@@ -14,6 +14,7 @@ import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/courier_route_map.dart';
+import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../helpers/test_app.dart';
 
@@ -25,7 +26,12 @@ void main() {
 
   setUp(() async {
     now = testNow;
-    container = await createTestContainer(clock: () => now);
+    // The courier app shows the map too, and nothing may move the order on
+    // by itself while the clock does.
+    container = await createTestContainer(
+      clock: () => now,
+      overrides: staffBuildOverrides,
+    );
   });
 
   Offset centerOf(WidgetTester tester, IconData icon) => tester.getCenter(

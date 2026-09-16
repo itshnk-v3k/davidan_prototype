@@ -19,6 +19,7 @@ import 'package:davidan_prototype/features/client/application/cart_notifier.dart
 import 'package:davidan_prototype/features/client/presentation/profile/profile_screen.dart';
 import 'package:davidan_prototype/features/launcher/application/demo_reset_notifier.dart';
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
+import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../helpers/test_app.dart';
 
@@ -84,7 +85,10 @@ void main() {
     expect(restarted.read(themeModeProvider), ThemeMode.light);
   });
 
-  testWidgets('the demo launcher has the same switch', (tester) async {
+  testWidgets('the staff build\'s demo launcher has the same switch', (
+    tester,
+  ) async {
+    final container = await createTestContainer(overrides: staffBuildOverrides);
     container.read(themeModeProvider.notifier).select(ThemeMode.light);
     await pumpApp(tester, container, Routes.launcher);
     expect(logoAsset(tester), AppAssets.logo);
@@ -133,6 +137,10 @@ void main() {
     testWidgets('every role\'s main screens open in the ${mode.name} theme', (
       tester,
     ) async {
+      // The staff build, which has every role.
+      final container = await createTestContainer(
+        overrides: staffBuildOverrides,
+      );
       container.read(themeModeProvider.notifier).select(mode);
       final brightness = mode == ThemeMode.dark
           ? Brightness.dark

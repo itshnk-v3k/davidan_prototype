@@ -16,6 +16,7 @@ import 'package:davidan_prototype/features/courier/application/courier_online_no
 import 'package:davidan_prototype/features/courier/presentation/courier_delivery_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/widgets/courier_order_card.dart';
+import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../../helpers/test_app.dart';
 
@@ -24,7 +25,10 @@ void main() {
 
   late ProviderContainer container;
 
-  setUp(() async => container = await createTestContainer());
+  setUp(
+    () async =>
+        container = await createTestContainer(overrides: staffBuildOverrides),
+  );
 
   List<String> listedOrderIds(WidgetTester tester) => [
     for (final card in tester.widgetList<CourierOrderCard>(

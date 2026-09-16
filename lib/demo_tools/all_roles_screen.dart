@@ -19,8 +19,8 @@ import 'package:davidan_prototype/features/orders/application/orders_notifier.da
 
 /// Internal demo aid, not part of the app: the customer's order screen, the
 /// store panel and the courier app side by side on the same orders, so one
-/// window shows an order moving through every role. Only lib/main_demo.dart
-/// registers it.
+/// window shows an order moving through every role. Only the staff build
+/// (lib/main_staff.dart) registers it.
 class AllRolesScreen extends ConsumerWidget {
   const AllRolesScreen({super.key, this.orderId});
 

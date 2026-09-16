@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:davidan_prototype/core/location/location_result.dart';
-import 'package:davidan_prototype/core/router/demo_tool.dart';
+import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/widgets/phone_frame.dart';
 import 'package:davidan_prototype/features/client/presentation/account/sign_in_code_screen.dart';
@@ -21,12 +21,10 @@ import 'package:davidan_prototype/features/client/presentation/product/product_d
 import 'package:davidan_prototype/features/client/presentation/profile/profile_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/shell/client_shell.dart';
 import 'package:davidan_prototype/features/client/presentation/splash/splash_screen.dart';
-import 'package:davidan_prototype/features/courier/presentation/courier_delivery_screen.dart';
-import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
-import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
+  final extraApps = ref.watch(extraAppsProvider);
   final router = GoRouter(
     initialLocation: Routes.launcher,
     routes: [
@@ -38,8 +36,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ShellRoute(
         builder: (_, _, child) => PhoneFrame(child: child),
         routes: [
+          // The demo launcher, when the entry point registers something
+          // besides the customer app (lib/main_staff.dart). The customer app
+          // build has nothing else to launch, so it opens on the splash.
           GoRoute(
             path: Routes.launcher,
+            redirect: (_, _) => extraApps.isEmpty ? Routes.clientSplash : null,
             builder: (_, _) => const DemoLauncherScreen(),
           ),
 
@@ -167,29 +169,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             ),
           ),
 
-          // --- Courier app ---
-          GoRoute(
-            path: Routes.courierOrders,
-            builder: (_, _) => const CourierOrdersScreen(),
-            routes: [
-              // A child route, so the list is underneath and back returns to
-              // it even when a delivery is opened straight from a URL.
-              GoRoute(
-                path: ':orderId',
-                builder: (_, state) => CourierDeliveryScreen(
-                  orderId: state.pathParameters['orderId']!,
-                ),
-              ),
-            ],
-          ),
+          // --- Staff phone apps (the courier app), when registered ---
+          for (final app in extraApps) ...app.phoneRoutes,
         ],
       ),
 
-      // --- Store panel (KDS): a tablet/desktop screen, outside the frame ---
-      GoRoute(path: Routes.kds, builder: (_, _) => const KdsScreen()),
-
-      // --- Demo tools: none unless the entry point registers some ---
-      for (final tool in ref.watch(demoToolsProvider)) tool.route,
+      // --- Whole-window screens (the store panel, the demo board), when
+      // registered ---
+      for (final app in extraApps) ...app.windowRoutes,
     ],
   );
   ref.onDispose(router.dispose);

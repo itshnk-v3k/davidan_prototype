@@ -1,27 +1,27 @@
-import 'package:flutter_riverpod/misc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/router/demo_tool.dart';
+import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/demo_tools/all_roles_screen.dart';
 import 'package:davidan_prototype/demo_tools/demo_tool_strings.dart';
 
-// Internal demo tools. Nothing imports this folder except lib/main_demo.dart
-// (test/architecture checks that), so the regular entry point, lib/main.dart,
-// never compiles these screens in, on any platform.
+// Internal demo tools. They show the staff apps, so only the staff build
+// (lib/staff/staff_build.dart) registers them; test/architecture checks that
+// nothing else imports this folder.
 
-/// Registers the demo tools with the router and the launcher.
-final List<Override> demoToolsOverrides = [
-  demoToolsProvider.overrideWithValue([
-    DemoTool(
-      title: DemoToolStrings.allRolesTitle,
-      hint: DemoToolStrings.allRolesHint,
-      icon: Icons.view_column_rounded,
-      route: GoRoute(
+/// The all-roles board.
+final List<ExtraApp> demoTools = [
+  ExtraApp(
+    title: DemoToolStrings.allRolesTitle,
+    hint: DemoToolStrings.allRolesHint,
+    icon: Icons.view_column_rounded,
+    location: AllRolesScreen.path,
+    windowRoutes: [
+      GoRoute(
         path: AllRolesScreen.path,
         builder: (_, state) =>
             AllRolesScreen(orderId: state.uri.queryParameters['order']),
       ),
-    ),
-  ]),
+    ],
+  ),
 ];

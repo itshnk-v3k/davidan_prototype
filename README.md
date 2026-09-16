@@ -7,8 +7,9 @@ Clickable prototype of a delivery platform for DaviDan, a bakery chain in Moldov
 A demo build for the client to review and decide what to keep or cut. This is not production code.
 
 - **Customer app**: demo sign-in (no real SMS), location selection with "use my current location", menu, product, cart, favourites, checkout, order tracking, profile
-- **Courier app**: order list and delivery screen with status buttons
-- **Store panel (KDS)**: incoming orders with a timer and an Accept button
+- **Courier app** and **store panel (KDS)**: kept for phase 2, but left out of the client demo at the client's request. They are only in the staff build (see below).
+
+Without the store panel and courier, the customer app simulates them: a placed order is accepted after 15 seconds and delivered about five minutes later, with the courier map while it is on the way. Timings are in `lib/features/orders/application/order_simulation.dart`.
 
 ## Stack
 
@@ -22,13 +23,13 @@ A demo build for the client to review and decide what to keep or cut. This is no
 
 ```sh
 flutter pub get
-flutter run -d chrome --web-port=8080 -t lib/main_demo.dart
+flutter run -d chrome --web-port=8080
 ```
 
 There are two entry points:
 
-- `lib/main_demo.dart`: the app plus internal demo tools. The launcher then also shows **Toate rolurile**, a board with the customer's order, the store panel and the courier app side by side, updating live in one window. Use this one when you want to show the board.
-- `lib/main.dart`: the app on its own, used for the regular client-facing demo. Demo tools live in `lib/demo_tools/`, which only `main_demo.dart` imports, so they are never compiled into this build.
+- `lib/main.dart`: **the client demo.** The customer app on its own: it opens on the splash, with no launcher, courier app or store panel. Theme and **Resetează datele demo** are in **Profil**.
+- `lib/main_staff.dart`: **phase 2, not for client meetings.** Adds a launcher, the courier app, the store panel and **Toate rolurile** (the customer's order, the store panel and the courier app side by side). Orders move only when the store panel and courier move them. The staff apps and the board are registered in `lib/staff/staff_build.dart`, which only `main_staff.dart` imports, so `lib/main.dart` never compiles them in (`test/architecture` checks this).
 
 Always use a fixed `--web-port`. localStorage belongs to the origin (host + port), and `flutter run` picks a random port by default, so saved data looks lost between runs.
 
@@ -38,16 +39,16 @@ To clear saved data, open Chrome DevTools → Application → Storage → **Clea
 
 There is one build per entry point. Both need the same flags.
 
-**Regular client demo** (`lib/main.dart`, without the all-roles board):
+**Client demo** (`lib/main.dart`):
 
 ```sh
 flutter build web --release --no-web-resources-cdn
 ```
 
-**All-roles board build** (`lib/main_demo.dart`):
+**Staff build** (`lib/main_staff.dart`, phase 2, not for client meetings):
 
 ```sh
-flutter build web --release --no-web-resources-cdn -t lib/main_demo.dart
+flutter build web --release --no-web-resources-cdn -t lib/main_staff.dart
 ```
 
 > **Warning:** both builds write to `build/web/`, so only the most recently built entry point is served from there. Rebuild the one you need right before presenting.
@@ -91,16 +92,16 @@ The client uses Android, so the demo can be handed over as a single APK file: no
 
 ### Build it
 
-**Regular client demo** (`lib/main.dart`):
+**Client demo** (`lib/main.dart`):
 
 ```sh
 flutter build apk --release
 ```
 
-**All-roles board build** (`lib/main_demo.dart`):
+**Staff build** (`lib/main_staff.dart`, phase 2, not for client meetings):
 
 ```sh
-flutter build apk --release -t lib/main_demo.dart
+flutter build apk --release -t lib/main_staff.dart
 ```
 
 Output: `build/app/outputs/flutter-apk/app-release.apk`, about 54 MB. The first build takes about 3 minutes; later ones are faster.
@@ -184,9 +185,9 @@ To check it from a terminal, run `flutter emulators`. The new emulator should be
 2. Open `lib/main.dart` and press **F5**. The first Android build takes about 2 minutes; later runs are much faster.
 3. While it runs, use **Hot Reload** / **Hot Restart** on the floating debug toolbar.
 
-**All-roles board:** open `lib/main_demo.dart` and click **Run** or **Debug** above `main()`. It runs on the device picked in the status bar. On a phone-width screen the four panels stack, so scroll through them.
+**Staff build:** open `lib/main_staff.dart` and click **Run** or **Debug** above `main()`. It runs on the device picked in the status bar. On a phone-width screen the all-roles board's four panels stack, so scroll through them.
 
-Saved demo data lives on the emulator, separate from Chrome's localStorage. Use **Resetează datele demo** in the launcher to clear it.
+Saved demo data lives on the emulator, separate from Chrome's localStorage. Use **Resetează datele demo** in **Profil** to clear it.
 
 ### Open DevTools
 

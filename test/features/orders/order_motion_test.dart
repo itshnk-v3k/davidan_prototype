@@ -18,6 +18,7 @@ import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/kds/presentation/widgets/kds_order_card.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
+import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../helpers/test_app.dart';
 
@@ -26,7 +27,10 @@ void main() {
 
   late ProviderContainer container;
 
-  setUp(() async => container = await createTestContainer());
+  setUp(
+    () async =>
+        container = await createTestContainer(overrides: staffBuildOverrides),
+  );
 
   const tablet = Size(1280, 800);
 

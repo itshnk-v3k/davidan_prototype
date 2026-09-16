@@ -1,0 +1,6380 @@
+{
+ "source": "https://davidansushi.md",
+ "fetched": "2026-09-16",
+ "categories": [
+  {
+   "id": 52,
+   "slug": "sushi",
+   "parent": 0,
+   "name_ro": "Sushi",
+   "name_ru": "Суши",
+   "url_ro": "https://davidansushi.md/meniu/sushi/",
+   "url_ru": "https://davidansushi.md/ru/meniu/sushi/",
+   "image": "https://davidansushi.md/wp-content/uploads/2023/12/sushi.png",
+   "count": 32
+  },
+  {
+   "id": 37,
+   "slug": "roluri",
+   "parent": 52,
+   "name_ro": "Roluri",
+   "name_ru": "Ролы",
+   "url_ro": "https://davidansushi.md/meniu/sushi/roluri/",
+   "url_ru": "https://davidansushi.md/ru/meniu/sushi/roluri/",
+   "image": null,
+   "count": 20
+  },
+  {
+   "id": 38,
+   "slug": "tempura",
+   "parent": 52,
+   "name_ro": "Tempura",
+   "name_ru": "Темпура",
+   "url_ro": "https://davidansushi.md/meniu/sushi/tempura/",
+   "url_ru": "https://davidansushi.md/ru/meniu/sushi/tempura/",
+   "image": null,
+   "count": 6
+  },
+  {
+   "id": 39,
+   "slug": "maki",
+   "parent": 52,
+   "name_ro": "Maki",
+   "name_ru": "Маки",
+   "url_ro": "https://davidansushi.md/meniu/sushi/maki/",
+   "url_ru": "https://davidansushi.md/ru/meniu/sushi/maki/",
+   "image": null,
+   "count": 6
+  },
+  {
+   "id": 50,
+   "slug": "seturi",
+   "parent": 0,
+   "name_ro": "Seturi",
+   "name_ru": "Сеты",
+   "url_ro": "https://davidansushi.md/meniu/seturi/",
+   "url_ru": "https://davidansushi.md/ru/meniu/seturi/",
+   "image": "https://davidansushi.md/wp-content/uploads/2023/12/maki-1.png",
+   "count": 9
+  },
+  {
+   "id": 53,
+   "slug": "bucate-thai",
+   "parent": 0,
+   "name_ro": "Bucate Thai",
+   "name_ru": "Тайские блюда",
+   "url_ro": "https://davidansushi.md/meniu/bucate-thai/",
+   "url_ru": "https://davidansushi.md/ru/meniu/bucate-thai/",
+   "image": "https://davidansushi.md/wp-content/uploads/2023/12/poke.png",
+   "count": 13
+  },
+  {
+   "id": 44,
+   "slug": "orez",
+   "parent": 53,
+   "name_ro": "Orez",
+   "name_ru": "Рис",
+   "url_ro": "https://davidansushi.md/meniu/bucate-thai/orez/",
+   "url_ru": "https://davidansushi.md/ru/meniu/bucate-thai/orez/",
+   "image": null,
+   "count": 3
+  },
+  {
+   "id": 45,
+   "slug": "soba",
+   "parent": 53,
+   "name_ro": "Soba",
+   "name_ru": "Soba",
+   "url_ro": "https://davidansushi.md/meniu/bucate-thai/soba/",
+   "url_ru": "https://davidansushi.md/ru/meniu/bucate-thai/soba/",
+   "image": null,
+   "count": 3
+  },
+  {
+   "id": 46,
+   "slug": "udon",
+   "parent": 53,
+   "name_ro": "Udon",
+   "name_ru": "Удон",
+   "url_ro": "https://davidansushi.md/meniu/bucate-thai/udon/",
+   "url_ru": "https://davidansushi.md/ru/meniu/bucate-thai/udon/",
+   "image": null,
+   "count": 4
+  },
+  {
+   "id": 54,
+   "slug": "funcioza",
+   "parent": 53,
+   "name_ro": "Funcioza",
+   "name_ru": "Фунчоза",
+   "url_ro": "https://davidansushi.md/meniu/bucate-thai/funcioza/",
+   "url_ru": "https://davidansushi.md/ru/meniu/bucate-thai/funcioza/",
+   "image": null,
+   "count": 3
+  },
+  {
+   "id": 51,
+   "slug": "supe",
+   "parent": 0,
+   "name_ro": "Supe",
+   "name_ru": "Супы",
+   "url_ro": "https://davidansushi.md/meniu/supe/",
+   "url_ru": "https://davidansushi.md/ru/meniu/supe/",
+   "image": "https://davidansushi.md/wp-content/uploads/2023/12/hot-soup.png",
+   "count": 5
+  },
+  {
+   "id": 47,
+   "slug": "salate",
+   "parent": 0,
+   "name_ro": "Salate",
+   "name_ru": "Салаты",
+   "url_ro": "https://davidansushi.md/meniu/salate/",
+   "url_ru": "https://davidansushi.md/ru/meniu/salate/",
+   "image": "https://davidansushi.md/wp-content/uploads/2023/12/asian-salad.png",
+   "count": 6
+  },
+  {
+   "id": 48,
+   "slug": "poke-bowl",
+   "parent": 0,
+   "name_ro": "Poke bowl",
+   "name_ru": "Poke bowl",
+   "url_ro": "https://davidansushi.md/meniu/poke-bowl/",
+   "url_ru": "https://davidansushi.md/ru/meniu/poke-bowl/",
+   "image": "https://davidansushi.md/wp-content/uploads/2023/12/ramen.png",
+   "count": 3
+  },
+  {
+   "id": 42,
+   "slug": "gustari",
+   "parent": 0,
+   "name_ro": "Gustări",
+   "name_ru": "Закуски",
+   "url_ro": "https://davidansushi.md/meniu/gustari/",
+   "url_ru": "https://davidansushi.md/ru/meniu/gustari/",
+   "image": "https://davidansushi.md/wp-content/uploads/2023/12/french-fries.png",
+   "count": 18
+  },
+  {
+   "id": 49,
+   "slug": "deserturi",
+   "parent": 0,
+   "name_ro": "Deserturi",
+   "name_ru": "Десерты",
+   "url_ro": "https://davidansushi.md/meniu/deserturi/",
+   "url_ru": "https://davidansushi.md/ru/meniu/deserturi/",
+   "image": "https://davidansushi.md/wp-content/uploads/2023/12/futomaki.png",
+   "count": 5
+  },
+  {
+   "id": 93,
+   "slug": "bauturi",
+   "parent": 0,
+   "name_ro": "Băuturi",
+   "name_ru": "Напитки",
+   "url_ro": "https://davidansushi.md/meniu/bauturi/",
+   "url_ru": "https://davidansushi.md/ru/meniu/bauturi/",
+   "image": null,
+   "count": 11
+  },
+  {
+   "id": 97,
+   "slug": "bauturi-racoritoare",
+   "parent": 93,
+   "name_ro": "Băuturi răcoritoare",
+   "name_ru": "Безалкогольные напитки",
+   "url_ro": "https://davidansushi.md/meniu/bauturi/bauturi-racoritoare/",
+   "url_ru": "https://davidansushi.md/ru/meniu/bauturi/bauturi-racoritoare/",
+   "image": null,
+   "count": 8
+  },
+  {
+   "id": 102,
+   "slug": "bauturi-cu-alcool",
+   "parent": 93,
+   "name_ro": "Băuturi cu alcool",
+   "name_ru": "Băuturi cu alcool",
+   "url_ro": "https://davidansushi.md/meniu/bauturi/bauturi-cu-alcool/",
+   "url_ru": "https://davidansushi.md/ru/meniu/bauturi/bauturi-cu-alcool/",
+   "image": null,
+   "count": 3
+  },
+  {
+   "id": 99,
+   "slug": "vin",
+   "parent": 102,
+   "name_ro": "Vin",
+   "name_ru": "Vin",
+   "url_ro": "https://davidansushi.md/meniu/bauturi/bauturi-cu-alcool/vin/",
+   "url_ru": "https://davidansushi.md/ru/meniu/bauturi/bauturi-cu-alcool/vin/",
+   "image": null,
+   "count": 3
+  }
+ ],
+ "products": [
+  {
+   "id": 5210,
+   "slug": "alasca",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37
+   ],
+   "price_mdl": 170.0,
+   "price_display_ro": "170,00 MDL",
+   "price_display_ru": "170,00 лей",
+   "name_ro": "Alasca",
+   "name_ru": "Аляска",
+   "attributes_ro": [
+    [
+     "Masa",
+     "250g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "250г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- castravete",
+    "- somon",
+    "- tobico"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- огурец",
+    "- лосось",
+    "- тобико"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>castravete</li>\n<li>somon</li>\n<li>tobico</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>огурец</li>\n<li>лосось</li>\n<li>тобико</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Alaska.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Alaska-300x225.png",
+   "url_ro": "https://davidansushi.md/product/alasca/",
+   "url_ru": "https://davidansushi.md/ru/product/alasca/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Alasca"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Аляска"
+   ]
+  },
+  {
+   "id": 5207,
+   "slug": "california-creveti",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37,
+    52
+   ],
+   "price_mdl": 165.0,
+   "price_display_ro": "165,00 MDL",
+   "price_display_ru": "165,00 лей",
+   "name_ro": "California Creveți",
+   "name_ru": "California Creveți",
+   "attributes_ro": [
+    [
+     "Masa",
+     "270g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "270g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cream de brânză",
+    "- castraveți",
+    "- maioneză japoneză",
+    "- creveți",
+    "- tobico"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- cream de brânză",
+    "- огурцы",
+    "- maioneză japoneză",
+    "- креветки",
+    "- тобико"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cream de brânză</li>\n<li>castraveți</li>\n<li>maioneză japoneză</li>\n<li>creveți</li>\n<li>tobico</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>cream de brânză</li>\n<li>огурцы</li>\n<li>maioneză japoneză</li>\n<li>креветки</li>\n<li>тобико</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/California-Tobico.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/California-Tobico-300x225.png",
+   "url_ro": "https://davidansushi.md/product/california-creveti/",
+   "url_ru": "https://davidansushi.md/ru/product/california-creveti/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "California Creveți"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "California Creveți"
+   ]
+  },
+  {
+   "id": 5208,
+   "slug": "canada",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37
+   ],
+   "price_mdl": 200.0,
+   "price_display_ro": "200,00 MDL",
+   "price_display_ru": "200,00 лей",
+   "name_ro": "Canada",
+   "name_ru": "Канада",
+   "attributes_ro": [
+    [
+     "Masa",
+     "270g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "270g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente: **",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- castravete",
+    "- somon",
+    "- țipar",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты: **",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- огурец",
+    "- лосось",
+    "- угорь",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente: </strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>castravete</li>\n<li>somon</li>\n<li>țipar</li>\n<li>sos unaghi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты: </strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>огурец</li>\n<li>лосось</li>\n<li>угорь</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Canada-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Canada-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/canada/",
+   "url_ru": "https://davidansushi.md/ru/product/canada/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Canada"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Канада"
+   ]
+  },
+  {
+   "id": 5366,
+   "slug": "canada-creveti",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37,
+    52
+   ],
+   "price_mdl": 200.0,
+   "price_display_ro": "200,00 MDL",
+   "price_display_ru": "200,00 лей",
+   "name_ro": "Canada Creveți",
+   "name_ru": "Canada Creveți",
+   "attributes_ro": [
+    [
+     "Masa",
+     "270g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "270g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente: **",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- creveți",
+    "- țipar",
+    "- tobico",
+    "- sos unaghi",
+    "- castravete",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты: **",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- креветки",
+    "- угорь",
+    "- тобико",
+    "- соус унаги",
+    "- огурец",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente: </strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>creveți</li>\n<li>țipar</li>\n<li>tobico</li>\n<li>sos unaghi</li>\n<li>castravete</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты: </strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>креветки</li>\n<li>угорь</li>\n<li>тобико</li>\n<li>соус унаги</li>\n<li>огурец</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/canada-cu-cerveti-1-1.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/canada-cu-cerveti-1-1-300x225.png",
+   "url_ro": "https://davidansushi.md/product/canada-creveti/",
+   "url_ru": "https://davidansushi.md/ru/product/canada-creveti/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Canada Creveți"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Canada Creveți"
+   ]
+  },
+  {
+   "id": 5442,
+   "slug": "chyka-roll",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37,
+    52
+   ],
+   "price_mdl": 120.0,
+   "price_display_ro": "120,00 MDL",
+   "price_display_ru": "120,00 лей",
+   "name_ro": "Chyka Roll",
+   "name_ru": "Chyka Roll",
+   "attributes_ro": [
+    [
+     "Masa",
+     "300g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "300г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- orez, nori",
+    "- cremă de brânză",
+    "- avocado",
+    "- somon grill",
+    "- chyka",
+    "- susan",
+    "- sos de nuci"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- orez, nori",
+    "- сливочный сыр",
+    "- авокадо",
+    "- somon grill",
+    "- chyka",
+    "- кунжут",
+    "- sos de nuci"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>orez, nori</li>\n<li>cremă de brânză</li>\n<li>avocado</li>\n<li>somon grill</li>\n<li>chyka</li>\n<li>susan</li>\n<li>sos de nuci</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>orez, nori</li>\n<li>сливочный сыр</li>\n<li>авокадо</li>\n<li>somon grill</li>\n<li>chyka</li>\n<li>кунжут</li>\n<li>sos de nuci</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/chuka_roll-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/chuka_roll-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/chyka-roll/",
+   "url_ru": "https://davidansushi.md/ru/product/chyka-roll/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Chyka Roll"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Chyka Roll"
+   ]
+  },
+  {
+   "id": 7194,
+   "slug": "crunchy-tony",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37,
+    52
+   ],
+   "price_mdl": 149.0,
+   "price_display_ro": "149,00 MDL",
+   "price_display_ru": "149,00 лей",
+   "name_ro": "Crunchy Tony",
+   "name_ru": "Crunchy Tony",
+   "attributes_ro": [
+    [
+     "Masa",
+     "260g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "260g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- nori",
+    "- orez",
+    "- ton",
+    "- daicon murat",
+    "- sos Sriracha",
+    "- Masago Arare",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- нори",
+    "- рис",
+    "- тунец",
+    "- daicon murat",
+    "- sos Sriracha",
+    "- Masago Arare",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>ton</li>\n<li>daicon murat</li>\n<li>sos Sriracha</li>\n<li>Masago Arare</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>тунец</li>\n<li>daicon murat</li>\n<li>sos Sriracha</li>\n<li>Masago Arare</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2025/09/crunchy_tony-min-scaled.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2025/09/crunchy_tony-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/crunchy-tony/",
+   "url_ru": "https://davidansushi.md/ru/product/crunchy-tony/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Crunchy Tony"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Crunchy Tony"
+   ]
+  },
+  {
+   "id": 5211,
+   "slug": "dragon-verde",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37,
+    52
+   ],
+   "price_mdl": 145.0,
+   "price_display_ro": "145,00 MDL",
+   "price_display_ru": "145,00 лей",
+   "name_ro": "Dragon Verde",
+   "name_ru": "Зеленый Дракон",
+   "attributes_ro": [
+    [
+     "Masa",
+     "280g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "280г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- avocado",
+    "- castravete",
+    "- somon",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- авокадо",
+    "- огурец",
+    "- лосось",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>avocado</li>\n<li>castravete</li>\n<li>somon</li>\n<li>sos unaghi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>авокадо</li>\n<li>огурец</li>\n<li>лосось</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Dragon-Verde-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Dragon-Verde-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/dragon-verde/",
+   "url_ru": "https://davidansushi.md/ru/product/dragon-verde/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Dragon Verde"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Зеленый Дракон"
+   ]
+  },
+  {
+   "id": 5209,
+   "slug": "ebi-roll",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37
+   ],
+   "price_mdl": 160.0,
+   "price_display_ro": "160,00 MDL",
+   "price_display_ru": "160,00 лей",
+   "name_ro": "Ebi Roll",
+   "name_ru": "Еби ролл",
+   "attributes_ro": [
+    [
+     "Masa",
+     "280g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "280г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- castraveți",
+    "- somon",
+    "- creveți"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- огурцы",
+    "- лосось",
+    "- креветки"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>castraveți</li>\n<li>somon</li>\n<li>creveți</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>огурцы</li>\n<li>лосось</li>\n<li>креветки</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Ebi-Roll-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Ebi-Roll-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/ebi-roll/",
+   "url_ru": "https://davidansushi.md/ru/product/ebi-roll/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Ebi Roll"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Еби ролл"
+   ]
+  },
+  {
+   "id": 5213,
+   "slug": "haruto",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37,
+    52
+   ],
+   "price_mdl": 200.0,
+   "price_display_ro": "200,00 MDL",
+   "price_display_ru": "200,00 лей",
+   "name_ro": "Haruto",
+   "name_ru": "Харуто",
+   "attributes_ro": [
+    [
+     "Masa",
+     "320g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "320г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- castraveți",
+    "- avocado",
+    "- ton",
+    "- somon",
+    "- țipar",
+    "- tobico",
+    "- mango gem"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- огурцы",
+    "- авокадо",
+    "- тунец",
+    "- лосось",
+    "- угорь",
+    "- тобико",
+    "- джем из манго"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>castraveți</li>\n<li>avocado</li>\n<li>ton</li>\n<li>somon</li>\n<li>țipar</li>\n<li>tobico</li>\n<li>mango gem</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>огурцы</li>\n<li>авокадо</li>\n<li>тунец</li>\n<li>лосось</li>\n<li>угорь</li>\n<li>тобико</li>\n<li>джем из манго</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Haruto-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Haruto-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/haruto/",
+   "url_ru": "https://davidansushi.md/ru/product/haruto/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Haruto"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Харуто"
+   ]
+  },
+  {
+   "id": 5367,
+   "slug": "kyoto",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37
+   ],
+   "price_mdl": 180.0,
+   "price_display_ro": "180,00 MDL",
+   "price_display_ru": "180,00 лей",
+   "name_ro": "Kyoto",
+   "name_ru": "Kyoto",
+   "attributes_ro": [
+    [
+     "Masa",
+     "270g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "270g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente: **",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- castraveți",
+    "- somon grill",
+    "- somon",
+    "- țipar",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты: **",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- огурцы",
+    "- somon grill",
+    "- лосось",
+    "- угорь",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente: </strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>castraveți</li>\n<li>somon grill</li>\n<li>somon</li>\n<li>țipar</li>\n<li>sos unaghi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты: </strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>огурцы</li>\n<li>somon grill</li>\n<li>лосось</li>\n<li>угорь</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/kyoto-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/kyoto-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/kyoto/",
+   "url_ru": "https://davidansushi.md/ru/product/kyoto/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Kyoto"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Kyoto"
+   ]
+  },
+  {
+   "id": 7200,
+   "slug": "oh-my-cheeseus",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37,
+    52
+   ],
+   "price_mdl": 169.0,
+   "price_display_ro": "169,00 MDL",
+   "price_display_ru": "169,00 лей",
+   "name_ro": "Oh my cheeseus",
+   "name_ru": "Oh my cheeseus",
+   "attributes_ro": [
+    [
+     "Masa",
+     "355g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "355g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- nori",
+    "- orez",
+    "- cheddar",
+    "- creveți pane",
+    "- cremă de brânză",
+    "- castraveți",
+    "- fidea de boabe",
+    "- sos unaghi",
+    "- sos Kimchi Maio"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- нори",
+    "- рис",
+    "- cheddar",
+    "- креветки в панировке",
+    "- сливочный сыр",
+    "- огурцы",
+    "- fidea de boabe",
+    "- соус унаги",
+    "- sos Kimchi Maio"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cheddar</li>\n<li>creveți pane</li>\n<li>cremă de brânză</li>\n<li>castraveți</li>\n<li>fidea de boabe</li>\n<li>sos unaghi</li>\n<li>sos Kimchi Maio</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>cheddar</li>\n<li>креветки в панировке</li>\n<li>сливочный сыр</li>\n<li>огурцы</li>\n<li>fidea de boabe</li>\n<li>соус унаги</li>\n<li>sos Kimchi Maio</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2025/09/ooooohhhhhhhhh-min-scaled.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2025/09/ooooohhhhhhhhh-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/oh-my-cheeseus/",
+   "url_ru": "https://davidansushi.md/ru/product/oh-my-cheeseus/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Oh my cheeseus"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Oh my cheeseus"
+   ]
+  },
+  {
+   "id": 5205,
+   "slug": "philadelphia-classic",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37
+   ],
+   "price_mdl": 145.0,
+   "price_display_ro": "145,00 MDL",
+   "price_display_ru": "145,00 лей",
+   "name_ro": "Philadelphia Classic",
+   "name_ru": "Филадельфия Классик",
+   "attributes_ro": [
+    [
+     "Masa",
+     "280g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "280г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori,",
+    "- orez,",
+    "- cremă de brânză,",
+    "- castravete,",
+    "- avocado,",
+    "- somon"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- огурец",
+    "- авокадо",
+    "- лосось"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori,</li>\n<li>orez,</li>\n<li>cremă de brânză,</li>\n<li>castravete,</li>\n<li>avocado,</li>\n<li>somon</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>огурец</li>\n<li>авокадо</li>\n<li>лосось</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Philadephia-Classic-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Philadephia-Classic-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/philadelphia-classic/",
+   "url_ru": "https://davidansushi.md/ru/product/philadelphia-classic/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Philadelphia Classic"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Филадельфия Классик"
+   ]
+  },
+  {
+   "id": 5441,
+   "slug": "philadelphia-cu-creveti",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37,
+    52
+   ],
+   "price_mdl": 170.0,
+   "price_display_ro": "170,00 MDL",
+   "price_display_ru": "170,00 лей",
+   "name_ro": "Philadelphia cu Creveți",
+   "name_ru": "Philadelphia cu Creveți",
+   "attributes_ro": [
+    [
+     "Masa",
+     "320g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "320г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- orez",
+    "- nori",
+    "- cremă de brânză",
+    "- castraveți",
+    "- avocado",
+    "- somon",
+    "- creveți",
+    "- sos unaghi",
+    "- sos spisy"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- рис",
+    "- нори",
+    "- сливочный сыр",
+    "- огурцы",
+    "- авокадо",
+    "- лосось",
+    "- креветки",
+    "- соус унаги",
+    "- sos spisy"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>orez</li>\n<li>nori</li>\n<li>cremă de brânză</li>\n<li>castraveți</li>\n<li>avocado</li>\n<li>somon</li>\n<li>creveți</li>\n<li>sos unaghi</li>\n<li>sos spisy</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>рис</li>\n<li>нори</li>\n<li>сливочный сыр</li>\n<li>огурцы</li>\n<li>авокадо</li>\n<li>лосось</li>\n<li>креветки</li>\n<li>соус унаги</li>\n<li>sos spisy</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/philadelphia_creveti-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/philadelphia_creveti-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/philadelphia-cu-creveti/",
+   "url_ru": "https://davidansushi.md/ru/product/philadelphia-cu-creveti/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Philadelphia cu Creveți"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Philadelphia cu Creveți"
+   ]
+  },
+  {
+   "id": 5206,
+   "slug": "philadelphia-ebi",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37
+   ],
+   "price_mdl": 160.0,
+   "price_display_ro": "160,00 MDL",
+   "price_display_ru": "160,00 лей",
+   "name_ro": "Philadelphia Ebi",
+   "name_ru": "Филадельфия Эби",
+   "attributes_ro": [
+    [
+     "Masa",
+     "280g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "280г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- castraveți",
+    "- creveți pane",
+    "- somon"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- огурцы",
+    "- креветки в панировке",
+    "- лосось"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>castraveți</li>\n<li>creveți pane</li>\n<li>somon</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>огурцы</li>\n<li>креветки в панировке</li>\n<li>лосось</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Philla-Ebi-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Philla-Ebi-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/philadelphia-ebi/",
+   "url_ru": "https://davidansushi.md/ru/product/philadelphia-ebi/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Philadelphia Ebi"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Филадельфия Эби"
+   ]
+  },
+  {
+   "id": 5364,
+   "slug": "philadelphia-flambe",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37
+   ],
+   "price_mdl": 150.0,
+   "price_display_ro": "150,00 MDL",
+   "price_display_ru": "150,00 лей",
+   "name_ro": "Philadelphia Flambe",
+   "name_ru": "Philadelphia Flambe",
+   "attributes_ro": [
+    [
+     "Masa",
+     "280g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "280г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cream de brânză",
+    "- avocado",
+    "- somon",
+    "- sos spicy"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- cream de brânză",
+    "- авокадо",
+    "- лосось",
+    "- sos spicy"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cream de brânză</li>\n<li>avocado</li>\n<li>somon</li>\n<li>sos spicy</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>cream de brânză</li>\n<li>авокадо</li>\n<li>лосось</li>\n<li>sos spicy</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/philadelphia-flambe-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/philadelphia-flambe-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/philadelphia-flambe/",
+   "url_ru": "https://davidansushi.md/ru/product/philadelphia-flambe/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Philadelphia Flambe"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Philadelphia Flambe"
+   ]
+  },
+  {
+   "id": 7206,
+   "slug": "salmon-bliss",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37,
+    52
+   ],
+   "price_mdl": 169.0,
+   "price_display_ro": "169,00 MDL",
+   "price_display_ru": "169,00 лей",
+   "name_ro": "Salmon Bliss",
+   "name_ru": "Salmon Bliss",
+   "attributes_ro": [
+    [
+     "Masa",
+     "350g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "350g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- nori",
+    "- orez",
+    "- somon copt",
+    "- ardei california",
+    "- cremă de brânză",
+    "- sos Maio Dulce",
+    "- sos Sriracha",
+    "- sos Unaghi",
+    "- Masago Arare"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- нори",
+    "- рис",
+    "- somon copt",
+    "- ardei california",
+    "- сливочный сыр",
+    "- sos Maio Dulce",
+    "- sos Sriracha",
+    "- sos Unaghi",
+    "- Masago Arare"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>somon copt</li>\n<li>ardei california</li>\n<li>cremă de brânză</li>\n<li>sos Maio Dulce</li>\n<li>sos Sriracha</li>\n<li>sos Unaghi</li>\n<li>Masago Arare</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>somon copt</li>\n<li>ardei california</li>\n<li>сливочный сыр</li>\n<li>sos Maio Dulce</li>\n<li>sos Sriracha</li>\n<li>sos Unaghi</li>\n<li>Masago Arare</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2025/09/salmon_bliss-min-scaled.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2025/09/salmon_bliss-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/salmon-bliss/",
+   "url_ru": "https://davidansushi.md/ru/product/salmon-bliss/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Salmon Bliss"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Salmon Bliss"
+   ]
+  },
+  {
+   "id": 7209,
+   "slug": "salmon-explosion",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37,
+    52
+   ],
+   "price_mdl": 179.0,
+   "price_display_ro": "179,00 MDL",
+   "price_display_ru": "179,00 лей",
+   "name_ro": "Salmon Explosion",
+   "name_ru": "Salmon Explosion",
+   "attributes_ro": [
+    [
+     "Masa",
+     "285g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "285g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- nori",
+    "- orez",
+    "- somon",
+    "- chuka",
+    "- sos Kimchi Maio",
+    "- sos unaghi",
+    "- togarashi",
+    "- tobico"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- нори",
+    "- рис",
+    "- лосось",
+    "- chuka",
+    "- sos Kimchi Maio",
+    "- соус унаги",
+    "- togarashi",
+    "- тобико"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>somon</li>\n<li>chuka</li>\n<li>sos Kimchi Maio</li>\n<li>sos unaghi</li>\n<li>togarashi</li>\n<li>tobico</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>лосось</li>\n<li>chuka</li>\n<li>sos Kimchi Maio</li>\n<li>соус унаги</li>\n<li>togarashi</li>\n<li>тобико</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2025/09/salmon_explosion-min-scaled.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2025/09/salmon_explosion-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/salmon-explosion/",
+   "url_ru": "https://davidansushi.md/ru/product/salmon-explosion/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Salmon Explosion"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Salmon Explosion"
+   ]
+  },
+  {
+   "id": 7203,
+   "slug": "shrimps-explosion",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37,
+    52
+   ],
+   "price_mdl": 179.0,
+   "price_display_ro": "179,00 MDL",
+   "price_display_ru": "179,00 лей",
+   "name_ro": "Shrimps Explosion",
+   "name_ru": "Shrimps Explosion",
+   "attributes_ro": [
+    [
+     "Masa",
+     "270g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "270g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- nori",
+    "- orez",
+    "- creveți",
+    "- sos Kimchi Maio",
+    "- maioneză japoneză",
+    "- sos unaghi",
+    "- togarashi"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- нори",
+    "- рис",
+    "- креветки",
+    "- sos Kimchi Maio",
+    "- maioneză japoneză",
+    "- соус унаги",
+    "- togarashi"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>creveți</li>\n<li>sos Kimchi Maio</li>\n<li>maioneză japoneză</li>\n<li>sos unaghi</li>\n<li>togarashi</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>креветки</li>\n<li>sos Kimchi Maio</li>\n<li>maioneză japoneză</li>\n<li>соус унаги</li>\n<li>togarashi</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2025/09/shrimps_explosion-min-scaled.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2025/09/shrimps_explosion-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/shrimps-explosion/",
+   "url_ru": "https://davidansushi.md/ru/product/shrimps-explosion/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Shrimps Explosion"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Shrimps Explosion"
+   ]
+  },
+  {
+   "id": 7197,
+   "slug": "spicy-tuna",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37,
+    52
+   ],
+   "price_mdl": 149.0,
+   "price_display_ro": "149,00 MDL",
+   "price_display_ru": "149,00 лей",
+   "name_ro": "Spicy Tuna",
+   "name_ru": "Spicy Tuna",
+   "attributes_ro": [
+    [
+     "Masa",
+     "320g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "320г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- nori",
+    "- orez",
+    "- ton",
+    "- creveți pane",
+    "- chuka",
+    "- maioneză japoneză",
+    "- sos Sriracha",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- нори",
+    "- рис",
+    "- тунец",
+    "- креветки в панировке",
+    "- chuka",
+    "- maioneză japoneză",
+    "- sos Sriracha",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>ton</li>\n<li>creveți pane</li>\n<li>chuka</li>\n<li>maioneză japoneză</li>\n<li>sos Sriracha</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>тунец</li>\n<li>креветки в панировке</li>\n<li>chuka</li>\n<li>maioneză japoneză</li>\n<li>sos Sriracha</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2025/09/spicy_tuna-min-scaled.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2025/09/spicy_tuna-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/spicy-tuna/",
+   "url_ru": "https://davidansushi.md/ru/product/spicy-tuna/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Spicy Tuna"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Spicy Tuna"
+   ]
+  },
+  {
+   "id": 5212,
+   "slug": "tuna-roll",
+   "leaf_category_id": 37,
+   "category_ids": [
+    37
+   ],
+   "price_mdl": 140.0,
+   "price_display_ro": "140,00 MDL",
+   "price_display_ru": "140,00 лей",
+   "name_ro": "Tuna Roll",
+   "name_ru": "Туна Ролл",
+   "attributes_ro": [
+    [
+     "Masa",
+     "270g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "270g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- castravete",
+    "- ton",
+    "- somon",
+    "- mango gem"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- огурец",
+    "- тунец",
+    "- лосось",
+    "- джем из манго"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>castravete</li>\n<li>ton</li>\n<li>somon</li>\n<li>mango gem</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>огурец</li>\n<li>тунец</li>\n<li>лосось</li>\n<li>джем из манго</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Tuna-Roll-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Tuna-Roll-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/tuna-roll/",
+   "url_ru": "https://davidansushi.md/ru/product/tuna-roll/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Roluri",
+    "Tuna Roll"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Ролы",
+    "Туна Ролл"
+   ]
+  },
+  {
+   "id": 5368,
+   "slug": "sushidog",
+   "leaf_category_id": 38,
+   "category_ids": [
+    52,
+    38
+   ],
+   "price_mdl": 145.0,
+   "price_display_ro": "145,00 MDL",
+   "price_display_ru": "145,00 лей",
+   "name_ro": "SushiDog",
+   "name_ru": "SushiDog",
+   "attributes_ro": [
+    [
+     "Masa",
+     "300g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "300г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cream de brânză",
+    "- castraveți",
+    "- maioneză japoneză",
+    "- tobico",
+    "- creveți",
+    "- somon",
+    "- sos sriracha",
+    "- sos spicy",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- cream de brânză",
+    "- огурцы",
+    "- maioneză japoneză",
+    "- тобико",
+    "- креветки",
+    "- лосось",
+    "- sos sriracha",
+    "- sos spicy",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cream de brânză</li>\n<li>castraveți</li>\n<li>maioneză japoneză</li>\n<li>tobico</li>\n<li>creveți</li>\n<li>somon</li>\n<li>sos sriracha</li>\n<li>sos spicy</li>\n<li>sos unaghi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>cream de brânză</li>\n<li>огурцы</li>\n<li>maioneză japoneză</li>\n<li>тобико</li>\n<li>креветки</li>\n<li>лосось</li>\n<li>sos sriracha</li>\n<li>sos spicy</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/SushiDog-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/SushiDog-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/sushidog/",
+   "url_ru": "https://davidansushi.md/ru/product/sushidog/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Tempura",
+    "SushiDog"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Темпура",
+    "SushiDog"
+   ]
+  },
+  {
+   "id": 5217,
+   "slug": "tempura-creveti",
+   "leaf_category_id": 38,
+   "category_ids": [
+    52,
+    38
+   ],
+   "price_mdl": 140.0,
+   "price_display_ro": "140,00 MDL",
+   "price_display_ru": "140,00 лей",
+   "name_ro": "Tempura Creveți",
+   "name_ru": "Tempura Creveți",
+   "attributes_ro": [
+    [
+     "Masa",
+     "300g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "300г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- tobico",
+    "- castraveți",
+    "- creveți",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- тобико",
+    "- огурцы",
+    "- креветки",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>tobico</li>\n<li>castraveți</li>\n<li>creveți</li>\n<li>sos unaghi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>тобико</li>\n<li>огурцы</li>\n<li>креветки</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Tempura-cu-creveti-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Tempura-cu-creveti-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/tempura-creveti/",
+   "url_ru": "https://davidansushi.md/ru/product/tempura-creveti/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Tempura",
+    "Tempura Creveți"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Темпура",
+    "Tempura Creveți"
+   ]
+  },
+  {
+   "id": 5215,
+   "slug": "tempura-somon",
+   "leaf_category_id": 38,
+   "category_ids": [
+    52,
+    38
+   ],
+   "price_mdl": 145.0,
+   "price_display_ro": "145,00 MDL",
+   "price_display_ru": "145,00 лей",
+   "name_ro": "Tempura Somon",
+   "name_ru": "Tempura Somon",
+   "attributes_ro": [
+    [
+     "Masa",
+     "300g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "300г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- tobico",
+    "- castraveți",
+    "- somon",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- тобико",
+    "- огурцы",
+    "- лосось",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>tobico</li>\n<li>castraveți</li>\n<li>somon</li>\n<li>sos unaghi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>тобико</li>\n<li>огурцы</li>\n<li>лосось</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Tempura-cu-somon-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Tempura-cu-somon-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/tempura-somon/",
+   "url_ru": "https://davidansushi.md/ru/product/tempura-somon/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Tempura",
+    "Tempura Somon"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Темпура",
+    "Tempura Somon"
+   ]
+  },
+  {
+   "id": 5384,
+   "slug": "tempura-somon-grill",
+   "leaf_category_id": 38,
+   "category_ids": [
+    52,
+    38
+   ],
+   "price_mdl": 120.0,
+   "price_display_ro": "120,00 MDL",
+   "price_display_ru": "120,00 лей",
+   "name_ro": "Tempura Somon Grill",
+   "name_ru": "Tempura Somon Grill",
+   "attributes_ro": [
+    [
+     "Masa",
+     "300g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "300г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- tobico",
+    "- castraveți",
+    "- somon grill",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- тобико",
+    "- огурцы",
+    "- somon grill",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>tobico</li>\n<li>castraveți</li>\n<li>somon grill</li>\n<li>sos unaghi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>тобико</li>\n<li>огурцы</li>\n<li>somon grill</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/tempura-cu-somon-grill-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/tempura-cu-somon-grill-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/tempura-somon-grill/",
+   "url_ru": "https://davidansushi.md/ru/product/tempura-somon-grill/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Tempura",
+    "Tempura Somon Grill"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Темпура",
+    "Tempura Somon Grill"
+   ]
+  },
+  {
+   "id": 5216,
+   "slug": "tempura-ton",
+   "leaf_category_id": 38,
+   "category_ids": [
+    52,
+    38
+   ],
+   "price_mdl": 140.0,
+   "price_display_ro": "140,00 MDL",
+   "price_display_ru": "140,00 лей",
+   "name_ro": "Tempura Ton",
+   "name_ru": "Tempura Ton",
+   "attributes_ro": [
+    [
+     "Masa",
+     "300g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "300г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- tobico",
+    "- castraveți",
+    "- ton",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- тобико",
+    "- огурцы",
+    "- тунец",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>tobico</li>\n<li>castraveți</li>\n<li>ton</li>\n<li>sos unaghi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>тобико</li>\n<li>огурцы</li>\n<li>тунец</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Tempura-cu-creveti-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Tempura-cu-creveti-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/tempura-ton/",
+   "url_ru": "https://davidansushi.md/ru/product/tempura-ton/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Tempura",
+    "Tempura Ton"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Темпура",
+    "Tempura Ton"
+   ]
+  },
+  {
+   "id": 5218,
+   "slug": "tempura-tipar",
+   "leaf_category_id": 38,
+   "category_ids": [
+    52,
+    38
+   ],
+   "price_mdl": 155.0,
+   "price_display_ro": "155,00 MDL",
+   "price_display_ru": "155,00 лей",
+   "name_ro": "Tempura Țipar",
+   "name_ru": "Tempura Țipar",
+   "attributes_ro": [
+    [
+     "Masa",
+     "300g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "300г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- cremă de brânză",
+    "- tobico",
+    "- castraveți",
+    "- țipar",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- сливочный сыр",
+    "- тобико",
+    "- огурцы",
+    "- угорь",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>cremă de brânză</li>\n<li>tobico</li>\n<li>castraveți</li>\n<li>țipar</li>\n<li>sos unaghi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>сливочный сыр</li>\n<li>тобико</li>\n<li>огурцы</li>\n<li>угорь</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Tempura-cu-tipar-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Tempura-cu-tipar-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/tempura-tipar/",
+   "url_ru": "https://davidansushi.md/ru/product/tempura-tipar/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Tempura",
+    "Tempura Țipar"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Темпура",
+    "Tempura Țipar"
+   ]
+  },
+  {
+   "id": 5224,
+   "slug": "avocado-maki",
+   "leaf_category_id": 39,
+   "category_ids": [
+    39,
+    52
+   ],
+   "price_mdl": 55.0,
+   "price_display_ro": "55,00 MDL",
+   "price_display_ru": "55,00 лей",
+   "name_ro": "Avocado Maki",
+   "name_ru": "Avocado Maki",
+   "attributes_ro": [
+    [
+     "Masa",
+     "130g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "130g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- avocado"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- авокадо"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>avocado</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>авокадо</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Avocado-Maki-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Avocado-Maki-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/avocado-maki/",
+   "url_ru": "https://davidansushi.md/ru/product/avocado-maki/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Maki",
+    "Avocado Maki"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Маки",
+    "Avocado Maki"
+   ]
+  },
+  {
+   "id": 5222,
+   "slug": "ebi-maki",
+   "leaf_category_id": 39,
+   "category_ids": [
+    39,
+    52
+   ],
+   "price_mdl": 75.0,
+   "price_display_ro": "75,00 MDL",
+   "price_display_ru": "75,00 лей",
+   "name_ro": "Ebi Maki",
+   "name_ru": "Ebi Maki",
+   "attributes_ro": [
+    [
+     "Masa",
+     "130g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "130g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- creveți"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- креветки"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>creveți</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>креветки</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Ebi-Maki-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Ebi-Maki-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/ebi-maki/",
+   "url_ru": "https://davidansushi.md/ru/product/ebi-maki/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Maki",
+    "Ebi Maki"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Маки",
+    "Ebi Maki"
+   ]
+  },
+  {
+   "id": 5223,
+   "slug": "kappa-maki",
+   "leaf_category_id": 39,
+   "category_ids": [
+    39,
+    52
+   ],
+   "price_mdl": 50.0,
+   "price_display_ro": "50,00 MDL",
+   "price_display_ru": "50,00 лей",
+   "name_ro": "Kappa Maki",
+   "name_ru": "Kappa Maki",
+   "attributes_ro": [
+    [
+     "Masa",
+     "130g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "130g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- castravete"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- огурец"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>castravete</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>огурец</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Kappa-Maki-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Kappa-Maki-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/kappa-maki/",
+   "url_ru": "https://davidansushi.md/ru/product/kappa-maki/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Maki",
+    "Kappa Maki"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Маки",
+    "Kappa Maki"
+   ]
+  },
+  {
+   "id": 5219,
+   "slug": "somon-maki",
+   "leaf_category_id": 39,
+   "category_ids": [
+    39,
+    52
+   ],
+   "price_mdl": 75.0,
+   "price_display_ro": "75,00 MDL",
+   "price_display_ru": "75,00 лей",
+   "name_ro": "Somon Maki",
+   "name_ru": "Somon Maki",
+   "attributes_ro": [
+    [
+     "Masa",
+     "130g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "130g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- somon"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- лосось"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>somon</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>лосось</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Somon-Maki-min-1.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Somon-Maki-min-1-300x225.png",
+   "url_ro": "https://davidansushi.md/product/somon-maki/",
+   "url_ru": "https://davidansushi.md/ru/product/somon-maki/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Maki",
+    "Somon Maki"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Маки",
+    "Somon Maki"
+   ]
+  },
+  {
+   "id": 5221,
+   "slug": "ton-maki",
+   "leaf_category_id": 39,
+   "category_ids": [
+    39,
+    52
+   ],
+   "price_mdl": 70.0,
+   "price_display_ro": "70,00 MDL",
+   "price_display_ru": "70,00 лей",
+   "name_ro": "Ton Maki",
+   "name_ru": "Ton Maki",
+   "attributes_ro": [
+    [
+     "Masa",
+     "130g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "130g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- ton"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- тунец"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>ton</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>тунец</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Somon-Maki-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Somon-Maki-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/ton-maki/",
+   "url_ru": "https://davidansushi.md/ru/product/ton-maki/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Maki",
+    "Ton Maki"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Маки",
+    "Ton Maki"
+   ]
+  },
+  {
+   "id": 5220,
+   "slug": "unaghi-maki",
+   "leaf_category_id": 39,
+   "category_ids": [
+    39,
+    52
+   ],
+   "price_mdl": 90.0,
+   "price_display_ro": "90,00 MDL",
+   "price_display_ru": "90,00 лей",
+   "name_ro": "Unaghi Maki",
+   "name_ru": "Unaghi Maki",
+   "attributes_ro": [
+    [
+     "Masa",
+     "130g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "130g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nori",
+    "- orez",
+    "- țipar",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- нори",
+    "- рис",
+    "- угорь",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>țipar</li>\n<li>sos unaghi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>угорь</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Unaghi-Maki-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Unaghi-Maki-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/unaghi-maki/",
+   "url_ru": "https://davidansushi.md/ru/product/unaghi-maki/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Sushi",
+    "Maki",
+    "Unaghi Maki"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Суши",
+    "Маки",
+    "Unaghi Maki"
+   ]
+  },
+  {
+   "id": 5363,
+   "slug": "davidan-set",
+   "leaf_category_id": 50,
+   "category_ids": [
+    50
+   ],
+   "price_mdl": 900.0,
+   "price_display_ro": "900,00 MDL",
+   "price_display_ru": "900,00 лей",
+   "name_ro": "Davidan Set",
+   "name_ru": "Davidan Set",
+   "attributes_ro": [
+    [
+     "Bucăți",
+     "48 buc"
+    ],
+    [
+     "Masa",
+     "1900g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Количество",
+     "48 buc"
+    ],
+    [
+     "Вес",
+     "1900g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Componența setului:**",
+    "- Haruto – 8 bucăți",
+    "- Philadelphia Classic – 8 bucăți",
+    "- California Creveți – 8 bucăți",
+    "- Chyka Roll – 8 bucăți",
+    "- Salmon Bliss – 8 bucăţi",
+    "- Oh my cheeseus – 8 bucăţi"
+   ],
+   "description_ru_lines": [
+    "**Состав:**",
+    "- Haruto – 8 bucăți",
+    "- Philadelphia Classic – 8 bucăți",
+    "- California Creveți – 8 bucăți",
+    "- Chyka Roll – 8 bucăți",
+    "- Salmon Bliss – 8 bucăţi",
+    "- Oh my cheeseus – 8 bucăţi"
+   ],
+   "description_ro_html": "<p><strong>Componența setului:</strong></p>\n<ul>\n<li>Haruto &#8211; 8 bucăți</li>\n<li>Philadelphia Classic &#8211; 8 bucăți</li>\n<li>California Creveți &#8211; 8 bucăți</li>\n<li>Chyka Roll &#8211; 8 bucăți</li>\n<li>Salmon Bliss &#8211; 8 bucăţi</li>\n<li>Oh my cheeseus &#8211; 8 bucăţi</li>\n</ul>",
+   "description_ru_html": "<p><strong>Состав:</strong></p>\n<ul>\n<li>Haruto &#8211; 8 bucăți</li>\n<li>Philadelphia Classic &#8211; 8 bucăți</li>\n<li>California Creveți &#8211; 8 bucăți</li>\n<li>Chyka Roll &#8211; 8 bucăți</li>\n<li>Salmon Bliss &#8211; 8 bucăţi</li>\n<li>Oh my cheeseus &#8211; 8 bucăţi</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/davidan-set-1.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/davidan-set-1-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/davidan-set/",
+   "url_ru": "https://davidansushi.md/ru/product/davidan-set/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Seturi",
+    "Davidan Set"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Сеты",
+    "Davidan Set"
+   ]
+  },
+  {
+   "id": 5308,
+   "slug": "gunkan-set",
+   "leaf_category_id": 50,
+   "category_ids": [
+    50
+   ],
+   "price_mdl": 235.0,
+   "price_display_ro": "235,00 MDL",
+   "price_display_ru": "235,00 лей",
+   "name_ro": "Gunkan Set",
+   "name_ru": "Гункан Сет",
+   "attributes_ro": [
+    [
+     "Bucăți",
+     "4 buc"
+    ],
+    [
+     "Masa",
+     "280g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Количество",
+     "4 шт"
+    ],
+    [
+     "Вес",
+     "280г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Componența setului:**",
+    "- orez",
+    "- nori",
+    "- tobico",
+    "- maioneză japoneză",
+    "- creveți",
+    "- ton",
+    "- somon",
+    "- țipar",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Состав:**",
+    "- рис",
+    "- нори",
+    "- тобико",
+    "- maioneză japoneză",
+    "- креветки",
+    "- тунец",
+    "- лосось",
+    "- угорь",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Componența setului:</strong></p>\n<ul>\n<li>orez</li>\n<li>nori</li>\n<li>tobico</li>\n<li>maioneză japoneză</li>\n<li>creveți</li>\n<li>ton</li>\n<li>somon</li>\n<li>țipar</li>\n<li>sos unaghi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Состав:</strong></p>\n<ul>\n<li>рис</li>\n<li>нори</li>\n<li>тобико</li>\n<li>maioneză japoneză</li>\n<li>креветки</li>\n<li>тунец</li>\n<li>лосось</li>\n<li>угорь</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Gunkan-Set.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Gunkan-Set-300x225.png",
+   "url_ro": "https://davidansushi.md/product/gunkan-set/",
+   "url_ru": "https://davidansushi.md/ru/product/gunkan-set/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Seturi",
+    "Gunkan Set"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Сеты",
+    "Гункан Сет"
+   ]
+  },
+  {
+   "id": 5401,
+   "slug": "love-story-set",
+   "leaf_category_id": 50,
+   "category_ids": [
+    50
+   ],
+   "price_mdl": 460.0,
+   "price_display_ro": "460,00 MDL",
+   "price_display_ru": "460,00 лей",
+   "name_ro": "Love Story Set",
+   "name_ru": "Love Story Set",
+   "attributes_ro": [
+    [
+     "Bucăți",
+     "32 buc"
+    ],
+    [
+     "Masa",
+     "950g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Количество",
+     "32 buc"
+    ],
+    [
+     "Вес",
+     "950g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Componența setului:**",
+    "- Dragon Verde 8 bucăți",
+    "- Philadelphia Flambe 8 bucăți",
+    "- California Creveți – 8 bucăți",
+    "- Kappa Maki 4 bucăți",
+    "- Avokado Maki 4 bucăți"
+   ],
+   "description_ru_lines": [
+    "**Состав:**",
+    "- Dragon Verde 8 bucăți",
+    "- Philadelphia Flambe 8 bucăți",
+    "- California Creveți – 8 bucăți",
+    "- Kappa Maki 4 bucăți",
+    "- Avokado Maki 4 bucăți"
+   ],
+   "description_ro_html": "<p><strong>Componența setului:</strong></p>\n<ul>\n<li>Dragon Verde 8 bucăți</li>\n<li>Philadelphia Flambe 8 bucăți</li>\n<li>California Creveți &#8211; 8 bucăți</li>\n<li>Kappa Maki 4 bucăți</li>\n<li>Avokado Maki 4 bucăți</li>\n</ul>",
+   "description_ru_html": "<p><strong>Состав:</strong></p>\n<ul>\n<li>Dragon Verde 8 bucăți</li>\n<li>Philadelphia Flambe 8 bucăți</li>\n<li>California Creveți &#8211; 8 bucăți</li>\n<li>Kappa Maki 4 bucăți</li>\n<li>Avokado Maki 4 bucăți</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Set-love-story.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Set-love-story-300x225.png",
+   "url_ro": "https://davidansushi.md/product/love-story-set/",
+   "url_ru": "https://davidansushi.md/ru/product/love-story-set/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Seturi",
+    "Love Story Set"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Сеты",
+    "Love Story Set"
+   ]
+  },
+  {
+   "id": 5290,
+   "slug": "maki-set",
+   "leaf_category_id": 50,
+   "category_ids": [
+    50
+   ],
+   "price_mdl": 185.0,
+   "price_display_ro": "185,00 MDL",
+   "price_display_ru": "185,00 лей",
+   "name_ro": "Maki Set",
+   "name_ru": "Маки сет",
+   "attributes_ro": [
+    [
+     "Bucăți",
+     "24 buc"
+    ],
+    [
+     "Masa",
+     "390g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Количество",
+     "24 шт"
+    ],
+    [
+     "Вес",
+     "390g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Componența setului:**",
+    "- Somon Maki 4 bucăți,",
+    "- Ton Maki 4 bucăți,",
+    "- Ebi Maki 4 bucăți,",
+    "- Unaghi Maki 4 bucăți,",
+    "- Kappa Maki 4 bucăți,",
+    "- Avocado Maki 4 bucăți."
+   ],
+   "description_ru_lines": [
+    "**Состав:**",
+    "- Somon Maki 4 bucăți,",
+    "- Ton Maki 4 bucăți,",
+    "- Ebi Maki 4 bucăți,",
+    "- Unaghi Maki 4 bucăți,",
+    "- Kappa Maki 4 bucăți,",
+    "- Avocado Maki 4 bucăți."
+   ],
+   "description_ro_html": "<p><strong>Componența setului:</strong></p>\n<ul>\n<li>Somon Maki 4 bucăți,</li>\n<li>Ton Maki 4 bucăți,</li>\n<li>Ebi Maki 4 bucăți,</li>\n<li>Unaghi Maki 4 bucăți,</li>\n<li>Kappa Maki 4 bucăți,</li>\n<li>Avocado Maki 4 bucăți.</li>\n</ul>",
+   "description_ru_html": "<p><strong>Состав:</strong></p>\n<ul>\n<li>Somon Maki 4 bucăți,</li>\n<li>Ton Maki 4 bucăți,</li>\n<li>Ebi Maki 4 bucăți,</li>\n<li>Unaghi Maki 4 bucăți,</li>\n<li>Kappa Maki 4 bucăți,</li>\n<li>Avocado Maki 4 bucăți.</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Maki-Set.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Maki-Set-300x225.png",
+   "url_ro": "https://davidansushi.md/product/maki-set/",
+   "url_ru": "https://davidansushi.md/ru/product/maki-set/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Seturi",
+    "Maki Set"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Сеты",
+    "Маки сет"
+   ]
+  },
+  {
+   "id": 5309,
+   "slug": "nigiri-set",
+   "leaf_category_id": 50,
+   "category_ids": [
+    50
+   ],
+   "price_mdl": 125.0,
+   "price_display_ro": "125,00 MDL",
+   "price_display_ru": "125,00 лей",
+   "name_ro": "Nigiri Set",
+   "name_ru": "Нигири Сет",
+   "attributes_ro": [
+    [
+     "Bucăți",
+     "4 buc"
+    ],
+    [
+     "Masa",
+     "230g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Количество",
+     "4 шт"
+    ],
+    [
+     "Вес",
+     "230g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Componența setului:**",
+    "- Nigiri somon",
+    "- Nigiri ton",
+    "- Nigiri creveți",
+    "- Nigiri țipar"
+   ],
+   "description_ru_lines": [
+    "**Состав:**",
+    "- Nigiri somon",
+    "- Nigiri ton",
+    "- Nigiri creveți",
+    "- Nigiri țipar"
+   ],
+   "description_ro_html": "<p><strong>Componența setului:</strong></p>\n<ul>\n<li>Nigiri somon</li>\n<li>Nigiri ton</li>\n<li>Nigiri creveți</li>\n<li>Nigiri țipar</li>\n</ul>",
+   "description_ru_html": "<p><strong>Состав:</strong></p>\n<ul>\n<li>Nigiri somon</li>\n<li>Nigiri ton</li>\n<li>Nigiri creveți</li>\n<li>Nigiri țipar</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Nigiri-Set.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Nigiri-Set-300x225.png",
+   "url_ro": "https://davidansushi.md/product/nigiri-set/",
+   "url_ru": "https://davidansushi.md/ru/product/nigiri-set/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Seturi",
+    "Nigiri Set"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Сеты",
+    "Нигири Сет"
+   ]
+  },
+  {
+   "id": 5306,
+   "slug": "phila-ebi-set",
+   "leaf_category_id": 50,
+   "category_ids": [
+    50
+   ],
+   "price_mdl": 400.0,
+   "price_display_ro": "400,00 MDL",
+   "price_display_ru": "400,00 лей",
+   "name_ro": "Phila-Ebi Set",
+   "name_ru": "Фила-Эби Сет",
+   "attributes_ro": [
+    [
+     "Bucăți",
+     "24 buc"
+    ],
+    [
+     "Masa",
+     "850g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Количество",
+     "24 шт"
+    ],
+    [
+     "Вес",
+     "850g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Componența setului:**",
+    "- Philadelphia Classic 8 bucăți;",
+    "- Ebi Roll 8 bucăți;",
+    "- Tempura cu somon grill 8 bucăți."
+   ],
+   "description_ru_lines": [
+    "**Состав:**",
+    "- Филадельфия Классик 8 шт",
+    "- Ebi Roll 8 bucăți;",
+    "- Темпура с лососем на гриле 8 шт"
+   ],
+   "description_ro_html": "<p><strong>Componența setului:</strong></p>\n<ul>\n<li>Philadelphia Classic 8 bucăți;</li>\n<li>Ebi Roll 8 bucăți;</li>\n<li>Tempura cu somon grill 8 bucăți.</li>\n</ul>",
+   "description_ru_html": "<p><strong>Состав:</strong></p>\n<ul>\n<li>Филадельфия Классик 8 шт</li>\n<li>Ebi Roll 8 bucăți;</li>\n<li>Темпура с лососем на гриле 8 шт</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Phila-Ebi-Set.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Phila-Ebi-Set-300x225.png",
+   "url_ro": "https://davidansushi.md/product/phila-ebi-set/",
+   "url_ru": "https://davidansushi.md/ru/product/phila-ebi-set/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Seturi",
+    "Phila-Ebi Set"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Сеты",
+    "Фила-Эби Сет"
+   ]
+  },
+  {
+   "id": 5443,
+   "slug": "philadelphia-set",
+   "leaf_category_id": 50,
+   "category_ids": [
+    50
+   ],
+   "price_mdl": 525.0,
+   "price_display_ro": "525,00 MDL",
+   "price_display_ru": "525,00 лей",
+   "name_ro": "Philadelphia Set",
+   "name_ru": "Philadelphia Set",
+   "attributes_ro": [
+    [
+     "Bucăți",
+     "32 buc"
+    ],
+    [
+     "Masa",
+     "1200g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Количество",
+     "32 buc"
+    ],
+    [
+     "Вес",
+     "1200g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Componența setului**",
+    "- Tempura Somon Grill – 8 bucăți",
+    "- Tempura Somon – 8 bucăți",
+    "- Philadelphia cu Creveți – 8 bucăți",
+    "- Philadelphia Classic – 8 bucăți"
+   ],
+   "description_ru_lines": [
+    "**Componența setului**",
+    "- Tempura Somon Grill – 8 bucăți",
+    "- Tempura Somon – 8 bucăți",
+    "- Philadelphia cu Creveți – 8 bucăți",
+    "- Philadelphia Classic – 8 bucăți"
+   ],
+   "description_ro_html": "<p><strong>Componența setului</strong></p>\n<ul>\n<li>Tempura Somon Grill &#8211; 8 bucăți</li>\n<li>Tempura Somon &#8211; 8 bucăți</li>\n<li>Philadelphia cu Creveți &#8211; 8 bucăți</li>\n<li>Philadelphia Classic &#8211; 8 bucăți</li>\n</ul>",
+   "description_ru_html": "<p><strong>Componența setului</strong></p>\n<ul>\n<li>Tempura Somon Grill &#8211; 8 bucăți</li>\n<li>Tempura Somon &#8211; 8 bucăți</li>\n<li>Philadelphia cu Creveți &#8211; 8 bucăți</li>\n<li>Philadelphia Classic &#8211; 8 bucăți</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/philadelphia_set-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/philadelphia_set-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/philadelphia-set/",
+   "url_ru": "https://davidansushi.md/ru/product/philadelphia-set/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Seturi",
+    "Philadelphia Set"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Сеты",
+    "Philadelphia Set"
+   ]
+  },
+  {
+   "id": 5307,
+   "slug": "sacura-set",
+   "leaf_category_id": 50,
+   "category_ids": [
+    50
+   ],
+   "price_mdl": 440.0,
+   "price_display_ro": "440,00 MDL",
+   "price_display_ru": "440,00 лей",
+   "name_ro": "Sacura Set",
+   "name_ru": "Сакура Сет",
+   "attributes_ro": [
+    [
+     "Bucăți",
+     "24 buc"
+    ],
+    [
+     "Masa",
+     "850g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Количество",
+     "24 шт"
+    ],
+    [
+     "Вес",
+     "850g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Componența setului:**",
+    "- Dragon Verde 8 bucăți",
+    "- Tuna Roll 8 bucăți",
+    "- Canada 8 bucăți"
+   ],
+   "description_ru_lines": [
+    "**Состав:**",
+    "- Dragon Verde 8 bucăți",
+    "- Tuna Roll 8 bucăți",
+    "- Canada 8 bucăți"
+   ],
+   "description_ro_html": "<p><strong>Componența setului:</strong></p>\n<ul>\n<li>Dragon Verde 8 bucăți</li>\n<li>Tuna Roll 8 bucăți</li>\n<li>Canada 8 bucăți</li>\n</ul>",
+   "description_ru_html": "<p><strong>Состав:</strong></p>\n<ul>\n<li>Dragon Verde 8 bucăți</li>\n<li>Tuna Roll 8 bucăți</li>\n<li>Canada 8 bucăți</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Sakura-Set.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Sakura-Set-300x225.png",
+   "url_ro": "https://davidansushi.md/product/sacura-set/",
+   "url_ru": "https://davidansushi.md/ru/product/sacura-set/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Seturi",
+    "Sacura Set"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Сеты",
+    "Сакура Сет"
+   ]
+  },
+  {
+   "id": 5305,
+   "slug": "tempura-set",
+   "leaf_category_id": 50,
+   "category_ids": [
+    50
+   ],
+   "price_mdl": 360.0,
+   "price_display_ro": "360,00 MDL",
+   "price_display_ru": "360,00 лей",
+   "name_ro": "Tempura Set",
+   "name_ru": "Темпура Сет",
+   "attributes_ro": [
+    [
+     "Bucăți",
+     "24 buc"
+    ],
+    [
+     "Masa",
+     "900g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Количество",
+     "24 шт"
+    ],
+    [
+     "Вес",
+     "900г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Componența setului:**",
+    "- Tempura Somon 8 bucăți",
+    "- Tempura Ton 8 bucăți",
+    "- Tempura Creveți 8 bucăți"
+   ],
+   "description_ru_lines": [
+    "**Состав:**",
+    "- Tempura Somon 8 bucăți",
+    "- Tempura Ton 8 bucăți",
+    "- Tempura Creveți 8 bucăți"
+   ],
+   "description_ro_html": "<p><strong>Componența setului:</strong></p>\n<ul>\n<li>Tempura Somon 8 bucăți</li>\n<li>Tempura Ton 8 bucăți</li>\n<li>Tempura Creveți 8 bucăți</li>\n</ul>",
+   "description_ru_html": "<p><strong>Состав:</strong></p>\n<ul>\n<li>Tempura Somon 8 bucăți</li>\n<li>Tempura Ton 8 bucăți</li>\n<li>Tempura Creveți 8 bucăți</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Tempura-Set.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Tempura-Set-300x225.png",
+   "url_ro": "https://davidansushi.md/product/tempura-set/",
+   "url_ru": "https://davidansushi.md/ru/product/tempura-set/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Seturi",
+    "Tempura Set"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Сеты",
+    "Темпура Сет"
+   ]
+  },
+  {
+   "id": 5233,
+   "slug": "orez-cu-fructe-de-mare",
+   "leaf_category_id": 44,
+   "category_ids": [
+    44
+   ],
+   "price_mdl": 115.0,
+   "price_display_ro": "115,00 MDL",
+   "price_display_ru": "115,00 лей",
+   "name_ro": "Orez cu fructe de mare",
+   "name_ru": "Рис с морепродуктами",
+   "attributes_ro": [
+    [
+     "Masa",
+     "350g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "350g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- orez",
+    "- midii",
+    "- calmari",
+    "- creveți",
+    "- somon",
+    "- morcov",
+    "- păstăi",
+    "- ardei",
+    "- sos sriracha",
+    "- sus de soia",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- рис",
+    "- midii",
+    "- calmari",
+    "- креветки",
+    "- лосось",
+    "- morcov",
+    "- păstăi",
+    "- ardei",
+    "- sos sriracha",
+    "- sus de soia",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>orez</li>\n<li>midii</li>\n<li>calmari</li>\n<li>creveți</li>\n<li>somon</li>\n<li>morcov</li>\n<li>păstăi</li>\n<li>ardei</li>\n<li>sos sriracha</li>\n<li>sus de soia</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>рис</li>\n<li>midii</li>\n<li>calmari</li>\n<li>креветки</li>\n<li>лосось</li>\n<li>morcov</li>\n<li>păstăi</li>\n<li>ardei</li>\n<li>sos sriracha</li>\n<li>sus de soia</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Orez-cu-fructe-de-mare.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Orez-cu-fructe-de-mare-300x225.png",
+   "url_ro": "https://davidansushi.md/product/orez-cu-fructe-de-mare/",
+   "url_ru": "https://davidansushi.md/ru/product/orez-cu-fructe-de-mare/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Bucate Thai",
+    "Orez",
+    "Orez cu fructe de mare"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Тайские блюда",
+    "Рис",
+    "Рис с морепродуктами"
+   ]
+  },
+  {
+   "id": 5231,
+   "slug": "orez-cu-pui",
+   "leaf_category_id": 44,
+   "category_ids": [
+    44
+   ],
+   "price_mdl": 85.0,
+   "price_display_ro": "85,00 MDL",
+   "price_display_ru": "85,00 лей",
+   "name_ro": "Orez cu pui",
+   "name_ru": "Рис с курицей",
+   "attributes_ro": [
+    [
+     "Masa",
+     "350g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "350g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- orez",
+    "- carne de pui",
+    "- morcov",
+    "- păstăi",
+    "- ardei",
+    "- sos sriracha",
+    "- sus de soia",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- рис",
+    "- carne de pui",
+    "- morcov",
+    "- păstăi",
+    "- ardei",
+    "- sos sriracha",
+    "- sus de soia",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>orez</li>\n<li>carne de pui</li>\n<li>morcov</li>\n<li>păstăi</li>\n<li>ardei</li>\n<li>sos sriracha</li>\n<li>sus de soia</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>рис</li>\n<li>carne de pui</li>\n<li>morcov</li>\n<li>păstăi</li>\n<li>ardei</li>\n<li>sos sriracha</li>\n<li>sus de soia</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Orez-cu-pui.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Orez-cu-pui-300x225.png",
+   "url_ro": "https://davidansushi.md/product/orez-cu-pui/",
+   "url_ru": "https://davidansushi.md/ru/product/orez-cu-pui/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Bucate Thai",
+    "Orez",
+    "Orez cu pui"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Тайские блюда",
+    "Рис",
+    "Рис с курицей"
+   ]
+  },
+  {
+   "id": 5232,
+   "slug": "orez-cu-vita",
+   "leaf_category_id": 44,
+   "category_ids": [
+    44
+   ],
+   "price_mdl": 110.0,
+   "price_display_ro": "110,00 MDL",
+   "price_display_ru": "110,00 лей",
+   "name_ro": "Orez cu vită",
+   "name_ru": "Рис с говядиной",
+   "attributes_ro": [
+    [
+     "Masa",
+     "350g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "350g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- orez",
+    "- carne de vită",
+    "- morcov",
+    "- păstăi",
+    "- ardei",
+    "- sos sriracha",
+    "- sus de soia",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- рис",
+    "- carne de vită",
+    "- morcov",
+    "- păstăi",
+    "- ardei",
+    "- sos sriracha",
+    "- sus de soia",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>orez</li>\n<li>carne de vită</li>\n<li>morcov</li>\n<li>păstăi</li>\n<li>ardei</li>\n<li>sos sriracha</li>\n<li>sus de soia</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>рис</li>\n<li>carne de vită</li>\n<li>morcov</li>\n<li>păstăi</li>\n<li>ardei</li>\n<li>sos sriracha</li>\n<li>sus de soia</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Orez-cu-vita.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Orez-cu-vita-300x225.png",
+   "url_ro": "https://davidansushi.md/product/orez-cu-vita/",
+   "url_ru": "https://davidansushi.md/ru/product/orez-cu-vita/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Bucate Thai",
+    "Orez",
+    "Orez cu vită"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Тайские блюда",
+    "Рис",
+    "Рис с говядиной"
+   ]
+  },
+  {
+   "id": 5248,
+   "slug": "soba-cu-fructe-de-mare",
+   "leaf_category_id": 45,
+   "category_ids": [
+    53,
+    45
+   ],
+   "price_mdl": 130.0,
+   "price_display_ro": "130,00 MDL",
+   "price_display_ru": "130,00 лей",
+   "name_ro": "Soba cu fructe de mare",
+   "name_ru": "Soba cu fructe de mare",
+   "attributes_ro": [
+    [
+     "Masa",
+     "320g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "320г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- fidea de hrișcă",
+    "- creveți",
+    "- somon",
+    "- midii",
+    "- calmari",
+    "- ciuperci shitake",
+    "- morcov",
+    "- ardei",
+    "- tulpină de țelină",
+    "- susan",
+    "- sos lunch-king",
+    "- sos sriracha"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- fidea de hrișcă",
+    "- креветки",
+    "- лосось",
+    "- midii",
+    "- calmari",
+    "- ciuperci shitake",
+    "- morcov",
+    "- ardei",
+    "- tulpină de țelină",
+    "- кунжут",
+    "- sos lunch-king",
+    "- sos sriracha"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>fidea de hrișcă</li>\n<li>creveți</li>\n<li>somon</li>\n<li>midii</li>\n<li>calmari</li>\n<li>ciuperci shitake</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>tulpină de țelină</li>\n<li>susan</li>\n<li>sos lunch-king</li>\n<li>sos sriracha</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>fidea de hrișcă</li>\n<li>креветки</li>\n<li>лосось</li>\n<li>midii</li>\n<li>calmari</li>\n<li>ciuperci shitake</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>tulpină de țelină</li>\n<li>кунжут</li>\n<li>sos lunch-king</li>\n<li>sos sriracha</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Soba-cu-fructe-de-mare.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Soba-cu-fructe-de-mare-300x225.png",
+   "url_ro": "https://davidansushi.md/product/soba-cu-fructe-de-mare/",
+   "url_ru": "https://davidansushi.md/ru/product/soba-cu-fructe-de-mare/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Bucate Thai",
+    "Soba",
+    "Soba cu fructe de mare"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Тайские блюда",
+    "Soba",
+    "Soba cu fructe de mare"
+   ]
+  },
+  {
+   "id": 5234,
+   "slug": "soba-cu-pui",
+   "leaf_category_id": 45,
+   "category_ids": [
+    53,
+    45
+   ],
+   "price_mdl": 100.0,
+   "price_display_ro": "100,00 MDL",
+   "price_display_ru": "100,00 лей",
+   "name_ro": "Soba cu pui",
+   "name_ru": "Soba cu pui",
+   "attributes_ro": [
+    [
+     "Masa",
+     "350g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "350g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- fidea de hrișcă",
+    "- carne de pui",
+    "- ciuperci shitake",
+    "- morcov",
+    "- ardei",
+    "- tulpină de țelină",
+    "- susan",
+    "- sos lunch-king",
+    "- sos sriracha"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- fidea de hrișcă",
+    "- carne de pui",
+    "- ciuperci shitake",
+    "- morcov",
+    "- ardei",
+    "- tulpină de țelină",
+    "- кунжут",
+    "- sos lunch-king",
+    "- sos sriracha"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>fidea de hrișcă</li>\n<li>carne de pui</li>\n<li>ciuperci shitake</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>tulpină de țelină</li>\n<li>susan</li>\n<li>sos lunch-king</li>\n<li>sos sriracha</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>fidea de hrișcă</li>\n<li>carne de pui</li>\n<li>ciuperci shitake</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>tulpină de țelină</li>\n<li>кунжут</li>\n<li>sos lunch-king</li>\n<li>sos sriracha</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Soba-cu-pui.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Soba-cu-pui-300x225.png",
+   "url_ro": "https://davidansushi.md/product/soba-cu-pui/",
+   "url_ru": "https://davidansushi.md/ru/product/soba-cu-pui/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Bucate Thai",
+    "Soba",
+    "Soba cu pui"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Тайские блюда",
+    "Soba",
+    "Soba cu pui"
+   ]
+  },
+  {
+   "id": 5247,
+   "slug": "soba-cu-vita",
+   "leaf_category_id": 45,
+   "category_ids": [
+    53,
+    45
+   ],
+   "price_mdl": 110.0,
+   "price_display_ro": "110,00 MDL",
+   "price_display_ru": "110,00 лей",
+   "name_ro": "Soba cu vită",
+   "name_ru": "Soba cu vită",
+   "attributes_ro": [
+    [
+     "Masa",
+     "350g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "350g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- fidea de hrișcă",
+    "- carne de vită",
+    "- ciuperci shitake",
+    "- morcov",
+    "- ardei",
+    "- tulpină de țelină",
+    "- susan",
+    "- sos lunch-king",
+    "- sos sriracha"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- fidea de hrișcă",
+    "- carne de vită",
+    "- ciuperci shitake",
+    "- morcov",
+    "- ardei",
+    "- tulpină de țelină",
+    "- кунжут",
+    "- sos lunch-king",
+    "- sos sriracha"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>fidea de hrișcă</li>\n<li>carne de vită</li>\n<li>ciuperci shitake</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>tulpină de țelină</li>\n<li>susan</li>\n<li>sos lunch-king</li>\n<li>sos sriracha</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>fidea de hrișcă</li>\n<li>carne de vită</li>\n<li>ciuperci shitake</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>tulpină de țelină</li>\n<li>кунжут</li>\n<li>sos lunch-king</li>\n<li>sos sriracha</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Soba-cu-vita.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Soba-cu-vita-300x225.png",
+   "url_ro": "https://davidansushi.md/product/soba-cu-vita/",
+   "url_ru": "https://davidansushi.md/ru/product/soba-cu-vita/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Bucate Thai",
+    "Soba",
+    "Soba cu vită"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Тайские блюда",
+    "Soba",
+    "Soba cu vită"
+   ]
+  },
+  {
+   "id": 5250,
+   "slug": "udon-cu-carne-de-vita",
+   "leaf_category_id": 46,
+   "category_ids": [
+    53,
+    46
+   ],
+   "price_mdl": 110.0,
+   "price_display_ro": "110,00 MDL",
+   "price_display_ru": "110,00 лей",
+   "name_ro": "Udon cu carne de vită",
+   "name_ru": "Удон с говядиной",
+   "attributes_ro": [
+    [
+     "Masa",
+     "350g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "350g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- fidea de grâu",
+    "- carne de vită",
+    "- ciuperci",
+    "- morcov",
+    "- ardei",
+    "- păstăi",
+    "- susan",
+    "- sos sriracha",
+    "- sos lunch-king"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- fidea de grâu",
+    "- carne de vită",
+    "- ciuperci",
+    "- morcov",
+    "- ardei",
+    "- păstăi",
+    "- кунжут",
+    "- sos sriracha",
+    "- sos lunch-king"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>fidea de grâu</li>\n<li>carne de vită</li>\n<li>ciuperci</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>păstăi</li>\n<li>susan</li>\n<li>sos sriracha</li>\n<li>sos lunch-king</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>fidea de grâu</li>\n<li>carne de vită</li>\n<li>ciuperci</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>păstăi</li>\n<li>кунжут</li>\n<li>sos sriracha</li>\n<li>sos lunch-king</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Udon-cu-vita-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Udon-cu-vita-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/udon-cu-carne-de-vita/",
+   "url_ru": "https://davidansushi.md/ru/product/udon-cu-carne-de-vita/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Bucate Thai",
+    "Udon",
+    "Udon cu carne de vită"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Тайские блюда",
+    "Удон",
+    "Удон с говядиной"
+   ]
+  },
+  {
+   "id": 5251,
+   "slug": "udon-cu-fructe-de-mare",
+   "leaf_category_id": 46,
+   "category_ids": [
+    53,
+    46
+   ],
+   "price_mdl": 130.0,
+   "price_display_ro": "130,00 MDL",
+   "price_display_ru": "130,00 лей",
+   "name_ro": "Udon cu fructe de mare",
+   "name_ru": "Удон с морепродуктами",
+   "attributes_ro": [
+    [
+     "Masa",
+     "350g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "350g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- fidea de grâu",
+    "- creveți",
+    "- somon",
+    "- midii",
+    "- calmari",
+    "- ciuperci",
+    "- morcov",
+    "- ardei",
+    "- păstăi",
+    "- susan",
+    "- sos sriracha",
+    "- sos lunch-king"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- fidea de grâu",
+    "- креветки",
+    "- лосось",
+    "- midii",
+    "- calmari",
+    "- ciuperci",
+    "- morcov",
+    "- ardei",
+    "- păstăi",
+    "- кунжут",
+    "- sos sriracha",
+    "- sos lunch-king"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>fidea de grâu</li>\n<li>creveți</li>\n<li>somon</li>\n<li>midii</li>\n<li>calmari</li>\n<li>ciuperci</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>păstăi</li>\n<li>susan</li>\n<li>sos sriracha</li>\n<li>sos lunch-king</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>fidea de grâu</li>\n<li>креветки</li>\n<li>лосось</li>\n<li>midii</li>\n<li>calmari</li>\n<li>ciuperci</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>păstăi</li>\n<li>кунжут</li>\n<li>sos sriracha</li>\n<li>sos lunch-king</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Udon-cu-fructe-de-mare-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Udon-cu-fructe-de-mare-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/udon-cu-fructe-de-mare/",
+   "url_ru": "https://davidansushi.md/ru/product/udon-cu-fructe-de-mare/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Bucate Thai",
+    "Udon",
+    "Udon cu fructe de mare"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Тайские блюда",
+    "Удон",
+    "Удон с морепродуктами"
+   ]
+  },
+  {
+   "id": 5249,
+   "slug": "udon-cu-pui",
+   "leaf_category_id": 46,
+   "category_ids": [
+    53,
+    46
+   ],
+   "price_mdl": 100.0,
+   "price_display_ro": "100,00 MDL",
+   "price_display_ru": "100,00 лей",
+   "name_ro": "Udon cu pui",
+   "name_ru": "Удон с курицей",
+   "attributes_ro": [
+    [
+     "Masa",
+     "350g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "350g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- fidea de grâu",
+    "- carne de pui",
+    "- ciuperci",
+    "- morcov",
+    "- ardei",
+    "- păstăi",
+    "- susan",
+    "- sos sriracha",
+    "- sos lunch-king"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- fidea de grâu",
+    "- carne de pui",
+    "- ciuperci",
+    "- morcov",
+    "- ardei",
+    "- păstăi",
+    "- кунжут",
+    "- sos sriracha",
+    "- sos lunch-king"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>fidea de grâu</li>\n<li>carne de pui</li>\n<li>ciuperci</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>păstăi</li>\n<li>susan</li>\n<li>sos sriracha</li>\n<li>sos lunch-king</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>fidea de grâu</li>\n<li>carne de pui</li>\n<li>ciuperci</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>păstăi</li>\n<li>кунжут</li>\n<li>sos sriracha</li>\n<li>sos lunch-king</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Udon-cu-pui-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Udon-cu-pui-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/udon-cu-pui/",
+   "url_ru": "https://davidansushi.md/ru/product/udon-cu-pui/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Bucate Thai",
+    "Udon",
+    "Udon cu pui"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Тайские блюда",
+    "Удон",
+    "Удон с курицей"
+   ]
+  },
+  {
+   "id": 5386,
+   "slug": "udon-cu-spanac-si-creveti",
+   "leaf_category_id": 46,
+   "category_ids": [
+    46
+   ],
+   "price_mdl": 120.0,
+   "price_display_ro": "120,00 MDL",
+   "price_display_ru": "120,00 лей",
+   "name_ro": "Udon cu spanac și creveți",
+   "name_ru": "Udon cu spanac și creveți",
+   "attributes_ro": [
+    [
+     "Masa",
+     "350g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "350g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- fidea de grâu",
+    "- spanac",
+    "- creveți",
+    "- parmenzan",
+    "- frișcă",
+    "- ceapă",
+    "- usturoi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- fidea de grâu",
+    "- spanac",
+    "- креветки",
+    "- parmenzan",
+    "- frișcă",
+    "- ceapă",
+    "- usturoi",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>fidea de grâu</li>\n<li>spanac</li>\n<li>creveți</li>\n<li>parmenzan</li>\n<li>frișcă</li>\n<li>ceapă</li>\n<li>usturoi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>fidea de grâu</li>\n<li>spanac</li>\n<li>креветки</li>\n<li>parmenzan</li>\n<li>frișcă</li>\n<li>ceapă</li>\n<li>usturoi</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Udon-cu-creveti-si-spanac-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Udon-cu-creveti-si-spanac-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/udon-cu-spanac-si-creveti/",
+   "url_ru": "https://davidansushi.md/ru/product/udon-cu-spanac-si-creveti/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Bucate Thai",
+    "Udon",
+    "Udon cu spanac și creveți"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Тайские блюда",
+    "Удон",
+    "Udon cu spanac și creveți"
+   ]
+  },
+  {
+   "id": 5387,
+   "slug": "funcioza-cu-fructe-de-mare",
+   "leaf_category_id": 54,
+   "category_ids": [
+    54
+   ],
+   "price_mdl": 135.0,
+   "price_display_ro": "135,00 MDL",
+   "price_display_ru": "135,00 лей",
+   "name_ro": "Funcioza cu fructe de mare",
+   "name_ru": "Funcioza cu fructe de mare",
+   "attributes_ro": [
+    [
+     "Masa",
+     "300g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "300г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- fidea de boabe",
+    "- fructe de mare",
+    "- morcov",
+    "- tulpină de țelină",
+    "- sos sriracha",
+    "- sos lunch-king",
+    "- ardei",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- fidea de boabe",
+    "- fructe de mare",
+    "- morcov",
+    "- tulpină de țelină",
+    "- sos sriracha",
+    "- sos lunch-king",
+    "- ardei",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>fidea de boabe</li>\n<li>fructe de mare</li>\n<li>morcov</li>\n<li>tulpină de țelină</li>\n<li>sos sriracha</li>\n<li>sos lunch-king</li>\n<li>ardei</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>fidea de boabe</li>\n<li>fructe de mare</li>\n<li>morcov</li>\n<li>tulpină de țelină</li>\n<li>sos sriracha</li>\n<li>sos lunch-king</li>\n<li>ardei</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Funcioza-cu-fructe-de-mare.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Funcioza-cu-fructe-de-mare-300x225.png",
+   "url_ro": "https://davidansushi.md/product/funcioza-cu-fructe-de-mare/",
+   "url_ru": "https://davidansushi.md/ru/product/funcioza-cu-fructe-de-mare/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Bucate Thai",
+    "Funcioza",
+    "Funcioza cu fructe de mare"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Тайские блюда",
+    "Фунчоза",
+    "Funcioza cu fructe de mare"
+   ]
+  },
+  {
+   "id": 5310,
+   "slug": "funcioza-cu-pui",
+   "leaf_category_id": 54,
+   "category_ids": [
+    54
+   ],
+   "price_mdl": 100.0,
+   "price_display_ro": "100,00 MDL",
+   "price_display_ru": "100,00 лей",
+   "name_ro": "Funcioza cu pui",
+   "name_ru": "Фунчоза с курицей",
+   "attributes_ro": [
+    [
+     "Masa",
+     "320g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "320г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- fidea de boabe",
+    "- carne de pui",
+    "- morcov",
+    "- tulpină de țelină",
+    "- sos sriracha",
+    "- sos lunch-king",
+    "- ardei",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- fidea de boabe",
+    "- carne de pui",
+    "- morcov",
+    "- tulpină de țelină",
+    "- sos sriracha",
+    "- sos lunch-king",
+    "- ardei",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>fidea de boabe</li>\n<li>carne de pui</li>\n<li>morcov</li>\n<li>tulpină de țelină</li>\n<li>sos sriracha</li>\n<li>sos lunch-king</li>\n<li>ardei</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>fidea de boabe</li>\n<li>carne de pui</li>\n<li>morcov</li>\n<li>tulpină de țelină</li>\n<li>sos sriracha</li>\n<li>sos lunch-king</li>\n<li>ardei</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Funcioza-cu-pui.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Funcioza-cu-pui-300x225.png",
+   "url_ro": "https://davidansushi.md/product/funcioza-cu-pui/",
+   "url_ru": "https://davidansushi.md/ru/product/funcioza-cu-pui/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Bucate Thai",
+    "Funcioza",
+    "Funcioza cu pui"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Тайские блюда",
+    "Фунчоза",
+    "Фунчоза с курицей"
+   ]
+  },
+  {
+   "id": 5311,
+   "slug": "funcioza-cu-vita",
+   "leaf_category_id": 54,
+   "category_ids": [
+    54
+   ],
+   "price_mdl": 115.0,
+   "price_display_ro": "115,00 MDL",
+   "price_display_ru": "115,00 лей",
+   "name_ro": "Funcioza cu vită",
+   "name_ru": "Фунчоза с говядиной",
+   "attributes_ro": [
+    [
+     "Masa",
+     "300g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "300г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- fidea de boabe",
+    "- carne de vită",
+    "- morcov",
+    "- tulpină de țelină",
+    "- sos sriracha",
+    "- sos lunch-king",
+    "- ardei",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- fidea de boabe",
+    "- carne de vită",
+    "- morcov",
+    "- tulpină de țelină",
+    "- sos sriracha",
+    "- sos lunch-king",
+    "- ardei",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>fidea de boabe</li>\n<li>carne de vită</li>\n<li>morcov</li>\n<li>tulpină de țelină</li>\n<li>sos sriracha</li>\n<li>sos lunch-king</li>\n<li>ardei</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>fidea de boabe</li>\n<li>carne de vită</li>\n<li>morcov</li>\n<li>tulpină de țelină</li>\n<li>sos sriracha</li>\n<li>sos lunch-king</li>\n<li>ardei</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Funcizoa-cu-vita.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Funcizoa-cu-vita-300x225.png",
+   "url_ro": "https://davidansushi.md/product/funcioza-cu-vita/",
+   "url_ru": "https://davidansushi.md/ru/product/funcioza-cu-vita/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Bucate Thai",
+    "Funcioza",
+    "Funcioza cu vită"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Тайские блюда",
+    "Фунчоза",
+    "Фунчоза с говядиной"
+   ]
+  },
+  {
+   "id": 5324,
+   "slug": "ramen-cu-pui",
+   "leaf_category_id": 51,
+   "category_ids": [
+    51
+   ],
+   "price_mdl": 75.0,
+   "price_display_ro": "75,00 MDL",
+   "price_display_ru": "75,00 лей",
+   "name_ro": "Ramen cu pui",
+   "name_ru": "Куриный рамен",
+   "attributes_ro": [
+    [
+     "Masa",
+     "400ml"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "400ml"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- bulion de găină",
+    "- ouă",
+    "- fidea de grâu",
+    "- fileu de pui pane",
+    "- ceapă verde",
+    "- ardei iute",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- bulion de găină",
+    "- ouă",
+    "- fidea de grâu",
+    "- fileu de pui pane",
+    "- ceapă verde",
+    "- ardei iute",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>bulion de găină</li>\n<li>ouă</li>\n<li>fidea de grâu</li>\n<li>fileu de pui pane</li>\n<li>ceapă verde</li>\n<li>ardei iute</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>bulion de găină</li>\n<li>ouă</li>\n<li>fidea de grâu</li>\n<li>fileu de pui pane</li>\n<li>ceapă verde</li>\n<li>ardei iute</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Ramen-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Ramen-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/ramen-cu-pui/",
+   "url_ru": "https://davidansushi.md/ru/product/ramen-cu-pui/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Supe",
+    "Ramen cu pui"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Супы",
+    "Куриный рамен"
+   ]
+  },
+  {
+   "id": 5266,
+   "slug": "supa-crema-cu-spanac",
+   "leaf_category_id": 51,
+   "category_ids": [
+    51
+   ],
+   "price_mdl": 70.0,
+   "price_display_ro": "70,00 MDL",
+   "price_display_ru": "70,00 лей",
+   "name_ro": "Supă cremă cu spanac",
+   "name_ru": "Шпинатный крем суп",
+   "attributes_ro": [
+    [
+     "Masa",
+     "300ml"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "350мл"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- frișcă",
+    "- spanac",
+    "- parmezan",
+    "- ceapă",
+    "- usturoi",
+    "- susan",
+    "- pesmeți"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- frișcă",
+    "- spanac",
+    "- parmezan",
+    "- ceapă",
+    "- usturoi",
+    "- кунжут",
+    "- pesmeți"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>frișcă</li>\n<li>spanac</li>\n<li>parmezan</li>\n<li>ceapă</li>\n<li>usturoi</li>\n<li>susan</li>\n<li>pesmeți</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>frișcă</li>\n<li>spanac</li>\n<li>parmezan</li>\n<li>ceapă</li>\n<li>usturoi</li>\n<li>кунжут</li>\n<li>pesmeți</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Supa-crema-de-spanac-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Supa-crema-de-spanac-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/supa-crema-cu-spanac/",
+   "url_ru": "https://davidansushi.md/ru/product/supa-crema-cu-spanac/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Supe",
+    "Supă cremă cu spanac"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Супы",
+    "Шпинатный крем суп"
+   ]
+  },
+  {
+   "id": 5388,
+   "slug": "supa-crema-cu-spanac-si-creveti",
+   "leaf_category_id": 51,
+   "category_ids": [
+    51
+   ],
+   "price_mdl": 100.0,
+   "price_display_ro": "100,00 MDL",
+   "price_display_ru": "100,00 лей",
+   "name_ro": "Supă cremă cu spanac și creveți",
+   "name_ru": "Supă cremă cu spanac și creveți",
+   "attributes_ro": [
+    [
+     "Masa",
+     "350ml, 50g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "350ml, 50g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- frișcă",
+    "- spanac",
+    "- creveți",
+    "- parmezan",
+    "- ceapă",
+    "- usturoi",
+    "- susan",
+    "- pesmeți"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- frișcă",
+    "- spanac",
+    "- креветки",
+    "- parmezan",
+    "- ceapă",
+    "- usturoi",
+    "- кунжут",
+    "- pesmeți"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>frișcă</li>\n<li>spanac</li>\n<li>creveți</li>\n<li>parmezan</li>\n<li>ceapă</li>\n<li>usturoi</li>\n<li>susan</li>\n<li>pesmeți</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>frișcă</li>\n<li>spanac</li>\n<li>креветки</li>\n<li>parmezan</li>\n<li>ceapă</li>\n<li>usturoi</li>\n<li>кунжут</li>\n<li>pesmeți</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/supa-crema-cu-spanac-si-creveti-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/supa-crema-cu-spanac-si-creveti-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/supa-crema-cu-spanac-si-creveti/",
+   "url_ru": "https://davidansushi.md/ru/product/supa-crema-cu-spanac-si-creveti/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Supe",
+    "Supă cremă cu spanac și creveți"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Супы",
+    "Supă cremă cu spanac și creveți"
+   ]
+  },
+  {
+   "id": 5265,
+   "slug": "tom-yam-cu-fructe-de-mare",
+   "leaf_category_id": 51,
+   "category_ids": [
+    51
+   ],
+   "price_mdl": 130.0,
+   "price_display_ro": "130,00 MDL",
+   "price_display_ru": "130,00 лей",
+   "name_ro": "Tom Yam cu fructe de mare",
+   "name_ru": "Том Ям с морепродуктами",
+   "attributes_ro": [
+    [
+     "Masa",
+     "400ml"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "400ml"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- lapte de cocos,",
+    "- sos Tom Yam,",
+    "- bulion din creveți",
+    "- creveți",
+    "- calmari",
+    "- somon",
+    "- midii",
+    "- ciuperci champignon",
+    "- orez"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- кокосовое молоко",
+    "- соус Том Ям",
+    "- bulion din creveți",
+    "- креветки",
+    "- calmari",
+    "- лосось",
+    "- midii",
+    "- ciuperci champignon",
+    "- рис"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>lapte de cocos,</li>\n<li>sos Tom Yam,</li>\n<li>bulion din creveți</li>\n<li>creveți</li>\n<li>calmari</li>\n<li>somon</li>\n<li>midii</li>\n<li>ciuperci champignon</li>\n<li>orez</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>кокосовое молоко</li>\n<li>соус Том Ям</li>\n<li>bulion din creveți</li>\n<li>креветки</li>\n<li>calmari</li>\n<li>лосось</li>\n<li>midii</li>\n<li>ciuperci champignon</li>\n<li>рис</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/TM-cu-fructe-de-mare-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/TM-cu-fructe-de-mare-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/tom-yam-cu-fructe-de-mare/",
+   "url_ru": "https://davidansushi.md/ru/product/tom-yam-cu-fructe-de-mare/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Supe",
+    "Tom Yam cu fructe de mare"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Супы",
+    "Том Ям с морепродуктами"
+   ]
+  },
+  {
+   "id": 5252,
+   "slug": "tom-yam-cu-pui",
+   "leaf_category_id": 51,
+   "category_ids": [
+    51
+   ],
+   "price_mdl": 90.0,
+   "price_display_ro": "90,00 MDL",
+   "price_display_ru": "90,00 лей",
+   "name_ro": "Tom Yam cu pui",
+   "name_ru": "Том Ям с курицей",
+   "attributes_ro": [
+    [
+     "Masa",
+     "400ml"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "400ml"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- lapte de cocos",
+    "- sos Tom Yam",
+    "- bulion din creveți",
+    "- carne de pui",
+    "- ciuperci champignon",
+    "- orez"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- lapte de cocos",
+    "- sos Tom Yam",
+    "- bulion din creveți",
+    "- carne de pui",
+    "- ciuperci champignon",
+    "- рис"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>lapte de cocos</li>\n<li>sos Tom Yam</li>\n<li>bulion din creveți</li>\n<li>carne de pui</li>\n<li>ciuperci champignon</li>\n<li>orez</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>lapte de cocos</li>\n<li>sos Tom Yam</li>\n<li>bulion din creveți</li>\n<li>carne de pui</li>\n<li>ciuperci champignon</li>\n<li>рис</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/TM-cu-pui-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/TM-cu-pui-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/tom-yam-cu-pui/",
+   "url_ru": "https://davidansushi.md/ru/product/tom-yam-cu-pui/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Supe",
+    "Tom Yam cu pui"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Супы",
+    "Том Ям с курицей"
+   ]
+  },
+  {
+   "id": 5267,
+   "slug": "chuka",
+   "leaf_category_id": 47,
+   "category_ids": [
+    47
+   ],
+   "price_mdl": 75.0,
+   "price_display_ro": "75,00 MDL",
+   "price_display_ru": "75,00 лей",
+   "name_ro": "Chuka",
+   "name_ru": "Чука",
+   "attributes_ro": [
+    [
+     "Masa",
+     "200g, 30g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "200g, 30g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- frunză de salată",
+    "- alge chuka",
+    "- susan",
+    "- lămâie",
+    "- sos de nuci"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- frunză de salată",
+    "- alge chuka",
+    "- кунжут",
+    "- lămâie",
+    "- sos de nuci"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>frunză de salată</li>\n<li>alge chuka</li>\n<li>susan</li>\n<li>lămâie</li>\n<li>sos de nuci</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>frunză de salată</li>\n<li>alge chuka</li>\n<li>кунжут</li>\n<li>lămâie</li>\n<li>sos de nuci</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Chuka-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Chuka-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/chuka/",
+   "url_ru": "https://davidansushi.md/ru/product/chuka/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Salate",
+    "Chuka"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Салаты",
+    "Чука"
+   ]
+  },
+  {
+   "id": 5268,
+   "slug": "mixt-salata-cu-pui",
+   "leaf_category_id": 47,
+   "category_ids": [
+    47
+   ],
+   "price_mdl": 85.0,
+   "price_display_ro": "85,00 MDL",
+   "price_display_ru": "85,00 лей",
+   "name_ro": "Mix salată cu pui",
+   "name_ru": "Mix salată cu pui",
+   "attributes_ro": [
+    [
+     "Masa",
+     "250g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "250г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- mix salată",
+    "- carne de pui panată",
+    "- avocado",
+    "- ciuperci champinion",
+    "- roșii cherry",
+    "- ulei de măsline",
+    "- nuci caju",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- mix salată",
+    "- carne de pui panată",
+    "- авокадо",
+    "- ciuperci champinion",
+    "- roșii cherry",
+    "- ulei de măsline",
+    "- nuci caju",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>mix salată</li>\n<li>carne de pui panată</li>\n<li>avocado</li>\n<li>ciuperci champinion</li>\n<li>roșii cherry</li>\n<li>ulei de măsline</li>\n<li>nuci caju</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>mix salată</li>\n<li>carne de pui panată</li>\n<li>авокадо</li>\n<li>ciuperci champinion</li>\n<li>roșii cherry</li>\n<li>ulei de măsline</li>\n<li>nuci caju</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Mix-Salata-cu-pui-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Mix-Salata-cu-pui-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/mixt-salata-cu-pui/",
+   "url_ru": "https://davidansushi.md/ru/product/mixt-salata-cu-pui/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Salate",
+    "Mix salată cu pui"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Салаты",
+    "Mix salată cu pui"
+   ]
+  },
+  {
+   "id": 5459,
+   "slug": "salata-caesar-cu-creveti",
+   "leaf_category_id": 47,
+   "category_ids": [
+    47
+   ],
+   "price_mdl": 120.0,
+   "price_display_ro": "120,00 MDL",
+   "price_display_ru": "120,00 лей",
+   "name_ro": "Salată Caesar cu Creveți",
+   "name_ru": "Salată Caesar cu Creveți",
+   "attributes_ro": [
+    [
+     "Masa",
+     "320g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "320г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- Mix salată",
+    "- rosii cherry",
+    "- pesmeti",
+    "- creveți",
+    "- sos caesar",
+    "- parmesan"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- Mix salată",
+    "- rosii cherry",
+    "- pesmeti",
+    "- креветки",
+    "- sos caesar",
+    "- parmesan"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>Mix salată</li>\n<li>rosii cherry</li>\n<li>pesmeti</li>\n<li>creveți</li>\n<li>sos caesar</li>\n<li>parmesan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>Mix salată</li>\n<li>rosii cherry</li>\n<li>pesmeti</li>\n<li>креветки</li>\n<li>sos caesar</li>\n<li>parmesan</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/caesar-creveti.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/caesar-creveti-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/salata-caesar-cu-creveti/",
+   "url_ru": "https://davidansushi.md/ru/product/salata-caesar-cu-creveti/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Salate",
+    "Salată Caesar cu Creveți"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Салаты",
+    "Salată Caesar cu Creveți"
+   ]
+  },
+  {
+   "id": 5476,
+   "slug": "salata-caesar-cu-pui",
+   "leaf_category_id": 47,
+   "category_ids": [
+    47
+   ],
+   "price_mdl": 100.0,
+   "price_display_ro": "100,00 MDL",
+   "price_display_ru": "100,00 лей",
+   "name_ro": "Salată Caesar cu Pui",
+   "name_ru": "Salată Caesar cu Pui",
+   "attributes_ro": [
+    [
+     "Masa",
+     "320g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "320г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- Mix salată",
+    "- rosii cherry",
+    "- pesmeti",
+    "- carne de pui grill",
+    "- sos caesar",
+    "- parmesan"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- Mix salată",
+    "- rosii cherry",
+    "- pesmeti",
+    "- carne de pui grill",
+    "- sos caesar",
+    "- parmesan"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>Mix salată</li>\n<li>rosii cherry</li>\n<li>pesmeti</li>\n<li>carne de pui grill</li>\n<li>sos caesar</li>\n<li>parmesan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>Mix salată</li>\n<li>rosii cherry</li>\n<li>pesmeti</li>\n<li>carne de pui grill</li>\n<li>sos caesar</li>\n<li>parmesan</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/salata_caesar-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/salata_caesar-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/salata-caesar-cu-pui/",
+   "url_ru": "https://davidansushi.md/ru/product/salata-caesar-cu-pui/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Salate",
+    "Salată Caesar cu Pui"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Салаты",
+    "Salată Caesar cu Pui"
+   ]
+  },
+  {
+   "id": 7178,
+   "slug": "salata-cu-creveti",
+   "leaf_category_id": 47,
+   "category_ids": [
+    47
+   ],
+   "price_mdl": 129.0,
+   "price_display_ro": "129,00 MDL",
+   "price_display_ru": "129,00 лей",
+   "name_ro": "Salată cu creveți",
+   "name_ru": "Salată cu creveți",
+   "attributes_ro": [
+    [
+     "Masa",
+     "280g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "280г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- mix de salată",
+    "- quinoa",
+    "- creveți",
+    "- avocado",
+    "- roșii cherry",
+    "- mango",
+    "- dressing pentru salată",
+    "- sos Unaghi"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- mix de salată",
+    "- quinoa",
+    "- креветки",
+    "- авокадо",
+    "- roșii cherry",
+    "- mango",
+    "- dressing pentru salată",
+    "- sos Unaghi"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>mix de salată</li>\n<li>quinoa</li>\n<li>creveți</li>\n<li>avocado</li>\n<li>roșii cherry</li>\n<li>mango</li>\n<li>dressing pentru salată</li>\n<li>sos Unaghi</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>mix de salată</li>\n<li>quinoa</li>\n<li>креветки</li>\n<li>авокадо</li>\n<li>roșii cherry</li>\n<li>mango</li>\n<li>dressing pentru salată</li>\n<li>sos Unaghi</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2025/09/salata_creveti-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2025/09/salata_creveti-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/salata-cu-creveti/",
+   "url_ru": "https://davidansushi.md/ru/product/salata-cu-creveti/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Salate",
+    "Salată cu creveți"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Салаты",
+    "Salată cu creveți"
+   ]
+  },
+  {
+   "id": 7175,
+   "slug": "salata-cu-somon",
+   "leaf_category_id": 47,
+   "category_ids": [
+    47
+   ],
+   "price_mdl": 129.0,
+   "price_display_ro": "129,00 MDL",
+   "price_display_ru": "129,00 лей",
+   "name_ro": "Salată cu somon",
+   "name_ru": "Salată cu somon",
+   "attributes_ro": [
+    [
+     "Masa",
+     "225g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "225g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- mix de salată",
+    "- somon slab sărat",
+    "- mozzarella",
+    "- roșii cherry",
+    "- castraveți",
+    "- nuci caju",
+    "- dressing pentru salată"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- mix de salată",
+    "- somon slab sărat",
+    "- mozzarella",
+    "- roșii cherry",
+    "- огурцы",
+    "- nuci caju",
+    "- dressing pentru salată"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>mix de salată</li>\n<li>somon slab sărat</li>\n<li>mozzarella</li>\n<li>roșii cherry</li>\n<li>castraveți</li>\n<li>nuci caju</li>\n<li>dressing pentru salată</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>mix de salată</li>\n<li>somon slab sărat</li>\n<li>mozzarella</li>\n<li>roșii cherry</li>\n<li>огурцы</li>\n<li>nuci caju</li>\n<li>dressing pentru salată</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2025/09/salata_somon-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2025/09/salata_somon-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/salata-cu-somon/",
+   "url_ru": "https://davidansushi.md/ru/product/salata-cu-somon/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Salate",
+    "Salată cu somon"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Салаты",
+    "Salată cu somon"
+   ]
+  },
+  {
+   "id": 5285,
+   "slug": "poke-bowl-creveti",
+   "leaf_category_id": 48,
+   "category_ids": [
+    48
+   ],
+   "price_mdl": 155.0,
+   "price_display_ro": "155,00 MDL",
+   "price_display_ru": "155,00 лей",
+   "name_ro": "Poke bowl creveți",
+   "name_ru": "Poke bowl с креветками",
+   "attributes_ro": [
+    [
+     "Masa",
+     "450g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "450g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- orez",
+    "- creveți",
+    "- mango",
+    "- boabe edamame",
+    "- avocado",
+    "- nori",
+    "- ghimbir marinat",
+    "- alge wakame",
+    "- castrevete",
+    "- cremă de brnânză",
+    "- sos poke",
+    "- sos soia",
+    "- nuci caju",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- рис",
+    "- креветки",
+    "- mango",
+    "- boabe edamame",
+    "- авокадо",
+    "- нори",
+    "- ghimbir marinat",
+    "- alge wakame",
+    "- castrevete",
+    "- cremă de brnânză",
+    "- sos poke",
+    "- sos soia",
+    "- nuci caju",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>orez</li>\n<li>creveți</li>\n<li>mango</li>\n<li>boabe edamame</li>\n<li>avocado</li>\n<li>nori</li>\n<li>ghimbir marinat</li>\n<li>alge wakame</li>\n<li>castrevete</li>\n<li>cremă de brnânză</li>\n<li>sos poke</li>\n<li>sos soia</li>\n<li>nuci caju</li>\n<li>sos unaghi</li>\n<li>susan</li>\n<li></li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>рис</li>\n<li>креветки</li>\n<li>mango</li>\n<li>boabe edamame</li>\n<li>авокадо</li>\n<li>нори</li>\n<li>ghimbir marinat</li>\n<li>alge wakame</li>\n<li>castrevete</li>\n<li>cremă de brnânză</li>\n<li>sos poke</li>\n<li>sos soia</li>\n<li>nuci caju</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n<li></li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Pokebowl-cu-creveti-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Pokebowl-cu-creveti-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/poke-bowl-creveti/",
+   "url_ru": "https://davidansushi.md/ru/product/poke-bowl-creveti/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Poke bowl",
+    "Poke bowl creveți"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Poke bowl",
+    "Poke bowl с креветками"
+   ]
+  },
+  {
+   "id": 5284,
+   "slug": "poke-bowl-somon",
+   "leaf_category_id": 48,
+   "category_ids": [
+    48
+   ],
+   "price_mdl": 165.0,
+   "price_display_ro": "165,00 MDL",
+   "price_display_ru": "165,00 лей",
+   "name_ro": "Poke bowl somon",
+   "name_ru": "Poke bowl с лососем",
+   "attributes_ro": [
+    [
+     "Masa",
+     "450g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "450g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- orez",
+    "- somon",
+    "- mango",
+    "- boabe edamame",
+    "- avocado",
+    "- nori",
+    "- ghimbir marinat",
+    "- alge wakame",
+    "- castrevete",
+    "- cremă de brnânză",
+    "- sos poke",
+    "- sos soia",
+    "- nuci caju",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- рис",
+    "- лосось",
+    "- mango",
+    "- boabe edamame",
+    "- авокадо",
+    "- нори",
+    "- ghimbir marinat",
+    "- alge wakame",
+    "- castrevete",
+    "- cremă de brnânză",
+    "- sos poke",
+    "- sos soia",
+    "- nuci caju",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>orez</li>\n<li>somon</li>\n<li>mango</li>\n<li>boabe edamame</li>\n<li>avocado</li>\n<li>nori</li>\n<li>ghimbir marinat</li>\n<li>alge wakame</li>\n<li>castrevete</li>\n<li>cremă de brnânză</li>\n<li>sos poke</li>\n<li>sos soia</li>\n<li>nuci caju</li>\n<li>sos unaghi</li>\n<li>susan</li>\n<li></li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>рис</li>\n<li>лосось</li>\n<li>mango</li>\n<li>boabe edamame</li>\n<li>авокадо</li>\n<li>нори</li>\n<li>ghimbir marinat</li>\n<li>alge wakame</li>\n<li>castrevete</li>\n<li>cremă de brnânză</li>\n<li>sos poke</li>\n<li>sos soia</li>\n<li>nuci caju</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n<li></li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Pokebowl-cu-somon-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Pokebowl-cu-somon-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/poke-bowl-somon/",
+   "url_ru": "https://davidansushi.md/ru/product/poke-bowl-somon/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Poke bowl",
+    "Poke bowl somon"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Poke bowl",
+    "Poke bowl с лососем"
+   ]
+  },
+  {
+   "id": 5270,
+   "slug": "poke-bowl-ton",
+   "leaf_category_id": 48,
+   "category_ids": [
+    48
+   ],
+   "price_mdl": 155.0,
+   "price_display_ro": "155,00 MDL",
+   "price_display_ru": "155,00 лей",
+   "name_ro": "Poke bowl ton",
+   "name_ru": "Poke bowl с тунцом",
+   "attributes_ro": [
+    [
+     "Masa",
+     "450g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "450g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- orez",
+    "- ton",
+    "- mango",
+    "- boabe edamame",
+    "- avocado",
+    "- nori",
+    "- ghimbir marinat",
+    "- alge wakame",
+    "- castrevete",
+    "- cremă de brnânză",
+    "- sos poke",
+    "- sos soia",
+    "- nuci caju",
+    "- sos unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- рис",
+    "- тунец",
+    "- mango",
+    "- boabe edamame",
+    "- авокадо",
+    "- нори",
+    "- ghimbir marinat",
+    "- alge wakame",
+    "- castrevete",
+    "- cremă de brnânză",
+    "- sos poke",
+    "- sos soia",
+    "- nuci caju",
+    "- соус унаги",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>orez</li>\n<li>ton</li>\n<li>mango</li>\n<li>boabe edamame</li>\n<li>avocado</li>\n<li>nori</li>\n<li>ghimbir marinat</li>\n<li>alge wakame</li>\n<li>castrevete</li>\n<li>cremă de brnânză</li>\n<li>sos poke</li>\n<li>sos soia</li>\n<li>nuci caju</li>\n<li>sos unaghi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>рис</li>\n<li>тунец</li>\n<li>mango</li>\n<li>boabe edamame</li>\n<li>авокадо</li>\n<li>нори</li>\n<li>ghimbir marinat</li>\n<li>alge wakame</li>\n<li>castrevete</li>\n<li>cremă de brnânză</li>\n<li>sos poke</li>\n<li>sos soia</li>\n<li>nuci caju</li>\n<li>соус унаги</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Pokebowl-cu-ton-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Pokebowl-cu-ton-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/poke-bowl-ton/",
+   "url_ru": "https://davidansushi.md/ru/product/poke-bowl-ton/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Poke bowl",
+    "Poke bowl ton"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Poke bowl",
+    "Poke bowl с тунцом"
+   ]
+  },
+  {
+   "id": 5433,
+   "slug": "aripioare-crocante",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 75.0,
+   "price_display_ro": "75,00 MDL",
+   "price_display_ru": "75,00 лей",
+   "name_ro": "Aripioare Crocante",
+   "name_ru": "Aripioare Crocante",
+   "attributes_ro": [
+    [
+     "Masa",
+     "250g, 50g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "250g, 50g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- aripioare de pui",
+    "- pesmeți panco",
+    "- sos Sweet-Chilli"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- aripioare de pui",
+    "- pesmeți panco",
+    "- sos Sweet-Chilli"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>aripioare de pui</li>\n<li>pesmeți panco</li>\n<li>sos Sweet-Chilli</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>aripioare de pui</li>\n<li>pesmeți panco</li>\n<li>sos Sweet-Chilli</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/aripioare-pane-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/aripioare-pane-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/aripioare-crocante/",
+   "url_ru": "https://davidansushi.md/ru/product/aripioare-crocante/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Aripioare Crocante"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Aripioare Crocante"
+   ]
+  },
+  {
+   "id": 5440,
+   "slug": "bao-burger",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 85.0,
+   "price_display_ro": "85,00 MDL",
+   "price_display_ru": "85,00 лей",
+   "name_ro": "Bao Burger",
+   "name_ru": "Bao Burger",
+   "attributes_ro": [
+    [
+     "Masa",
+     "400g, 50g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "400g, 50g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- chiflă bao",
+    "- pârjoală de pui",
+    "- roșii",
+    "- castraveți",
+    "- frunză de salată",
+    "- sos sweet-chilli",
+    "- sos tartar",
+    "- cartofi pai"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- chiflă bao",
+    "- pârjoală de pui",
+    "- roșii",
+    "- огурцы",
+    "- frunză de salată",
+    "- sos sweet-chilli",
+    "- sos tartar",
+    "- cartofi pai"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>chiflă bao</li>\n<li>pârjoală de pui</li>\n<li>roșii</li>\n<li>castraveți</li>\n<li>frunză de salată</li>\n<li>sos sweet-chilli</li>\n<li>sos tartar</li>\n<li>cartofi pai</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>chiflă bao</li>\n<li>pârjoală de pui</li>\n<li>roșii</li>\n<li>огурцы</li>\n<li>frunză de salată</li>\n<li>sos sweet-chilli</li>\n<li>sos tartar</li>\n<li>cartofi pai</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/bao-burgher.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/bao-burgher-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/bao-burger/",
+   "url_ru": "https://davidansushi.md/ru/product/bao-burger/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Bao Burger"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Bao Burger"
+   ]
+  },
+  {
+   "id": 5436,
+   "slug": "bao-cu-creveti",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 70.0,
+   "price_display_ro": "70,00 MDL",
+   "price_display_ru": "70,00 лей",
+   "name_ro": "Bao cu creveți",
+   "name_ru": "Bao cu creveți",
+   "attributes_ro": [
+    [
+     "Masa",
+     "220g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "220г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- Chifle Bao",
+    "- creveți panați",
+    "- mix de salată",
+    "- sos Unaghi",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- Chifle Bao",
+    "- creveți panați",
+    "- mix de salată",
+    "- sos Unaghi",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>Chifle Bao</li>\n<li>creveți panați</li>\n<li>mix de salată</li>\n<li>sos Unaghi</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>Chifle Bao</li>\n<li>creveți panați</li>\n<li>mix de salată</li>\n<li>sos Unaghi</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/bao-cu-creveti-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/bao-cu-creveti-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/bao-cu-creveti/",
+   "url_ru": "https://davidansushi.md/ru/product/bao-cu-creveti/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Bao cu creveți"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Bao cu creveți"
+   ]
+  },
+  {
+   "id": 5435,
+   "slug": "bao-cu-pui",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 60.0,
+   "price_display_ro": "60,00 MDL",
+   "price_display_ru": "60,00 лей",
+   "name_ro": "Bao cu pui",
+   "name_ru": "Bao cu pui",
+   "attributes_ro": [
+    [
+     "Masa",
+     "250g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "250г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- Chifle Bao",
+    "- carne de pui",
+    "- frișcă",
+    "- mix de salată",
+    "- sos de nuci",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- Chifle Bao",
+    "- carne de pui",
+    "- frișcă",
+    "- mix de salată",
+    "- sos de nuci",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>Chifle Bao</li>\n<li>carne de pui</li>\n<li>frișcă</li>\n<li>mix de salată</li>\n<li>sos de nuci</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>Chifle Bao</li>\n<li>carne de pui</li>\n<li>frișcă</li>\n<li>mix de salată</li>\n<li>sos de nuci</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/bao-cu-pui-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/bao-cu-pui-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/bao-cu-pui/",
+   "url_ru": "https://davidansushi.md/ru/product/bao-cu-pui/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Bao cu pui"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Bao cu pui"
+   ]
+  },
+  {
+   "id": 5478,
+   "slug": "burger-cu-pui",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 105.0,
+   "price_display_ro": "105,00 MDL",
+   "price_display_ru": "105,00 лей",
+   "name_ro": "Burger cu pui",
+   "name_ru": "Burger cu pui",
+   "attributes_ro": [
+    [
+     "Masa",
+     "100g, 400g, 50g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "100g, 400g, 50g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- chiflă burger",
+    "- pirjoală de pui",
+    "- sos tartar",
+    "- roșii",
+    "- rucola",
+    "- cașcaval cheddar",
+    "- castraveți marinați",
+    "- ceapă marinată",
+    "- cartofi pai",
+    "- sos Ketchup"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- chiflă burger",
+    "- pirjoală de pui",
+    "- sos tartar",
+    "- roșii",
+    "- rucola",
+    "- cașcaval cheddar",
+    "- castraveți marinați",
+    "- ceapă marinată",
+    "- cartofi pai",
+    "- sos Ketchup"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>chiflă burger</li>\n<li>pirjoală de pui</li>\n<li>sos tartar</li>\n<li>roșii</li>\n<li>rucola</li>\n<li>cașcaval cheddar</li>\n<li>castraveți marinați</li>\n<li>ceapă marinată</li>\n<li>cartofi pai</li>\n<li>sos Ketchup</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>chiflă burger</li>\n<li>pirjoală de pui</li>\n<li>sos tartar</li>\n<li>roșii</li>\n<li>rucola</li>\n<li>cașcaval cheddar</li>\n<li>castraveți marinați</li>\n<li>ceapă marinată</li>\n<li>cartofi pai</li>\n<li>sos Ketchup</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/burger_pui-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/burger_pui-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/burger-cu-pui/",
+   "url_ru": "https://davidansushi.md/ru/product/burger-cu-pui/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Burger cu pui"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Burger cu pui"
+   ]
+  },
+  {
+   "id": 5479,
+   "slug": "burger-cu-vita",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 135.0,
+   "price_display_ro": "135,00 MDL",
+   "price_display_ru": "135,00 лей",
+   "name_ro": "Burger cu vită",
+   "name_ru": "Burger cu vită",
+   "attributes_ro": [
+    [
+     "Masa",
+     "100g, 400g, 50g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "100g, 400g, 50g"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- chiflă burger",
+    "- ceapă caramelizată",
+    "- pârjoală de vită",
+    "- cașcaval dorblu",
+    "- castraveți marinați",
+    "- frunză de salată",
+    "- roșii",
+    "- bacon",
+    "- rucola",
+    "- cartofi pai",
+    "- sos Ketchup"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- chiflă burger",
+    "- ceapă caramelizată",
+    "- pârjoală de vită",
+    "- cașcaval dorblu",
+    "- castraveți marinați",
+    "- frunză de salată",
+    "- roșii",
+    "- bacon",
+    "- rucola",
+    "- cartofi pai",
+    "- sos Ketchup"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>chiflă burger</li>\n<li>ceapă caramelizată</li>\n<li>pârjoală de vită</li>\n<li>cașcaval dorblu</li>\n<li>castraveți marinați</li>\n<li>frunză de salată</li>\n<li>roșii</li>\n<li>bacon</li>\n<li>rucola</li>\n<li>cartofi pai</li>\n<li>sos Ketchup</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>chiflă burger</li>\n<li>ceapă caramelizată</li>\n<li>pârjoală de vită</li>\n<li>cașcaval dorblu</li>\n<li>castraveți marinați</li>\n<li>frunză de salată</li>\n<li>roșii</li>\n<li>bacon</li>\n<li>rucola</li>\n<li>cartofi pai</li>\n<li>sos Ketchup</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/burger_vita-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/burger_vita-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/burger-cu-vita/",
+   "url_ru": "https://davidansushi.md/ru/product/burger-cu-vita/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Burger cu vită"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Burger cu vită"
+   ]
+  },
+  {
+   "id": 5229,
+   "slug": "cartofi-pai",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 35.0,
+   "price_display_ro": "35,00 MDL",
+   "price_display_ru": "35,00 лей",
+   "name_ro": "Cartofi pai",
+   "name_ru": "Картофель фри",
+   "attributes_ro": [
+    [
+     "Masa",
+     "150g, 50g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "150г, 50г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- cartofi pai",
+    "- sos ketchup"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- cartofi pai",
+    "- sos ketchup"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>cartofi pai</li>\n<li>sos ketchup</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>cartofi pai</li>\n<li>sos ketchup</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Cartofi-pai-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Cartofi-pai-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/cartofi-pai/",
+   "url_ru": "https://davidansushi.md/ru/product/cartofi-pai/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Cartofi pai"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Картофель фри"
+   ]
+  },
+  {
+   "id": 5226,
+   "slug": "fileu-de-pui-crispy",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 75.0,
+   "price_display_ro": "75,00 MDL",
+   "price_display_ru": "75,00 лей",
+   "name_ro": "Fileu de pui Crispy",
+   "name_ru": "Fileu de pui Crispy",
+   "attributes_ro": [
+    [
+     "Masa",
+     "150g, 50g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "150г, 50г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- fileu de pui panat",
+    "- sos picant"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- fileu de pui panat",
+    "- sos picant"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>fileu de pui panat</li>\n<li>sos picant</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>fileu de pui panat</li>\n<li>sos picant</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Nuggets-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Nuggets-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/fileu-de-pui-crispy/",
+   "url_ru": "https://davidansushi.md/ru/product/fileu-de-pui-crispy/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Fileu de pui Crispy"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Fileu de pui Crispy"
+   ]
+  },
+  {
+   "id": 5227,
+   "slug": "inele-de-calmar",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 75.0,
+   "price_display_ro": "75,00 MDL",
+   "price_display_ru": "75,00 лей",
+   "name_ro": "Inele de calmar",
+   "name_ru": "Кольца кальмара",
+   "attributes_ro": [
+    [
+     "Masa",
+     "150g, 50g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "150г, 50г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- calmari panați",
+    "- sos sweet-chilli"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- calmari panați",
+    "- sos sweet-chilli"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>calmari panați</li>\n<li>sos sweet-chilli</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>calmari panați</li>\n<li>sos sweet-chilli</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Inele-de-calmar-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Inele-de-calmar-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/inele-de-calmar/",
+   "url_ru": "https://davidansushi.md/ru/product/inele-de-calmar/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Inele de calmar"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Кольца кальмара"
+   ]
+  },
+  {
+   "id": 5228,
+   "slug": "mozzarella-pane",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 50.0,
+   "price_display_ro": "50,00 MDL",
+   "price_display_ru": "50,00 лей",
+   "name_ro": "Mozzarella pane",
+   "name_ru": "Моцарелла Пане",
+   "attributes_ro": [
+    [
+     "Masa",
+     "150g, 50g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "150г, 50г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- mozzarella panată",
+    "- sos sweet-chilli"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- mozzarella panată",
+    "- sos sweet-chilli"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>mozzarella panată</li>\n<li>sos sweet-chilli</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>mozzarella panată</li>\n<li>sos sweet-chilli</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Mozzarella-Pane-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Mozzarella-Pane-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/mozzarella-pane/",
+   "url_ru": "https://davidansushi.md/ru/product/mozzarella-pane/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Mozzarella pane"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Моцарелла Пане"
+   ]
+  },
+  {
+   "id": 5434,
+   "slug": "nughete",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 75.0,
+   "price_display_ro": "75,00 MDL",
+   "price_display_ru": "75,00 лей",
+   "name_ro": "Nughete",
+   "name_ru": "Наггетсы",
+   "attributes_ro": [
+    [
+     "Masa",
+     "150g, 50g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "150г, 50г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- nughete din carne de pui",
+    "- sos TarTar"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- nughete din carne de pui",
+    "- sos TarTar"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>nughete din carne de pui</li>\n<li>sos TarTar</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>nughete din carne de pui</li>\n<li>sos TarTar</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/new-nughete-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/new-nughete-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/nughete/",
+   "url_ru": "https://davidansushi.md/ru/product/nughete/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Nughete"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Наггетсы"
+   ]
+  },
+  {
+   "id": 5437,
+   "slug": "popcorn-creveti",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 75.0,
+   "price_display_ro": "75,00 MDL",
+   "price_display_ru": "75,00 лей",
+   "name_ro": "Popcorn Creveți",
+   "name_ru": "Popcorn Creveți",
+   "attributes_ro": [
+    [
+     "Masa",
+     "150g, 50g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "150г, 50г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- creveți panați",
+    "- sos wasabi dulce"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- creveți panați",
+    "- sos wasabi dulce"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>creveți panați</li>\n<li>sos wasabi dulce</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>creveți panați</li>\n<li>sos wasabi dulce</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/popcorn-creveti-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/popcorn-creveti-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/popcorn-creveti/",
+   "url_ru": "https://davidansushi.md/ru/product/popcorn-creveti/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Popcorn Creveți"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Popcorn Creveți"
+   ]
+  },
+  {
+   "id": 5230,
+   "slug": "spring-roll-cu-pui",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 75.0,
+   "price_display_ro": "75,00 MDL",
+   "price_display_ru": "75,00 лей",
+   "name_ro": "Spring roll cu pui",
+   "name_ru": "Спринг-ролл с курицей",
+   "attributes_ro": [
+    [
+     "Masa",
+     "200g, 50g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "200г, 50г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- foi de orez",
+    "- carne de pui",
+    "- morcov",
+    "- ardei",
+    "- ciuperci",
+    "- mozzarella",
+    "- maioneză japoneză",
+    "- susan",
+    "- sos de soia"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- foi de orez",
+    "- carne de pui",
+    "- morcov",
+    "- ardei",
+    "- ciuperci",
+    "- mozzarella",
+    "- maioneză japoneză",
+    "- кунжут",
+    "- sos de soia"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>foi de orez</li>\n<li>carne de pui</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>ciuperci</li>\n<li>mozzarella</li>\n<li>maioneză japoneză</li>\n<li>susan</li>\n<li>sos de soia</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>foi de orez</li>\n<li>carne de pui</li>\n<li>morcov</li>\n<li>ardei</li>\n<li>ciuperci</li>\n<li>mozzarella</li>\n<li>maioneză japoneză</li>\n<li>кунжут</li>\n<li>sos de soia</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Spring-Roll-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Spring-Roll-min-300x225.png",
+   "url_ro": "https://davidansushi.md/product/spring-roll-cu-pui/",
+   "url_ru": "https://davidansushi.md/ru/product/spring-roll-cu-pui/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Spring roll cu pui"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Спринг-ролл с курицей"
+   ]
+  },
+  {
+   "id": 7183,
+   "slug": "sushi-burger-creveti",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 149.0,
+   "price_display_ro": "149,00 MDL",
+   "price_display_ru": "149,00 лей",
+   "name_ro": "Sushi Burger Creveți",
+   "name_ru": "Sushi Burger Creveți",
+   "attributes_ro": [
+    [
+     "Masa",
+     "400g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "400г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- nori",
+    "- orez",
+    "- castraveți",
+    "- tobico",
+    "- creveti",
+    "- cremă de brânză",
+    "- sos unaghi",
+    "- sos spicy",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- нори",
+    "- рис",
+    "- огурцы",
+    "- тобико",
+    "- creveti",
+    "- сливочный сыр",
+    "- соус унаги",
+    "- sos spicy",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>castraveți</li>\n<li>tobico</li>\n<li>creveti</li>\n<li>cremă de brânză</li>\n<li>sos unaghi</li>\n<li>sos spicy</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>огурцы</li>\n<li>тобико</li>\n<li>creveti</li>\n<li>сливочный сыр</li>\n<li>соус унаги</li>\n<li>sos spicy</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2025/09/sushi_burger_creveti-min-scaled.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2025/09/sushi_burger_creveti-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/sushi-burger-creveti/",
+   "url_ru": "https://davidansushi.md/ru/product/sushi-burger-creveti/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Sushi Burger Creveți"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Sushi Burger Creveți"
+   ]
+  },
+  {
+   "id": 5457,
+   "slug": "sushi-burger",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 149.0,
+   "price_display_ro": "149,00 MDL",
+   "price_display_ru": "149,00 лей",
+   "name_ro": "Sushi Burger Somon",
+   "name_ru": "Sushi Burger Somon",
+   "attributes_ro": [
+    [
+     "Masa",
+     "400g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "400г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- nori",
+    "- orez",
+    "- castraveti",
+    "- tobico",
+    "- crema de brinza",
+    "- sos unaghi",
+    "- sos spicy",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- нори",
+    "- рис",
+    "- castraveti",
+    "- тобико",
+    "- crema de brinza",
+    "- соус унаги",
+    "- sos spicy",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>castraveti</li>\n<li>tobico</li>\n<li>crema de brinza</li>\n<li>sos unaghi</li>\n<li>sos spicy</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>castraveti</li>\n<li>тобико</li>\n<li>crema de brinza</li>\n<li>соус унаги</li>\n<li>sos spicy</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/sushi_burger_somon-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/sushi_burger_somon-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/sushi-burger/",
+   "url_ru": "https://davidansushi.md/ru/product/sushi-burger/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Sushi Burger Somon"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Sushi Burger Somon"
+   ]
+  },
+  {
+   "id": 7192,
+   "slug": "sushi-burger-somon-grill",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 145.0,
+   "price_display_ro": "145,00 MDL",
+   "price_display_ru": "145,00 лей",
+   "name_ro": "Sushi Burger Somon Grill",
+   "name_ru": "Sushi Burger Somon Grill",
+   "attributes_ro": [
+    [
+     "Masa",
+     "400g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "400г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- nori",
+    "- orez",
+    "- castraveți",
+    "- tobico",
+    "- somon grill",
+    "- cremă de brânză",
+    "- sos unaghi",
+    "- sos spicy",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- нори",
+    "- рис",
+    "- огурцы",
+    "- тобико",
+    "- somon grill",
+    "- сливочный сыр",
+    "- соус унаги",
+    "- sos spicy",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>castraveți</li>\n<li>tobico</li>\n<li>somon grill</li>\n<li>cremă de brânză</li>\n<li>sos unaghi</li>\n<li>sos spicy</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>огурцы</li>\n<li>тобико</li>\n<li>somon grill</li>\n<li>сливочный сыр</li>\n<li>соус унаги</li>\n<li>sos spicy</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2025/09/sushi_burger_blur-min-scaled.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2025/09/sushi_burger_blur-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/sushi-burger-somon-grill/",
+   "url_ru": "https://davidansushi.md/ru/product/sushi-burger-somon-grill/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Sushi Burger Somon Grill"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Sushi Burger Somon Grill"
+   ]
+  },
+  {
+   "id": 7186,
+   "slug": "sushi-burger-ton",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 149.0,
+   "price_display_ro": "149,00 MDL",
+   "price_display_ru": "149,00 лей",
+   "name_ro": "Sushi Burger Ton",
+   "name_ru": "Sushi Burger Ton",
+   "attributes_ro": [
+    [
+     "Masa",
+     "400g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "400г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- nori",
+    "- orez",
+    "- castraveți",
+    "- tobico",
+    "- ton",
+    "- cremă de brânză",
+    "- sos unaghi",
+    "- sos spicy",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- нори",
+    "- рис",
+    "- огурцы",
+    "- тобико",
+    "- тунец",
+    "- сливочный сыр",
+    "- соус унаги",
+    "- sos spicy",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>castraveți</li>\n<li>tobico</li>\n<li>ton</li>\n<li>cremă de brânză</li>\n<li>sos unaghi</li>\n<li>sos spicy</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>огурцы</li>\n<li>тобико</li>\n<li>тунец</li>\n<li>сливочный сыр</li>\n<li>соус унаги</li>\n<li>sos spicy</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2025/09/sushi_burger_ton-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2025/09/sushi_burger_ton-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/sushi-burger-ton/",
+   "url_ru": "https://davidansushi.md/ru/product/sushi-burger-ton/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Sushi Burger Ton"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Sushi Burger Ton"
+   ]
+  },
+  {
+   "id": 7189,
+   "slug": "sushi-burger-tipar",
+   "leaf_category_id": 42,
+   "category_ids": [
+    42
+   ],
+   "price_mdl": 190.0,
+   "price_display_ro": "190,00 MDL",
+   "price_display_ru": "190,00 лей",
+   "name_ro": "Sushi burger Țipar",
+   "name_ru": "Sushi burger Țipar",
+   "attributes_ro": [
+    [
+     "Masa",
+     "400g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "400г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente**",
+    "- nori",
+    "- orez",
+    "- castraveți",
+    "- tobico",
+    "- țipar",
+    "- cremă de brânză",
+    "- sos unaghi",
+    "- sos spicy",
+    "- susan"
+   ],
+   "description_ru_lines": [
+    "**Ingrediente**",
+    "- нори",
+    "- рис",
+    "- огурцы",
+    "- тобико",
+    "- угорь",
+    "- сливочный сыр",
+    "- соус унаги",
+    "- sos spicy",
+    "- кунжут"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>nori</li>\n<li>orez</li>\n<li>castraveți</li>\n<li>tobico</li>\n<li>țipar</li>\n<li>cremă de brânză</li>\n<li>sos unaghi</li>\n<li>sos spicy</li>\n<li>susan</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ingrediente</strong></p>\n<ul>\n<li>нори</li>\n<li>рис</li>\n<li>огурцы</li>\n<li>тобико</li>\n<li>угорь</li>\n<li>сливочный сыр</li>\n<li>соус унаги</li>\n<li>sos spicy</li>\n<li>кунжут</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2025/09/sushi_burger_blur-min-scaled.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2025/09/sushi_burger_blur-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/sushi-burger-tipar/",
+   "url_ru": "https://davidansushi.md/ru/product/sushi-burger-tipar/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Gustări",
+    "Sushi burger Țipar"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Закуски",
+    "Sushi burger Țipar"
+   ]
+  },
+  {
+   "id": 5389,
+   "slug": "cheescake",
+   "leaf_category_id": 49,
+   "category_ids": [
+    49
+   ],
+   "price_mdl": 70.0,
+   "price_display_ro": "70,00 MDL",
+   "price_display_ru": "70,00 лей",
+   "name_ro": "Cheescake",
+   "name_ru": "Cheescake",
+   "attributes_ro": [
+    [
+     "Masa",
+     "150g, 50g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "150г, 50г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- cremă de brânză",
+    "- frișcă",
+    "- unt",
+    "- ouă",
+    "- biscuiți",
+    "- dulceață"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- сливочный сыр",
+    "- frișcă",
+    "- unt",
+    "- ouă",
+    "- biscuiți",
+    "- dulceață"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>cremă de brânză</li>\n<li>frișcă</li>\n<li>unt</li>\n<li>ouă</li>\n<li>biscuiți</li>\n<li>dulceață</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>сливочный сыр</li>\n<li>frișcă</li>\n<li>unt</li>\n<li>ouă</li>\n<li>biscuiți</li>\n<li>dulceață</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Cheesecake-min.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Cheesecake-min-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/cheescake/",
+   "url_ru": "https://davidansushi.md/ru/product/cheescake/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Deserturi",
+    "Cheescake"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Десерты",
+    "Cheescake"
+   ]
+  },
+  {
+   "id": 5287,
+   "slug": "cherry-roll",
+   "leaf_category_id": 49,
+   "category_ids": [
+    49
+   ],
+   "price_mdl": 85.0,
+   "price_display_ro": "85,00 MDL",
+   "price_display_ru": "85,00 лей",
+   "name_ro": "Cherry roll",
+   "name_ru": "Cherry roll",
+   "attributes_ro": [
+    [
+     "Masa",
+     "200g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "200г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- foaie de orez",
+    "- cremă de brânză",
+    "- kiwi",
+    "- banană",
+    "- vișină",
+    "- topping de ciocolată"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- foaie de orez",
+    "- сливочный сыр",
+    "- kiwi",
+    "- banană",
+    "- vișină",
+    "- topping de ciocolată"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>foaie de orez</li>\n<li>cremă de brânză</li>\n<li>kiwi</li>\n<li>banană</li>\n<li>vișină</li>\n<li>topping de ciocolată</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>foaie de orez</li>\n<li>сливочный сыр</li>\n<li>kiwi</li>\n<li>banană</li>\n<li>vișină</li>\n<li>topping de ciocolată</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Cherry-Roll-min-600x400-1.png",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Cherry-Roll-min-600x400-1-300x225.png",
+   "url_ro": "https://davidansushi.md/product/cherry-roll/",
+   "url_ru": "https://davidansushi.md/ru/product/cherry-roll/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Deserturi",
+    "Cherry roll"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Десерты",
+    "Cherry roll"
+   ]
+  },
+  {
+   "id": 5288,
+   "slug": "choco-roll",
+   "leaf_category_id": 49,
+   "category_ids": [
+    49
+   ],
+   "price_mdl": 85.0,
+   "price_display_ro": "85,00 MDL",
+   "price_display_ru": "85,00 лей",
+   "name_ro": "Choco roll",
+   "name_ru": "Choco roll",
+   "attributes_ro": [
+    [
+     "Masa",
+     "200g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "200г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- foaie de orez,",
+    "- cremă de brânză,",
+    "- nutella,",
+    "- kiwi,",
+    "- banană,",
+    "- ananas,",
+    "- topping de caramelă"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- рисовый лист",
+    "- сливочный сыр",
+    "- nutella,",
+    "- киви",
+    "- банан",
+    "- ананас",
+    "- topping de caramelă"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>foaie de orez,</li>\n<li>cremă de brânză,</li>\n<li>nutella,</li>\n<li>kiwi,</li>\n<li>banană,</li>\n<li>ananas,</li>\n<li>topping de caramelă</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>рисовый лист</li>\n<li>сливочный сыр</li>\n<li>nutella,</li>\n<li>киви</li>\n<li>банан</li>\n<li>ананас</li>\n<li>topping de caramelă</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Choco-Roll-min-600x400-1.png",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Choco-Roll-min-600x400-1-300x225.png",
+   "url_ro": "https://davidansushi.md/product/choco-roll/",
+   "url_ru": "https://davidansushi.md/ru/product/choco-roll/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Deserturi",
+    "Choco roll"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Десерты",
+    "Choco roll"
+   ]
+  },
+  {
+   "id": 5289,
+   "slug": "minari-roll",
+   "leaf_category_id": 49,
+   "category_ids": [
+    49
+   ],
+   "price_mdl": 85.0,
+   "price_display_ro": "85,00 MDL",
+   "price_display_ru": "85,00 лей",
+   "name_ro": "Minari roll",
+   "name_ru": "Minari roll",
+   "attributes_ro": [
+    [
+     "Masa",
+     "200g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "200г"
+    ]
+   ],
+   "description_ro_lines": [
+    "**Ingrediente:**",
+    "- foaie de orez",
+    "- cremă de brânză",
+    "- kiwi",
+    "- banană",
+    "- ananas",
+    "- topping de ciocolată"
+   ],
+   "description_ru_lines": [
+    "**Ингредиенты:**",
+    "- foaie de orez",
+    "- сливочный сыр",
+    "- kiwi",
+    "- banană",
+    "- ananas",
+    "- topping de ciocolată"
+   ],
+   "description_ro_html": "<p><strong>Ingrediente:</strong></p>\n<ul>\n<li>foaie de orez</li>\n<li>cremă de brânză</li>\n<li>kiwi</li>\n<li>banană</li>\n<li>ananas</li>\n<li>topping de ciocolată</li>\n</ul>",
+   "description_ru_html": "<p><strong>Ингредиенты:</strong></p>\n<ul>\n<li>foaie de orez</li>\n<li>сливочный сыр</li>\n<li>kiwi</li>\n<li>banană</li>\n<li>ananas</li>\n<li>topping de ciocolată</li>\n</ul>",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Minari-Roll-min-600x400-1.png",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Minari-Roll-min-600x400-1-300x225.png",
+   "url_ro": "https://davidansushi.md/product/minari-roll/",
+   "url_ru": "https://davidansushi.md/ru/product/minari-roll/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Deserturi",
+    "Minari roll"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Десерты",
+    "Minari roll"
+   ]
+  },
+  {
+   "id": 5286,
+   "slug": "motti",
+   "leaf_category_id": 49,
+   "category_ids": [
+    49
+   ],
+   "price_mdl": 30.0,
+   "price_display_ro": "30,00 MDL",
+   "price_display_ru": "30,00 лей",
+   "name_ro": "Motti",
+   "name_ru": "Мотти",
+   "attributes_ro": [
+    [
+     "Masa",
+     "40g"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "40г"
+    ]
+   ],
+   "description_ro_lines": [],
+   "description_ru_lines": [],
+   "description_ro_html": "",
+   "description_ru_html": "",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Motti-min-600x400-1.png",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Motti-min-600x400-1-300x225.png",
+   "url_ro": "https://davidansushi.md/product/motti/",
+   "url_ru": "https://davidansushi.md/ru/product/motti/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Deserturi",
+    "Motti"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Десерты",
+    "Мотти"
+   ]
+  },
+  {
+   "id": 5325,
+   "slug": "coca-cola-250ml",
+   "leaf_category_id": 97,
+   "category_ids": [
+    97
+   ],
+   "price_mdl": 23.0,
+   "price_display_ro": "23,00 MDL",
+   "price_display_ru": "23,00 лей",
+   "name_ro": "Coca Cola 250ml",
+   "name_ru": "Coca Cola 250ml",
+   "attributes_ro": [],
+   "attributes_ru": [],
+   "description_ro_lines": [],
+   "description_ru_lines": [],
+   "description_ro_html": "",
+   "description_ru_html": "",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/cola-0.3.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/cola-0.3-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/coca-cola-250ml/",
+   "url_ru": "https://davidansushi.md/ru/product/coca-cola-250ml/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Băuturi",
+    "Băuturi răcoritoare",
+    "Coca Cola 250ml"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Напитки",
+    "Безалкогольные напитки",
+    "Coca Cola 250ml"
+   ]
+  },
+  {
+   "id": 5326,
+   "slug": "coca-cola-500ml",
+   "leaf_category_id": 97,
+   "category_ids": [
+    97
+   ],
+   "price_mdl": 25.0,
+   "price_display_ro": "25,00 MDL",
+   "price_display_ru": "25,00 лей",
+   "name_ro": "Coca Cola 500ml",
+   "name_ru": "Coca Cola 500ml",
+   "attributes_ro": [],
+   "attributes_ru": [],
+   "description_ro_lines": [],
+   "description_ru_lines": [],
+   "description_ro_html": "",
+   "description_ru_html": "",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/cola-0.5.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/cola-0.5-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/coca-cola-500ml/",
+   "url_ru": "https://davidansushi.md/ru/product/coca-cola-500ml/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Băuturi",
+    "Băuturi răcoritoare",
+    "Coca Cola 500ml"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Напитки",
+    "Безалкогольные напитки",
+    "Coca Cola 500ml"
+   ]
+  },
+  {
+   "id": 5327,
+   "slug": "fanta-250ml",
+   "leaf_category_id": 97,
+   "category_ids": [
+    97
+   ],
+   "price_mdl": 23.0,
+   "price_display_ro": "23,00 MDL",
+   "price_display_ru": "23,00 лей",
+   "name_ro": "Fanta 250ml",
+   "name_ru": "Fanta 250ml",
+   "attributes_ro": [],
+   "attributes_ru": [],
+   "description_ro_lines": [],
+   "description_ru_lines": [],
+   "description_ro_html": "",
+   "description_ru_html": "",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/fanta-250.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/fanta-250-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/fanta-250ml/",
+   "url_ru": "https://davidansushi.md/ru/product/fanta-250ml/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Băuturi",
+    "Băuturi răcoritoare",
+    "Fanta 250ml"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Напитки",
+    "Безалкогольные напитки",
+    "Fanta 250ml"
+   ]
+  },
+  {
+   "id": 5328,
+   "slug": "fanta-500ml",
+   "leaf_category_id": 97,
+   "category_ids": [
+    97
+   ],
+   "price_mdl": 25.0,
+   "price_display_ro": "25,00 MDL",
+   "price_display_ru": "25,00 лей",
+   "name_ro": "Fanta 500ml",
+   "name_ru": "Fanta 500ml",
+   "attributes_ro": [],
+   "attributes_ru": [],
+   "description_ro_lines": [],
+   "description_ru_lines": [],
+   "description_ro_html": "",
+   "description_ru_html": "",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/fanta-0.5.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/fanta-0.5-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/fanta-500ml/",
+   "url_ru": "https://davidansushi.md/ru/product/fanta-500ml/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Băuturi",
+    "Băuturi răcoritoare",
+    "Fanta 500ml"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Напитки",
+    "Безалкогольные напитки",
+    "Fanta 500ml"
+   ]
+  },
+  {
+   "id": 5343,
+   "slug": "schweppes-mohito",
+   "leaf_category_id": 97,
+   "category_ids": [
+    97
+   ],
+   "price_mdl": 28.0,
+   "price_display_ro": "28,00 MDL",
+   "price_display_ru": "28,00 лей",
+   "name_ro": "Schweppes Mohito",
+   "name_ru": "Schweppes Mohito",
+   "attributes_ro": [
+    [
+     "Masa",
+     "330ml"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "330ml"
+    ]
+   ],
+   "description_ro_lines": [],
+   "description_ru_lines": [],
+   "description_ro_html": "",
+   "description_ru_html": "",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/Schweppes-mohito-1.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/Schweppes-mohito-1-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/schweppes-mohito/",
+   "url_ru": "https://davidansushi.md/ru/product/schweppes-mohito/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Băuturi",
+    "Băuturi răcoritoare",
+    "Schweppes Mohito"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Напитки",
+    "Безалкогольные напитки",
+    "Schweppes Mohito"
+   ]
+  },
+  {
+   "id": 5344,
+   "slug": "schweppes-pomegranate",
+   "leaf_category_id": 97,
+   "category_ids": [
+    97
+   ],
+   "price_mdl": 28.0,
+   "price_display_ro": "28,00 MDL",
+   "price_display_ru": "28,00 лей",
+   "name_ro": "Schweppes Pomegranate",
+   "name_ru": "Schweppes Pomegranate",
+   "attributes_ro": [
+    [
+     "Masa",
+     "330ml"
+    ]
+   ],
+   "attributes_ru": [
+    [
+     "Вес",
+     "330ml"
+    ]
+   ],
+   "description_ro_lines": [],
+   "description_ru_lines": [],
+   "description_ro_html": "",
+   "description_ru_html": "",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/schweppes-pomegranate-1.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/schweppes-pomegranate-1-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/schweppes-pomegranate/",
+   "url_ru": "https://davidansushi.md/ru/product/schweppes-pomegranate/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Băuturi",
+    "Băuturi răcoritoare",
+    "Schweppes Pomegranate"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Напитки",
+    "Безалкогольные напитки",
+    "Schweppes Pomegranate"
+   ]
+  },
+  {
+   "id": 5329,
+   "slug": "sprite-250ml",
+   "leaf_category_id": 97,
+   "category_ids": [
+    97
+   ],
+   "price_mdl": 23.0,
+   "price_display_ro": "23,00 MDL",
+   "price_display_ru": "23,00 лей",
+   "name_ro": "Sprite 250ml",
+   "name_ru": "Sprite 250ml",
+   "attributes_ro": [],
+   "attributes_ru": [],
+   "description_ro_lines": [],
+   "description_ru_lines": [],
+   "description_ro_html": "",
+   "description_ru_html": "",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/sprite-250.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/sprite-250-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/sprite-250ml/",
+   "url_ru": "https://davidansushi.md/ru/product/sprite-250ml/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Băuturi",
+    "Băuturi răcoritoare",
+    "Sprite 250ml"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Напитки",
+    "Безалкогольные напитки",
+    "Sprite 250ml"
+   ]
+  },
+  {
+   "id": 5342,
+   "slug": "sprite-500ml",
+   "leaf_category_id": 97,
+   "category_ids": [
+    97
+   ],
+   "price_mdl": 25.0,
+   "price_display_ro": "25,00 MDL",
+   "price_display_ru": "25,00 лей",
+   "name_ro": "Sprite 500ml",
+   "name_ru": "Sprite 500ml",
+   "attributes_ro": [],
+   "attributes_ru": [],
+   "description_ro_lines": [],
+   "description_ru_lines": [],
+   "description_ro_html": "",
+   "description_ru_html": "",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/sprite-0.5.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/sprite-0.5-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/sprite-500ml/",
+   "url_ru": "https://davidansushi.md/ru/product/sprite-500ml/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Băuturi",
+    "Băuturi răcoritoare",
+    "Sprite 500ml"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Напитки",
+    "Безалкогольные напитки",
+    "Sprite 500ml"
+   ]
+  },
+  {
+   "id": 5345,
+   "slug": "vinaria-din-vale-feteasca-alba",
+   "leaf_category_id": 99,
+   "category_ids": [
+    102,
+    99
+   ],
+   "price_mdl": 225.0,
+   "price_display_ro": "225,00 MDL",
+   "price_display_ru": "225,00 лей",
+   "name_ro": "Vinăria din vale – Feteasca Albă",
+   "name_ru": "Vinăria din vale – Feteasca Albă",
+   "attributes_ro": [],
+   "attributes_ru": [],
+   "description_ro_lines": [],
+   "description_ru_lines": [],
+   "description_ro_html": "",
+   "description_ru_html": "",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/MOTIVE-Feteasca-Alba.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/MOTIVE-Feteasca-Alba-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/vinaria-din-vale-feteasca-alba/",
+   "url_ru": "https://davidansushi.md/ru/product/vinaria-din-vale-feteasca-alba/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Băuturi",
+    "Băuturi cu alcool",
+    "Vin",
+    "Vinăria din vale – Feteasca Albă"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Напитки",
+    "Băuturi cu alcool",
+    "Vin",
+    "Vinăria din vale – Feteasca Albă"
+   ]
+  },
+  {
+   "id": 5346,
+   "slug": "vinaria-din-vale-feteasca-neagra",
+   "leaf_category_id": 99,
+   "category_ids": [
+    102,
+    99
+   ],
+   "price_mdl": 225.0,
+   "price_display_ro": "225,00 MDL",
+   "price_display_ru": "225,00 лей",
+   "name_ro": "Vinăria din vale – Feteasca Neagră",
+   "name_ru": "Vinăria din vale – Feteasca Neagră",
+   "attributes_ro": [],
+   "attributes_ru": [],
+   "description_ro_lines": [],
+   "description_ru_lines": [],
+   "description_ro_html": "",
+   "description_ru_html": "",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/MOTIVE-Feteasca-Neagra.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/MOTIVE-Feteasca-Neagra-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/vinaria-din-vale-feteasca-neagra/",
+   "url_ru": "https://davidansushi.md/ru/product/vinaria-din-vale-feteasca-neagra/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Băuturi",
+    "Băuturi cu alcool",
+    "Vin",
+    "Vinăria din vale – Feteasca Neagră"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Напитки",
+    "Băuturi cu alcool",
+    "Vin",
+    "Vinăria din vale – Feteasca Neagră"
+   ]
+  },
+  {
+   "id": 5347,
+   "slug": "vinaria-din-vale-rose",
+   "leaf_category_id": 99,
+   "category_ids": [
+    102,
+    99
+   ],
+   "price_mdl": 225.0,
+   "price_display_ro": "225,00 MDL",
+   "price_display_ru": "225,00 лей",
+   "name_ro": "Vinăria din vale – Rose",
+   "name_ru": "Vinăria din vale – Rose",
+   "attributes_ro": [],
+   "attributes_ru": [],
+   "description_ro_lines": [],
+   "description_ru_lines": [],
+   "description_ro_html": "",
+   "description_ru_html": "",
+   "image": "https://davidansushi.md/wp-content/uploads/2024/10/MOTIVE-Rose.jpg",
+   "thumbnail_300": "https://davidansushi.md/wp-content/uploads/2024/10/MOTIVE-Rose-300x225.jpg",
+   "url_ro": "https://davidansushi.md/product/vinaria-din-vale-rose/",
+   "url_ru": "https://davidansushi.md/ru/product/vinaria-din-vale-rose/",
+   "breadcrumb_ro": [
+    "Prima pagină",
+    "Băuturi",
+    "Băuturi cu alcool",
+    "Vin",
+    "Vinăria din vale – Rose"
+   ],
+   "breadcrumb_ru": [
+    "Главная",
+    "Напитки",
+    "Băuturi cu alcool",
+    "Vin",
+    "Vinăria din vale – Rose"
+   ]
+  }
+ ]
+}

@@ -9,6 +9,7 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 import 'package:davidan_prototype/core/storage/local_store.dart';
 import 'package:davidan_prototype/features/courier/application/courier_online_notifier.dart';
 import 'package:davidan_prototype/features/launcher/application/demo_reset_notifier.dart';
+import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../../helpers/test_app.dart';
 
@@ -37,7 +38,7 @@ void main() {
   test(
     'demo reset puts the courier back online, also after a restart',
     () async {
-      final session = await startApp();
+      final session = await startApp(overrides: staffBuildOverrides);
       session.read(courierOnlineProvider.notifier).setOnline(false);
       await flushWrites();
 

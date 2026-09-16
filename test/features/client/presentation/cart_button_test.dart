@@ -70,8 +70,8 @@ void main() {
   });
 
   testWidgets(
-    'Acasă, Meniu and Favorite show the cart button at the top right, right '
-    'of the launcher button; Profil does not',
+    'Acasă, Meniu and Favorite show the cart button at the top right; Profil '
+    'does not',
     (tester) async {
       await pumpApp(tester, container, Routes.clientHome);
 
@@ -85,12 +85,6 @@ void main() {
 
         final button = inScreenOf(screen, find.byType(CartButton));
         expect(button, findsOneWidget, reason: tab);
-        final launcher = inScreenOf(screen, find.byIcon(Icons.apps_rounded));
-        expect(
-          tester.getCenter(button).dx,
-          greaterThan(tester.getCenter(launcher).dx),
-          reason: tab,
-        );
         expect(
           tester.getTopRight(button).dx,
           closeTo(400 - 16, 1),

@@ -10,13 +10,17 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
+import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/data/models/chisinau_sector.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/client/application/account_notifier.dart';
+import 'package:davidan_prototype/features/client/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/client/presentation/account/sign_in_phone_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/client/presentation/profile/profile_screen.dart';
+import 'package:davidan_prototype/features/client/presentation/splash/splash_screen.dart';
+import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 
 import '../../../helpers/test_app.dart';
 
@@ -83,6 +87,29 @@ void main() {
         findsOneWidget,
       );
       expect(container.read(accountProvider), isNull);
+    },
+  );
+
+  testWidgets(
+    'resetting the demo data, signed in or not, starts the demo over from '
+    'the splash',
+    (tester) async {
+      for (final signedIn in [true, false]) {
+        if (signedIn) signInTestAccount(container);
+        placeTestOrder(container);
+        container.read(cartProvider.notifier).add('americano');
+        await pumpApp(tester, container, Routes.clientProfile);
+
+        await tapVisible(tester, find.text(AppStrings.resetDemoData));
+
+        expect(find.byType(SplashScreen), findsOneWidget, reason: '$signedIn');
+        expect(container.read(accountProvider), isNull);
+        expect(container.read(ordersProvider), isEmpty);
+        expect(container.read(cartCountProvider), 0);
+        // Lets the confirmation toast time out.
+        await tester.pump(ToastNotifier.duration);
+        await tester.pumpAndSettle();
+      }
     },
   );
 

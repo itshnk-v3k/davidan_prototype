@@ -5,6 +5,7 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/clock_ticker.dart';
+import 'package:davidan_prototype/features/orders/application/order_simulation.dart';
 
 /// Pretend map of a delivery on its way: a drawn street grid, the route from
 /// the shop to the customer, and a courier icon moving along it. There is no
@@ -17,7 +18,7 @@ class CourierRouteMap extends StatelessWidget {
   final DateTime since;
 
   /// How long the pretend trip takes: short enough to watch during a demo.
-  static const tripDuration = Duration(minutes: 2);
+  static const tripDuration = courierTripDuration;
 
   // The pretend neighbourhood, as fractions of the map's width and height.
   // The route follows the streets from the shop (first point) to the

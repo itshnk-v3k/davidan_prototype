@@ -21,6 +21,7 @@ import 'package:davidan_prototype/features/courier/presentation/courier_delivery
 import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
 import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/kds/presentation/widgets/kds_order_card.dart';
+import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../helpers/test_app.dart';
 
@@ -29,7 +30,10 @@ void main() {
 
   late ProviderContainer container;
 
-  setUp(() async => container = await createTestContainer());
+  setUp(
+    () async =>
+        container = await createTestContainer(overrides: staffBuildOverrides),
+  );
 
   Future<void> pumpAllRoles(WidgetTester tester, String orderId) async {
     tester.view.physicalSize = const Size(2160, 1000);

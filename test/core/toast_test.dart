@@ -63,7 +63,7 @@ void main() {
   );
 
   testWidgets('resetting the demo data confirms at the top', (tester) async {
-    await pumpApp(tester, container, Routes.launcher);
+    await pumpApp(tester, container, Routes.clientProfile);
     await tapVisible(tester, find.text(AppStrings.resetDemoData));
 
     expect(toast(AppStrings.resetDemoDataDone), findsOneWidget);

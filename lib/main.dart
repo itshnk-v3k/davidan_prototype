@@ -1,5 +1,5 @@
 import 'package:davidan_prototype/bootstrap.dart';
 
-/// The app on its own, with no demo tools compiled in. For presenting the
-/// prototype, run lib/main_demo.dart instead.
+/// The customer app, as shown to the client. The staff apps (courier, store
+/// panel) are left out on purpose; lib/main_staff.dart builds them in.
 Future<void> main() => bootstrap();

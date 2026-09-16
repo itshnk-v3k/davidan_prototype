@@ -15,12 +15,12 @@ import 'package:davidan_prototype/core/widgets/app_chip.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/demo_tools/all_roles_screen.dart';
 import 'package:davidan_prototype/demo_tools/demo_tool_strings.dart';
-import 'package:davidan_prototype/demo_tools/demo_tools.dart';
 import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_delivery_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
 import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../helpers/test_app.dart';
 
@@ -43,7 +43,7 @@ void main() {
   Finder statusLabel(OrderStatus status) =>
       find.text(AppStrings.orderStatus(status));
 
-  group('the regular app (lib/main.dart)', () {
+  group('the customer app build (lib/main.dart)', () {
     setUp(() async => container = await createTestContainer());
 
     testWidgets('has no board: no launcher entry, and its URL is not found', (
@@ -58,12 +58,12 @@ void main() {
     });
   });
 
-  group('the demo build (lib/main_demo.dart)', () {
+  group('the staff build (lib/main_staff.dart)', () {
     const desktop = Size(1920, 1080);
 
     setUp(
       () async =>
-          container = await createTestContainer(overrides: demoToolsOverrides),
+          container = await createTestContainer(overrides: staffBuildOverrides),
     );
 
     testWidgets('the launcher links to the board', (tester) async {

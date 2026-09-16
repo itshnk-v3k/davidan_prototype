@@ -79,6 +79,29 @@ class OrdersNotifier extends Notifier<List<Order>> {
     );
   }
 
+  /// Moves orders on along their [Order.statusFlow] while [nextStepAt] says
+  /// a step is due by [now], recording each step at the time it fell due. An
+  /// order left while the app was closed catches up at once, as if the shop
+  /// and courier had kept working. The order simulation calls this.
+  void advanceDue(DateTime now, DateTime? Function(Order order) nextStepAt) {
+    final orders = [...state];
+    var changed = false;
+    for (final (index, placed) in state.indexed) {
+      var order = placed;
+      while (true) {
+        final next = order.nextStatus;
+        final at = nextStepAt(order);
+        if (next == null || at == null || at.isAfter(now)) break;
+        order = order.copyWith(status: next, statusChangedAt: at);
+      }
+      if (!identical(order, placed)) {
+        orders[index] = order;
+        changed = true;
+      }
+    }
+    if (changed) _save(orders);
+  }
+
   void _save(List<Order> orders) {
     state = orders;
     ref.read(localStoreProvider).write(StorageKeys.orders, [

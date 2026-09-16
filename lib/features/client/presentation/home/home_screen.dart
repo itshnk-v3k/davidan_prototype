@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -82,7 +83,10 @@ class HomeScreen extends ConsumerWidget {
           slivers: [
             SliverToBoxAdapter(
               child: _BrandRow(
-                onLauncherTap: () => context.go(Routes.launcher),
+                // Only the staff build has a launcher to go back to.
+                onLauncherTap: ref.watch(extraAppsProvider).isEmpty
+                    ? null
+                    : () => context.go(Routes.launcher),
               ),
             ),
             // Stays at the top while everything below scrolls beneath it, so
@@ -153,7 +157,8 @@ class HomeScreen extends ConsumerWidget {
 class _BrandRow extends StatelessWidget {
   const _BrandRow({required this.onLauncherTap});
 
-  final VoidCallback onLauncherTap;
+  /// Null hides the launcher button.
+  final VoidCallback? onLauncherTap;
 
   @override
   Widget build(BuildContext context) {
@@ -168,12 +173,14 @@ class _BrandRow extends StatelessWidget {
         children: [
           const BrandLogo(height: 26),
           const Spacer(),
-          AppIconButton(
-            icon: Icons.apps_rounded,
-            semanticLabel: AppStrings.openLauncher,
-            onPressed: onLauncherTap,
-          ),
-          const SizedBox(width: AppSpacing.sm),
+          if (onLauncherTap case final onLauncherTap?) ...[
+            AppIconButton(
+              icon: Icons.apps_rounded,
+              semanticLabel: AppStrings.openLauncher,
+              onPressed: onLauncherTap,
+            ),
+            const SizedBox(width: AppSpacing.sm),
+          ],
           const CartButton(),
         ],
       ),

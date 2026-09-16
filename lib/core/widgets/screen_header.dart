@@ -1,6 +1,8 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -11,9 +13,9 @@ import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 ///
 /// Without [onBack] it heads a top-level screen (a customer tab, the courier
 /// list, the store panel): a large title, the button back to the demo
-/// launcher and any [actions]. With [onBack] it leads with a back button
-/// instead.
-class ScreenHeader extends StatelessWidget {
+/// launcher (staff build only) and any [actions]. With [onBack] it leads with
+/// a back button instead.
+class ScreenHeader extends ConsumerWidget {
   const ScreenHeader({
     super.key,
     required this.title,
@@ -29,8 +31,10 @@ class ScreenHeader extends StatelessWidget {
   final List<Widget> actions;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final onBack = this.onBack;
+    // Only the staff build has a launcher to go back to.
+    final hasLauncher = ref.watch(extraAppsProvider).isNotEmpty;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -45,13 +49,15 @@ class ScreenHeader extends StatelessWidget {
                 Expanded(
                   child: Text(title, style: context.textStyles.headline),
                 ),
-                AppIconButton(
-                  icon: Icons.apps_rounded,
-                  semanticLabel: AppStrings.openLauncher,
-                  onPressed: () => context.go(Routes.launcher),
-                ),
-                for (final action in actions) ...[
-                  const SizedBox(width: AppSpacing.sm),
+                if (hasLauncher)
+                  AppIconButton(
+                    icon: Icons.apps_rounded,
+                    semanticLabel: AppStrings.openLauncher,
+                    onPressed: () => context.go(Routes.launcher),
+                  ),
+                for (final (index, action) in actions.indexed) ...[
+                  if (hasLauncher || index > 0)
+                    const SizedBox(width: AppSpacing.sm),
                   action,
                 ],
               ]

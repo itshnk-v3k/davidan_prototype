@@ -17,6 +17,7 @@ import 'package:davidan_prototype/features/kds/application/kds_providers.dart';
 import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/kds/presentation/widgets/kds_order_card.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../../helpers/test_app.dart';
 
@@ -28,7 +29,10 @@ void main() {
 
   setUp(() async {
     now = testNow;
-    container = await createTestContainer(clock: () => now);
+    container = await createTestContainer(
+      clock: () => now,
+      overrides: staffBuildOverrides,
+    );
   });
 
   const tablet = Size(1280, 800);

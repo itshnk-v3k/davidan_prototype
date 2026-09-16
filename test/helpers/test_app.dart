@@ -26,7 +26,7 @@ final testNow = DateTime(2026, 9, 15, 10, 7);
 /// and with [clock] as the time source ([testNow], standing still, by
 /// default). The phone's location comes from [locationService], a fake that
 /// reports it unavailable unless a test passes another. Pass an entry point's
-/// [overrides] (e.g. demoToolsOverrides) to test that build. Call from setUp;
+/// [overrides] (e.g. staffBuildOverrides) to test that build. Call from setUp;
 /// disposed on tear down.
 Future<ProviderContainer> createTestContainer({
   DateTime Function()? clock,
@@ -51,9 +51,12 @@ Future<ProviderContainer> createTestContainer({
 }
 
 /// Boots providers the way main() does, on whatever storage already holds.
-/// Each call reads storage from scratch, like reloading the page. Dispose the
-/// container when done.
-Future<ProviderContainer> startApp() async {
+/// Each call reads storage from scratch, like reloading the page. Pass an
+/// entry point's [overrides] to boot that build. Dispose the container when
+/// done.
+Future<ProviderContainer> startApp({
+  List<Override> overrides = const [],
+}) async {
   final prefs = await LocalStore.openPreferences();
   return ProviderContainer(
     overrides: [
@@ -61,6 +64,7 @@ Future<ProviderContainer> startApp() async {
       locationServiceProvider.overrideWithValue(
         FakeLocationService.failing(LocationFailure.unavailable),
       ),
+      ...overrides,
     ],
   );
 }

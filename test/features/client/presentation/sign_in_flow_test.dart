@@ -61,8 +61,8 @@ void main() {
     'and the profile stays locked',
     (tester) async {
       final container = await createTestContainer();
+      // "/" opens the splash in the customer app build.
       await pumpApp(tester, container, Routes.launcher);
-      await tapVisible(tester, find.text(AppStrings.launcherClient));
       await tester.pump(SplashScreen.holdDuration);
       await tester.pumpAndSettle();
 

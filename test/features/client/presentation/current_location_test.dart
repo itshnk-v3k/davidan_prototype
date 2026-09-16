@@ -30,6 +30,7 @@ import 'package:davidan_prototype/features/client/presentation/location/widgets/
 import 'package:davidan_prototype/features/client/presentation/orders/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_delivery_screen.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../../helpers/fake_location_service.dart';
 import '../../../helpers/test_app.dart';
@@ -93,7 +94,10 @@ void main() {
     'checkout delivers to the pinned location and uses it up; the order shows '
     'its area and coordinates to the customer and the courier',
     (tester) async {
-      final container = await createTestContainer();
+      // The courier's side needs the staff build.
+      final container = await createTestContainer(
+        overrides: staffBuildOverrides,
+      );
       container
           .read(fulfilmentChoiceProvider.notifier)
           .chooseDelivery('str. Ismail 88');

@@ -8,6 +8,7 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/theme/theme_mode_notifier.dart';
+import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/utils/phone.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
@@ -20,6 +21,7 @@ import 'package:davidan_prototype/data/models/customer_account.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/client/application/account_notifier.dart';
 import 'package:davidan_prototype/features/client/presentation/account/widgets/nearest_shop_card.dart';
+import 'package:davidan_prototype/features/launcher/application/demo_reset_notifier.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/fulfilment_detail_row.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
@@ -27,7 +29,8 @@ import 'package:davidan_prototype/features/orders/presentation/widgets/order_sta
 /// Profile tab. Locked until the customer goes through the demo sign-in;
 /// then their name, number, sector and nearest shop, their orders with a
 /// live status, and a way to sign out. Saved products have their own tab.
-/// The theme switch is there either way.
+/// The theme switch and the demo reset are there either way: the customer app
+/// build has no launcher to hold them.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
@@ -35,10 +38,6 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final account = ref.watch(accountProvider);
     final orders = ref.watch(ordersProvider);
-    final themeSelector = ThemeModeSelector(
-      selected: ref.watch(themeModeProvider),
-      onSelected: ref.read(themeModeProvider.notifier).select,
-    );
 
     return Scaffold(
       backgroundColor: context.colors.background,
@@ -62,14 +61,14 @@ class ProfileScreen extends ConsumerWidget {
                             onAction: () => context.push(Routes.signIn),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(
                             AppSpacing.gutter,
                             0,
                             AppSpacing.gutter,
                             AppSpacing.xl,
                           ),
-                          child: themeSelector,
+                          child: _DemoSettings(),
                         ),
                       ],
                     )
@@ -107,8 +106,6 @@ class ProfileScreen extends ConsumerWidget {
                             ),
                           ),
                         const SizedBox(height: AppSpacing.xl),
-                        themeSelector,
-                        const SizedBox(height: AppSpacing.xl),
                         AppButton(
                           label: AppStrings.signOut,
                           icon: Icons.logout_rounded,
@@ -116,6 +113,8 @@ class ProfileScreen extends ConsumerWidget {
                           onPressed: () =>
                               ref.read(accountProvider.notifier).signOut(),
                         ),
+                        const SizedBox(height: AppSpacing.xl),
+                        const _DemoSettings(),
                         const SizedBox(height: AppSpacing.lg),
                         Text(
                           AppStrings.demoProfileNote,
@@ -128,6 +127,37 @@ class ProfileScreen extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// The theme switch and the demo reset. Resetting starts the demo over from
+/// the splash, the way a first launch would.
+class _DemoSettings extends ConsumerWidget {
+  const _DemoSettings();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ThemeModeSelector(
+          selected: ref.watch(themeModeProvider),
+          onSelected: ref.read(themeModeProvider.notifier).select,
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        AppButton(
+          label: AppStrings.resetDemoData,
+          icon: Icons.restart_alt_rounded,
+          variant: AppButtonVariant.secondary,
+          onPressed: () async {
+            await ref.read(demoResetProvider.notifier).reset();
+            if (!context.mounted) return;
+            context.go(Routes.clientSplash);
+            ref.read(toastProvider.notifier).show(AppStrings.resetDemoDataDone);
+          },
+        ),
+      ],
     );
   }
 }

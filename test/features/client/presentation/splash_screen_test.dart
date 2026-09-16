@@ -30,10 +30,10 @@ void main() {
 
   setUp(() async => container = await createTestContainer());
 
-  /// Opens the customer app from the launcher and waits out the splash.
+  /// Opens the app the way a launch does, at "/", which the customer app
+  /// build sends to the splash, and waits out the splash.
   Future<void> enterCustomerApp(WidgetTester tester) async {
     await pumpApp(tester, container, Routes.launcher);
-    await tapVisible(tester, find.text(AppStrings.launcherClient));
     expect(find.byType(SplashScreen), findsOneWidget);
 
     await tester.pump(SplashScreen.holdDuration);
@@ -45,7 +45,8 @@ void main() {
     'shows the logo and tagline over the pastry photo for the whole hold, '
     'then offers the demo sign-in on first launch',
     (tester) async {
-      await pumpApp(tester, container, Routes.launcher);
+      // Starts elsewhere, so the splash's hold starts with the go() below.
+      await pumpApp(tester, container, Routes.clientProfile);
       container.read(appRouterProvider).go(Routes.clientSplash);
       // Builds the splash, which starts its hold.
       await tester.pump();
@@ -75,7 +76,7 @@ void main() {
     await pumpApp(
       tester,
       container,
-      Routes.launcher,
+      Routes.clientProfile,
       size: const Size(360, 640),
     );
     container.read(appRouterProvider).go(Routes.clientSplash);
