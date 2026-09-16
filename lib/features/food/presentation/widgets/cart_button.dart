@@ -13,9 +13,10 @@ import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// The way into [brand]'s cart, at the top right of the customer tabs: a
-/// receipt icon with the number of items in the cart. The cart opens over the
-/// tabs, so back returns to the tab it was opened from.
+/// The way into [brand]'s cart, at the top right of the brand's pages (and,
+/// until the hub lists every cart, of the Favorite tab): a receipt icon with
+/// the number of items in the cart. The cart opens over the screen it was
+/// opened from, so back returns there.
 class CartButton extends ConsumerWidget {
   const CartButton({super.key, required this.brand});
 

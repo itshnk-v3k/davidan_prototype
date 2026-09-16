@@ -5,8 +5,6 @@ abstract final class BakeryCategoryIds {
   static const patiserie = 'patiserie';
   static const placinte = 'placinte-panini';
   static const bauturi = 'bauturi';
-  static const sushi = 'sushi';
-  static const restaurant = 'restaurant';
 }
 
 const _img = 'assets/images/products/';
@@ -45,20 +43,5 @@ const bakeryCategories = <MenuCategory>[
     id: BakeryCategoryIds.bauturi,
     name: 'Băuturi',
     image: '${_img}americano.webp',
-  ),
-  MenuCategory(
-    id: BakeryCategoryIds.sushi,
-    name: 'Sushi',
-    image: '${_img}ebi-roll.webp',
-    description:
-        'Delicii proaspete, rafinate și autentice, direct din tradiția '
-        'japoneză.',
-  ),
-  MenuCategory(
-    id: BakeryCategoryIds.restaurant,
-    name: 'Restaurant',
-    image: '${_img}orez-pui.webp',
-    description:
-        'Experiențe culinare de neuitat într-un ambient elegant și primitor.',
   ),
 ];

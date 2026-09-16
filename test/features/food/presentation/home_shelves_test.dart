@@ -15,7 +15,7 @@ import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/product_shelf.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
@@ -42,7 +42,7 @@ void main() {
       inRow(id, find.widgetWithText(ProductCard, name));
   final homeScroll = find
       .descendant(
-        of: find.byType(HomeScreen),
+        of: find.byType(BrandHomeScreen),
         matching: find.byType(Scrollable),
       )
       .first;
@@ -59,7 +59,7 @@ void main() {
     'Produse DaviDan comes first, then every category has its own row with '
     'its products and the site\'s blurb',
     (tester) async {
-      await pumpApp(tester, container, Routes.clientHome);
+      await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
       expect(inRow('popular', find.text(ro.popularTitle)), findsOneWidget);
       expect(inRow('popular', find.byType(ProductCard)), findsWidgets);
 
@@ -86,7 +86,7 @@ void main() {
   );
 
   testWidgets('a row shows two cards and a peek of the third', (tester) async {
-    await pumpApp(tester, container, Routes.clientHome);
+    await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
 
     final cards = inRow('popular', find.byType(ProductCard));
     expect(tester.getRect(cards.at(1)).right, lessThan(400));
@@ -107,7 +107,7 @@ void main() {
             )),
           )
           .length;
-      await pumpApp(tester, container, Routes.clientHome);
+      await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
       await scrollHomeTo(tester, row(BakeryCategoryIds.kurtos));
 
       await tapVisible(
@@ -122,7 +122,9 @@ void main() {
         findsOneWidget,
       );
 
-      await tester.tap(find.text(ro.navHome));
+      await tester.tap(
+        inScreen<CatalogScreen>(find.byIcon(Icons.arrow_back_rounded)),
+      );
       await tester.pumpAndSettle();
       final endTile = inRow(
         BakeryCategoryIds.kurtos,
@@ -148,7 +150,7 @@ void main() {
     'adding from the Produse DaviDan row shows in the product\'s category row '
     'too',
     (tester) async {
-      await pumpApp(tester, container, Routes.clientHome);
+      await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
 
       await tapVisible(
         tester,
@@ -182,7 +184,7 @@ void main() {
     'a product in two rows opens from the card that was tapped: its photo '
     'flies from that row',
     (tester) async {
-      await pumpApp(tester, container, Routes.clientHome);
+      await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
 
       await tapVisible(
         tester,
@@ -233,7 +235,7 @@ void main() {
     await pumpApp(
       tester,
       container,
-      Routes.clientHome,
+      Routes.brandHome(Brand.bakery),
       size: const Size(360, 640),
     );
 

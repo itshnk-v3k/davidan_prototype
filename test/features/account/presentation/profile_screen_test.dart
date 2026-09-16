@@ -14,15 +14,12 @@ import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/chisinau_sector.dart';
-import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/account/application/account_notifier.dart';
 import 'package:davidan_prototype/features/account/presentation/profile/profile_screen.dart';
 import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_phone_screen.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
-import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/splash/splash_screen.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
-import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 import '../../../helpers/test_app.dart';
@@ -36,24 +33,26 @@ void main() {
 
   Finder inProfile(Finder finder) => inScreen<ProfileScreen>(finder);
 
-  testWidgets('the Profil tab opens it', (tester) async {
+  testWidgets('the Profil tab opens it, and it lists no orders: Comenzi does', (
+    tester,
+  ) async {
+    signInTestAccount(container);
+    placeTestOrder(container);
     await pumpApp(tester, container, Routes.clientHome);
     await tester.tap(find.text(ro.navProfile));
     await tester.pumpAndSettle();
 
     expect(find.byType(ProfileScreen), findsOneWidget);
+    expect(inProfile(find.text(ro.myOrdersTitle)), findsNothing);
+    expect(inProfile(find.text('138 lei')), findsNothing);
   });
 
   testWidgets(
-    'signed out it is locked: no orders, and "Intră în cont" opens the '
-    'sign-in',
+    'signed out it is locked, and "Intră în cont" opens the sign-in',
     (tester) async {
-      placeTestOrder(container);
       await pumpApp(tester, container, Routes.clientProfile);
 
       expect(inProfile(find.text(ro.accountLockedTitle)), findsOneWidget);
-      expect(inProfile(find.text(ro.myOrdersTitle)), findsNothing);
-      expect(inProfile(find.text('138 lei')), findsNothing);
 
       await tapVisible(tester, find.text(ro.signInTitle));
       expect(find.byType(SignInPhoneScreen), findsOneWidget);
@@ -110,21 +109,8 @@ void main() {
     },
   );
 
-  testWidgets('without orders: an empty state that links to the menu', (
-    tester,
-  ) async {
-    signInTestAccount(container);
-    await pumpApp(tester, container, Routes.clientProfile);
-
-    expect(inProfile(find.text(ro.ordersEmptyTitle)), findsOneWidget);
-
-    await tapVisible(tester, find.text(ro.browseMenu));
-    expect(find.byType(CatalogScreen), findsOneWidget);
-  });
-
   testWidgets('the "Despre DaviDan" facts are gone', (tester) async {
     signInTestAccount(container);
-    placeTestOrder(container);
     await pumpApp(tester, container, Routes.clientProfile);
 
     expect(inProfile(find.text('Despre DaviDan')), findsNothing);
@@ -132,58 +118,6 @@ void main() {
     expect(inProfile(find.text('720')), findsNothing);
     expect(inProfile(find.text('74')), findsNothing);
     expect(inProfile(find.text('2.000.000+')), findsNothing);
-  });
-
-  testWidgets(
-    'order history: newest first, with date, fulfilment, total and a status '
-    'that follows the store',
-    (tester) async {
-      signInTestAccount(container);
-      final delivery = placeTestOrder(container);
-      final pickup = placeTestOrder(
-        container,
-        fulfilment: const StorePickup(locationId: 'botanica'),
-      );
-      await pumpApp(tester, container, Routes.clientProfile);
-
-      expect(inProfile(find.text(ro.ordersEmptyTitle)), findsNothing);
-      expect(
-        tester.getTopLeft(find.text(ro.orderNumber(pickup.id))).dy,
-        lessThan(tester.getTopLeft(find.text(ro.orderNumber(delivery.id))).dy),
-      );
-      expect(inProfile(find.text('15.09.2026, 10:07')), findsNWidgets(2));
-      expect(inProfile(find.text('str. Ismail 88')), findsOneWidget);
-      expect(
-        inProfile(find.text('DaviDan Botanica · bd. Dacia 47, Chișinău')),
-        findsOneWidget,
-      );
-      expect(inProfile(find.text('138 lei')), findsNWidgets(2));
-      expect(
-        inProfile(find.text(ro.orderStatus(OrderStatus.placed))),
-        findsNWidgets(2),
-      );
-
-      advanceOrderTo(container, delivery.id, OrderStatus.onTheWay);
-      await tester.pumpAndSettle();
-      expect(
-        inProfile(find.text(ro.orderStatus(OrderStatus.onTheWay))),
-        findsOneWidget,
-      );
-    },
-  );
-
-  testWidgets('tapping an order opens it', (tester) async {
-    signInTestAccount(container);
-    final order = placeTestOrder(container);
-    await pumpApp(tester, container, Routes.clientProfile);
-
-    await tapVisible(tester, find.text(ro.orderNumber(order.id)));
-
-    expect(find.byType(OrderConfirmationScreen), findsOneWidget);
-    expect(
-      inScreen<OrderConfirmationScreen>(find.text(ro.orderNumber(order.id))),
-      findsOneWidget,
-    );
   });
 
   testWidgets(
@@ -217,20 +151,8 @@ void main() {
     },
   );
 
-  testWidgets('fits a 360 x 640 phone with long addresses', (tester) async {
+  testWidgets('fits a 360 x 640 phone with a long name', (tester) async {
     signInTestAccount(container, name: 'Alexandru-Constantin Popescu');
-    placeTestOrder(
-      container,
-      fulfilment: const HomeDelivery(
-        address:
-            'bd. Ștefan cel Mare și Sfânt 126, bloc 3, scara 2, etajul 9, '
-            'apartamentul 214, interfon 214K, Chișinău',
-      ),
-    );
-    placeTestOrder(
-      container,
-      fulfilment: const StorePickup(locationId: 'buiucani'),
-    );
     await pumpApp(
       tester,
       container,

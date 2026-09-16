@@ -6,8 +6,8 @@ import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// Customer app frame: the active tab plus the bottom navigation bar. The cart
-/// isn't a tab: each tab's header has a CartButton that opens it.
+/// The hub's frame: the active tab plus the bottom navigation bar. Brands open
+/// full screen above it, so a brand's pages never show this bar.
 class ClientShell extends StatelessWidget {
   const ClientShell({super.key, required this.navigationShell});
 
@@ -68,7 +68,7 @@ class _BottomNav extends StatelessWidget {
     // Same order as the branches of the StatefulShellRoute in app_router.dart.
     final items = [
       (icon: Icons.home_rounded, label: context.l10n.navHome),
-      (icon: Icons.restaurant_menu_rounded, label: context.l10n.navMenu),
+      (icon: Icons.receipt_long_rounded, label: context.l10n.navOrders),
       (icon: Icons.favorite_rounded, label: context.l10n.navFavorites),
       (icon: Icons.person_rounded, label: context.l10n.navProfile),
     ];

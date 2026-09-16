@@ -20,18 +20,24 @@ abstract final class Routes {
     path: '$clientLocation/map',
     queryParameters: {'reason': ?failure?.name},
   ).toString();
+
+  // The hub's tabs
   static const clientHome = '/client/home';
-  static const clientMenu = '/client/menu';
-  static String clientCategory(String categoryId) => Uri(
-    path: clientMenu,
-    queryParameters: {'category': categoryId},
-  ).toString();
+  static const clientOrders = '/client/orders';
   static const clientFavorites = '/client/favorites';
   static const clientProfile = '/client/profile';
-  static String clientOrder(String orderId) => '/client/orders/$orderId';
+  static String clientOrder(String orderId) => '$clientOrders/$orderId';
 
-  // A brand's product, cart and checkout. Every brand has its own cart.
+  // A brand, full screen above the hub: its home, menu, product, cart and
+  // checkout. Every brand has its own cart.
   static const brandParam = 'brand';
+  static String brandHome(Brand brand) => '/b/${brand.name}';
+
+  /// The brand's menu at [categoryId], or at its first category.
+  static String brandMenu(Brand brand, {String? categoryId}) => Uri(
+    path: '${brandHome(brand)}/menu',
+    queryParameters: {'category': ?categoryId},
+  ).toString();
 
   /// [heroScope] names the row the product was opened from when a screen
   /// shows it in more than one (home's rows), so its photo flies from the card

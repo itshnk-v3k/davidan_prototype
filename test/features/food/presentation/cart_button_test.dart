@@ -1,5 +1,5 @@
-// The cart button at the top right of the customer tabs, which replaced the
-// cart tab, in the real app, in Chrome:
+// The hub's bottom tabs, and the cart button at the top right of a brand's
+// pages, which replaced the cart tab, in the real app, in Chrome:
 //   flutter test --platform chrome
 @TestOn('browser')
 library;
@@ -16,8 +16,10 @@ import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/cart/cart_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/favorites/favorites_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
+import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
+import 'package:davidan_prototype/features/orders/presentation/orders_screen.dart';
 
 import '../../../helpers/test_app.dart';
 
@@ -39,9 +41,8 @@ void main() {
   }
 
   testWidgets('the bottom bar has four tabs on a 360 px phone, in the order '
-      'Acasă, Meniu, Favorite, Profil, each in its own quarter; no Coș', (
-    tester,
-  ) async {
+      'Acasă, Comenzi, Favorite, Profil, each in its own quarter; no Coș and '
+      'no Meniu', (tester) async {
     await pumpApp(
       tester,
       container,
@@ -49,7 +50,7 @@ void main() {
       size: const Size(360, 640),
     );
 
-    final labels = [ro.navHome, ro.navMenu, ro.navFavorites, ro.navProfile];
+    final labels = [ro.navHome, ro.navOrders, ro.navFavorites, ro.navProfile];
     // Only positions: flutter_test draws text in a test font where most glyphs
     // are a full em wide, so label widths here say nothing about Roboto.
     const tabWidth = 360 / 4;
@@ -61,53 +62,60 @@ void main() {
       );
     }
     expect(find.text('Coș'), findsNothing);
+    expect(find.text(ro.menuTitle), findsNothing);
     expect(find.byIcon(Icons.shopping_bag_rounded), findsNothing);
   });
 
   testWidgets(
-    'Acasă, Meniu and Favorite show the cart button at the top right; Profil '
-    'does not',
+    'a brand\'s home and menu, and the Favorite tab, show the cart button at '
+    'the top right; the hub, Comenzi and Profil do not',
     (tester) async {
-      await pumpApp(tester, container, Routes.clientHome);
-
-      for (final (tab, screen) in [
-        (ro.navHome, HomeScreen),
-        (ro.navMenu, CatalogScreen),
-        (ro.navFavorites, FavoritesScreen),
+      for (final (route, screen) in [
+        (Routes.brandHome(Brand.bakery), BrandHomeScreen),
+        (Routes.brandMenu(Brand.bakery), CatalogScreen),
+        (Routes.clientFavorites, FavoritesScreen),
       ]) {
-        await tester.tap(find.text(tab));
-        await tester.pumpAndSettle();
+        await pumpApp(tester, container, route);
 
         final button = inScreenOf(screen, find.byType(CartButton));
-        expect(button, findsOneWidget, reason: tab);
+        expect(button, findsOneWidget, reason: route);
         expect(
           tester.getTopRight(button).dx,
           closeTo(400 - 16, 1),
-          reason: tab,
+          reason: route,
         );
-        expect(tester.getTopLeft(button).dy, lessThan(80), reason: tab);
+        expect(tester.getTopLeft(button).dy, lessThan(80), reason: route);
         expect(
           inScreenOf(screen, find.byIcon(Icons.receipt_long_rounded)),
           findsOneWidget,
-          reason: tab,
+          reason: route,
         );
       }
 
-      await tester.tap(find.text(ro.navProfile));
-      await tester.pumpAndSettle();
-      expect(inScreen<ProfileScreen>(find.byType(CartButton)), findsNothing);
+      for (final (route, screen) in [
+        (Routes.clientHome, HubHomeScreen),
+        (Routes.clientOrders, OrdersScreen),
+        (Routes.clientProfile, ProfileScreen),
+      ]) {
+        await pumpApp(tester, container, route);
+        expect(
+          inScreenOf(screen, find.byType(CartButton)),
+          findsNothing,
+          reason: route,
+        );
+      }
     },
   );
 
   testWidgets(
-    'the badge counts the items; the cart opens over the tabs, without the '
-    'bottom bar, and back returns home',
+    'the badge counts the items; the cart opens over the brand\'s home, and '
+    'back returns there',
     (tester) async {
       container.read(cartProvider(Brand.bakery).notifier)
         ..add('americano')
         ..add('coca-cola', quantity: 2);
-      await pumpApp(tester, container, Routes.clientHome);
-      final button = inScreen<HomeScreen>(find.byType(CartButton));
+      await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
+      final button = inScreen<BrandHomeScreen>(find.byType(CartButton));
       expect(
         find.descendant(of: button, matching: find.text('3')),
         findsOneWidget,
@@ -124,7 +132,7 @@ void main() {
 
       await goBack(tester);
       expect(find.byType(CartScreen), findsNothing);
-      expect(find.byType(HomeScreen), findsOneWidget);
+      expect(find.byType(BrandHomeScreen), findsOneWidget);
     },
   );
 
@@ -132,7 +140,11 @@ void main() {
     tester,
   ) async {
     container.read(cartProvider(Brand.bakery).notifier).add('americano');
-    await pumpApp(tester, container, Routes.clientCategory('bauturi'));
+    await pumpApp(
+      tester,
+      container,
+      Routes.brandMenu(Brand.bakery, categoryId: 'bauturi'),
+    );
 
     await tester.tap(inScreen<CatalogScreen>(find.byType(CartButton)));
     await tester.pumpAndSettle();
@@ -142,11 +154,13 @@ void main() {
     expect(inScreen<CatalogScreen>(find.text('Coca Cola')), findsOneWidget);
   });
 
-  testWidgets('opened straight from its link, back goes home', (tester) async {
+  testWidgets('opened straight from its link, back goes to the brand\'s home', (
+    tester,
+  ) async {
     await pumpApp(tester, container, Routes.brandCart(Brand.bakery));
     expect(find.byType(CartScreen), findsOneWidget);
 
     await goBack(tester);
-    expect(find.byType(HomeScreen), findsOneWidget);
+    expect(find.byType(BrandHomeScreen), findsOneWidget);
   });
 }

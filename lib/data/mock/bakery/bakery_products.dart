@@ -4,8 +4,7 @@ import 'package:davidan_prototype/data/models/product.dart';
 
 const _img = 'assets/images/products/';
 
-/// Products scraped from davidan.md (names, prices, ingredient lists), plus
-/// clearly marked placeholders for the Sushi and Restaurant categories. Prices
+/// Products scraped from davidan.md (names, prices, ingredient lists). Prices
 /// are in bani. Ingredient lists are the site's text with obvious typos
 /// corrected and the nutrition declaration left out.
 const bakeryProducts = <Product>[
@@ -486,74 +485,6 @@ const bakeryProducts = <Product>[
     name: 'Ciocolată fierbinte',
     priceBani: 2400,
     image: '${_img}ciocolata-fierbinte.webp',
-  ),
-
-  // --- Sushi: PLACEHOLDER ---
-  // davidan.md shows a Sushi category with no products. Names and prices are
-  // invented for the demo. Only Ebi Roll has a photo (the homepage category
-  // image); the rest render the branded placeholder tile.
-  Product(
-    brand: Brand.bakery,
-    id: 'ebi-roll',
-    categoryId: BakeryCategoryIds.sushi,
-    name: 'Ebi Roll',
-    priceBani: 11900,
-    image: '${_img}ebi-roll.webp',
-  ),
-  Product(
-    brand: Brand.bakery,
-    id: 'philadelphia-roll',
-    categoryId: BakeryCategoryIds.sushi,
-    name: 'Philadelphia Roll',
-    priceBani: 13900,
-  ),
-  Product(
-    brand: Brand.bakery,
-    id: 'california-roll',
-    categoryId: BakeryCategoryIds.sushi,
-    name: 'California Roll',
-    priceBani: 12500,
-  ),
-  Product(
-    brand: Brand.bakery,
-    id: 'maki-somon',
-    categoryId: BakeryCategoryIds.sushi,
-    name: 'Maki cu somon',
-    priceBani: 7500,
-  ),
-
-  // --- Restaurant: PLACEHOLDER ---
-  // davidan.md shows a Restaurant category with no products. Names and prices
-  // are invented for the demo. Only Orez cu pui has a photo (the homepage
-  // category image).
-  Product(
-    brand: Brand.bakery,
-    id: 'orez-pui',
-    categoryId: BakeryCategoryIds.restaurant,
-    name: 'Orez cu pui',
-    priceBani: 8500,
-    image: '${_img}orez-pui.webp',
-  ),
-  Product(
-    brand: Brand.bakery,
-    id: 'supa-crema-ciuperci',
-    categoryId: BakeryCategoryIds.restaurant,
-    name: 'Supă cremă de ciuperci',
-    priceBani: 5500,
-  ),
-  Product(
-    brand: Brand.bakery,
-    id: 'piept-pui-gratar',
-    categoryId: BakeryCategoryIds.restaurant,
-    name: 'Piept de pui la grătar cu legume',
-    priceBani: 9500,
-  ),
-  Product(
-    brand: Brand.bakery,
-    id: 'paste-carbonara',
-    categoryId: BakeryCategoryIds.restaurant,
-    name: 'Paste Carbonara',
-    priceBani: 8900,
   ),
 ];
 

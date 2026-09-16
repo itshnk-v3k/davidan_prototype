@@ -12,7 +12,7 @@ import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
-import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -91,12 +91,12 @@ void main() {
     await pumpApp(tester, container, Routes.clientOrder(order.id));
     await tester.tap(find.widgetWithText(AppButton, ro.backHome));
     await tester.pumpAndSettle();
-    expect(find.byType(HomeScreen), findsOneWidget);
+    expect(find.byType(HubHomeScreen), findsOneWidget);
 
     await pumpApp(tester, container, Routes.clientOrder(order.id));
     await tester.tap(find.byIcon(Icons.close_rounded));
     await tester.pumpAndSettle();
-    expect(find.byType(HomeScreen), findsOneWidget);
+    expect(find.byType(HubHomeScreen), findsOneWidget);
   });
 
   testWidgets('unknown order id shows not found', (tester) async {
@@ -105,7 +105,7 @@ void main() {
     expect(find.text(ro.orderNotFound), findsOneWidget);
     await tester.tap(find.text(ro.backHome));
     await tester.pumpAndSettle();
-    expect(find.byType(HomeScreen), findsOneWidget);
+    expect(find.byType(HubHomeScreen), findsOneWidget);
   });
 
   testWidgets('fits a 360 x 640 phone with a long address', (tester) async {

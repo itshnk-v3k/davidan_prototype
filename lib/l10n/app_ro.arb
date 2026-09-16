@@ -39,7 +39,7 @@
     "description": "Language follows the phone's language (Romanian when the phone uses neither Romanian nor Russian)."
   },
   "navHome": "Acasă",
-  "navMenu": "Meniu",
+  "navOrders": "Comenzi",
   "navFavorites": "Favorite",
   "navProfile": "Profil",
   "locationTitle": "Livrare sau ridicare",
@@ -51,6 +51,18 @@
   "kdsTitle": "Panoul magazinului",
   "back": "Înapoi",
   "backHome": "Înapoi acasă",
+  "comingSoonTitle": "În curând",
+  "@comingSoonTitle": {
+    "description": "Title of a brand's page when the brand has no menu in the app, e.g. the restaurant."
+  },
+  "inProgressTitle": "În lucru",
+  "@inProgressTitle": {
+    "description": "Title of a brand's page the prototype hasn't built yet. Temporary."
+  },
+  "inProgressMessage": "Pagina acestui brand se construiește într-o etapă următoare a prototipului.",
+  "@inProgressMessage": {
+    "description": "Note on a brand's page the prototype hasn't built yet. Temporary."
+  },
   "locationPrompt": "Alege cum primești comenzile. Poți schimba oricând din bara de sus a ecranului Acasă.",
   "confirmAddress": "Livrează la această adresă",
   "recentAddressesTitle": "Adrese folosite recent",

@@ -6,7 +6,7 @@ Clickable prototype of a delivery platform for DaviDan, a bakery chain in Moldov
 
 A demo build for the client to review and decide what to keep or cut. This is not production code.
 
-- **Customer app**: demo sign-in (no real SMS), location selection with "use my current location", menu, product, cart, favourites, checkout, order tracking, profile
+- **Customer app**: a hub with DaviDan's five brands as bubbles (Restaurant, Sushi, Patiserie, Apă naturală, Rent Car) and the tabs Acasă, Comenzi, Favorite and Profil; demo sign-in (no real SMS), location selection with "use my current location". A brand opens full screen above the tabs. So far only the bakery (Patiserie) has its menu, product, cart, checkout and order tracking; Restaurant shows "În curând" (the client has no menu), and Sushi, Apă naturală and Rent Car show a temporary "În lucru" page until their own pages are built. Don't show those three to the client yet.
 - **Courier app** and **store panel (KDS)**: kept for phase 2, but left out of the client demo at the client's request. They are only in the staff build (see below).
 
 Without the store panel and courier, the customer app simulates them: a placed order is accepted after 15 seconds and delivered about five minutes later, with the courier map while it is on the way. Timings are in `lib/features/orders/application/order_simulation.dart`.
@@ -60,7 +60,7 @@ flutter build web --release --no-web-resources-cdn -t lib/main_staff.dart
 
 **The sign-in is a mock.** No SMS is sent and nothing is verified: any mobile number of 8 digits starting with 6 or 7, and any 4-digit code, are accepted. The screens say so.
 
-- **First launch:** after the splash the app offers sign-in. **Mai târziu** skips it. The menu, cart and checkout work without an account; the **Profil** tab stays locked until the customer signs in from there.
+- **First launch:** after the splash the app offers sign-in. **Mai târziu** skips it. The menu, cart and checkout work without an account; the **Comenzi** and **Profil** tabs stay locked until the customer signs in from there.
 - **Steps:** phone number → code → name and sector (Botanica, Buiucani, Centru, Ciocana, Rîșcani) → a welcome with the nearest shop → the location screen with that shop selected. Nothing is chosen for the customer: the shop is saved only when they confirm it or pick another.
 - **Nearest shop:** from the phone's location when the customer taps **Găsește localul după locația mea** and a position arrives, otherwise from the centre of the chosen sector. One distance rule serves both. The three shops and the sector centres have approximate placeholder coordinates in `lib/data/mock/`; with the placeholder shops, Rîșcani and Ciocana go to DaviDan Centru.
 

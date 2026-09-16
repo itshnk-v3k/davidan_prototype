@@ -149,7 +149,10 @@ void main() {
       for (final (route, size) in [
         (Routes.launcher, const Size(400, 900)),
         (Routes.clientHome, const Size(400, 900)),
-        (Routes.clientMenu, const Size(400, 900)),
+        (Routes.clientOrders, const Size(400, 900)),
+        (Routes.brandHome(Brand.bakery), const Size(400, 900)),
+        (Routes.brandMenu(Brand.bakery), const Size(400, 900)),
+        (Routes.brandHome(Brand.restaurant), const Size(400, 900)),
         (Routes.brandCart(Brand.bakery), const Size(400, 900)),
         (Routes.clientFavorites, const Size(400, 900)),
         (Routes.clientProfile, const Size(400, 900)),

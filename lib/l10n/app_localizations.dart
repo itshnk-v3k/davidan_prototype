@@ -224,11 +224,11 @@ abstract class AppLocalizations {
   /// **'Acasă'**
   String get navHome;
 
-  /// No description provided for @navMenu.
+  /// No description provided for @navOrders.
   ///
   /// In ro, this message translates to:
-  /// **'Meniu'**
-  String get navMenu;
+  /// **'Comenzi'**
+  String get navOrders;
 
   /// No description provided for @navFavorites.
   ///
@@ -295,6 +295,24 @@ abstract class AppLocalizations {
   /// In ro, this message translates to:
   /// **'Înapoi acasă'**
   String get backHome;
+
+  /// Title of a brand's page when the brand has no menu in the app, e.g. the restaurant.
+  ///
+  /// In ro, this message translates to:
+  /// **'În curând'**
+  String get comingSoonTitle;
+
+  /// Title of a brand's page the prototype hasn't built yet. Temporary.
+  ///
+  /// In ro, this message translates to:
+  /// **'În lucru'**
+  String get inProgressTitle;
+
+  /// Note on a brand's page the prototype hasn't built yet. Temporary.
+  ///
+  /// In ro, this message translates to:
+  /// **'Pagina acestui brand se construiește într-o etapă următoare a prototipului.'**
+  String get inProgressMessage;
 
   /// No description provided for @locationPrompt.
   ///

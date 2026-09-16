@@ -19,8 +19,8 @@ import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/food/application/favorites_notifier.dart';
-import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
+import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
 import 'package:davidan_prototype/features/orders/application/order_lines_provider.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 
@@ -142,6 +142,6 @@ void main() {
 
     container.read(appRouterProvider).go('/b/pizzeria/product/coca-cola');
     await tester.pumpAndSettle();
-    expect(find.byType(HomeScreen), findsOneWidget);
+    expect(find.byType(HubHomeScreen), findsOneWidget);
   });
 }

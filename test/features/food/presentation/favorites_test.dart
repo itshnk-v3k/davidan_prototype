@@ -16,10 +16,10 @@ import 'package:davidan_prototype/features/account/presentation/profile/profile_
 import 'package:davidan_prototype/features/food/application/favorites_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/favorites/favorites_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/favorite_toggle.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
+import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
 
 import '../../../helpers/test_app.dart';
 
@@ -46,7 +46,11 @@ void main() {
   testWidgets('the heart on a card saves the product without opening it', (
     tester,
   ) async {
-    await pumpApp(tester, container, Routes.clientCategory('bauturi'));
+    await pumpApp(
+      tester,
+      container,
+      Routes.brandMenu(Brand.bakery, categoryId: 'bauturi'),
+    );
     expect(isSaved(tester, heartOn('Coca Cola')), isFalse);
 
     await tapVisible(tester, heartOn('Coca Cola'));
@@ -78,7 +82,9 @@ void main() {
     expect(isSaved(tester, heart), isTrue);
     expect(savedNames(), ['Coca Cola']);
 
-    container.read(appRouterProvider).go(Routes.clientCategory('bauturi'));
+    container
+        .read(appRouterProvider)
+        .go(Routes.brandMenu(Brand.bakery, categoryId: 'bauturi'));
     await tester.pumpAndSettle();
     expect(find.byType(CatalogScreen), findsOneWidget);
     expect(isSaved(tester, heartOn('Coca Cola')), isTrue);
@@ -92,7 +98,7 @@ void main() {
         ..toggle((brand: Brand.bakery, id: 'coca-cola'))
         ..toggle((brand: Brand.bakery, id: 'americano'));
       await pumpApp(tester, container, Routes.clientHome);
-      expect(find.byType(HomeScreen), findsOneWidget);
+      expect(find.byType(HubHomeScreen), findsOneWidget);
 
       await tester.tap(find.text(ro.navFavorites));
       await tester.pumpAndSettle();
@@ -128,12 +134,14 @@ void main() {
     expect(inScreen<ProfileScreen>(find.text(ro.favoritesTitle)), findsNothing);
   });
 
-  testWidgets('with nothing saved, the tab points to the menu', (tester) async {
+  testWidgets('with nothing saved, the tab points back to the hub', (
+    tester,
+  ) async {
     await pumpApp(tester, container, Routes.clientFavorites);
     expect(find.text(ro.favoritesEmptyTitle), findsOneWidget);
 
-    await tapVisible(tester, find.text(ro.browseMenu));
-    expect(find.byType(CatalogScreen), findsOneWidget);
+    await tapVisible(tester, find.text(ro.backHome));
+    expect(find.byType(HubHomeScreen), findsOneWidget);
   });
 
   testWidgets('the saved list fits a 360 x 640 phone', (tester) async {

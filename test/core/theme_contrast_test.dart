@@ -53,6 +53,20 @@ void main() {
         );
       });
 
+      test('the hub\'s brand bubbles: names 4.5:1 on the caramel band, and '
+          'an icon, or the bubble against the band, 3:1', () {
+        expect(
+          contrast(colors.onHubBand, colors.hubBand),
+          greaterThanOrEqualTo(4.5),
+          reason: 'brand name on the band',
+        );
+        expect(
+          contrast(colors.hubBand, colors.hubBubble),
+          greaterThanOrEqualTo(3),
+          reason: 'icon on a bubble',
+        );
+      });
+
       test('the quantity stepper: its number 4.5:1, its buttons 3:1', () {
         final stepper = QuantityStepper.paletteFor(colors);
         expect(

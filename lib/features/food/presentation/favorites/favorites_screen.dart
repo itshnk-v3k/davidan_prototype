@@ -39,8 +39,8 @@ class FavoritesScreen extends ConsumerWidget {
                       icon: Icons.favorite_border_rounded,
                       title: context.l10n.favoritesEmptyTitle,
                       message: context.l10n.favoritesEmptyMessage,
-                      actionLabel: context.l10n.browseMenu,
-                      onAction: () => context.go(Routes.clientMenu),
+                      actionLabel: context.l10n.backHome,
+                      onAction: () => context.go(Routes.clientHome),
                     )
                   : CustomScrollView(
                       slivers: [ProductGrid(products: products)],

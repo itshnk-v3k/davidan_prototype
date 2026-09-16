@@ -14,16 +14,20 @@ import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_
 import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_details_screen.dart';
 import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_phone_screen.dart';
 import 'package:davidan_prototype/features/account/presentation/sign_in/welcome_screen.dart';
+import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/food/presentation/cart/cart_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/favorites/favorites_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
+import 'package:davidan_prototype/features/hub/presentation/brand_intro_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/client_shell.dart';
+import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/splash/splash_screen.dart';
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
+import 'package:davidan_prototype/features/orders/presentation/orders_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final extraApps = ref.watch(extraAppsProvider);
@@ -95,10 +99,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          // Tabs: each branch keeps its own navigation stack. Keep the branch
-          // order in sync with the bottom navigation items in ClientShell.
-          // ClientShell.tabStack works like indexedStack and also keeps hidden
-          // tabs out of the product photo's hero flight.
+          // The hub's tabs: each branch keeps its own navigation stack. Keep
+          // the branch order in sync with the bottom navigation items in
+          // ClientShell. ClientShell.tabStack works like indexedStack and
+          // also keeps hidden tabs out of the product photo's hero flight.
           StatefulShellRoute(
             navigatorContainerBuilder: ClientShell.tabStack,
             builder: (_, _, navigationShell) =>
@@ -108,22 +112,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 routes: [
                   GoRoute(
                     path: Routes.clientHome,
-                    builder: (_, _) => const HomeScreen(brand: Brand.bakery),
+                    builder: (_, _) => const HubHomeScreen(),
                   ),
                 ],
               ),
               StatefulShellBranch(
                 routes: [
                   GoRoute(
-                    path: Routes.clientMenu,
-                    // The category is a query parameter
-                    // (Routes.clientCategory). go_router keys the page by
-                    // path only, so switching category reuses this page
-                    // without a transition and just rebuilds CatalogScreen.
-                    builder: (_, state) => CatalogScreen(
-                      brand: Brand.bakery,
-                      categoryId: state.uri.queryParameters['category'],
-                    ),
+                    path: Routes.clientOrders,
+                    builder: (_, _) => const OrdersScreen(),
                   ),
                 ],
               ),
@@ -145,10 +142,42 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          // Full-screen routes above the tabs (no bottom bar). Screens push
-          // these, so back returns to the screen they were opened from.
-          // The cart is pushed by the tabs' cart button. Each names its brand
-          // (Routes.brandCart and the others); an unknown brand goes home.
+          // A brand, full screen above the tabs (no bottom bar), pushed from
+          // its bubble on the hub. Its screens push the ones below, so back
+          // returns to the screen they were opened from. Each names its brand
+          // (Routes.brandHome and the others); an unknown brand goes to the
+          // hub.
+          GoRoute(
+            path: '/b/:${Routes.brandParam}',
+            redirect: _unknownBrandGoesHome,
+            builder: (_, state) => switch (_brandIn(state)!) {
+              Brand.bakery => const BrandHomeScreen(brand: Brand.bakery),
+              // The client has no restaurant menu yet: its intro stays.
+              Brand.restaurant => const BrandIntroScreen(
+                brand: Brand.restaurant,
+              ),
+              // TEMPORARY until their own pages are built (hub round steps
+              // 5, 6 and 7).
+              final brand => BrandIntroScreen(brand: brand, inProgress: true),
+            },
+          ),
+          GoRoute(
+            path: '/b/:${Routes.brandParam}/menu',
+            // A brand without a menu shows its home instead.
+            redirect: (context, state) =>
+                _unknownBrandGoesHome(context, state) ??
+                (ref.read(categoriesProvider(_brandIn(state)!)).isEmpty
+                    ? Routes.brandHome(_brandIn(state)!)
+                    : null),
+            // The category is a query parameter (Routes.brandMenu). Switching
+            // category replaces this page, keeping its key, so there is no
+            // transition and CatalogScreen just rebuilds.
+            builder: (_, state) => CatalogScreen(
+              brand: _brandIn(state)!,
+              categoryId: state.uri.queryParameters['category'],
+            ),
+          ),
+          // Pushed by the brand's cart button.
           GoRoute(
             path: '/b/:${Routes.brandParam}/cart',
             redirect: _unknownBrandGoesHome,

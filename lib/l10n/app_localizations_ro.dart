@@ -77,7 +77,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get navHome => 'Acasă';
 
   @override
-  String get navMenu => 'Meniu';
+  String get navOrders => 'Comenzi';
 
   @override
   String get navFavorites => 'Favorite';
@@ -111,6 +111,16 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get backHome => 'Înapoi acasă';
+
+  @override
+  String get comingSoonTitle => 'În curând';
+
+  @override
+  String get inProgressTitle => 'În lucru';
+
+  @override
+  String get inProgressMessage =>
+      'Pagina acestui brand se construiește într-o etapă următoare a prototipului.';
 
   @override
   String get locationPrompt =>

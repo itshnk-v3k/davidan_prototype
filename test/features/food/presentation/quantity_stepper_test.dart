@@ -87,7 +87,11 @@ void main() {
     tester,
   ) async {
     const name = 'Coca Cola';
-    await pumpApp(tester, container, Routes.clientCategory('bauturi'));
+    await pumpApp(
+      tester,
+      container,
+      Routes.brandMenu(Brand.bakery, categoryId: 'bauturi'),
+    );
     final card = find.widgetWithText(ProductCard, name);
     await Scrollable.ensureVisible(tester.element(card), alignment: 0.5);
     await tester.pumpAndSettle();

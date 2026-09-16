@@ -10,44 +10,21 @@ import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/brand_logo.dart';
 import 'package:davidan_prototype/data/mock/mock_sectors.dart';
-import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/account/application/current_location_notifier.dart';
 import 'package:davidan_prototype/features/account/application/fulfilment_choice_notifier.dart';
-import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/food/application/shop_providers.dart';
-import 'package:davidan_prototype/features/food/presentation/home/widgets/category_strip.dart';
-import 'package:davidan_prototype/features/food/presentation/home/widgets/product_shelf.dart';
-import 'package:davidan_prototype/features/food/presentation/home/widgets/promo_banner_carousel.dart';
-import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
+import 'package:davidan_prototype/features/hub/presentation/widgets/brand_bubbles.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// A brand's home: logo, a location bar pinned at the top, banners and
-/// category tiles, then a row of the brand's popular products and one row per
-/// category, each scrolling sideways with a link to the whole category. The
-/// layout of a shop page in Glovo or Yandex Eda: the menu can be browsed
-/// without leaving home, and the Meniu tab still holds every product.
-class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key, required this.brand});
-
-  final Brand brand;
-
-  static const _popularRowId = 'popular';
+/// The Acasă tab: DaviDan's logo, where orders go (pinned at the top), and
+/// the brands as bubbles on DaviDan's caramel, each opening the brand full
+/// screen above the tabs.
+class HubHomeScreen extends ConsumerWidget {
+  const HubHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final banners = ref.watch(bannersProvider(brand));
-    final categories = ref.watch(categoriesProvider(brand));
-    final popular = ref.watch(popularProductsProvider(brand));
-    final categoryRows = [
-      for (final category in categories)
-        (
-          category: category,
-          products: ref.watch(
-            productsByCategoryProvider((brand: brand, categoryId: category.id)),
-          ),
-        ),
-    ];
     final pinned = ref.watch(
       currentLocationProvider.select((state) => state.pinned),
     );
@@ -88,8 +65,7 @@ class HomeScreen extends ConsumerWidget {
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
-              child: _BrandRow(
-                brand: brand,
+              child: _HubHeader(
                 // Only the staff build has a launcher to go back to.
                 onLauncherTap: ref.watch(extraAppsProvider).isEmpty
                     ? null
@@ -108,50 +84,9 @@ class HomeScreen extends ConsumerWidget {
               ),
             ),
             SliverToBoxAdapter(
-              child: PromoBannerCarousel(
-                banners: banners,
-                onBannerTap: (banner) {
-                  final categoryId = banner.categoryId;
-                  if (categoryId != null) {
-                    context.go(Routes.clientCategory(categoryId));
-                  }
-                },
+              child: BrandBubbles(
+                onOpen: (brand) => context.push(Routes.brandHome(brand)),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: _SectionTitle(context.l10n.categoriesTitle),
-            ),
-            SliverToBoxAdapter(
-              child: CategoryStrip(
-                categories: categories,
-                onCategoryTap: (category) =>
-                    context.go(Routes.clientCategory(category.id)),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: ProductShelf(
-                id: _popularRowId,
-                title: context.l10n.popularTitle,
-                products: popular,
-                onSeeAll: () => context.go(Routes.clientMenu),
-              ),
-            ),
-            // Built as they scroll into view.
-            SliverList.builder(
-              itemCount: categoryRows.length,
-              itemBuilder: (context, index) {
-                final (:category, :products) = categoryRows[index];
-                void openCategory() =>
-                    context.go(Routes.clientCategory(category.id));
-                return ProductShelf(
-                  id: category.id,
-                  title: category.name,
-                  description: category.description,
-                  products: products,
-                  onSeeAll: openCategory,
-                  seeAllLabel: context.l10n.seeAllProducts(products.length),
-                );
-              },
             ),
             const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
           ],
@@ -161,10 +96,8 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class _BrandRow extends StatelessWidget {
-  const _BrandRow({required this.brand, required this.onLauncherTap});
-
-  final Brand brand;
+class _HubHeader extends StatelessWidget {
+  const _HubHeader({required this.onLauncherTap});
 
   /// Null hides the launcher button.
   final VoidCallback? onLauncherTap;
@@ -178,20 +111,20 @@ class _BrandRow extends StatelessWidget {
         AppSpacing.gutter,
         0,
       ),
-      child: Row(
-        children: [
-          const BrandLogo(height: 26),
-          const Spacer(),
-          if (onLauncherTap case final onLauncherTap?) ...[
-            AppIconButton(
-              icon: Icons.apps_rounded,
-              semanticLabel: context.l10n.openLauncher,
-              onPressed: onLauncherTap,
-            ),
-            const SizedBox(width: AppSpacing.sm),
+      child: SizedBox(
+        height: 40,
+        child: Row(
+          children: [
+            const BrandLogo(height: 26),
+            const Spacer(),
+            if (onLauncherTap case final onLauncherTap?)
+              AppIconButton(
+                icon: Icons.apps_rounded,
+                semanticLabel: context.l10n.openLauncher,
+                onPressed: onLauncherTap,
+              ),
           ],
-          CartButton(brand: brand),
-        ],
+        ),
       ),
     );
   }
@@ -283,31 +216,6 @@ class _LocationBar extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _SectionTitle extends StatelessWidget {
-  const _SectionTitle(this.title);
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.gutter,
-        AppSpacing.xl,
-        AppSpacing.gutter,
-        AppSpacing.md,
-      ),
-      child: SizedBox(
-        height: 32,
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(title, style: context.textStyles.title),
         ),
       ),
     );

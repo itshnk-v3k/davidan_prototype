@@ -26,8 +26,8 @@ class ScreenHeader extends ConsumerWidget {
   final String title;
   final VoidCallback? onBack;
 
-  /// Buttons at the far right of a top-level header, after the launcher
-  /// button, such as the customer tabs' cart button.
+  /// Buttons at the far right, such as a brand's cart button. On a top-level
+  /// header they follow the launcher button.
   final List<Widget> actions;
 
   @override
@@ -69,6 +69,10 @@ class ScreenHeader extends ConsumerWidget {
                 ),
                 const SizedBox(width: AppSpacing.md),
                 Expanded(child: Text(title, style: context.textStyles.title)),
+                for (final action in actions) ...[
+                  const SizedBox(width: AppSpacing.sm),
+                  action,
+                ],
               ],
       ),
     );

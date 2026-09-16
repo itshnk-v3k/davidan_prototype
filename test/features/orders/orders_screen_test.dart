@@ -1,0 +1,145 @@
+// The Comenzi tab (/client/orders) in the real app, in Chrome:
+//   flutter test --platform chrome
+@TestOn('browser')
+library;
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:shared_preferences_web/shared_preferences_web.dart';
+
+import 'package:davidan_prototype/core/router/routes.dart';
+import 'package:davidan_prototype/data/models/order.dart';
+import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_phone_screen.dart';
+import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
+import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
+import 'package:davidan_prototype/features/orders/presentation/orders_screen.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
+
+import '../../helpers/test_app.dart';
+
+void main() {
+  setUpAll(() => SharedPreferencesAsyncWeb.registerWith(null));
+
+  late ProviderContainer container;
+
+  setUp(() async => container = await createTestContainer());
+
+  Finder inOrders(Finder finder) => inScreen<OrdersScreen>(finder);
+
+  testWidgets('the Comenzi tab opens it', (tester) async {
+    await pumpApp(tester, container, Routes.clientHome);
+    await tester.tap(find.text(ro.navOrders));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(OrdersScreen), findsOneWidget);
+    expect(inOrders(find.text(ro.myOrdersTitle)), findsOneWidget);
+  });
+
+  testWidgets(
+    'signed out it is locked: no orders, and "Intră în cont" opens the '
+    'sign-in',
+    (tester) async {
+      placeTestOrder(container);
+      await pumpApp(tester, container, Routes.clientOrders);
+
+      expect(inOrders(find.text(ro.accountLockedTitle)), findsOneWidget);
+      expect(inOrders(find.text('138 lei')), findsNothing);
+
+      await tapVisible(tester, find.text(ro.signInTitle));
+      expect(find.byType(SignInPhoneScreen), findsOneWidget);
+    },
+  );
+
+  testWidgets('without orders: an empty state that leads back to the hub', (
+    tester,
+  ) async {
+    signInTestAccount(container);
+    await pumpApp(tester, container, Routes.clientOrders);
+
+    expect(inOrders(find.text(ro.ordersEmptyTitle)), findsOneWidget);
+
+    await tapVisible(tester, inOrders(find.text(ro.backHome)));
+    expect(find.byType(HubHomeScreen), findsOneWidget);
+  });
+
+  testWidgets(
+    'order history: newest first, with date, fulfilment, total and a status '
+    'that follows the store',
+    (tester) async {
+      signInTestAccount(container);
+      final delivery = placeTestOrder(container);
+      final pickup = placeTestOrder(
+        container,
+        fulfilment: const StorePickup(locationId: 'botanica'),
+      );
+      await pumpApp(tester, container, Routes.clientOrders);
+
+      expect(inOrders(find.text(ro.ordersEmptyTitle)), findsNothing);
+      expect(
+        tester.getTopLeft(find.text(ro.orderNumber(pickup.id))).dy,
+        lessThan(tester.getTopLeft(find.text(ro.orderNumber(delivery.id))).dy),
+      );
+      expect(inOrders(find.text('15.09.2026, 10:07')), findsNWidgets(2));
+      expect(inOrders(find.text('str. Ismail 88')), findsOneWidget);
+      expect(
+        inOrders(find.text('DaviDan Botanica · bd. Dacia 47, Chișinău')),
+        findsOneWidget,
+      );
+      expect(inOrders(find.text('138 lei')), findsNWidgets(2));
+      expect(
+        inOrders(find.text(ro.orderStatus(OrderStatus.placed))),
+        findsNWidgets(2),
+      );
+
+      advanceOrderTo(container, delivery.id, OrderStatus.onTheWay);
+      await tester.pumpAndSettle();
+      expect(
+        inOrders(find.text(ro.orderStatus(OrderStatus.onTheWay))),
+        findsOneWidget,
+      );
+    },
+  );
+
+  testWidgets('tapping an order opens it', (tester) async {
+    signInTestAccount(container);
+    final order = placeTestOrder(container);
+    await pumpApp(tester, container, Routes.clientOrders);
+
+    await tapVisible(tester, find.text(ro.orderNumber(order.id)));
+
+    expect(find.byType(OrderConfirmationScreen), findsOneWidget);
+    expect(
+      inScreen<OrderConfirmationScreen>(find.text(ro.orderNumber(order.id))),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('fits a 360 x 640 phone with long addresses', (tester) async {
+    signInTestAccount(container);
+    placeTestOrder(
+      container,
+      fulfilment: const HomeDelivery(
+        address:
+            'bd. Ștefan cel Mare și Sfânt 126, bloc 3, scara 2, etajul 9, '
+            'apartamentul 214, interfon 214K, Chișinău',
+      ),
+    );
+    placeTestOrder(
+      container,
+      fulfilment: const StorePickup(locationId: 'buiucani'),
+    );
+    await pumpApp(
+      tester,
+      container,
+      Routes.clientOrders,
+      size: const Size(360, 640),
+    );
+
+    expect(find.byType(OrdersScreen), findsOneWidget);
+    expect(
+      inOrders(find.textContaining('bd. Ștefan cel Mare')),
+      findsOneWidget,
+    );
+  });
+}

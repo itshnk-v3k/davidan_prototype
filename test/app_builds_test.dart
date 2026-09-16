@@ -14,7 +14,8 @@ import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/demo_tools/demo_tool_strings.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
+import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/splash/splash_screen.dart';
 import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
@@ -39,14 +40,16 @@ void main() {
       expect(find.byType(DemoLauncherScreen), findsNothing);
     });
 
-    testWidgets('home and the tab headers have no button to a launcher', (
+    testWidgets('the hub, its tabs and a brand have no button to a launcher', (
       tester,
     ) async {
       for (final route in [
         Routes.clientHome,
-        Routes.clientMenu,
+        Routes.clientOrders,
         Routes.clientFavorites,
         Routes.clientProfile,
+        Routes.brandHome(Brand.bakery),
+        Routes.brandMenu(Brand.bakery),
       ]) {
         await pumpApp(tester, container, route);
         expect(launcherButton(), findsNothing, reason: route);
@@ -89,10 +92,10 @@ void main() {
       },
     );
 
-    testWidgets('home has the button back to the launcher', (tester) async {
+    testWidgets('the hub has the button back to the launcher', (tester) async {
       await pumpApp(tester, container, Routes.clientHome);
 
-      await tester.tap(inScreen<HomeScreen>(launcherButton()));
+      await tester.tap(inScreen<HubHomeScreen>(launcherButton()));
       await tester.pumpAndSettle();
 
       expect(find.byType(DemoLauncherScreen), findsOneWidget);

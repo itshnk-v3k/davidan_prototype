@@ -13,7 +13,7 @@ import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/category_strip.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 
@@ -26,10 +26,9 @@ void main() {
 
   setUp(() async => container = await createTestContainer());
 
-  testWidgets('home category opens the catalog; chips switch category', (
-    tester,
-  ) async {
-    await pumpApp(tester, container, Routes.clientHome);
+  testWidgets('home category opens the catalog; chips switch category in '
+      'place, so back still returns home', (tester) async {
+    await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
     await tapVisible(
       tester,
       find.descendant(
@@ -51,12 +50,23 @@ void main() {
       inScreen<CatalogScreen>(find.text('Croissant cu ciocolată')),
       findsNothing,
     );
+
+    await tester.tap(
+      inScreen<CatalogScreen>(find.byIcon(Icons.arrow_back_rounded)),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byType(CatalogScreen), findsNothing);
+    expect(find.byType(BrandHomeScreen), findsOneWidget);
   });
 
   testWidgets('card opens detail; add to cart adds the chosen quantity', (
     tester,
   ) async {
-    await pumpApp(tester, container, Routes.clientCategory('bauturi'));
+    await pumpApp(
+      tester,
+      container,
+      Routes.brandMenu(Brand.bakery, categoryId: 'bauturi'),
+    );
     await tapVisible(tester, inScreen<CatalogScreen>(find.text('Coca Cola')));
 
     expect(find.byType(ProductDetailScreen), findsOneWidget);
@@ -83,11 +93,12 @@ void main() {
   });
 
   testWidgets('back from product detail returns to home', (tester) async {
-    await pumpApp(tester, container, Routes.clientHome);
+    await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
     // In two rows (Produse DaviDan and Kurtos); either opens it.
     await tapVisible(
       tester,
-      inScreen<HomeScreen>(find.text('Kurtos cu zahăr și scorțișoară')).first,
+      inScreen<BrandHomeScreen>(find.text('Kurtos cu zahăr și scorțișoară'))
+          .first,
     );
     expect(find.byType(ProductDetailScreen), findsOneWidget);
 
@@ -95,7 +106,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(ProductDetailScreen), findsNothing);
-    expect(find.byType(HomeScreen), findsOneWidget);
+    expect(find.byType(BrandHomeScreen), findsOneWidget);
   });
 
   testWidgets('description appears only for products that have one', (

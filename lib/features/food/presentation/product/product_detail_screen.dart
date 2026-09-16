@@ -43,8 +43,9 @@ class ProductDetailScreen extends ConsumerWidget {
 
     // Opened from home or the catalog, this route was pushed and pops back.
     // Opened straight from a URL there is nothing to pop, so go home.
-    void goBack() =>
-        context.canPop() ? context.pop() : context.go(Routes.clientHome);
+    void goBack() => context.canPop()
+        ? context.pop()
+        : context.go(Routes.brandHome(productKey.brand));
 
     if (product == null) return _ProductNotFound(onBack: goBack);
 

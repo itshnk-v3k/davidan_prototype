@@ -19,7 +19,8 @@ import 'package:davidan_prototype/core/widgets/scale_pop.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/cart/widgets/cart_line_tile.dart';
-import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/category_strip.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/product_shelf.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
@@ -72,14 +73,13 @@ void main() {
       .value;
 
   testWidgets(
-    'the photo flies from a card to the product page and back, with the same '
-    'product also in a hidden tab',
+    'the photo flies from a card to the product page and back, after the '
+    'menu showed the same product',
     (tester) async {
       const name = 'Croissant cu ciocolată';
-      await pumpApp(tester, container, Routes.clientHome);
-      // Open the menu on the croissant's category and come back home: both
-      // tabs now hold a card with its photo, and the hidden one must stay out
-      // of the flight.
+      await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
+      // Open the menu on the croissant's category and come back home: the
+      // flight must start from home's card, not the menu's.
       await tapVisible(
         tester,
         find.descendant(
@@ -88,9 +88,11 @@ void main() {
         ),
       );
       expect(productCard(name), findsOneWidget);
-      await tester.tap(find.text(ro.navHome));
+      await tester.tap(
+        inScreen<CatalogScreen>(find.byIcon(Icons.arrow_back_rounded)),
+      );
       await tester.pumpAndSettle();
-      expect(find.byType(HomeScreen), findsOneWidget);
+      expect(find.byType(BrandHomeScreen), findsOneWidget);
 
       // Home shows the croissant in two rows; this is its Produse DaviDan
       // card.
@@ -149,7 +151,11 @@ void main() {
     'rolls up and down',
     (tester) async {
       const name = 'Coca Cola';
-      await pumpApp(tester, container, Routes.clientCategory('bauturi'));
+      await pumpApp(
+        tester,
+        container,
+        Routes.brandMenu(Brand.bakery, categoryId: 'bauturi'),
+      );
       Finder stepperNumber(String number) => inCard(
         name,
         find.descendant(
@@ -193,7 +199,7 @@ void main() {
   testWidgets('the cart badge grows in with the first item and bumps on more', (
     tester,
   ) async {
-    await pumpApp(tester, container, Routes.clientHome);
+    await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
     final badge = find.byType(ScalePop<int>);
     expect(badge, findsNothing);
 
@@ -220,7 +226,11 @@ void main() {
   testWidgets('saving a product pops its heart; unsaving it does not', (
     tester,
   ) async {
-    await pumpApp(tester, container, Routes.clientCategory('bauturi'));
+    await pumpApp(
+      tester,
+      container,
+      Routes.brandMenu(Brand.bakery, categoryId: 'bauturi'),
+    );
     final heart = inCard('Coca Cola', find.byType(FavoriteToggle));
     double heartScale() => popScale(
       tester,
@@ -242,7 +252,11 @@ void main() {
     'turns into a scroll; pressing its heart leaves the card alone',
     (tester) async {
       const name = 'Coca Cola';
-      await pumpApp(tester, container, Routes.clientCategory('bauturi'));
+      await pumpApp(
+        tester,
+        container,
+        Routes.brandMenu(Brand.bakery, categoryId: 'bauturi'),
+      );
       await Scrollable.ensureVisible(
         tester.element(productCard(name)),
         alignment: 0.5,
@@ -329,7 +343,11 @@ void main() {
         const FakeAccessibilityFeatures(disableAnimations: true);
     addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
     const name = 'Coca Cola';
-    await pumpApp(tester, container, Routes.clientCategory('bauturi'));
+    await pumpApp(
+      tester,
+      container,
+      Routes.brandMenu(Brand.bakery, categoryId: 'bauturi'),
+    );
 
     await tapAndWait(
       tester,

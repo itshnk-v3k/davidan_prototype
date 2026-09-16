@@ -17,7 +17,7 @@ import 'package:davidan_prototype/features/account/application/account_notifier.
 import 'package:davidan_prototype/features/account/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/account/presentation/location/location_screen.dart';
 import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_phone_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/splash/splash_screen.dart';
 
 import '../../../helpers/test_app.dart';
@@ -107,7 +107,10 @@ void main() {
       await tapVisible(tester, find.text('DaviDan Centru'));
 
       expect(find.byType(LocationScreen), findsNothing);
-      expect(inScreen<HomeScreen>(find.text('DaviDan Centru')), findsOneWidget);
+      expect(
+        inScreen<HubHomeScreen>(find.text('DaviDan Centru')),
+        findsOneWidget,
+      );
     },
   );
 
@@ -122,7 +125,10 @@ void main() {
 
     expect(find.byType(SignInPhoneScreen), findsNothing);
     expect(find.byType(LocationScreen), findsNothing);
-    expect(inScreen<HomeScreen>(find.text('str. Ismail 88')), findsOneWidget);
+    expect(
+      inScreen<HubHomeScreen>(find.text('str. Ismail 88')),
+      findsOneWidget,
+    );
   });
 
   testWidgets('signed in with a saved choice: straight to home', (
@@ -132,7 +138,10 @@ void main() {
     container.read(fulfilmentChoiceProvider.notifier).choosePickup('botanica');
     await enterCustomerApp(tester);
 
-    expect(inScreen<HomeScreen>(find.text('DaviDan Botanica')), findsOneWidget);
+    expect(
+      inScreen<HubHomeScreen>(find.text('DaviDan Botanica')),
+      findsOneWidget,
+    );
   });
 
   testWidgets('signed in with nothing chosen: location selection', (

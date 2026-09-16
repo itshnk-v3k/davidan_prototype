@@ -19,6 +19,29 @@ void main() {
     expect(kurtos.map((p) => p.categoryId).toSet(), {BakeryCategoryIds.kurtos});
   });
 
+  test('the bakery sells only what davidan.md does: the invented Sushi and '
+      'Restaurant categories are gone, now that those are brands of their '
+      'own', () {
+    final container = ProviderContainer.test();
+    expect(
+      container.read(categoriesProvider(Brand.bakery)).map((c) => c.name),
+      ['Kurtos', 'Patiserie', 'Plăcinte & Panini', 'Băuturi'],
+    );
+    final ids = container.read(productsByIdProvider(Brand.bakery)).keys;
+    for (final invented in [
+      'ebi-roll',
+      'philadelphia-roll',
+      'california-roll',
+      'maki-somon',
+      'orez-pui',
+      'supa-crema-ciuperci',
+      'piept-pui-gratar',
+      'paste-carbonara',
+    ]) {
+      expect(ids, isNot(contains(invented)));
+    }
+  });
+
   test('every category has products', () {
     final container = ProviderContainer.test();
     for (final category in container.read(categoriesProvider(Brand.bakery))) {
@@ -58,11 +81,11 @@ void main() {
           .read(
             catalogCategoryProvider((
               brand: Brand.bakery,
-              categoryId: BakeryCategoryIds.sushi,
+              categoryId: BakeryCategoryIds.bauturi,
             )),
           )
           .id,
-      BakeryCategoryIds.sushi,
+      BakeryCategoryIds.bauturi,
     );
   });
 

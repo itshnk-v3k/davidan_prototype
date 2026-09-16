@@ -52,7 +52,7 @@ class CheckoutScreen extends ConsumerWidget {
     if (lines.isEmpty) {
       return _EmptyCheckout(
         onBack: goBack,
-        onBrowseMenu: () => context.go(Routes.clientMenu),
+        onBrowseMenu: () => context.pushReplacement(Routes.brandMenu(brand)),
       );
     }
 

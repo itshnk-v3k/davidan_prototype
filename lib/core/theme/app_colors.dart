@@ -13,6 +13,9 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.onPrimary,
     required this.accent,
     required this.accentSoft,
+    required this.hubBand,
+    required this.onHubBand,
+    required this.hubBubble,
     required this.background,
     required this.surface,
     required this.surfaceMuted,
@@ -34,6 +37,9 @@ class AppColors extends ThemeExtension<AppColors> {
     onPrimary: AppPalette.espresso,
     accent: AppPalette.caramel500,
     accentSoft: AppPalette.caramel950,
+    hubBand: AppPalette.caramel500,
+    onHubBand: AppPalette.espresso,
+    hubBubble: AppPalette.white,
     background: AppPalette.ink950,
     surface: AppPalette.ink900,
     surfaceMuted: AppPalette.ink850,
@@ -55,6 +61,9 @@ class AppColors extends ThemeExtension<AppColors> {
     onPrimary: AppPalette.white,
     accent: AppPalette.caramel500,
     accentSoft: AppPalette.caramel100,
+    hubBand: AppPalette.caramel500,
+    onHubBand: AppPalette.espresso,
+    hubBubble: AppPalette.white,
     background: AppPalette.snow,
     surface: AppPalette.white,
     surfaceMuted: AppPalette.mist,
@@ -83,6 +92,16 @@ class AppColors extends ThemeExtension<AppColors> {
 
   /// Caramel tint for icon backgrounds, pills and image placeholders.
   final Color accentSoft;
+
+  /// DaviDan's caramel behind the brand bubbles on the hub, the same in both
+  /// themes.
+  final Color hubBand;
+
+  /// Brand names on [hubBand].
+  final Color onHubBand;
+
+  /// A brand's round tile on [hubBand]. An icon in [hubBand] may sit on it.
+  final Color hubBubble;
 
   // Surfaces
   final Color background;
@@ -117,6 +136,9 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? onPrimary,
     Color? accent,
     Color? accentSoft,
+    Color? hubBand,
+    Color? onHubBand,
+    Color? hubBubble,
     Color? background,
     Color? surface,
     Color? surfaceMuted,
@@ -136,6 +158,9 @@ class AppColors extends ThemeExtension<AppColors> {
     onPrimary: onPrimary ?? this.onPrimary,
     accent: accent ?? this.accent,
     accentSoft: accentSoft ?? this.accentSoft,
+    hubBand: hubBand ?? this.hubBand,
+    onHubBand: onHubBand ?? this.onHubBand,
+    hubBubble: hubBubble ?? this.hubBubble,
     background: background ?? this.background,
     surface: surface ?? this.surface,
     surfaceMuted: surfaceMuted ?? this.surfaceMuted,
@@ -162,6 +187,9 @@ class AppColors extends ThemeExtension<AppColors> {
       onPrimary: mix(onPrimary, other.onPrimary),
       accent: mix(accent, other.accent),
       accentSoft: mix(accentSoft, other.accentSoft),
+      hubBand: mix(hubBand, other.hubBand),
+      onHubBand: mix(onHubBand, other.onHubBand),
+      hubBubble: mix(hubBubble, other.hubBubble),
       background: mix(background, other.background),
       surface: mix(surface, other.surface),
       surfaceMuted: mix(surfaceMuted, other.surfaceMuted),

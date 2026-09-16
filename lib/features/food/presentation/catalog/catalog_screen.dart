@@ -14,8 +14,9 @@ import 'package:davidan_prototype/features/food/presentation/widgets/cart_button
 import 'package:davidan_prototype/features/food/presentation/widgets/product_grid.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// Products of one of the brand's categories, under its blurb from the
-/// brand's site, with chips to switch category in place.
+/// The brand's menu, full screen above the hub: products of one of its
+/// categories, under its blurb from the brand's site, with chips to switch
+/// category in place.
 ///
 /// The selected category lives in the URL (`?category=`), not in a Notifier:
 /// the router is its single source of truth, so links and page reloads open
@@ -46,13 +47,17 @@ class CatalogScreen extends ConsumerWidget {
           children: [
             ScreenHeader(
               title: context.l10n.menuTitle,
+              onBack: () => context.canPop()
+                  ? context.pop()
+                  : context.go(Routes.brandHome(brand)),
               actions: [CartButton(brand: brand)],
             ),
             CategoryChips(
               categories: categories,
               selectedId: category.id,
-              onSelected: (selected) =>
-                  context.go(Routes.clientCategory(selected.id)),
+              onSelected: (selected) => context.replace(
+                Routes.brandMenu(brand, categoryId: selected.id),
+              ),
             ),
             const SizedBox(height: AppSpacing.md),
             Expanded(

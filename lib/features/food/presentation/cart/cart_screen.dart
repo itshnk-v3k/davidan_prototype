@@ -40,7 +40,7 @@ class CartScreen extends ConsumerWidget {
               // Opened straight from a link, there's nothing to go back to.
               onBack: () => context.canPop()
                   ? context.pop()
-                  : context.go(Routes.clientHome),
+                  : context.go(Routes.brandHome(brand)),
             ),
             Expanded(
               // Removing the last line crossfades to the empty state.
@@ -53,7 +53,8 @@ class CartScreen extends ConsumerWidget {
                         title: context.l10n.cartEmptyTitle,
                         message: context.l10n.cartEmptyMessage,
                         actionLabel: context.l10n.browseMenu,
-                        onAction: () => context.go(Routes.clientMenu),
+                        onAction: () =>
+                            context.pushReplacement(Routes.brandMenu(brand)),
                       )
                     : ListView.separated(
                         key: const ValueKey('lines'),
