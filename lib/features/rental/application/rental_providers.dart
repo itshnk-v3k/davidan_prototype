@@ -5,11 +5,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:davidan_prototype/data/mock/rental/rental_cars.dart';
 import 'package:davidan_prototype/data/models/rental_booking.dart';
 import 'package:davidan_prototype/data/models/rental_car.dart';
+import 'package:davidan_prototype/l10n/app_language.dart';
 
 // The only place the app reads the mock fleet, as catalog_providers is for
 // menus, and how a rental is priced.
 
-final rentalCarsProvider = Provider<List<RentalCar>>((ref) => rentalCars);
+/// The fleet in the app's language.
+final rentalCarsProvider = Provider<List<RentalCar>>((ref) {
+  final content = ref.watch(contentProvider);
+  return [for (final car in rentalCars) content.car(car)];
+});
 
 /// Null when no car has this id (e.g. a hand-edited link).
 final rentalCarByIdProvider = Provider.family<RentalCar?, String>(

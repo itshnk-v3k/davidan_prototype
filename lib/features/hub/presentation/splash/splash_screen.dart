@@ -14,6 +14,7 @@ import 'package:davidan_prototype/core/widgets/brand_logo.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/features/account/application/account_notifier.dart';
 import 'package:davidan_prototype/features/account/application/fulfilment_choice_notifier.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Branded screen the customer app opens on: the logo and tagline on a card
 /// over a photo of DaviDan pastries. After [holdDuration] it moves on:
@@ -115,7 +116,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                         const BrandLogo(height: 48),
                         const SizedBox(height: AppSpacing.lg),
                         Text(
-                          BrandFacts.tagline,
+                          context.content.text(BrandFacts.tagline),
                           style: context.textStyles.bodySecondary,
                           textAlign: TextAlign.center,
                         ),

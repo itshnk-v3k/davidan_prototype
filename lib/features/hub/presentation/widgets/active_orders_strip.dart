@@ -6,7 +6,6 @@ import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/widgets/status_pill.dart';
-import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/features/orders/application/customer_requests_provider.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -72,7 +71,7 @@ class _ActiveRequestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final intro = brandIntros[request.brand]!;
+    final intro = context.content.introOf(request.brand);
     final image = intro.image;
 
     return Material(

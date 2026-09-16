@@ -4,9 +4,9 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/press_scale.dart';
-import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/brand_intro.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Every brand as a round photo with its name, on a band of DaviDan's caramel,
 /// in the client's order ([Brand]'s): three on the first row of a phone, two
@@ -31,7 +31,10 @@ class BrandBubbles extends StatelessWidget {
           runSpacing: AppSpacing.lg,
           children: [
             for (final brand in Brand.values)
-              _Bubble(intro: brandIntros[brand]!, onTap: () => onOpen(brand)),
+              _Bubble(
+                intro: context.content.introOf(brand),
+                onTap: () => onOpen(brand),
+              ),
           ],
         ),
       ),

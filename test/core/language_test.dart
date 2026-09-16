@@ -2,9 +2,9 @@
 // language, in the real app, in Chrome:
 //   flutter test --platform chrome
 //
-// Until the Russian text is written (app_ru.arb is still empty), Русский
-// shows the Romanian text with Material's own labels in Russian. These tests
-// check which language is chosen, not the Russian wording.
+// These tests check which language is chosen and that the choice reaches
+// Material's labels and the toasts; test/features/russian_test.dart checks the
+// app's Russian itself.
 @TestOn('browser')
 library;
 
@@ -117,7 +117,10 @@ void main() {
     container.read(appLanguageProvider.notifier).select(AppLanguage.ru);
     await pumpApp(tester, container, Routes.clientProfile);
 
-    await tapVisible(tester, find.text(ro.resetDemoData));
+    await tapVisible(
+      tester,
+      find.text(lookupAppLocalizations(russian).resetDemoData),
+    );
 
     // Read before the 3 s toast timer ends it.
     expect(

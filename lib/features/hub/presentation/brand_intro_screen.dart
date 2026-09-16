@@ -6,7 +6,6 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
-import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
@@ -20,7 +19,7 @@ class BrandIntroScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final intro = brandIntros[brand]!;
+    final intro = context.content.introOf(brand);
     final image = intro.image;
     final description = intro.description;
 

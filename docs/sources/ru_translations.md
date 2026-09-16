@@ -1,0 +1,867 @@
+# Russian translations, for review
+
+The prototype shows everything in Russian when **Русский** is chosen in Profil (or the phone is in Russian and **Ca telefonul** is chosen). Only davidansushi.md has a Russian version, and it is partly untranslated. Everything else in Russian is our translation, listed below so a Russian-speaking reviewer at DaviDan can check it. Every table row is the exact text the app uses: `test/data/ru_content_test.dart` fails when a translation in the code isn't listed here, so change the row when you change a translation.
+
+Collected and written 2026-09-16.
+
+## Rules the translation follows
+
+- **Register:** the app speaks to the customer informally in Romanian (*tu*), so its Russian uses *ты*. Text quoted from a brand's site keeps the site's formal register in both languages: the bakery's "Descoperiți…" blurbs become "Откройте для себя…", and Rent Car's "Vă vom contacta în curând." becomes "Мы свяжемся с вами в ближайшее время.". The bakery's one informal blurb ("Descoperă…") stays informal.
+- **Names that are names stay as they are:** product and car brands (Coca Cola, Oreo, Audi Q5, Apple CarPlay), "DaviDan Sushi", "Rent Car", company names, phone numbers, e-mails, Instagram, wine labels. English dish names the sushi site keeps in Latin on /ru (Salmon Bliss, SushiDog, Chyka Roll) stay in Latin, and so do the bakery's New York Rolls.
+- **Addresses:** street names stay Romanian, as davidansushi.md/ru writes its own ("ул. Vlaicu Pârcălab 52"); the street type, the city and the sectors are Russian (ул., бул., Кишинёв, Ботаника, Буюканы, Центр, Чеканы, Рышкановка). The bakery's three shops are placeholders in both languages.
+- **Units and prices:** "лей" as davidansushi.md/ru prints prices; г, мл, л and шт without a space, as the sushi site writes "250г"; "€" for Rent Car.
+- **Legal pages stay Romanian.** No DaviDan site has them in Russian. Their titles are translated, and in Russian the page opens with the note "Этот текст есть только на румынском языке, как и на сайте …".
+- **Not translated:** the staff build's demo-tool labels (`DemoToolStrings`), which are for the team, not the client's customers.
+
+## UI text: lib/l10n/app_ru.arb (ours)
+
+| Key | Română | Русский |
+|---|---|---|
+| appTitle | DaviDan Delivery | DaviDan Delivery |
+| priceLei | {amount} lei | {amount} лей |
+| launcherTitle | Prototip DaviDan | Прототип DaviDan |
+| launcherSubtitle | Alege partea sistemului pe care vrei s-o vezi. | Выбери часть системы, которую хочешь посмотреть. |
+| launcherClient | Aplicația clientului | Приложение клиента |
+| launcherClientHint | Meniu, coș, comandă și urmărire | Меню, корзина, заказ и отслеживание |
+| launcherCourier | Aplicația curierului | Приложение курьера |
+| launcherCourierHint | Comenzi de livrat și statusul livrării | Заказы на доставку и статус доставки |
+| launcherKds | Panoul magazinului | Панель магазина |
+| launcherKdsHint | Comenzi noi, cronometru și acceptare | Новые заказы, таймер и приём |
+| resetDemoData | Resetează datele demo | Сбросить демо-данные |
+| resetDemoDataDone | Datele demo au fost resetate. | Демо-данные сброшены. |
+| launcherFooter | Prototip pentru prezentare. Datele sunt fictive și se păstrează doar pe acest dispozitiv. | Прототип для презентации. Данные вымышленные и хранятся только на этом устройстве. |
+| openLauncher | Înapoi la prototip | Назад к прототипу |
+| themeTitle | Tema aplicației | Тема приложения |
+| themeDark | Întunecată | Тёмная |
+| themeLight | Luminoasă | Светлая |
+| themeSystem | Ca telefonul | Как в телефоне |
+| languageTitle | Limba aplicației | Язык приложения |
+| languageSystem | Ca telefonul | Как в телефоне |
+| navHome | Acasă | Главная |
+| navOrders | Comenzi | Заказы |
+| navFavorites | Favorite | Избранное |
+| navProfile | Profil | Профиль |
+| locationTitle | Livrare sau ridicare | Доставка или самовывоз |
+| menuTitle | Meniu | Меню |
+| cartTitle | Coșul meu | Моя корзина |
+| checkoutTitle | Finalizează comanda | Оформление заказа |
+| profileTitle | Profil | Профиль |
+| courierOrdersTitle | Comenzi de livrat | Заказы на доставку |
+| kdsTitle | Panoul magazinului | Панель магазина |
+| back | Înapoi | Назад |
+| backHome | Înapoi acasă | На главную |
+| comingSoonTitle | În curând | Скоро |
+| forYouTitle | {name}, pentru tine | {name}, для тебя |
+| forYouTitleSignedOut | Pentru tine | Для тебя |
+| locationPrompt | Alege cum primești comenzile. Poți schimba oricând din bara de sus a ecranului Acasă. | Выбери, как получать заказы. Это можно изменить в любой момент в верхней строке экрана «Главная». |
+| confirmAddress | Livrează la această adresă | Доставить по этому адресу |
+| recentAddressesTitle | Adrese folosite recent | Недавние адреса |
+| nearestToYou | Cel mai aproape de tine | Ближе всего к тебе |
+| nearestSuggestion | Ți-am selectat localul cel mai apropiat. Confirmă-l sau alege altul. | Мы выбрали ближайшее к тебе заведение. Подтверди его или выбери другое. |
+| confirmShop | Confirmă localul | Подтвердить заведение |
+| useCurrentLocation | Folosește locația mea curentă | Использовать моё местоположение |
+| useCurrentLocationHint | Doar pentru comanda următoare. Adresa salvată rămâne. | Только для следующего заказа. Сохранённый адрес останется. |
+| locating | Se caută locația… | Ищем местоположение… |
+| deliverToCurrentLocation | Livrare la locația curentă | Доставка по текущему местоположению |
+| currentLocationValue | {area} · doar comanda următoare | {area} · только следующий заказ |
+| dropCurrentLocation | Renunță la locația curentă | Отказаться от текущего местоположения |
+| typeAddressInstead | Scrie o adresă | Ввести адрес |
+| outsideChisinau | În afara Chișinăului | За пределами Кишинёва |
+| areaOf | Zona {sector} | Район {sector} |
+| pinnedAddress | Locația clientului · {area} ({coordinates}) | Местоположение клиента · {area} ({coordinates}) |
+| locationFailureDenied | Nu ai permis accesul la locație. | Доступ к местоположению не разрешён. |
+| locationFailureDeniedForever | Accesul la locație e blocat din setările telefonului. | Доступ к местоположению заблокирован в настройках телефона. |
+| locationFailureServiceOff | Localizarea telefonului e oprită. | Геолокация на телефоне выключена. |
+| locationFailureTimeout | Nu am primit semnal de localizare la timp. | Не удалось вовремя получить сигнал геолокации. |
+| locationFailureUnavailable | Locația nu e disponibilă pe acest dispozitiv. | Местоположение недоступно на этом устройстве. |
+| mapPickerTitle | Alege locația pe hartă | Выбери место на карте |
+| mapPickerHint | Atinge harta sau alege zona unde livrăm. | Нажми на карту или выбери район доставки. |
+| schematicMap | Hartă schematică a Chișinăului | Схематическая карта Кишинёва |
+| chosenPoint | Punctul ales | Выбранная точка |
+| distanceToShop | {distance} până la {shopName} | {distance} до {shopName} |
+| deliverHere | Livrează aici | Доставить сюда |
+| signInTitle | Intră în cont | Войти |
+| signInPrompt | Scrie numărul de telefon. Îți trimitem un cod ca să-l confirmi. | Введи номер телефона. Мы отправим код, чтобы его подтвердить. |
+| phoneLabel | Număr de telefon | Номер телефона |
+| phoneHint | 69 123 456 | 69 123 456 |
+| phoneInvalid | Scrie un număr de mobil din 8 cifre, care începe cu 6 sau 7. | Введи мобильный номер из 8 цифр, который начинается с 6 или 7. |
+| sendCode | Primește codul | Получить код |
+| signInLater | Mai târziu | Позже |
+| demoSignInNote | Cont demonstrativ: nu se trimite niciun SMS și nimic nu e verificat. Datele rămân doar pe acest dispozitiv. | Демо-аккаунт: SMS не отправляется и ничего не проверяется. Данные остаются только на этом устройстве. |
+| codeTitle | Codul din SMS | Код из SMS |
+| codeSentTo | Scrie codul de 4 cifre trimis la {phone}. | Введи 4-значный код, отправленный на {phone}. |
+| codeLabel | Cod de 4 cifre | Код из 4 цифр |
+| codeIncomplete | Scrie toate cele 4 cifre. | Введи все 4 цифры. |
+| confirmCode | Confirmă codul | Подтвердить код |
+| resendCode | Retrimite codul | Отправить код ещё раз |
+| codeResent | Cod retrimis (demo, fără SMS real). | Код отправлен ещё раз (демо, без настоящего SMS). |
+| demoCodeNote | Demo: orice cod din 4 cifre este acceptat. | Демо: подходит любой код из 4 цифр. |
+| detailsTitle | Câteva detalii | Немного о тебе |
+| nameLabel | Numele tău | Твоё имя |
+| nameMissing | Scrie-ți numele. | Введи своё имя. |
+| sectorTitle | Sectorul în care locuiești | Сектор, в котором ты живёшь |
+| sectorMissing | Alege sectorul. | Выбери сектор. |
+| useMyLocationForShop | Găsește localul după locația mea | Найти заведение по моему местоположению |
+| locationFoundNearest | Locația găsită: {shopName} e la {distance}. | Местоположение найдено: {shopName} в {distance}. |
+| findShopBySectorAfter | {reason} Găsim localul după sectorul ales. | {reason} Найдём заведение по выбранному сектору. |
+| createAccount | Creează contul | Создать аккаунт |
+| welcomeTitle | Bun venit, {name}! | Добро пожаловать, {name}! |
+| welcomeMessage | Contul tău e gata. Iată localul DaviDan cel mai apropiat de tine. | Твой аккаунт готов. Вот ближайшее к тебе заведение DaviDan. |
+| nearestShopTitle | Cel mai apropiat local | Ближайшее заведение |
+| matchedBySectorOf | După sectorul {sector} | По сектору {sector} |
+| matchedByLocation | După locația ta · {distance} | По твоему местоположению · {distance} |
+| chooseHowToReceive | Alege cum primești comenzile | Выбери, как получать заказы |
+| sectorBotanica | Botanica | Ботаника |
+| sectorBuiucani | Buiucani | Буюканы |
+| sectorCentru | Centru | Центр |
+| sectorCiocana | Ciocana | Чеканы |
+| sectorRiscani | Rîșcani | Рышкановка |
+| sectorOf | Sectorul {sector} | Сектор {sector} |
+| accountLockedTitle | Contul tău | Твой аккаунт |
+| accountLockedMessage | Intră în cont ca să-ți vezi comenzile și localul cel mai apropiat. | Войди, чтобы видеть свои заказы и ближайшее заведение. |
+| signOut | Ieși din cont | Выйти из аккаунта |
+| myOrdersTitle | Comenzile mele | Мои заказы |
+| ordersEmptyTitle | Nicio comandă încă | Заказов пока нет |
+| ordersEmptyMessage | Comenzile tale apar aici, cu statusul lor la zi. | Здесь появятся твои заказы с актуальным статусом. |
+| ordersActiveTitle | În curs | Текущие |
+| ordersPastTitle | Finalizate | Завершённые |
+| allBrands | Toate | Все |
+| openBrandInfo | Informații despre {brandName} | Информация о {brandName} |
+| brandContactsTitle | Contacte | Контакты |
+| brandInfoDeliveryArea | Zona de livrare | Зона доставки |
+| brandInfoAddress | Adresa | Адрес |
+| brandInfoHours | Program | Режим работы |
+| brandInfoPhone | Telefon | Телефон |
+| brandInfoEmail | E-mail | E-mail |
+| brandInfoInstagram | Instagram | Instagram |
+| brandInfoCompany | Companie | Компания |
+| legalDocumentsTitle | Informații legale | Юридическая информация |
+| legalDocumentHint | Textul de pe {website} | Текст с сайта {website}, на румынском |
+| priceEuro | {amount} € | {amount} € |
+| rentalFleetHint | Prețul pe zi scade cu cât închiriezi mai multe zile. La fiecare rezervare se adaugă taxa de locație de {fee} și suma de asigurare a mașinii. | Чем больше дней аренды, тем ниже цена за день. К каждой брони добавляются сбор за локацию {fee} и страховая сумма автомобиля. |
+| rentalPriceFrom | de la {price} / zi | от {price} / день |
+| rentalPricePerDay | {price} / zi | {price} / день |
+| rentalPriceForTier | {price} / zi pentru {tier} | {price} / день при аренде на {tier} |
+| rentalTierRange | {from}–{to, plural, one{{to} zi} few{{to} zile} other{{to} de zile}} | {from}–{to, plural, one{{to} день} few{{to} дня} many{{to} дней} other{{to} дня}} |
+| rentalTierFrom | {from, plural, one{{from} zi} few{{from} zile} other{{from} de zile}} sau mai mult | {from, plural, one{{from} день} few{{from} дня} many{{from} дней} other{{from} дня}} и больше |
+| rentalSeats | {count, plural, one{{count} loc} few{{count} locuri} other{{count} de locuri}} | {count, plural, one{{count} место} few{{count} места} many{{count} мест} other{{count} места}} |
+| rentalSpecYear | Anul mașinii | Год выпуска |
+| rentalSpecFuel | Combustibil | Топливо |
+| rentalSpecGearbox | Cutie de viteze | Коробка передач |
+| rentalSpecConsumption | Consumul de combustibil | Расход топлива |
+| rentalSpecPassengers | Max pasageri | Макс. пассажиров |
+| rentalSpecEngine | Capacitatea motorului | Объём двигателя |
+| rentalSpecDoors | Uși | Двери |
+| rentalSpecMileage | Kilometraj | Пробег |
+| rentalFeaturesTitle | Dotări | Оснащение |
+| rentalPricesTitle | Prețuri pe zile | Цены по дням |
+| rentalLocationFee | Taxa de locație | Сбор за локацию |
+| rentalInsurance | Suma de asigurare | Страховая сумма |
+| rentalFeesNote | Taxa de locație și suma de asigurare se adaugă o singură dată la fiecare rezervare, oricâte zile ar avea. | Сбор за локацию и страховая сумма добавляются к каждой брони один раз, на сколько бы дней она ни была. |
+| rentalDocumentsTitle | Acte necesare | Необходимые документы |
+| rentalRequestAction | Cerere de rezervare | Заявка на бронирование |
+| rentalRequestTitle | Cerere de rezervare | Заявка на бронирование |
+| rentalPickupTitle | Ridicare | Получение |
+| rentalReturnTitle | Predare | Возврат |
+| rentalLocationAirport | Aeroport Chișinău | Аэропорт Кишинёв |
+| rentalLocationChisinau | Chișinău | Кишинёв |
+| rentalDateLabel | Data | Дата |
+| rentalTimeLabel | Ora | Время |
+| rentalPickupPassed | Ora ridicării a trecut deja. Alege una mai târzie. | Время получения уже прошло. Выбери более позднее. |
+| rentalReturnNotAfterPickup | Predarea trebuie să fie după ridicare. | Возврат должен быть после получения. |
+| rentalExtrasTitle | Servicii suplimentare | Дополнительные услуги |
+| rentalExtraChildSeat | Scaun pentru copii | Детское кресло |
+| rentalExtraUnlimitedKm | Kilometri nelimitați | Безлимитный пробег |
+| rentalPriceWholeRental | {price} / rezervare | {price} / бронь |
+| rentalContactTitle | Datele tale | Твои данные |
+| rentalNotesLabel | Informații suplimentare | Дополнительная информация |
+| rentalQuoteTitle | Prețul rezervării | Стоимость брони |
+| rentalDaysAtRate | {days, plural, one{{days} zi} few{{days} zile} other{{days} de zile}} × {rate} | {days, plural, one{{days} день} few{{days} дня} many{{days} дней} other{{days} дня}} × {rate} |
+| rentalRateForTier | Prețul pe zi pentru {tier} | Цена за день при аренде на {tier} |
+| rentalNoPaymentNote | Nu plătești nimic acum. Te contactăm ca să confirmăm rezervarea. | Сейчас ничего платить не нужно. Мы свяжемся с тобой, чтобы подтвердить бронь. |
+| rentalSendRequest | Trimite cererea | Отправить заявку |
+| rentalRequestSentTitle | Cererea a fost trimisă | Заявка отправлена |
+| rentalWillContact | Vă vom contacta în curând. | Мы свяжемся с вами в ближайшее время. |
+| rentalBookingNumber | Cererea nr. {id} | Заявка № {id} |
+| rentalBookingStatus | Cerere trimisă | Заявка отправлена |
+| rentalBookingNotFound | Cererea nu a fost găsită. | Заявка не найдена. |
+| rentalCar | Mașina | Автомобиль |
+| rentalContact | Contact | Контакт |
+| legalDocumentRomanianOnly | Textul este disponibil doar în limba română, ca pe {website}. | Этот текст есть только на румынском языке, как и на сайте {website}. |
+| demoProfileNote | Cont demonstrativ, fără verificare reală prin SMS. | Демо-аккаунт, без настоящей проверки по SMS. |
+| deliverTo | Livrare la | Доставка по адресу |
+| chooseAddress | Alege adresa sau localul | Выбери адрес или заведение |
+| categoriesTitle | Categorii | Категории |
+| popularTitle | Produse DaviDan | Продукция DaviDan |
+| seeAll | Vezi mai mult | Смотреть все |
+| seeAllProducts | {count, plural, one{Vezi {count} produs} few{Vezi toate cele {count} produse} other{Vezi toate cele {count} de produse}} | {count, plural, one{Смотреть {count} товар} few{Смотреть все {count} товара} many{Смотреть все {count} товаров} other{Смотреть все {count} товара}} |
+| categoryEmpty | Momentan nu sunt produse în această categorie. | В этой категории пока нет товаров. |
+| descriptionTitle | Descriere | Описание |
+| productPieces | Bucăți: {pieces} | Количество: {pieces} |
+| productWeight | Masa: {weight} | Вес: {weight} |
+| productNotFound | Produsul nu a fost găsit. | Товар не найден. |
+| increaseQuantity | Mărește cantitatea | Увеличить количество |
+| decreaseQuantity | Micșorează cantitatea | Уменьшить количество |
+| inCart | În coș: {count} | В корзине: {count} |
+| addToCartTotal | Adaugă în coș · {total} | В корзину · {total} |
+| addedToCart | Adăugat în coș: {quantity} × {productName} | Добавлено в корзину: {quantity} × {productName} |
+| addToCart | Adaugă {productName} în coș | Добавить {productName} в корзину |
+| removeOneFromCart | Scoate o bucată de {productName} din coș | Убрать одну штуку {productName} из корзины |
+| removeFromCart | Scoate {productName} din coș | Удалить {productName} из корзины |
+| itemsInCart | {count, plural, one{{count} produs în coș} few{{count} produse în coș} other{{count} de produse în coș}} | {count, plural, one{{count} товар в корзине} few{{count} товара в корзине} many{{count} товаров в корзине} other{{count} товара в корзине}} |
+| openCart | {count, plural, =0{Coșul meu} one{Coșul meu, {count} produs în coș} few{Coșul meu, {count} produse în coș} other{Coșul meu, {count} de produse în coș}} | {count, plural, =0{Моя корзина} one{Моя корзина, {count} товар} few{Моя корзина, {count} товара} many{Моя корзина, {count} товаров} other{Моя корзина, {count} товара}} |
+| openCartsTitle | Coșurile mele | Мои корзины |
+| openCarts | {count, plural, =0{Coșurile mele} one{Coșurile mele, {count} produs în coș} few{Coșurile mele, {count} produse în coș} other{Coșurile mele, {count} de produse în coș}} | {count, plural, =0{Мои корзины} one{Мои корзины, {count} товар} few{Мои корзины, {count} товара} many{Мои корзины, {count} товаров} other{Мои корзины, {count} товара}} |
+| openCartsEmptyTitle | Nimic în coș deocamdată | В корзинах пока пусто |
+| openCartsEmptyMessage | Fiecare meniu are coșul lui. Coșurile în care ai adăugat ceva apar aici. | У каждого меню своя корзина. Здесь появятся корзины, в которых что-то есть. |
+| lastOrderTitle | Ultima comandă | Последний заказ |
+| orderAgain | Comandă din nou | Заказать снова |
+| orderAgainHint | După prima comandă, o poți repeta de aici cu o singură apăsare. | После первого заказа его можно будет повторить здесь одним нажатием. |
+| cartEmptyTitle | Coșul tău e gol | Твоя корзина пуста |
+| cartEmptyMessage | Adaugă produse din meniu, apoi revino aici ca să finalizezi comanda. | Добавь товары из меню и вернись сюда, чтобы оформить заказ. |
+| browseMenu | Vezi meniul | Смотреть меню |
+| continueOrder | Continuă comanda | Продолжить |
+| total | Total | Итого |
+| unitPrice | {price} / buc. | {price} / шт. |
+| lineItem | {quantity} × {productName} | {quantity} × {productName} |
+| fulfilmentTitle | Cum primești comanda | Как получить заказ |
+| delivery | Livrare | Доставка |
+| pickup | Ridicare din local | Самовывоз |
+| deliveryAddress | Adresa de livrare | Адрес доставки |
+| deliveryAddressHint | Strada, numărul, blocul, apartamentul | Улица, дом, корпус, квартира |
+| deliveryAddressMissing | Scrie adresa unde livrăm comanda. | Введи адрес доставки. |
+| deliveryTimeTitle | Ora livrării | Время доставки |
+| pickupTimeTitle | Ora ridicării | Время самовывоза |
+| asSoonAsPossible | Cât mai curând | Как можно скорее |
+| paymentTitle | Achitare | Оплата |
+| paymentOnDelivery | Plătești curierului, la primirea comenzii. | Оплата курьеру при получении заказа. |
+| paymentOnPickup | Plătești în local, la ridicarea comenzii. | Оплата в заведении при получении заказа. |
+| orderSummaryTitle | Comanda ta | Твой заказ |
+| placeOrder | Plasează comanda | Оформить заказ |
+| paymentCash | Numerar | Наличными |
+| paymentCard | Card prin POS | Картой через терминал |
+| orderPlacedTitle | Comanda a fost plasată | Заказ оформлен |
+| orderNotFound | Comanda nu a fost găsită. | Заказ не найден. |
+| pickupFrom | Ridicare din | Самовывоз из |
+| orderTime | Ora | Время |
+| trackingComingSoon | Urmărirea comenzii pas cu pas va apărea aici în etapele următoare. | Пошаговое отслеживание заказа появится здесь на следующих этапах. |
+| orderNumber | Comanda nr. {id} | Заказ № {id} |
+| orderStatusPlaced | Plasată | Оформлен |
+| orderStatusAccepted | Acceptată | Принят |
+| orderStatusPreparing | Se pregătește | Готовится |
+| orderStatusReady | Gata | Готов |
+| orderStatusOnTheWay | În livrare | В пути |
+| orderStatusCompleted | Finalizată | Завершён |
+| advanceToAccepted | Acceptă | Принять |
+| advanceToPreparing | Începe prepararea | Начать готовить |
+| advanceToReady | Marchează gata | Отметить готовым |
+| advanceToOnTheWay | Am preluat comanda | Заказ забран |
+| advanceToCompleted | Predată clientului | Передан клиенту |
+| scheduledAt | La {time} | К {time} |
+| kdsIncoming | Noi | Новые |
+| kdsInKitchen | În lucru | В работе |
+| kdsReady | Gata | Готовы |
+| kdsColumnEmpty | Nicio comandă | Нет заказов |
+| kdsEmptyTitle | Nicio comandă deocamdată | Заказов пока нет |
+| kdsEmptyMessage | Comenzile plasate din aplicația clientului apar aici. | Здесь появятся заказы, оформленные в приложении клиента. |
+| waitingForCourier | Așteaptă curierul | Ждёт курьера |
+| kdsNewTag | NOUĂ | НОВЫЙ |
+| newOrderArrived | Comandă nouă: {orderId} | Новый заказ: {orderId} |
+| pickupAt | Ridicare · {shopName} | Самовывоз · {shopName} |
+| timeSincePlaced | Timp de la plasare: {elapsed} | Время с оформления: {elapsed} |
+| favoritesTitle | Produse favorite | Избранные товары |
+| favoritesEmptyTitle | Niciun produs favorit | Нет избранных товаров |
+| favoritesEmptyMessage | Apasă inima de pe un produs ca să-l găsești repede aici. | Нажми на сердечко у товара, чтобы быстро найти его здесь. |
+| addToFavorites | Adaugă {productName} la favorite | Добавить {productName} в избранное |
+| removeFromFavorites | Scoate {productName} din favorite | Удалить {productName} из избранного |
+| courierArrivesIn | Curierul ajunge în aproximativ {minutes} min | Курьер приедет примерно через {minutes} мин |
+| courierArrived | Curierul a ajuns la adresă | Курьер прибыл по адресу |
+| courierOnline | Online | Онлайн |
+| courierOffline | Offline | Офлайн |
+| courierOnlineHint | Primești comenzi noi | Новые заказы приходят |
+| courierOfflineHint | Nu primești comenzi noi | Новые заказы не приходят |
+| courierOnTheWaySection | Pe drum spre client | В пути к клиенту |
+| courierReadySection | De preluat din local | Забрать в заведении |
+| courierOfflineTitle | Ești offline | Ты офлайн |
+| courierOfflineMessage | Intră online ca să vezi comenzile de preluat din local. | Выйди на линию, чтобы видеть заказы, которые нужно забрать в заведении. |
+| courierEmptyTitle | Nicio livrare deocamdată | Доставок пока нет |
+| courierEmptyMessage | Comenzile cu livrare apar aici când localul le marchează gata. | Заказы с доставкой появятся здесь, когда заведение отметит их готовыми. |
+| toCollect | De încasat | К оплате |
+| itemsTitle | Produse | Товары |
+| courierWaitingForStore | Localul încă pregătește comanda. | Заведение ещё готовит заказ. |
+| deliveryCompleted | Livrare finalizată. | Доставка завершена. |
+| backToDeliveries | Înapoi la comenzi | Назад к заказам |
+| deliveryNotFound | Livrarea nu a fost găsită. | Доставка не найдена. |
+| deliveryTitle | Livrare {orderId} | Доставка {orderId} |
+| amountToCollect | {total} · {paymentMethod} | {total} · {paymentMethod} |
+
+## Brands, pages and shops: lib/data/mock/ru/brands_ru.dart
+
+Bubble names, the restaurant's line, the splash slogan, the information pages' places and hours, the legal pages' titles and the bakery's placeholder shops. Ours, except the sushi address.
+
+| Română | Русский | Source |
+|---|---|---|
+| Restaurant | Ресторан | ours |
+| Experiențe culinare de neuitat într-un ambient elegant și primitor. | Незабываемые гастрономические впечатления в элегантной и уютной атмосфере. | ours |
+| Sushi | Суши | ours |
+| or. Chișinău | г. Кишинёв | ours |
+| Strada Vlaicu Pârcălab 52<br>Etajul 2 | ул. Vlaicu Pârcălab 52<br>Второй этаж | davidansushi.md/ru |
+| Termeni și Condiții | Условия и положения | ours |
+| Politica de Confidențialitate | Политика конфиденциальности | ours |
+| Patiserie | Выпечка | ours |
+| Apă naturală | Питьевая вода | ours |
+| Rent Car | Rent Car | ours |
+| or. Chișinău, str. Vlaicu Pârcălab 52 | г. Кишинёв, ул. Vlaicu Pârcălab 52 | ours |
+| Lucrăm 24/24 | Работаем круглосуточно | ours |
+| Există ceva bun pentru orice moment al zilei | Есть что-то вкусное для любого времени дня | ours |
+| DaviDan Centru | DaviDan Центр | ours |
+| bd. Ștefan cel Mare și Sfânt 126, Chișinău | бул. Ștefan cel Mare și Sfânt 126, Кишинёв | ours |
+| DaviDan Botanica | DaviDan Ботаника | ours |
+| bd. Dacia 47, Chișinău | бул. Dacia 47, Кишинёв | ours |
+| DaviDan Buiucani | DaviDan Буюканы | ours |
+| str. Alba Iulia 75, Chișinău | ул. Alba Iulia 75, Кишинёв | ours |
+
+## Patiserie (bakery): lib/data/mock/ru/bakery_ru.dart
+
+davidan.md has no Russian version: all ours. Ingredient abbreviations follow Russian labels: "c/s" (calitate superioară) → "в/с", "gr." → "жирн.".
+
+| Română | Русский |
+|---|---|
+| Kurtos | Куртош |
+| Descoperiți selecția noastră variată de kurtosuri, coapte perfect și aromate, gata să răsfețe papilele gustative. | Откройте для себя наш разнообразный выбор куртошей, идеально пропечённых и ароматных, готовых порадовать ваши вкусовые рецепторы. |
+| Patiserie | Выпечка |
+| Descoperă deliciile noastre proaspete și rafinate la Patiseria noastră | Открой для себя наши свежие и изысканные лакомства в нашей кондитерской |
+| Plăcinte & Panini | Плацинды и панини |
+| Savurați plăcintele noastre proaspete și panini-urile delicioase, preparate cu ingrediente de calitate și multă pasiune. | Насладитесь нашими свежими плациндами и вкусными панини, приготовленными из качественных ингредиентов и с большой любовью. |
+| Băuturi | Напитки |
+| Kurtos cu zahăr și scorțișoară | Куртош с сахаром и корицей |
+| Ingrediente: făină de grâu c/s, zahăr cristal, apă potabilă, ulei de floarea-soarelui, drojdie proaspătă p/u panificație, ouă de găină, lapte pasteurizat de vacă, scorțișoară, aromă: vanilină; ameliorator p/u panificație, sare alimentară. Conține: grâu, ouă, lapte. Poate conține urme de arahide, fistic, susan. | Ингредиенты: пшеничная мука в/с, сахар-песок, питьевая вода, подсолнечное масло, свежие хлебопекарные дрожжи, куриные яйца, пастеризованное коровье молоко, корица, ароматизатор: ванилин; хлебопекарный улучшитель, пищевая соль. Содержит: пшеницу, яйца, молоко. Может содержать следы арахиса, фисташек, кунжута. |
+| Kurtos cu vanilie | Куртош с ванилью |
+| Ingrediente: făină de grâu c/s, zahăr cristal, apă potabilă, ulei de floarea-soarelui, drojdie proaspătă p/u panificație, ouă de găină, lapte pasteurizat de vacă, aromă: vanilină; ameliorator p/u panificație, sare alimentară. Conține: grâu, ouă, lapte. Poate conține urme de arahide, fistic, susan. | Ингредиенты: пшеничная мука в/с, сахар-песок, питьевая вода, подсолнечное масло, свежие хлебопекарные дрожжи, куриные яйца, пастеризованное коровье молоко, ароматизатор: ванилин; хлебопекарный улучшитель, пищевая соль. Содержит: пшеницу, яйца, молоко. Может содержать следы арахиса, фисташек, кунжута. |
+| Kurtos cu fulgi de cocos | Куртош с кокосовой стружкой |
+| Ingrediente: făină de grâu c/s, zahăr cristal, apă potabilă, ulei de floarea-soarelui, fulgi de cocos, drojdie proaspătă p/u panificație, ouă de găină, lapte pasteurizat de vacă cu gr. 3,5%, aromă: vanilină; ameliorator p/u panificație, sare alimentară. Conține: grâu, ouă, lapte. Poate conține urme de arahide, fistic, susan. | Ингредиенты: пшеничная мука в/с, сахар-песок, питьевая вода, подсолнечное масло, кокосовая стружка, свежие хлебопекарные дрожжи, куриные яйца, пастеризованное коровье молоко жирн. 3,5%, ароматизатор: ванилин; хлебопекарный улучшитель, пищевая соль. Содержит: пшеницу, яйца, молоко. Может содержать следы арахиса, фисташек, кунжута. |
+| Kurtos cu fulgi de ciocolată | Куртош с шоколадной крошкой |
+| Ingrediente: făină de grâu c/s, zahăr cristal, apă potabilă, glazură de ciocolată zahăr, uleiuri și grăsimi vegetale total hidrogenate, pudră de cacao degresată, emulgatori: lecitină de soia, lecitine din floarea soarelui; sirop de glucoză, aromă: vanilină, ulei de floarea-soarelui, drojdie proaspătă p/u panificație, ouă de găină, lapte pasteurizat de vacă cu gr. 3,5%, aromă: vanilină; ameliorator p/u panificație, sare alimentară. Conține: grâu, soia, ouă, lapte. Poate conține urme de arahide, fistic, susan. | Ингредиенты: пшеничная мука в/с, сахар-песок, питьевая вода, шоколадная глазурь: сахар, полностью гидрогенизированные растительные масла и жиры, обезжиренный какао-порошок, эмульгаторы: соевый лецитин, подсолнечные лецитины; глюкозный сироп, ароматизатор: ванилин, подсолнечное масло, свежие хлебопекарные дрожжи, куриные яйца, пастеризованное коровье молоко жирн. 3,5%, ароматизатор: ванилин; хлебопекарный улучшитель, пищевая соль. Содержит: пшеницу, сою, яйца, молоко. Может содержать следы арахиса, фисташек, кунжута. |
+| Kurtos cu arahide | Куртош с арахисом |
+| Ingrediente: făină de grâu c/s, zahăr cristal, apă potabilă, arahide, ulei de floarea-soarelui, drojdie proaspătă p/u panificație, ouă de găină, lapte pasteurizat de vacă, aromă: vanilină; ameliorator p/u panificație, sare alimentară. Conține: grâu, arahide, ouă, lapte. Poate conține urme de fistic, susan. | Ингредиенты: пшеничная мука в/с, сахар-песок, питьевая вода, арахис, подсолнечное масло, свежие хлебопекарные дрожжи, куриные яйца, пастеризованное коровье молоко, ароматизатор: ванилин; хлебопекарный улучшитель, пищевая соль. Содержит: пшеницу, арахис, яйца, молоко. Может содержать следы фисташек, кунжута. |
+| Kurtos Rafaello | Куртош Rafaello |
+| Kurtos cu fistic | Куртош с фисташками |
+| Croissant cu ciocolată | Круассан с шоколадом |
+| Pretzel cu plombir și migdale | Претцель с пломбиром и миндалём |
+| Ingrediente: făină de grâu c/s, zahăr cristal, grăsime cu maia din grâu, uleiuri vegetale rafinate, apă, emulsifiant, sare iodată, aromă, antioxidant, conservant, acidifiant, colorant maia de grâu, apă potabilă, drojdie proaspătă p/u panificație, unt din smântână dulce, cremă de plombir, fulgi de migdale, pudră decorativ zahăr, amidon, grăsimi vegetale, sare alimentară, ameliorator. Conține: grâu, ouă, produs derivat al laptelui. Poate conține urme de susan, ouă. | Ингредиенты: пшеничная мука в/с, сахар-песок, жир с пшеничной закваской, рафинированные растительные масла, вода, эмульгатор, йодированная соль, ароматизатор, антиоксидант, консервант, подкислитель, краситель, пшеничная закваска, питьевая вода, свежие хлебопекарные дрожжи, сливочное масло из сладких сливок, крем-пломбир, миндальные лепестки, декоративная сахарная пудра, крахмал, растительные жиры, пищевая соль, улучшитель. Содержит: пшеницу, яйца, продукты переработки молока. Может содержать следы кунжута, яиц. |
+| New York Rolls cu mango și maracuja | New York Rolls с манго и маракуйей |
+| New York Rolls cu fistic | New York Rolls с фисташками |
+| New York Rolls cu zmeură | New York Rolls с малиной |
+| New York Rolls cu ciocolată | New York Rolls с шоколадом |
+| Danish cu fructe de pădure și vanilie | Даниш с лесными ягодами и ванилью |
+| Ingrediente: făină de grâu c/s, apă potabilă, grăsime cu maia din grâu [uleiuri vegetale rafinate (palmier, floarea soarelui), apă, emulsifiant (lecitină de floarea soarelui, mono- și digliceride ale acizilor grași), sare iodată, aromă, antioxidant (extract bogat în tocoferol, palmitat de L-ascorbil), conservant, acidifiant, colorant, maia de grâu], zahăr cristal, drojdie proaspătă p/u panificație, unt din smântână dulce, umplutură de vanilie (apă, zahăr alb cristalin, îngroșător de amidon îngroșat, zer pudrat demineralizat, grăsimi vegetale deodorizate, rafinate, sare alimentară, conservant de sorbat de potasiu, ouă de găină, sare alimentară, fructe de sezon (capșuni, mure, kiwi), mentă. Conține: grâu, produs derivat al laptelui, ouă, nuci. | Ингредиенты: пшеничная мука в/с, питьевая вода, жир с пшеничной закваской [рафинированные растительные масла (пальмовое, подсолнечное), вода, эмульгатор (подсолнечный лецитин, моно- и диглицериды жирных кислот), йодированная соль, ароматизатор, антиоксидант (экстракт с высоким содержанием токоферола, L-аскорбилпальмитат), консервант, подкислитель, краситель, пшеничная закваска], сахар-песок, свежие хлебопекарные дрожжи, сливочное масло из сладких сливок, ванильная начинка (вода, белый сахар-песок, загуститель — модифицированный крахмал, деминерализованная сухая сыворотка, дезодорированные рафинированные растительные жиры, пищевая соль, консервант сорбат калия, куриные яйца, пищевая соль, сезонные фрукты (клубника, ежевика, киви), мята. Содержит: пшеницу, продукты переработки молока, яйца, орехи. |
+| Croissant Duo | Круассан Duo |
+| Croissant cu fistic | Круассан с фисташками |
+| Donuts Oreo | Донат Oreo |
+| Muffins Orange | Апельсиновый маффин |
+| Plăcintă cu brânză | Плацинда с творогом |
+| Ingrediente: făină de grâu calitate superioară, brânză de vacă, apă potabilă, ouă, ulei de floarea soarelui, sare alimentară, semințe de mac, zahăr cristal, regulator de aciditate. Conține: grâu, ouă, lapte. Poate conține urme de susan. | Ингредиенты: пшеничная мука высшего сорта, творог, питьевая вода, яйца, подсолнечное масло, пищевая соль, мак, сахар-песок, регулятор кислотности. Содержит: пшеницу, яйца, молоко. Может содержать следы кунжута. |
+| Plăcintă cu varză | Плацинда с капустой |
+| Ingrediente: varză, făină de grâu calitate superioară, apă potabilă, ceapă, ulei de floarea soarelui, sare alimentară, ouă, semințe de susan, zahăr cristal, piper negru. Conține: grâu, ouă, susan. Poate conține urme de lapte. | Ингредиенты: капуста, пшеничная мука высшего сорта, питьевая вода, лук, подсолнечное масло, пищевая соль, яйца, кунжут, сахар-песок, чёрный перец. Содержит: пшеницу, яйца, кунжут. Может содержать следы молока. |
+| Plăcintă cu cartof | Плацинда с картофелем |
+| Ingrediente: cartofi, făină de grâu calitate superioară, apă potabilă, ulei de floarea soarelui, ceapă, ouă, sare alimentară, miez de floarea soarelui, zahăr cristal, regulator de aciditate, piper negru. Conține: grâu, ouă. Poate conține urme de lapte, susan. | Ингредиенты: картофель, пшеничная мука высшего сорта, питьевая вода, подсолнечное масло, лук, яйца, пищевая соль, очищенные семечки подсолнечника, сахар-песок, регулятор кислотности, чёрный перец. Содержит: пшеницу, яйца. Может содержать следы молока, кунжута. |
+| Plăcintă cu brânză și verdeață | Плацинда с творогом и зеленью |
+| Ingrediente: făină de grâu calitate superioară, brânză de vacă, apă potabilă, ouă, ulei de floarea-soarelui, sare alimentară, semințe de in, semințe de susan, mărar verde, zahăr cristal, regulator de aciditate. Conține: grâu, ouă, lapte, susan. Poate conține urme de susan. | Ингредиенты: пшеничная мука высшего сорта, творог, питьевая вода, яйца, подсолнечное масло, пищевая соль, семена льна, кунжут, свежий укроп, сахар-песок, регулятор кислотности. Содержит: пшеницу, яйца, молоко, кунжут. Может содержать следы кунжута. |
+| Plăcintă cu carne de pui | Плацинда с курицей |
+| Ingrediente: carne de pui, făină de grâu calitate superioară, ceapă, apă potabilă, ulei de floarea-soarelui, ouă, sare alimentară, semințe de in, zahăr cristal, regulator de aciditate, piper negru. Conține: grâu, ouă. Poate conține urme de lapte, susan. | Ингредиенты: куриное мясо, пшеничная мука высшего сорта, лук, питьевая вода, подсолнечное масло, яйца, пищевая соль, семена льна, сахар-песок, регулятор кислотности, чёрный перец. Содержит: пшеницу, яйца. Может содержать следы молока, кунжута. |
+| Plăcintă cu mere | Плацинда с яблоками |
+| Ingrediente: mere, făină de grâu calitate superioară, apă potabilă, ulei de floarea soarelui, zahăr cristal, ouă, zahăr pudră decorativ, nucă de cocos, sare alimentară, regulator de aciditate. Conține: grâu, ouă. Poate conține urme de susan. | Ингредиенты: яблоки, пшеничная мука высшего сорта, питьевая вода, подсолнечное масло, сахар-песок, яйца, декоративная сахарная пудра, кокос, пищевая соль, регулятор кислотности. Содержит: пшеницу, яйца. Может содержать следы кунжута. |
+| Plăcintă cu vișină | Плацинда с вишней |
+| Ingrediente: vișine în suc propriu, făină de grâu c/s, apă potabilă, ulei de floarea soarelui, zahăr cristal, agent de îngroșare, ouă de găină, zahăr pudră decorativ, zahăr, amidon, grăsimi vegetale, sare alimentară, regulator de aciditate. Conține: grâu, ouă. Poate conține urme de susan. Produsul poate conține sâmburi de vișină. | Ингредиенты: вишня в собственном соку, пшеничная мука в/с, питьевая вода, подсолнечное масло, сахар-песок, загуститель, куриные яйца, декоративная сахарная пудра, сахар, крахмал, растительные жиры, пищевая соль, регулятор кислотности. Содержит: пшеницу, яйца. Может содержать следы кунжута. Продукт может содержать вишнёвые косточки. |
+| Panini cu mușchi de porc | Панини со свиной корейкой |
+| Ingrediente: făină de grâu c/s, apă potabilă, maioneză, brânză cu cheag tare, mușchi de porc fiert-afumat, frunze de salată, roșii proaspete, castraveți proaspeți, ulei de floarea-soarelui, sare alimentară, zahăr cristal, maia naturală, usturoi granulat, piper negru măcinat. Conține: grâu, ouă, produs derivat al laptelui. Poate conține urme de susan. | Ингредиенты: пшеничная мука в/с, питьевая вода, майонез, твёрдый сычужный сыр, варёно-копчёная свиная корейка, листья салата, свежие помидоры, свежие огурцы, подсолнечное масло, пищевая соль, сахар-песок, натуральная закваска, гранулированный чеснок, молотый чёрный перец. Содержит: пшеницу, яйца, продукты переработки молока. Может содержать следы кунжута. |
+| Crenvurșcă în aluat | Сосиска в тесте |
+| Ingrediente: crenvurști, făină de grâu c/s, ouă de găină, lapte pasteurizat de vacă, ulei de floarea-soarelui, semințe de susan, zahăr cristal, grăsime cu maia din grâu uleiuri vegetale rafinate, apă, emulsifiant, sare iodată, aromă, antioxidant, conservant, acidifiant, colorant, maia de grâu, sare alimentară, drojdie proaspătă p/u panificație. Conține: grâu, ouă, lapte, susan. Poate conține urme de susan. | Ингредиенты: сосиски, пшеничная мука в/с, куриные яйца, пастеризованное коровье молоко, подсолнечное масло, кунжут, сахар-песок, жир с пшеничной закваской, рафинированные растительные масла, вода, эмульгатор, йодированная соль, ароматизатор, антиоксидант, консервант, подкислитель, краситель, пшеничная закваска, пищевая соль, свежие хлебопекарные дрожжи. Содержит: пшеницу, яйца, молоко, кунжут. Может содержать следы кунжута. |
+| Sandwich cu pui Crispy | Сэндвич с хрустящей курицей |
+| Ingrediente: Făină de grâu c/s, apă potabilă, maioneză cu gr. 57% (ulei rafinat de floarea soarelui deodorizat, apă potabilă, gălbenuș de ou uscat, oțet de masă, sare alimentară, agenți de îngroșare: E1422, gumă xantan, gumă guar; arome, regulator de aciditate: acid lactic; conservant: acid sorbic; colorant: carotene; îndulcitor: zaharină), unt, zahăr cristal, ulei de floarea soarelui, drojdie de panificație, maia naturală (maia deshidratată din grâu dur, drojdie, antioxidant: acid ascorbic; enzime), usturoi granulat, piper negru măcinat, amestec de semințe: mac, in, in galben, susan, floarea soarelui. Conține: grâu, ouă, produs derivat al laptelui, susan. Poate conține urme de nuci. Poate conține urme de susan. | Ингредиенты: пшеничная мука в/с, питьевая вода, майонез жирн. 57% (рафинированное дезодорированное подсолнечное масло, питьевая вода, сухой яичный желток, столовый уксус, пищевая соль, загустители: E1422, ксантановая камедь, гуаровая камедь; ароматизаторы, регулятор кислотности: молочная кислота; консервант: сорбиновая кислота; краситель: каротины; подсластитель: сахарин), сливочное масло, сахар-песок, подсолнечное масло, хлебопекарные дрожжи, натуральная закваска (сушёная закваска из твёрдой пшеницы, дрожжи, антиоксидант: аскорбиновая кислота; ферменты), гранулированный чеснок, молотый чёрный перец, смесь семян: мак, лён, золотой лён, кунжут, подсолнечник. Содержит: пшеницу, яйца, продукты переработки молока, кунжут. Может содержать следы орехов. Может содержать следы кунжута. |
+| Pizza cu piept de pui | Пицца с куриной грудкой |
+| Ingrediente: făină de grâu c/s, ulei de floarea soarelui, brânză cu cheag tare cu gr. 50%, apă potabilă, piept de pui refrigerat, sos de roșii, roșii proaspete, gogoșari proaspeți, ulei de măsline, maia naturală, sare alimentară, zahăr cristal, condimente: oregano, piper negru. Conține: grâu, produs derivat al laptelui. Poate conține urme de susan, ouă. | Ингредиенты: пшеничная мука в/с, подсолнечное масло, твёрдый сычужный сыр жирн. 50%, питьевая вода, охлаждённая куриная грудка, томатный соус, свежие помидоры, свежий сладкий перец, оливковое масло, натуральная закваска, пищевая соль, сахар-песок, специи: орегано, чёрный перец. Содержит: пшеницу, продукты переработки молока. Может содержать следы кунжута, яиц. |
+| Foietaj Picnic | Слойка Picnic |
+| Coca Cola | Coca Cola |
+| Fanta | Fanta |
+| Sprite | Sprite |
+| Apa DaviDan naturală | Вода DaviDan негазированная |
+| Apa DaviDan gazată | Вода DaviDan газированная |
+| Americano | Американо |
+| Ciocolată fierbinte cu lapte | Горячий шоколад с молоком |
+| Macchiato | Макиато |
+| Espresso | Эспрессо |
+| Flat White | Флэт уайт |
+| Ceai natural | Натуральный чай |
+| Ciocolată fierbinte | Горячий шоколад |
+| DaviDan - Pasiune pentru Patiserie! | DaviDan — страсть к выпечке! |
+| Delicii proaspete, pregătite zilnic cu pasiune pentru gusturi autentice. | Свежие лакомства, которые мы каждый день готовим с любовью ради настоящего вкуса. |
+| Specializați în Coacerea și Comercializarea Kurtosului | Специалисты по выпечке и продаже куртоша |
+
+## Apa DaviDan: lib/data/mock/ru/water_ru.dart
+
+No source has it in Russian: all ours.
+
+| Română | Русский |
+|---|---|
+| Apa DaviDan naturală | Вода DaviDan негазированная |
+| 0,5L | 0,5л |
+| Apa DaviDan gazată | Вода DaviDan газированная |
+| Apa DaviDan | Вода DaviDan |
+| Puritate naturală, îmbuteliată pentru hidratare premium în fiecare sticlă. | Природная чистота, разлитая в бутылки: премиальная вода в каждой бутылке. |
+
+## Rent Car: lib/data/mock/ru/rental_ru.dart
+
+davidanrentcar.md's Russian is Google Translate run in the browser, so it isn't a source: all ours. Spec values, equipment, the cars' description lines, the homepage line and the documents the driver needs.
+
+| Română | Русский |
+|---|---|
+| Audi Q5 2.0 Benzină 2012 – Confort și Fiabilitate! | Audi Q5 2.0 бензин 2012 – комфорт и надёжность! |
+| Benzină | Бензин |
+| Automată | Автомат |
+| 10 l/100 km | 10 л/100 км |
+| Nelimitat | Без ограничений |
+| Scaune din piele | Кожаные сиденья |
+| Aer condiționat automat | Автоматический кондиционер |
+| Senzori de parcare | Парктроники |
+| Cameră marșarier | Камера заднего вида |
+| Pilot automat | Круиз-контроль |
+| Sistem audio premium | Премиальная аудиосистема |
+| Bluetooth | Bluetooth |
+| Navigație GPS | GPS-навигация |
+| Audi Q5 2.0 Benzină 2021 – Lux și Performanță! | Audi Q5 2.0 бензин 2021 – роскошь и динамика! |
+| Climatizare automată pe 3 zone | Трёхзонный климат-контроль |
+| Senzori de parcare față/spate | Передние и задние парктроники |
+| Faruri LED Matrix | Фары LED Matrix |
+| Hayon electric | Электропривод багажника |
+| Pilot automat adaptiv | Адаптивный круиз-контроль |
+| Apple CarPlay / Android Auto | Apple CarPlay / Android Auto |
+| BMW X5 2.0 Benzină Plug-in Hybrid – Putere și Eficiență! | BMW X5 2.0 бензин, подключаемый гибрид – мощность и экономичность! |
+| Dacia Lodgy 1.5 Diesel 2016 – Spațioasă și Economică! | Dacia Lodgy 1.5 дизель 2016 – просторная и экономичная! |
+| Diesel | Дизель |
+| Manuală | Механика |
+| 7 locuri | 7 мест |
+| Geamuri electrice | Электростеклоподъёмники |
+| USB | USB |
+| ABS | ABS |
+| Sistem multimedia cu ecran tactil | Мультимедийная система с сенсорным экраном |
+| ESP | ESP |
+| Aer condiționat | Кондиционер |
+| Dacia 1.0 Benzină + GPL 2022 – Economică și Fiabilă! | Dacia 1.0 бензин + газ 2022 – экономичная и надёжная! |
+| Benzină/GPL | Бензин/газ |
+| 5 l/100 km | 5 л/100 км |
+| Consum redus | Низкий расход |
+| Autonomie extinsă | Увеличенный запас хода |
+| Dacia Sandero 1.0 Turbo Benzină 2015 – Economică și Fiabilă! | Dacia Sandero 1.0 турбо, бензин 2015 – экономичная и надёжная! |
+| Sistem multimedia | Мультимедийная система |
+| Airbag frontal și lateral | Фронтальные и боковые подушки безопасности |
+| Ford Focus 2.0 Diesel 2018 ST-Line – Sportivitate și Eficiență! | Ford Focus 2.0 дизель 2018 ST-Line – спортивность и экономичность! |
+| Scaune Sport | Спортивные сиденья |
+| Climatizare automată | Климат-контроль |
+| Faruri LED | Светодиодные фары |
+| Ford Kuga 2021 – Modernă, Confortabilă și Pregătită de Aventură! | Ford Kuga 2021 – современная, комфортная и готовая к приключениям! |
+| Climatronic dual zone | Двухзонный климат-контроль |
+| Sistem de asistență la menținerea benzii | Система удержания в полосе |
+| Mercedes-Benz E-Class 2017 Diesel – Eleganță și Performanță! | Mercedes-Benz E-Class 2017 дизель – элегантность и динамика! |
+| 7 l/100 km | 7 л/100 км |
+| Climatizare automată pe zone | Многозонный климат-контроль |
+| Apple CarPlay/Android Auto | Apple CarPlay/Android Auto |
+| Porsche Cayenne 3.0 Plug-in Hybrid 2017 – Lux și Performanță! | Porsche Cayenne 3.0 подключаемый гибрид 2017 – роскошь и динамика! |
+| Benzină/Plug-in Hybrid | Бензин/подключаемый гибрид |
+| Scaune din piele încălzite | Кожаные сиденья с подогревом |
+| Climatizare pe zone | Зональный климат-контроль |
+| Suspensie pneumatică | Пневмоподвеска |
+| Senzori parcare | Парктроники |
+| Toyota RAV4 2.5 Plug-in Hybrid – Confort și Siguranță! | Toyota RAV4 2.5 подключаемый гибрид – комфорт и безопасность! |
+| Sistem de navigație GPS | GPS-навигация |
+| Sistem de asistență la condus (Toyota Safety Sense) | Система помощи водителю (Toyota Safety Sense) |
+| Mașini de Închiriat Rapid și Simplu | Аренда автомобилей быстро и просто |
+| Un permis de conducere valid, eliberat cu cel puțin 3 ani; | Действующее водительское удостоверение, выданное не менее 3 лет назад; |
+| Buletinul de identitate (vârsta minimă variază între 21 și 25 de ani, în funcție de tipul automobilului). | Удостоверение личности (минимальный возраст от 21 до 25 лет, в зависимости от типа автомобиля). |
+
+## DaviDan Sushi: lib/data/mock/ru/sushi_ru.dart
+
+From davidansushi.md/ru wherever the site translated it; the site's Russian is partly left in Romanian (see davidansushi_md.md, section 3). "Source" says where each row comes from:
+- **davidansushi.md/ru**: the site's Russian as it is (category names, most names, the banner, weights with Russian units).
+- **ours**: names with Romanian words (the site's /ru shows "Tempura Creveți", "Salată cu somon"), the six maki and the tempura rolls named alike, "Cheesecake" (the site's /ru keeps the typo "Cheescake"), and units the site left as "g" or "buc".
+- **word list below**: ingredient lists rebuilt from the word list, so an ingredient reads the same in every product. A list whose Russian matched the site's exactly is marked davidansushi.md/ru.
+
+| Română | Русский | Source |
+|---|---|---|
+| Sushi | Суши | davidansushi.md/ru |
+| Seturi | Сеты | davidansushi.md/ru |
+| Bucate Thai | Тайские блюда | davidansushi.md/ru |
+| Supe | Супы | davidansushi.md/ru |
+| Salate | Салаты | davidansushi.md/ru |
+| Poke bowl | Poke bowl | davidansushi.md/ru |
+| Gustări | Закуски | davidansushi.md/ru |
+| Deserturi | Десерты | davidansushi.md/ru |
+| Băuturi | Напитки | davidansushi.md/ru |
+| Alasca | Аляска | davidansushi.md/ru |
+| Ingrediente: nori, orez, cremă de brânză, castravete, somon, tobico | Ингредиенты: нори, рис, сливочный сыр, огурец, лосось, тобико | davidansushi.md/ru |
+| 250g | 250г | davidansushi.md/ru |
+| California Creveți | California с креветками | ours |
+| Ingrediente: nori, orez, cremă de brânză, castraveți, maioneză japoneză, creveți, tobico | Ингредиенты: нори, рис, сливочный сыр, огурцы, японский майонез, креветки, тобико | word list below |
+| 270g | 270г | ours |
+| Canada | Канада | davidansushi.md/ru |
+| Ingrediente: nori, orez, cremă de brânză, castravete, somon, țipar, sos unaghi, susan | Ингредиенты: нори, рис, сливочный сыр, огурец, лосось, угорь, соус унаги, кунжут | davidansushi.md/ru |
+| Canada Creveți | Канада с креветками | ours |
+| Ingrediente: nori, orez, cremă de brânză, creveți, țipar, tobico, sos unaghi, castravete, susan | Ингредиенты: нори, рис, сливочный сыр, креветки, угорь, тобико, соус унаги, огурец, кунжут | davidansushi.md/ru |
+| Chyka Roll | Chyka Roll | davidansushi.md/ru |
+| Ingrediente: orez, nori, cremă de brânză, avocado, somon grill, chyka, susan, sos de nuci | Ингредиенты: рис, нори, сливочный сыр, авокадо, лосось гриль, чука, кунжут, ореховый соус | word list below |
+| 300g | 300г | davidansushi.md/ru |
+| Crunchy Tony | Crunchy Tony | davidansushi.md/ru |
+| Ingrediente: nori, orez, ton, daicon murat, sos Sriracha, Masago Arare, susan | Ингредиенты: нори, рис, тунец, маринованный дайкон, соус шрирача, масаго арарэ, кунжут | word list below |
+| 260g | 260г | ours |
+| Dragon Verde | Зеленый Дракон | davidansushi.md/ru |
+| Ingrediente: nori, orez, cremă de brânză, avocado, castravete, somon, sos unaghi, susan | Ингредиенты: нори, рис, сливочный сыр, авокадо, огурец, лосось, соус унаги, кунжут | davidansushi.md/ru |
+| 280g | 280г | davidansushi.md/ru |
+| Ebi Roll | Еби ролл | davidansushi.md/ru |
+| Ingrediente: nori, orez, cremă de brânză, castraveți, somon, creveți | Ингредиенты: нори, рис, сливочный сыр, огурцы, лосось, креветки | davidansushi.md/ru |
+| Haruto | Харуто | davidansushi.md/ru |
+| Ingrediente: nori, orez, cremă de brânză, castraveți, avocado, ton, somon, țipar, tobico, mango gem | Ингредиенты: нори, рис, сливочный сыр, огурцы, авокадо, тунец, лосось, угорь, тобико, джем из манго | davidansushi.md/ru |
+| 320g | 320г | davidansushi.md/ru |
+| Kyoto | Kyoto | davidansushi.md/ru |
+| Ingrediente: nori, orez, cremă de brânză, castraveți, somon grill, somon, țipar, sos unaghi, susan | Ингредиенты: нори, рис, сливочный сыр, огурцы, лосось гриль, лосось, угорь, соус унаги, кунжут | word list below |
+| Oh my cheeseus | Oh my cheeseus | davidansushi.md/ru |
+| Ingrediente: nori, orez, cheddar, creveți pane, cremă de brânză, castraveți, fidea de boabe, sos unaghi, sos Kimchi Maio | Ингредиенты: нори, рис, чеддер, креветки в панировке, сливочный сыр, огурцы, бобовая лапша, соус унаги, соус кимчи-майо | word list below |
+| 355g | 355г | ours |
+| Philadelphia Classic | Филадельфия Классик | davidansushi.md/ru |
+| Ingrediente: nori, orez, cremă de brânză, castravete, avocado, somon | Ингредиенты: нори, рис, сливочный сыр, огурец, авокадо, лосось | davidansushi.md/ru |
+| Philadelphia cu Creveți | Филадельфия с креветками | ours |
+| Ingrediente: orez, nori, cremă de brânză, castraveți, avocado, somon, creveți, sos unaghi, sos spicy | Ингредиенты: рис, нори, сливочный сыр, огурцы, авокадо, лосось, креветки, соус унаги, соус спайси | word list below |
+| Philadelphia Ebi | Филадельфия Эби | davidansushi.md/ru |
+| Ingrediente: nori, orez, cremă de brânză, castraveți, creveți pane, somon | Ингредиенты: нори, рис, сливочный сыр, огурцы, креветки в панировке, лосось | davidansushi.md/ru |
+| Philadelphia Flambe | Philadelphia Flambe | davidansushi.md/ru |
+| Ingrediente: nori, orez, cremă de brânză, avocado, somon, sos spicy | Ингредиенты: нори, рис, сливочный сыр, авокадо, лосось, соус спайси | word list below |
+| Salmon Bliss | Salmon Bliss | davidansushi.md/ru |
+| Ingrediente: nori, orez, somon copt, ardei california, cremă de brânză, sos Maio Dulce, sos Sriracha, sos Unaghi, Masago Arare | Ингредиенты: нори, рис, запечённый лосось, болгарский перец, сливочный сыр, сладкий майо-соус, соус шрирача, соус унаги, масаго арарэ | word list below |
+| 350g | 350г | ours |
+| Salmon Explosion | Salmon Explosion | davidansushi.md/ru |
+| Ingrediente: nori, orez, somon, chuka, sos Kimchi Maio, sos unaghi, togarashi, tobico | Ингредиенты: нори, рис, лосось, чука, соус кимчи-майо, соус унаги, тогараси, тобико | word list below |
+| 285g | 285г | ours |
+| Shrimps Explosion | Shrimps Explosion | davidansushi.md/ru |
+| Ingrediente: nori, orez, creveți, sos Kimchi Maio, maioneză japoneză, sos unaghi, togarashi | Ингредиенты: нори, рис, креветки, соус кимчи-майо, японский майонез, соус унаги, тогараси | word list below |
+| Spicy Tuna | Spicy Tuna | davidansushi.md/ru |
+| Ingrediente: nori, orez, ton, creveți pane, chuka, maioneză japoneză, sos Sriracha, susan | Ингредиенты: нори, рис, тунец, креветки в панировке, чука, японский майонез, соус шрирача, кунжут | word list below |
+| Tuna Roll | Туна Ролл | davidansushi.md/ru |
+| Ingrediente: nori, orez, cremă de brânză, castravete, ton, somon, mango gem | Ингредиенты: нори, рис, сливочный сыр, огурец, тунец, лосось, джем из манго | davidansushi.md/ru |
+| SushiDog | SushiDog | davidansushi.md/ru |
+| Ingrediente: nori, orez, cremă de brânză, castraveți, maioneză japoneză, tobico, creveți, somon, sos sriracha, sos spicy, sos unaghi, susan | Ингредиенты: нори, рис, сливочный сыр, огурцы, японский майонез, тобико, креветки, лосось, соус шрирача, соус спайси, соус унаги, кунжут | word list below |
+| Tempura Creveți | Темпура с креветками | ours |
+| Ingrediente: nori, orez, cremă de brânză, tobico, castraveți, creveți, sos unaghi, susan | Ингредиенты: нори, рис, сливочный сыр, тобико, огурцы, креветки, соус унаги, кунжут | davidansushi.md/ru |
+| Tempura Somon | Темпура с лососем | ours |
+| Ingrediente: nori, orez, cremă de brânză, tobico, castraveți, somon, sos unaghi, susan | Ингредиенты: нори, рис, сливочный сыр, тобико, огурцы, лосось, соус унаги, кунжут | davidansushi.md/ru |
+| Tempura Somon Grill | Темпура с лососем на гриле | ours |
+| Ingrediente: nori, orez, cremă de brânză, tobico, castraveți, somon grill, sos unaghi, susan | Ингредиенты: нори, рис, сливочный сыр, тобико, огурцы, лосось гриль, соус унаги, кунжут | word list below |
+| Tempura Ton | Темпура с тунцом | ours |
+| Ingrediente: nori, orez, cremă de brânză, tobico, castraveți, ton, sos unaghi, susan | Ингредиенты: нори, рис, сливочный сыр, тобико, огурцы, тунец, соус унаги, кунжут | davidansushi.md/ru |
+| Tempura Țipar | Темпура с угрём | ours |
+| Ingrediente: nori, orez, cremă de brânză, tobico, castraveți, țipar, sos unaghi, susan | Ингредиенты: нори, рис, сливочный сыр, тобико, огурцы, угорь, соус унаги, кунжут | davidansushi.md/ru |
+| Avocado Maki | Маки с авокадо | ours |
+| Ingrediente: nori, orez, avocado | Ингредиенты: нори, рис, авокадо | davidansushi.md/ru |
+| 130g | 130г | ours |
+| Ebi Maki | Маки с креветками | ours |
+| Ingrediente: nori, orez, creveți | Ингредиенты: нори, рис, креветки | davidansushi.md/ru |
+| Kappa Maki | Маки с огурцом | ours |
+| Ingrediente: nori, orez, castravete | Ингредиенты: нори, рис, огурец | davidansushi.md/ru |
+| Somon Maki | Маки с лососем | ours |
+| Ingrediente: nori, orez, somon | Ингредиенты: нори, рис, лосось | davidansushi.md/ru |
+| Ton Maki | Маки с тунцом | ours |
+| Ingrediente: nori, orez, ton | Ингредиенты: нори, рис, тунец | davidansushi.md/ru |
+| Unaghi Maki | Маки с угрём | ours |
+| Ingrediente: nori, orez, țipar, sos unaghi, susan | Ингредиенты: нори, рис, угорь, соус унаги, кунжут | davidansushi.md/ru |
+| Davidan Set | Davidan Set | davidansushi.md/ru |
+| Componența setului: Haruto – 8 bucăți, Philadelphia Classic – 8 bucăți, California Creveți – 8 bucăți, Chyka Roll – 8 bucăți, Salmon Bliss – 8 bucăți, Oh my cheeseus – 8 bucăți | Состав: Харуто – 8 шт, Филадельфия Классик – 8 шт, California с креветками – 8 шт, Chyka Roll – 8 шт, Salmon Bliss – 8 шт, Oh my cheeseus – 8 шт | word list below |
+| 1900g | 1900г | ours |
+| 48 buc | 48 шт | ours |
+| Gunkan Set | Гункан Сет | davidansushi.md/ru |
+| Componența setului: orez, nori, tobico, maioneză japoneză, creveți, ton, somon, țipar, sos unaghi, susan | Состав: рис, нори, тобико, японский майонез, креветки, тунец, лосось, угорь, соус унаги, кунжут | word list below |
+| 4 buc | 4 шт | davidansushi.md/ru |
+| Love Story Set | Love Story Set | davidansushi.md/ru |
+| Componența setului: Dragon Verde 8 bucăți, Philadelphia Flambe 8 bucăți, California Creveți – 8 bucăți, Kappa Maki 4 bucăți, Avocado Maki 4 bucăți | Состав: Зеленый Дракон 8 шт, Philadelphia Flambe 8 шт, California с креветками – 8 шт, Маки с огурцом 4 шт, Маки с авокадо 4 шт | word list below |
+| 950g | 950г | ours |
+| 32 buc | 32 шт | ours |
+| Maki Set | Маки сет | davidansushi.md/ru |
+| Componența setului: Somon Maki 4 bucăți, Ton Maki 4 bucăți, Ebi Maki 4 bucăți, Unaghi Maki 4 bucăți, Kappa Maki 4 bucăți, Avocado Maki 4 bucăți | Состав: Маки с лососем 4 шт, Маки с тунцом 4 шт, Маки с креветками 4 шт, Маки с угрём 4 шт, Маки с огурцом 4 шт, Маки с авокадо 4 шт | word list below |
+| 390g | 390г | ours |
+| 24 buc | 24 шт | davidansushi.md/ru |
+| Nigiri Set | Нигири Сет | davidansushi.md/ru |
+| Componența setului: Nigiri somon, Nigiri ton, Nigiri creveți, Nigiri țipar | Состав: Нигири с лососем, Нигири с тунцом, Нигири с креветкой, Нигири с угрём | word list below |
+| 230g | 230г | ours |
+| Phila-Ebi Set | Фила-Эби Сет | davidansushi.md/ru |
+| Componența setului: Philadelphia Classic 8 bucăți, Ebi Roll 8 bucăți, Tempura cu somon grill 8 bucăți | Состав: Филадельфия Классик 8 шт, Еби ролл 8 шт, Темпура с лососем на гриле 8 шт | word list below |
+| 850g | 850г | ours |
+| Philadelphia Set | Philadelphia Set | davidansushi.md/ru |
+| Componența setului: Tempura Somon Grill – 8 bucăți, Tempura Somon – 8 bucăți, Philadelphia cu Creveți – 8 bucăți, Philadelphia Classic – 8 bucăți | Состав: Темпура с лососем на гриле – 8 шт, Темпура с лососем – 8 шт, Филадельфия с креветками – 8 шт, Филадельфия Классик – 8 шт | word list below |
+| 1200g | 1200г | ours |
+| Sacura Set | Сакура Сет | davidansushi.md/ru |
+| Componența setului: Dragon Verde 8 bucăți, Tuna Roll 8 bucăți, Canada 8 bucăți | Состав: Зеленый Дракон 8 шт, Туна Ролл 8 шт, Канада 8 шт | word list below |
+| Tempura Set | Темпура Сет | davidansushi.md/ru |
+| Componența setului: Tempura Somon 8 bucăți, Tempura Ton 8 bucăți, Tempura Creveți 8 bucăți | Состав: Темпура с лососем 8 шт, Темпура с тунцом 8 шт, Темпура с креветками 8 шт | word list below |
+| 900g | 900г | davidansushi.md/ru |
+| Orez cu fructe de mare | Рис с морепродуктами | davidansushi.md/ru |
+| Ingrediente: orez, midii, calmari, creveți, somon, morcov, păstăi, ardei, sos sriracha, sos de soia, susan | Ингредиенты: рис, мидии, кальмары, креветки, лосось, морковь, стручковая фасоль, сладкий перец, соус шрирача, соевый соус, кунжут | word list below |
+| Orez cu pui | Рис с курицей | davidansushi.md/ru |
+| Ingrediente: orez, carne de pui, morcov, păstăi, ardei, sos sriracha, sos de soia, susan | Ингредиенты: рис, курица, морковь, стручковая фасоль, сладкий перец, соус шрирача, соевый соус, кунжут | word list below |
+| Orez cu vită | Рис с говядиной | davidansushi.md/ru |
+| Ingrediente: orez, carne de vită, morcov, păstăi, ardei, sos sriracha, sos de soia, susan | Ингредиенты: рис, говядина, морковь, стручковая фасоль, сладкий перец, соус шрирача, соевый соус, кунжут | word list below |
+| Soba cu fructe de mare | Соба с морепродуктами | ours |
+| Ingrediente: fidea de hrișcă, creveți, somon, midii, calmari, ciuperci shitake, morcov, ardei, tulpină de țelină, susan, sos lunch-king, sos sriracha | Ингредиенты: гречневая лапша, креветки, лосось, мидии, кальмары, грибы шиитаке, морковь, сладкий перец, стебель сельдерея, кунжут, соус lunch-king, соус шрирача | word list below |
+| Soba cu pui | Соба с курицей | ours |
+| Ingrediente: fidea de hrișcă, carne de pui, ciuperci shitake, morcov, ardei, tulpină de țelină, susan, sos lunch-king, sos sriracha | Ингредиенты: гречневая лапша, курица, грибы шиитаке, морковь, сладкий перец, стебель сельдерея, кунжут, соус lunch-king, соус шрирача | word list below |
+| Soba cu vită | Соба с говядиной | ours |
+| Ingrediente: fidea de hrișcă, carne de vită, ciuperci shitake, morcov, ardei, tulpină de țelină, susan, sos lunch-king, sos sriracha | Ингредиенты: гречневая лапша, говядина, грибы шиитаке, морковь, сладкий перец, стебель сельдерея, кунжут, соус lunch-king, соус шрирача | word list below |
+| Udon cu carne de vită | Удон с говядиной | davidansushi.md/ru |
+| Ingrediente: fidea de grâu, carne de vită, ciuperci, morcov, ardei, păstăi, susan, sos sriracha, sos lunch-king | Ингредиенты: пшеничная лапша, говядина, грибы, морковь, сладкий перец, стручковая фасоль, кунжут, соус шрирача, соус lunch-king | word list below |
+| Udon cu fructe de mare | Удон с морепродуктами | davidansushi.md/ru |
+| Ingrediente: fidea de grâu, creveți, somon, midii, calmari, ciuperci, morcov, ardei, păstăi, susan, sos sriracha, sos lunch-king | Ингредиенты: пшеничная лапша, креветки, лосось, мидии, кальмары, грибы, морковь, сладкий перец, стручковая фасоль, кунжут, соус шрирача, соус lunch-king | word list below |
+| Udon cu pui | Удон с курицей | davidansushi.md/ru |
+| Ingrediente: fidea de grâu, carne de pui, ciuperci, morcov, ardei, păstăi, susan, sos sriracha, sos lunch-king | Ингредиенты: пшеничная лапша, курица, грибы, морковь, сладкий перец, стручковая фасоль, кунжут, соус шрирача, соус lunch-king | word list below |
+| Udon cu spanac și creveți | Удон со шпинатом и креветками | ours |
+| Ingrediente: fidea de grâu, spanac, creveți, parmezan, frișcă, ceapă, usturoi, susan | Ингредиенты: пшеничная лапша, шпинат, креветки, пармезан, сливки, лук, чеснок, кунжут | word list below |
+| Funcioza cu fructe de mare | Фунчоза с морепродуктами | ours |
+| Ingrediente: fidea de boabe, fructe de mare, morcov, tulpină de țelină, sos sriracha, sos lunch-king, ardei, susan | Ингредиенты: бобовая лапша, морепродукты, морковь, стебель сельдерея, соус шрирача, соус lunch-king, сладкий перец, кунжут | word list below |
+| Funcioza cu pui | Фунчоза с курицей | davidansushi.md/ru |
+| Ingrediente: fidea de boabe, carne de pui, morcov, tulpină de țelină, sos sriracha, sos lunch-king, ardei, susan | Ингредиенты: бобовая лапша, курица, морковь, стебель сельдерея, соус шрирача, соус lunch-king, сладкий перец, кунжут | word list below |
+| Funcioza cu vită | Фунчоза с говядиной | davidansushi.md/ru |
+| Ingrediente: fidea de boabe, carne de vită, morcov, tulpină de țelină, sos sriracha, sos lunch-king, ardei, susan | Ингредиенты: бобовая лапша, говядина, морковь, стебель сельдерея, соус шрирача, соус lunch-king, сладкий перец, кунжут | word list below |
+| Ramen cu pui | Куриный рамен | davidansushi.md/ru |
+| Ingrediente: bulion de găină, ouă, fidea de grâu, fileu de pui pane, ceapă verde, ardei iute, susan | Ингредиенты: куриный бульон, яйца, пшеничная лапша, куриное филе в панировке, зелёный лук, острый перец, кунжут | word list below |
+| 400ml | 400мл | ours |
+| Supă cremă cu spanac | Шпинатный крем суп | davidansushi.md/ru |
+| Ingrediente: frișcă, spanac, parmezan, ceapă, usturoi, susan, pesmeți | Ингредиенты: сливки, шпинат, пармезан, лук, чеснок, кунжут, сухари | word list below |
+| 300ml | 300мл | ours |
+| Supă cremă cu spanac și creveți | Крем-суп со шпинатом и креветками | ours |
+| Ingrediente: frișcă, spanac, creveți, parmezan, ceapă, usturoi, susan, pesmeți | Ингредиенты: сливки, шпинат, креветки, пармезан, лук, чеснок, кунжут, сухари | word list below |
+| 350ml, 50g | 350мл, 50г | ours |
+| Tom Yam cu fructe de mare | Том Ям с морепродуктами | davidansushi.md/ru |
+| Ingrediente: lapte de cocos, sos Tom Yam, bulion din creveți, creveți, calmari, somon, midii, ciuperci champignon, orez | Ингредиенты: кокосовое молоко, соус Том Ям, бульон из креветок, креветки, кальмары, лосось, мидии, шампиньоны, рис | word list below |
+| Tom Yam cu pui | Том Ям с курицей | davidansushi.md/ru |
+| Ingrediente: lapte de cocos, sos Tom Yam, bulion din creveți, carne de pui, ciuperci champignon, orez | Ингредиенты: кокосовое молоко, соус Том Ям, бульон из креветок, курица, шампиньоны, рис | word list below |
+| Chuka | Чука | davidansushi.md/ru |
+| Ingrediente: frunză de salată, alge chuka, susan, lămâie, sos de nuci | Ингредиенты: лист салата, водоросли чука, кунжут, лимон, ореховый соус | word list below |
+| 200g, 30g | 200г, 30г | ours |
+| Mix salată cu pui | Микс салатов с курицей | ours |
+| Ingrediente: mix salată, carne de pui panată, avocado, ciuperci champignon, roșii cherry, ulei de măsline, nuci caju, susan | Ингредиенты: микс салатов, курица в панировке, авокадо, шампиньоны, помидоры черри, оливковое масло, орехи кешью, кунжут | word list below |
+| Salată Caesar cu Creveți | Салат Цезарь с креветками | ours |
+| Ingrediente: Mix salată, roșii cherry, pesmeți, creveți, sos caesar, parmesan | Ингредиенты: Микс салатов, помидоры черри, сухари, креветки, соус цезарь, пармезан | word list below |
+| Salată Caesar cu Pui | Салат Цезарь с курицей | ours |
+| Ingrediente: Mix salată, roșii cherry, pesmeți, carne de pui grill, sos caesar, parmesan | Ингредиенты: Микс салатов, помидоры черри, сухари, курица гриль, соус цезарь, пармезан | word list below |
+| Salată cu creveți | Салат с креветками | ours |
+| Ingrediente: mix de salată, quinoa, creveți, avocado, roșii cherry, mango, dressing pentru salată, sos Unaghi | Ингредиенты: микс салатов, киноа, креветки, авокадо, помидоры черри, манго, заправка для салата, соус унаги | word list below |
+| Salată cu somon | Салат с лососем | ours |
+| Ingrediente: mix de salată, somon slab sărat, mozzarella, roșii cherry, castraveți, nuci caju, dressing pentru salată | Ингредиенты: микс салатов, слабосолёный лосось, моцарелла, помидоры черри, огурцы, орехи кешью, заправка для салата | word list below |
+| 225g | 225г | ours |
+| Poke bowl creveți | Poke bowl с креветками | davidansushi.md/ru |
+| Ingrediente: orez, creveți, mango, boabe edamame, avocado, nori, ghimbir marinat, alge wakame, castravete, cremă de brânză, sos poke, sos soia, nuci caju, sos unaghi, susan | Ингредиенты: рис, креветки, манго, бобы эдамаме, авокадо, нори, маринованный имбирь, водоросли вакаме, огурец, сливочный сыр, соус поке, соевый соус, орехи кешью, соус унаги, кунжут | word list below |
+| 450g | 450г | ours |
+| Poke bowl somon | Poke bowl с лососем | davidansushi.md/ru |
+| Ingrediente: orez, somon, mango, boabe edamame, avocado, nori, ghimbir marinat, alge wakame, castravete, cremă de brânză, sos poke, sos soia, nuci caju, sos unaghi, susan | Ингредиенты: рис, лосось, манго, бобы эдамаме, авокадо, нори, маринованный имбирь, водоросли вакаме, огурец, сливочный сыр, соус поке, соевый соус, орехи кешью, соус унаги, кунжут | word list below |
+| Poke bowl ton | Poke bowl с тунцом | davidansushi.md/ru |
+| Ingrediente: orez, ton, mango, boabe edamame, avocado, nori, ghimbir marinat, alge wakame, castravete, cremă de brânză, sos poke, sos soia, nuci caju, sos unaghi, susan | Ингредиенты: рис, тунец, манго, бобы эдамаме, авокадо, нори, маринованный имбирь, водоросли вакаме, огурец, сливочный сыр, соус поке, соевый соус, орехи кешью, соус унаги, кунжут | word list below |
+| Aripioare Crocante | Хрустящие крылышки | ours |
+| Ingrediente: aripioare de pui, pesmeți panco, sos Sweet-Chilli | Ингредиенты: куриные крылышки, сухари панко, соус свит чили | word list below |
+| 250g, 50g | 250г, 50г | ours |
+| Bao Burger | Bao Burger | davidansushi.md/ru |
+| Ingrediente: chiflă bao, pârjoală de pui, roșii, castraveți, frunză de salată, sos sweet-chilli, sos tartar, cartofi pai | Ингредиенты: булочка бао, куриная котлета, помидоры, огурцы, лист салата, соус свит чили, соус тартар, картофель фри | word list below |
+| 400g, 50g | 400г, 50г | ours |
+| Bao cu creveți | Бао с креветками | ours |
+| Ingrediente: Chifle Bao, creveți panați, mix de salată, sos Unaghi, susan | Ингредиенты: Булочки бао, креветки в панировке, микс салатов, соус унаги, кунжут | word list below |
+| 220g | 220г | davidansushi.md/ru |
+| Bao cu pui | Бао с курицей | ours |
+| Ingrediente: Chifle Bao, carne de pui, frișcă, mix de salată, sos de nuci, susan | Ингредиенты: Булочки бао, курица, сливки, микс салатов, ореховый соус, кунжут | word list below |
+| Burger cu pui | Бургер с курицей | ours |
+| Ingrediente: chiflă burger, pârjoală de pui, sos tartar, roșii, rucola, cașcaval cheddar, castraveți marinați, ceapă marinată, cartofi pai, sos Ketchup | Ингредиенты: булочка для бургера, куриная котлета, соус тартар, помидоры, руккола, сыр чеддер, маринованные огурцы, маринованный лук, картофель фри, кетчуп | word list below |
+| 100g, 400g, 50g | 100г, 400г, 50г | ours |
+| Burger cu vită | Бургер с говядиной | ours |
+| Ingrediente: chiflă burger, ceapă caramelizată, pârjoală de vită, cașcaval dorblu, castraveți marinați, frunză de salată, roșii, bacon, rucola, cartofi pai, sos Ketchup | Ингредиенты: булочка для бургера, карамелизированный лук, говяжья котлета, сыр дорблю, маринованные огурцы, лист салата, помидоры, бекон, руккола, картофель фри, кетчуп | word list below |
+| Cartofi pai | Картофель фри | davidansushi.md/ru |
+| Ingrediente: cartofi pai, sos ketchup | Ингредиенты: картофель фри, кетчуп | word list below |
+| 150g, 50g | 150г, 50г | davidansushi.md/ru |
+| Fileu de pui Crispy | Хрустящее куриное филе | ours |
+| Ingrediente: fileu de pui panat, sos picant | Ингредиенты: куриное филе в панировке, острый соус | word list below |
+| Inele de calmar | Кольца кальмара | davidansushi.md/ru |
+| Ingrediente: calmari panați, sos sweet-chilli | Ингредиенты: кальмары в панировке, соус свит чили | word list below |
+| Mozzarella pane | Моцарелла Пане | davidansushi.md/ru |
+| Ingrediente: mozzarella panată, sos sweet-chilli | Ингредиенты: моцарелла в панировке, соус свит чили | word list below |
+| Nughete | Наггетсы | davidansushi.md/ru |
+| Ingrediente: nughete din carne de pui, sos TarTar | Ингредиенты: куриные наггетсы, соус тартар | word list below |
+| Popcorn Creveți | Креветки попкорн | ours |
+| Ingrediente: creveți panați, sos wasabi dulce | Ингредиенты: креветки в панировке, сладкий соус васаби | word list below |
+| Spring roll cu pui | Спринг-ролл с курицей | davidansushi.md/ru |
+| Ingrediente: foi de orez, carne de pui, morcov, ardei, ciuperci, mozzarella, maioneză japoneză, susan, sos de soia | Ингредиенты: рисовые листы, курица, морковь, сладкий перец, грибы, моцарелла, японский майонез, кунжут, соевый соус | word list below |
+| 200g, 50g | 200г, 50г | davidansushi.md/ru |
+| Sushi Burger Creveți | Суши-бургер с креветками | ours |
+| Ingrediente: nori, orez, castraveți, tobico, creveți, cremă de brânză, sos unaghi, sos spicy, susan | Ингредиенты: нори, рис, огурцы, тобико, креветки, сливочный сыр, соус унаги, соус спайси, кунжут | word list below |
+| 400g | 400г | davidansushi.md/ru |
+| Sushi Burger Somon | Суши-бургер с лососем | ours |
+| Ingrediente: nori, orez, castraveți, tobico, cremă de brânză, sos unaghi, sos spicy, susan | Ингредиенты: нори, рис, огурцы, тобико, сливочный сыр, соус унаги, соус спайси, кунжут | word list below |
+| Sushi Burger Somon Grill | Суши-бургер с лососем на гриле | ours |
+| Ingrediente: nori, orez, castraveți, tobico, somon grill, cremă de brânză, sos unaghi, sos spicy, susan | Ингредиенты: нори, рис, огурцы, тобико, лосось гриль, сливочный сыр, соус унаги, соус спайси, кунжут | word list below |
+| Sushi Burger Ton | Суши-бургер с тунцом | ours |
+| Ingrediente: nori, orez, castraveți, tobico, ton, cremă de brânză, sos unaghi, sos spicy, susan | Ингредиенты: нори, рис, огурцы, тобико, тунец, сливочный сыр, соус унаги, соус спайси, кунжут | word list below |
+| Sushi burger Țipar | Суши-бургер с угрём | ours |
+| Ingrediente: nori, orez, castraveți, tobico, țipar, cremă de brânză, sos unaghi, sos spicy, susan | Ингредиенты: нори, рис, огурцы, тобико, угорь, сливочный сыр, соус унаги, соус спайси, кунжут | word list below |
+| Cheesecake | Чизкейк | ours |
+| Ingrediente: cremă de brânză, frișcă, unt, ouă, biscuiți, dulceață | Ингредиенты: сливочный сыр, сливки, сливочное масло, яйца, печенье, варенье | word list below |
+| Cherry roll | Cherry roll | davidansushi.md/ru |
+| Ingrediente: foaie de orez, cremă de brânză, kiwi, banană, vișină, topping de ciocolată | Ингредиенты: рисовый лист, сливочный сыр, киви, банан, вишня, шоколадный топпинг | word list below |
+| 200g | 200г | davidansushi.md/ru |
+| Choco roll | Choco roll | davidansushi.md/ru |
+| Ingrediente: foaie de orez, cremă de brânză, nutella, kiwi, banană, ananas, topping de caramelă | Ингредиенты: рисовый лист, сливочный сыр, нутелла, киви, банан, ананас, карамельный топпинг | word list below |
+| Minari roll | Minari roll | davidansushi.md/ru |
+| Ingrediente: foaie de orez, cremă de brânză, kiwi, banană, ananas, topping de ciocolată | Ингредиенты: рисовый лист, сливочный сыр, киви, банан, ананас, шоколадный топпинг | word list below |
+| Motti | Мотти | davidansushi.md/ru |
+| 40g | 40г | davidansushi.md/ru |
+| Coca Cola 250ml | Coca Cola 250ml | davidansushi.md/ru |
+| Coca Cola 500ml | Coca Cola 500ml | davidansushi.md/ru |
+| Fanta 250ml | Fanta 250ml | davidansushi.md/ru |
+| Fanta 500ml | Fanta 500ml | davidansushi.md/ru |
+| Schweppes Mohito | Schweppes Mohito | davidansushi.md/ru |
+| 330ml | 330мл | ours |
+| Schweppes Pomegranate | Schweppes Pomegranate | davidansushi.md/ru |
+| Sprite 250ml | Sprite 250ml | davidansushi.md/ru |
+| Sprite 500ml | Sprite 500ml | davidansushi.md/ru |
+| Vinăria din vale – Feteasca Albă | Vinăria din vale – Feteasca Albă | davidansushi.md/ru |
+| Vinăria din vale – Feteasca Neagră | Vinăria din vale – Feteasca Neagră | davidansushi.md/ru |
+| Vinăria din vale – Rose | Vinăria din vale – Rose | davidansushi.md/ru |
+| Dulciuri Nipone | Японские сладости | davidansushi.md/ru |
+
+### Sushi ingredient word list
+
+Each ingredient's Russian, used by every list above: the site's where it translated the ingredient at least once (its most frequent form), ours otherwise. Set contents use the rolls' Russian names and "шт".
+
+| Română | Русский | Source |
+|---|---|---|
+| alge chuka | водоросли чука | ours |
+| alge wakame | водоросли вакаме | ours |
+| ananas | ананас | davidansushi.md/ru |
+| ardei | сладкий перец | ours |
+| ardei california | болгарский перец | ours |
+| ardei iute | острый перец | ours |
+| aripioare de pui | куриные крылышки | ours |
+| avocado | авокадо | davidansushi.md/ru |
+| bacon | бекон | ours |
+| banană | банан | davidansushi.md/ru |
+| biscuiți | печенье | ours |
+| boabe edamame | бобы эдамаме | ours |
+| bulion de găină | куриный бульон | ours |
+| bulion din creveți | бульон из креветок | ours |
+| calmari | кальмары | ours |
+| calmari panați | кальмары в панировке | ours |
+| carne de pui | курица | ours |
+| carne de pui grill | курица гриль | ours |
+| carne de pui panată | курица в панировке | ours |
+| carne de vită | говядина | ours |
+| cartofi pai | картофель фри | ours |
+| castravete | огурец | davidansushi.md/ru |
+| castraveți | огурцы | davidansushi.md/ru |
+| castraveți marinați | маринованные огурцы | ours |
+| cașcaval cheddar | сыр чеддер | ours |
+| cașcaval dorblu | сыр дорблю | ours |
+| ceapă | лук | ours |
+| ceapă caramelizată | карамелизированный лук | ours |
+| ceapă marinată | маринованный лук | ours |
+| ceapă verde | зелёный лук | ours |
+| cheddar | чеддер | ours |
+| Chifle Bao | Булочки бао | ours |
+| chiflă bao | булочка бао | ours |
+| chiflă burger | булочка для бургера | ours |
+| chuka | чука | ours |
+| chyka | чука | ours |
+| ciuperci | грибы | ours |
+| ciuperci champignon | шампиньоны | ours |
+| ciuperci shitake | грибы шиитаке | ours |
+| cremă de brânză | сливочный сыр | davidansushi.md/ru |
+| creveți | креветки | davidansushi.md/ru |
+| creveți panați | креветки в панировке | ours |
+| creveți pane | креветки в панировке | davidansushi.md/ru |
+| daicon murat | маринованный дайкон | ours |
+| dressing pentru salată | заправка для салата | ours |
+| dulceață | варенье | ours |
+| fidea de boabe | бобовая лапша | ours |
+| fidea de grâu | пшеничная лапша | ours |
+| fidea de hrișcă | гречневая лапша | ours |
+| fileu de pui panat | куриное филе в панировке | ours |
+| fileu de pui pane | куриное филе в панировке | ours |
+| foaie de orez | рисовый лист | davidansushi.md/ru |
+| foi de orez | рисовые листы | ours |
+| frișcă | сливки | ours |
+| fructe de mare | морепродукты | ours |
+| frunză de salată | лист салата | ours |
+| ghimbir marinat | маринованный имбирь | ours |
+| kiwi | киви | davidansushi.md/ru |
+| lapte de cocos | кокосовое молоко | davidansushi.md/ru |
+| lămâie | лимон | ours |
+| maioneză japoneză | японский майонез | ours |
+| mango | манго | ours |
+| mango gem | джем из манго | davidansushi.md/ru |
+| Masago Arare | масаго арарэ | ours |
+| midii | мидии | ours |
+| mix de salată | микс салатов | ours |
+| mix salată | микс салатов | ours |
+| Mix salată | Микс салатов | ours |
+| morcov | морковь | ours |
+| mozzarella | моцарелла | ours |
+| mozzarella panată | моцарелла в панировке | ours |
+| Nigiri creveți | Нигири с креветкой | ours |
+| Nigiri somon | Нигири с лососем | ours |
+| Nigiri ton | Нигири с тунцом | ours |
+| Nigiri țipar | Нигири с угрём | ours |
+| nori | нори | davidansushi.md/ru |
+| nuci caju | орехи кешью | ours |
+| nughete din carne de pui | куриные наггетсы | ours |
+| nutella | нутелла | ours |
+| orez | рис | davidansushi.md/ru |
+| ouă | яйца | ours |
+| parmesan | пармезан | ours |
+| parmezan | пармезан | ours |
+| pesmeți | сухари | ours |
+| pesmeți panco | сухари панко | ours |
+| pârjoală de pui | куриная котлета | ours |
+| pârjoală de vită | говяжья котлета | ours |
+| păstăi | стручковая фасоль | ours |
+| quinoa | киноа | ours |
+| roșii | помидоры | ours |
+| roșii cherry | помидоры черри | ours |
+| rucola | руккола | ours |
+| somon | лосось | davidansushi.md/ru |
+| somon copt | запечённый лосось | ours |
+| somon grill | лосось гриль | ours |
+| somon slab sărat | слабосолёный лосось | ours |
+| sos caesar | соус цезарь | ours |
+| sos de nuci | ореховый соус | ours |
+| sos de soia | соевый соус | ours |
+| sos Ketchup | кетчуп | ours |
+| sos ketchup | кетчуп | ours |
+| sos Kimchi Maio | соус кимчи-майо | ours |
+| sos lunch-king | соус lunch-king | ours |
+| sos Maio Dulce | сладкий майо-соус | ours |
+| sos picant | острый соус | ours |
+| sos poke | соус поке | ours |
+| sos soia | соевый соус | ours |
+| sos spicy | соус спайси | ours |
+| sos Sriracha | соус шрирача | ours |
+| sos sriracha | соус шрирача | ours |
+| sos Sweet-Chilli | соус свит чили | ours |
+| sos sweet-chilli | соус свит чили | ours |
+| sos tartar | соус тартар | ours |
+| sos TarTar | соус тартар | ours |
+| sos Tom Yam | соус Том Ям | davidansushi.md/ru |
+| sos unaghi | соус унаги | davidansushi.md/ru |
+| sos Unaghi | соус унаги | ours |
+| sos wasabi dulce | сладкий соус васаби | ours |
+| spanac | шпинат | ours |
+| susan | кунжут | davidansushi.md/ru |
+| tobico | тобико | davidansushi.md/ru |
+| togarashi | тогараси | ours |
+| ton | тунец | davidansushi.md/ru |
+| topping de caramelă | карамельный топпинг | ours |
+| topping de ciocolată | шоколадный топпинг | ours |
+| tulpină de țelină | стебель сельдерея | ours |
+| ulei de măsline | оливковое масло | ours |
+| unt | сливочное масло | ours |
+| usturoi | чеснок | ours |
+| vișină | вишня | ours |
+| țipar | угорь | davidansushi.md/ru |

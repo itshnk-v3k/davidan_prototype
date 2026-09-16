@@ -59,7 +59,10 @@ class RentalHomeScreen extends ConsumerWidget {
                   AppSpacing.xl,
                 ),
                 children: [
-                  Text(RentalPage.line, style: context.textStyles.body),
+                  Text(
+                    context.content.text(RentalPage.line),
+                    style: context.textStyles.body,
+                  ),
                   const SizedBox(height: AppSpacing.lg),
                   InfoNote(
                     icon: Icons.sell_outlined,

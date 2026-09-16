@@ -107,7 +107,7 @@ class CarDetailScreen extends ConsumerWidget {
                                   const SizedBox(width: AppSpacing.md),
                                   Expanded(
                                     child: Text(
-                                      document,
+                                      context.content.text(document),
                                       style: context.textStyles.body,
                                     ),
                                   ),

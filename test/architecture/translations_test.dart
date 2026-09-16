@@ -36,15 +36,9 @@ void main() {
 
   // A message missing from app_ru.arb doesn't break the build: the Russian
   // app silently shows the Romanian text instead. This is what catches it.
-  test(
-    'every message has a Russian translation',
-    () {
-      expect(romanian.keys.where((key) => !russian.containsKey(key)), isEmpty);
-    },
-    skip:
-        'Russian is written in step 8 of the hub round; until then '
-        'app_ru.arb is empty on purpose',
-  );
+  test('every message has a Russian translation', () {
+    expect(romanian.keys.where((key) => !russian.containsKey(key)), isEmpty);
+  });
 
   test('Russian has no message that Romanian lacks, and none left empty', () {
     expect(russian.keys.where((key) => !romanian.containsKey(key)), isEmpty);

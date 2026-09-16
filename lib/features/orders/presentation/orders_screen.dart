@@ -16,7 +16,6 @@ import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/core/widgets/section_title.dart';
 import 'package:davidan_prototype/core/widgets/status_pill.dart';
 import 'package:davidan_prototype/core/widgets/summary_row.dart';
-import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/account/application/account_notifier.dart';
 import 'package:davidan_prototype/features/orders/application/customer_requests_provider.dart';
@@ -213,7 +212,7 @@ class _BrandChips extends StatelessWidget {
             AppChip(
               label: brand == null
                   ? context.l10n.allBrands
-                  : brandIntros[brand]!.name,
+                  : context.content.introOf(brand).name,
               selected: brand == selected,
               onTap: () => onSelected(brand),
             ),
@@ -272,7 +271,7 @@ class _RequestCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          brandIntros[brand]!.name,
+                          context.content.introOf(brand).name,
                           style: context.textStyles.caption.copyWith(
                             color: BrandColors.of(
                               brand,

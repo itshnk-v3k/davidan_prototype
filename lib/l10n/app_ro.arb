@@ -570,6 +570,16 @@
   "@rentalContact": {
     "description": "Label of the name and phone on a sent request."
   },
+  "legalDocumentRomanianOnly": "Textul este disponibil doar în limba română, ca pe {website}.",
+  "@legalDocumentRomanianOnly": {
+    "description": "Above a brand's legal page when the app isn't in Romanian: the sites have their legal pages only in Romanian, so the text isn't translated. Never shown in Romanian.",
+    "placeholders": {
+      "website": {
+        "type": "String",
+        "example": "davidansushi.md"
+      }
+    }
+  },
   "demoProfileNote": "Cont demonstrativ, fără verificare reală prin SMS.",
   "deliverTo": "Livrare la",
   "chooseAddress": "Alege adresa sau localul",

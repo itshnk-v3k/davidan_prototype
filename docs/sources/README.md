@@ -35,6 +35,7 @@ were not kept (about 78 MB of HTML).
 |---|---|
 | [superapp_ux.md](superapp_ux.md) | Hub home screens, entering a brand, carts and order history in multi-service apps (Yandex Go, Glovo, Wolt, Uber, Grab) |
 | [flutter_l10n.md](flutter_l10n.md) | gen-l10n with material_ui, Romanian and Russian plurals, locale persistence, font coverage |
+| [ru_translations.md](ru_translations.md) | Every Russian text the app shows, UI and content, with where it comes from: davidansushi.md/ru or our translation, for DaviDan's review |
 
 ## Known problems in the sources
 
@@ -59,5 +60,9 @@ Reported to the client; the app works around them as noted.
   the T&C allow 400 km/day. The booking form takes a 50 € advance while the T&C
   say 50%.
 - **Russian is mostly ours.** Only davidansushi.md has a Russian version, and
-  it is partly untranslated. No site has Russian legal pages. Our translations
-  are listed in `ru_translations.md` for the client to review.
+  it is partly untranslated: many names and ingredients on /ru are still
+  Romanian. The app keeps the site's Russian where it exists and translates the
+  rest. davidanrentcar.md's Russian is Google Translate in the browser, not a
+  source. No site has Russian legal pages, so the app shows them in Romanian
+  with a note. Our translations are listed in `ru_translations.md` for the
+  client to review.

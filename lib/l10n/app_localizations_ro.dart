@@ -620,6 +620,11 @@ class AppLocalizationsRo extends AppLocalizations {
   String get rentalContact => 'Contact';
 
   @override
+  String legalDocumentRomanianOnly(String website) {
+    return 'Textul este disponibil doar în limba română, ca pe $website.';
+  }
+
+  @override
   String get demoProfileNote =>
       'Cont demonstrativ, fără verificare reală prin SMS.';
 

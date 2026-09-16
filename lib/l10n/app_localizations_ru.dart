@@ -14,387 +14,387 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String priceLei(String amount) {
-    return '$amount lei';
+    return '$amount лей';
   }
 
   @override
-  String get launcherTitle => 'Prototip DaviDan';
+  String get launcherTitle => 'Прототип DaviDan';
 
   @override
   String get launcherSubtitle =>
-      'Alege partea sistemului pe care vrei s-o vezi.';
+      'Выбери часть системы, которую хочешь посмотреть.';
 
   @override
-  String get launcherClient => 'Aplicația clientului';
+  String get launcherClient => 'Приложение клиента';
 
   @override
-  String get launcherClientHint => 'Meniu, coș, comandă și urmărire';
+  String get launcherClientHint => 'Меню, корзина, заказ и отслеживание';
 
   @override
-  String get launcherCourier => 'Aplicația curierului';
+  String get launcherCourier => 'Приложение курьера';
 
   @override
-  String get launcherCourierHint => 'Comenzi de livrat și statusul livrării';
+  String get launcherCourierHint => 'Заказы на доставку и статус доставки';
 
   @override
-  String get launcherKds => 'Panoul magazinului';
+  String get launcherKds => 'Панель магазина';
 
   @override
-  String get launcherKdsHint => 'Comenzi noi, cronometru și acceptare';
+  String get launcherKdsHint => 'Новые заказы, таймер и приём';
 
   @override
-  String get resetDemoData => 'Resetează datele demo';
+  String get resetDemoData => 'Сбросить демо-данные';
 
   @override
-  String get resetDemoDataDone => 'Datele demo au fost resetate.';
+  String get resetDemoDataDone => 'Демо-данные сброшены.';
 
   @override
   String get launcherFooter =>
-      'Prototip pentru prezentare. Datele sunt fictive și se păstrează doar pe acest dispozitiv.';
+      'Прототип для презентации. Данные вымышленные и хранятся только на этом устройстве.';
 
   @override
-  String get openLauncher => 'Înapoi la prototip';
+  String get openLauncher => 'Назад к прототипу';
 
   @override
-  String get themeTitle => 'Tema aplicației';
+  String get themeTitle => 'Тема приложения';
 
   @override
-  String get themeDark => 'Întunecată';
+  String get themeDark => 'Тёмная';
 
   @override
-  String get themeLight => 'Luminoasă';
+  String get themeLight => 'Светлая';
 
   @override
-  String get themeSystem => 'Ca telefonul';
+  String get themeSystem => 'Как в телефоне';
 
   @override
-  String get languageTitle => 'Limba aplicației';
+  String get languageTitle => 'Язык приложения';
 
   @override
-  String get languageSystem => 'Ca telefonul';
+  String get languageSystem => 'Как в телефоне';
 
   @override
-  String get navHome => 'Acasă';
+  String get navHome => 'Главная';
 
   @override
-  String get navOrders => 'Comenzi';
+  String get navOrders => 'Заказы';
 
   @override
-  String get navFavorites => 'Favorite';
+  String get navFavorites => 'Избранное';
 
   @override
-  String get navProfile => 'Profil';
+  String get navProfile => 'Профиль';
 
   @override
-  String get locationTitle => 'Livrare sau ridicare';
+  String get locationTitle => 'Доставка или самовывоз';
 
   @override
-  String get menuTitle => 'Meniu';
+  String get menuTitle => 'Меню';
 
   @override
-  String get cartTitle => 'Coșul meu';
+  String get cartTitle => 'Моя корзина';
 
   @override
-  String get checkoutTitle => 'Finalizează comanda';
+  String get checkoutTitle => 'Оформление заказа';
 
   @override
-  String get profileTitle => 'Profil';
+  String get profileTitle => 'Профиль';
 
   @override
-  String get courierOrdersTitle => 'Comenzi de livrat';
+  String get courierOrdersTitle => 'Заказы на доставку';
 
   @override
-  String get kdsTitle => 'Panoul magazinului';
+  String get kdsTitle => 'Панель магазина';
 
   @override
-  String get back => 'Înapoi';
+  String get back => 'Назад';
 
   @override
-  String get backHome => 'Înapoi acasă';
+  String get backHome => 'На главную';
 
   @override
-  String get comingSoonTitle => 'În curând';
+  String get comingSoonTitle => 'Скоро';
 
   @override
   String forYouTitle(String name) {
-    return '$name, pentru tine';
+    return '$name, для тебя';
   }
 
   @override
-  String get forYouTitleSignedOut => 'Pentru tine';
+  String get forYouTitleSignedOut => 'Для тебя';
 
   @override
   String get locationPrompt =>
-      'Alege cum primești comenzile. Poți schimba oricând din bara de sus a ecranului Acasă.';
+      'Выбери, как получать заказы. Это можно изменить в любой момент в верхней строке экрана «Главная».';
 
   @override
-  String get confirmAddress => 'Livrează la această adresă';
+  String get confirmAddress => 'Доставить по этому адресу';
 
   @override
-  String get recentAddressesTitle => 'Adrese folosite recent';
+  String get recentAddressesTitle => 'Недавние адреса';
 
   @override
-  String get nearestToYou => 'Cel mai aproape de tine';
+  String get nearestToYou => 'Ближе всего к тебе';
 
   @override
   String get nearestSuggestion =>
-      'Ți-am selectat localul cel mai apropiat. Confirmă-l sau alege altul.';
+      'Мы выбрали ближайшее к тебе заведение. Подтверди его или выбери другое.';
 
   @override
-  String get confirmShop => 'Confirmă localul';
+  String get confirmShop => 'Подтвердить заведение';
 
   @override
-  String get useCurrentLocation => 'Folosește locația mea curentă';
+  String get useCurrentLocation => 'Использовать моё местоположение';
 
   @override
   String get useCurrentLocationHint =>
-      'Doar pentru comanda următoare. Adresa salvată rămâne.';
+      'Только для следующего заказа. Сохранённый адрес останется.';
 
   @override
-  String get locating => 'Se caută locația…';
+  String get locating => 'Ищем местоположение…';
 
   @override
-  String get deliverToCurrentLocation => 'Livrare la locația curentă';
+  String get deliverToCurrentLocation => 'Доставка по текущему местоположению';
 
   @override
   String currentLocationValue(String area) {
-    return '$area · doar comanda următoare';
+    return '$area · только следующий заказ';
   }
 
   @override
-  String get dropCurrentLocation => 'Renunță la locația curentă';
+  String get dropCurrentLocation => 'Отказаться от текущего местоположения';
 
   @override
-  String get typeAddressInstead => 'Scrie o adresă';
+  String get typeAddressInstead => 'Ввести адрес';
 
   @override
-  String get outsideChisinau => 'În afara Chișinăului';
+  String get outsideChisinau => 'За пределами Кишинёва';
 
   @override
   String areaOf(String sector) {
-    return 'Zona $sector';
+    return 'Район $sector';
   }
 
   @override
   String pinnedAddress(String area, String coordinates) {
-    return 'Locația clientului · $area ($coordinates)';
+    return 'Местоположение клиента · $area ($coordinates)';
   }
 
   @override
-  String get locationFailureDenied => 'Nu ai permis accesul la locație.';
+  String get locationFailureDenied => 'Доступ к местоположению не разрешён.';
 
   @override
   String get locationFailureDeniedForever =>
-      'Accesul la locație e blocat din setările telefonului.';
+      'Доступ к местоположению заблокирован в настройках телефона.';
 
   @override
-  String get locationFailureServiceOff => 'Localizarea telefonului e oprită.';
+  String get locationFailureServiceOff => 'Геолокация на телефоне выключена.';
 
   @override
   String get locationFailureTimeout =>
-      'Nu am primit semnal de localizare la timp.';
+      'Не удалось вовремя получить сигнал геолокации.';
 
   @override
   String get locationFailureUnavailable =>
-      'Locația nu e disponibilă pe acest dispozitiv.';
+      'Местоположение недоступно на этом устройстве.';
 
   @override
-  String get mapPickerTitle => 'Alege locația pe hartă';
+  String get mapPickerTitle => 'Выбери место на карте';
 
   @override
-  String get mapPickerHint => 'Atinge harta sau alege zona unde livrăm.';
+  String get mapPickerHint => 'Нажми на карту или выбери район доставки.';
 
   @override
-  String get schematicMap => 'Hartă schematică a Chișinăului';
+  String get schematicMap => 'Схематическая карта Кишинёва';
 
   @override
-  String get chosenPoint => 'Punctul ales';
+  String get chosenPoint => 'Выбранная точка';
 
   @override
   String distanceToShop(String distance, String shopName) {
-    return '$distance până la $shopName';
+    return '$distance до $shopName';
   }
 
   @override
-  String get deliverHere => 'Livrează aici';
+  String get deliverHere => 'Доставить сюда';
 
   @override
-  String get signInTitle => 'Intră în cont';
+  String get signInTitle => 'Войти';
 
   @override
   String get signInPrompt =>
-      'Scrie numărul de telefon. Îți trimitem un cod ca să-l confirmi.';
+      'Введи номер телефона. Мы отправим код, чтобы его подтвердить.';
 
   @override
-  String get phoneLabel => 'Număr de telefon';
+  String get phoneLabel => 'Номер телефона';
 
   @override
   String get phoneHint => '69 123 456';
 
   @override
   String get phoneInvalid =>
-      'Scrie un număr de mobil din 8 cifre, care începe cu 6 sau 7.';
+      'Введи мобильный номер из 8 цифр, который начинается с 6 или 7.';
 
   @override
-  String get sendCode => 'Primește codul';
+  String get sendCode => 'Получить код';
 
   @override
-  String get signInLater => 'Mai târziu';
+  String get signInLater => 'Позже';
 
   @override
   String get demoSignInNote =>
-      'Cont demonstrativ: nu se trimite niciun SMS și nimic nu e verificat. Datele rămân doar pe acest dispozitiv.';
+      'Демо-аккаунт: SMS не отправляется и ничего не проверяется. Данные остаются только на этом устройстве.';
 
   @override
-  String get codeTitle => 'Codul din SMS';
+  String get codeTitle => 'Код из SMS';
 
   @override
   String codeSentTo(String phone) {
-    return 'Scrie codul de 4 cifre trimis la $phone.';
+    return 'Введи 4-значный код, отправленный на $phone.';
   }
 
   @override
-  String get codeLabel => 'Cod de 4 cifre';
+  String get codeLabel => 'Код из 4 цифр';
 
   @override
-  String get codeIncomplete => 'Scrie toate cele 4 cifre.';
+  String get codeIncomplete => 'Введи все 4 цифры.';
 
   @override
-  String get confirmCode => 'Confirmă codul';
+  String get confirmCode => 'Подтвердить код';
 
   @override
-  String get resendCode => 'Retrimite codul';
+  String get resendCode => 'Отправить код ещё раз';
 
   @override
-  String get codeResent => 'Cod retrimis (demo, fără SMS real).';
+  String get codeResent => 'Код отправлен ещё раз (демо, без настоящего SMS).';
 
   @override
-  String get demoCodeNote => 'Demo: orice cod din 4 cifre este acceptat.';
+  String get demoCodeNote => 'Демо: подходит любой код из 4 цифр.';
 
   @override
-  String get detailsTitle => 'Câteva detalii';
+  String get detailsTitle => 'Немного о тебе';
 
   @override
-  String get nameLabel => 'Numele tău';
+  String get nameLabel => 'Твоё имя';
 
   @override
-  String get nameMissing => 'Scrie-ți numele.';
+  String get nameMissing => 'Введи своё имя.';
 
   @override
-  String get sectorTitle => 'Sectorul în care locuiești';
+  String get sectorTitle => 'Сектор, в котором ты живёшь';
 
   @override
-  String get sectorMissing => 'Alege sectorul.';
+  String get sectorMissing => 'Выбери сектор.';
 
   @override
-  String get useMyLocationForShop => 'Găsește localul după locația mea';
+  String get useMyLocationForShop => 'Найти заведение по моему местоположению';
 
   @override
   String locationFoundNearest(String distance, String shopName) {
-    return 'Locația găsită: $shopName e la $distance.';
+    return 'Местоположение найдено: $shopName в $distance.';
   }
 
   @override
   String findShopBySectorAfter(String reason) {
-    return '$reason Găsim localul după sectorul ales.';
+    return '$reason Найдём заведение по выбранному сектору.';
   }
 
   @override
-  String get createAccount => 'Creează contul';
+  String get createAccount => 'Создать аккаунт';
 
   @override
   String welcomeTitle(String name) {
-    return 'Bun venit, $name!';
+    return 'Добро пожаловать, $name!';
   }
 
   @override
   String get welcomeMessage =>
-      'Contul tău e gata. Iată localul DaviDan cel mai apropiat de tine.';
+      'Твой аккаунт готов. Вот ближайшее к тебе заведение DaviDan.';
 
   @override
-  String get nearestShopTitle => 'Cel mai apropiat local';
+  String get nearestShopTitle => 'Ближайшее заведение';
 
   @override
   String matchedBySectorOf(String sector) {
-    return 'După sectorul $sector';
+    return 'По сектору $sector';
   }
 
   @override
   String matchedByLocation(String distance) {
-    return 'După locația ta · $distance';
+    return 'По твоему местоположению · $distance';
   }
 
   @override
-  String get chooseHowToReceive => 'Alege cum primești comenzile';
+  String get chooseHowToReceive => 'Выбери, как получать заказы';
 
   @override
-  String get sectorBotanica => 'Botanica';
+  String get sectorBotanica => 'Ботаника';
 
   @override
-  String get sectorBuiucani => 'Buiucani';
+  String get sectorBuiucani => 'Буюканы';
 
   @override
-  String get sectorCentru => 'Centru';
+  String get sectorCentru => 'Центр';
 
   @override
-  String get sectorCiocana => 'Ciocana';
+  String get sectorCiocana => 'Чеканы';
 
   @override
-  String get sectorRiscani => 'Rîșcani';
+  String get sectorRiscani => 'Рышкановка';
 
   @override
   String sectorOf(String sector) {
-    return 'Sectorul $sector';
+    return 'Сектор $sector';
   }
 
   @override
-  String get accountLockedTitle => 'Contul tău';
+  String get accountLockedTitle => 'Твой аккаунт';
 
   @override
   String get accountLockedMessage =>
-      'Intră în cont ca să-ți vezi comenzile și localul cel mai apropiat.';
+      'Войди, чтобы видеть свои заказы и ближайшее заведение.';
 
   @override
-  String get signOut => 'Ieși din cont';
+  String get signOut => 'Выйти из аккаунта';
 
   @override
-  String get myOrdersTitle => 'Comenzile mele';
+  String get myOrdersTitle => 'Мои заказы';
 
   @override
-  String get ordersEmptyTitle => 'Nicio comandă încă';
+  String get ordersEmptyTitle => 'Заказов пока нет';
 
   @override
   String get ordersEmptyMessage =>
-      'Comenzile tale apar aici, cu statusul lor la zi.';
+      'Здесь появятся твои заказы с актуальным статусом.';
 
   @override
-  String get ordersActiveTitle => 'În curs';
+  String get ordersActiveTitle => 'Текущие';
 
   @override
-  String get ordersPastTitle => 'Finalizate';
+  String get ordersPastTitle => 'Завершённые';
 
   @override
-  String get allBrands => 'Toate';
+  String get allBrands => 'Все';
 
   @override
   String openBrandInfo(String brandName) {
-    return 'Informații despre $brandName';
+    return 'Информация о $brandName';
   }
 
   @override
-  String get brandContactsTitle => 'Contacte';
+  String get brandContactsTitle => 'Контакты';
 
   @override
-  String get brandInfoDeliveryArea => 'Zona de livrare';
+  String get brandInfoDeliveryArea => 'Зона доставки';
 
   @override
-  String get brandInfoAddress => 'Adresa';
+  String get brandInfoAddress => 'Адрес';
 
   @override
-  String get brandInfoHours => 'Program';
+  String get brandInfoHours => 'Режим работы';
 
   @override
-  String get brandInfoPhone => 'Telefon';
+  String get brandInfoPhone => 'Телефон';
 
   @override
   String get brandInfoEmail => 'E-mail';
@@ -403,14 +403,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get brandInfoInstagram => 'Instagram';
 
   @override
-  String get brandInfoCompany => 'Companie';
+  String get brandInfoCompany => 'Компания';
 
   @override
-  String get legalDocumentsTitle => 'Informații legale';
+  String get legalDocumentsTitle => 'Юридическая информация';
 
   @override
   String legalDocumentHint(String website) {
-    return 'Textul de pe $website';
+    return 'Текст с сайта $website, на румынском';
   }
 
   @override
@@ -420,22 +420,22 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String rentalFleetHint(String fee) {
-    return 'Prețul pe zi scade cu cât închiriezi mai multe zile. La fiecare rezervare se adaugă taxa de locație de $fee și suma de asigurare a mașinii.';
+    return 'Чем больше дней аренды, тем ниже цена за день. К каждой брони добавляются сбор за локацию $fee и страховая сумма автомобиля.';
   }
 
   @override
   String rentalPriceFrom(String price) {
-    return 'de la $price / zi';
+    return 'от $price / день';
   }
 
   @override
   String rentalPricePerDay(String price) {
-    return '$price / zi';
+    return '$price / день';
   }
 
   @override
   String rentalPriceForTier(String price, String tier) {
-    return '$price / zi pentru $tier';
+    return '$price / день при аренде на $tier';
   }
 
   @override
@@ -443,9 +443,10 @@ class AppLocalizationsRu extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       to,
       locale: localeName,
-      other: '$to de zile',
-      few: '$to zile',
-      one: '$to zi',
+      other: '$to дня',
+      many: '$to дней',
+      few: '$to дня',
+      one: '$to день',
     );
     return '$from–$_temp0';
   }
@@ -455,11 +456,12 @@ class AppLocalizationsRu extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       from,
       locale: localeName,
-      other: '$from de zile',
-      few: '$from zile',
-      one: '$from zi',
+      other: '$from дня',
+      many: '$from дней',
+      few: '$from дня',
+      one: '$from день',
     );
-    return '$_temp0 sau mai mult';
+    return '$_temp0 и больше';
   }
 
   @override
@@ -467,242 +469,249 @@ class AppLocalizationsRu extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count de locuri',
-      few: '$count locuri',
-      one: '$count loc',
+      other: '$count места',
+      many: '$count мест',
+      few: '$count места',
+      one: '$count место',
     );
     return '$_temp0';
   }
 
   @override
-  String get rentalSpecYear => 'Anul mașinii';
+  String get rentalSpecYear => 'Год выпуска';
 
   @override
-  String get rentalSpecFuel => 'Combustibil';
+  String get rentalSpecFuel => 'Топливо';
 
   @override
-  String get rentalSpecGearbox => 'Cutie de viteze';
+  String get rentalSpecGearbox => 'Коробка передач';
 
   @override
-  String get rentalSpecConsumption => 'Consumul de combustibil';
+  String get rentalSpecConsumption => 'Расход топлива';
 
   @override
-  String get rentalSpecPassengers => 'Max pasageri';
+  String get rentalSpecPassengers => 'Макс. пассажиров';
 
   @override
-  String get rentalSpecEngine => 'Capacitatea motorului';
+  String get rentalSpecEngine => 'Объём двигателя';
 
   @override
-  String get rentalSpecDoors => 'Uși';
+  String get rentalSpecDoors => 'Двери';
 
   @override
-  String get rentalSpecMileage => 'Kilometraj';
+  String get rentalSpecMileage => 'Пробег';
 
   @override
-  String get rentalFeaturesTitle => 'Dotări';
+  String get rentalFeaturesTitle => 'Оснащение';
 
   @override
-  String get rentalPricesTitle => 'Prețuri pe zile';
+  String get rentalPricesTitle => 'Цены по дням';
 
   @override
-  String get rentalLocationFee => 'Taxa de locație';
+  String get rentalLocationFee => 'Сбор за локацию';
 
   @override
-  String get rentalInsurance => 'Suma de asigurare';
+  String get rentalInsurance => 'Страховая сумма';
 
   @override
   String get rentalFeesNote =>
-      'Taxa de locație și suma de asigurare se adaugă o singură dată la fiecare rezervare, oricâte zile ar avea.';
+      'Сбор за локацию и страховая сумма добавляются к каждой брони один раз, на сколько бы дней она ни была.';
 
   @override
-  String get rentalDocumentsTitle => 'Acte necesare';
+  String get rentalDocumentsTitle => 'Необходимые документы';
 
   @override
-  String get rentalRequestAction => 'Cerere de rezervare';
+  String get rentalRequestAction => 'Заявка на бронирование';
 
   @override
-  String get rentalRequestTitle => 'Cerere de rezervare';
+  String get rentalRequestTitle => 'Заявка на бронирование';
 
   @override
-  String get rentalPickupTitle => 'Ridicare';
+  String get rentalPickupTitle => 'Получение';
 
   @override
-  String get rentalReturnTitle => 'Predare';
+  String get rentalReturnTitle => 'Возврат';
 
   @override
-  String get rentalLocationAirport => 'Aeroport Chișinău';
+  String get rentalLocationAirport => 'Аэропорт Кишинёв';
 
   @override
-  String get rentalLocationChisinau => 'Chișinău';
+  String get rentalLocationChisinau => 'Кишинёв';
 
   @override
-  String get rentalDateLabel => 'Data';
+  String get rentalDateLabel => 'Дата';
 
   @override
-  String get rentalTimeLabel => 'Ora';
+  String get rentalTimeLabel => 'Время';
 
   @override
   String get rentalPickupPassed =>
-      'Ora ridicării a trecut deja. Alege una mai târzie.';
+      'Время получения уже прошло. Выбери более позднее.';
 
   @override
   String get rentalReturnNotAfterPickup =>
-      'Predarea trebuie să fie după ridicare.';
+      'Возврат должен быть после получения.';
 
   @override
-  String get rentalExtrasTitle => 'Servicii suplimentare';
+  String get rentalExtrasTitle => 'Дополнительные услуги';
 
   @override
-  String get rentalExtraChildSeat => 'Scaun pentru copii';
+  String get rentalExtraChildSeat => 'Детское кресло';
 
   @override
-  String get rentalExtraUnlimitedKm => 'Kilometri nelimitați';
+  String get rentalExtraUnlimitedKm => 'Безлимитный пробег';
 
   @override
   String rentalPriceWholeRental(String price) {
-    return '$price / rezervare';
+    return '$price / бронь';
   }
 
   @override
-  String get rentalContactTitle => 'Datele tale';
+  String get rentalContactTitle => 'Твои данные';
 
   @override
-  String get rentalNotesLabel => 'Informații suplimentare';
+  String get rentalNotesLabel => 'Дополнительная информация';
 
   @override
-  String get rentalQuoteTitle => 'Prețul rezervării';
+  String get rentalQuoteTitle => 'Стоимость брони';
 
   @override
   String rentalDaysAtRate(int days, String rate) {
     String _temp0 = intl.Intl.pluralLogic(
       days,
       locale: localeName,
-      other: '$days de zile',
-      few: '$days zile',
-      one: '$days zi',
+      other: '$days дня',
+      many: '$days дней',
+      few: '$days дня',
+      one: '$days день',
     );
     return '$_temp0 × $rate';
   }
 
   @override
   String rentalRateForTier(String tier) {
-    return 'Prețul pe zi pentru $tier';
+    return 'Цена за день при аренде на $tier';
   }
 
   @override
   String get rentalNoPaymentNote =>
-      'Nu plătești nimic acum. Te contactăm ca să confirmăm rezervarea.';
+      'Сейчас ничего платить не нужно. Мы свяжемся с тобой, чтобы подтвердить бронь.';
 
   @override
-  String get rentalSendRequest => 'Trimite cererea';
+  String get rentalSendRequest => 'Отправить заявку';
 
   @override
-  String get rentalRequestSentTitle => 'Cererea a fost trimisă';
+  String get rentalRequestSentTitle => 'Заявка отправлена';
 
   @override
-  String get rentalWillContact => 'Vă vom contacta în curând.';
+  String get rentalWillContact => 'Мы свяжемся с вами в ближайшее время.';
 
   @override
   String rentalBookingNumber(String id) {
-    return 'Cererea nr. $id';
+    return 'Заявка № $id';
   }
 
   @override
-  String get rentalBookingStatus => 'Cerere trimisă';
+  String get rentalBookingStatus => 'Заявка отправлена';
 
   @override
-  String get rentalBookingNotFound => 'Cererea nu a fost găsită.';
+  String get rentalBookingNotFound => 'Заявка не найдена.';
 
   @override
-  String get rentalCar => 'Mașina';
+  String get rentalCar => 'Автомобиль';
 
   @override
-  String get rentalContact => 'Contact';
+  String get rentalContact => 'Контакт';
 
   @override
-  String get demoProfileNote =>
-      'Cont demonstrativ, fără verificare reală prin SMS.';
+  String legalDocumentRomanianOnly(String website) {
+    return 'Этот текст есть только на румынском языке, как и на сайте $website.';
+  }
 
   @override
-  String get deliverTo => 'Livrare la';
+  String get demoProfileNote => 'Демо-аккаунт, без настоящей проверки по SMS.';
 
   @override
-  String get chooseAddress => 'Alege adresa sau localul';
+  String get deliverTo => 'Доставка по адресу';
 
   @override
-  String get categoriesTitle => 'Categorii';
+  String get chooseAddress => 'Выбери адрес или заведение';
 
   @override
-  String get popularTitle => 'Produse DaviDan';
+  String get categoriesTitle => 'Категории';
 
   @override
-  String get seeAll => 'Vezi mai mult';
+  String get popularTitle => 'Продукция DaviDan';
+
+  @override
+  String get seeAll => 'Смотреть все';
 
   @override
   String seeAllProducts(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Vezi toate cele $count de produse',
-      few: 'Vezi toate cele $count produse',
-      one: 'Vezi $count produs',
+      other: 'Смотреть все $count товара',
+      many: 'Смотреть все $count товаров',
+      few: 'Смотреть все $count товара',
+      one: 'Смотреть $count товар',
     );
     return '$_temp0';
   }
 
   @override
-  String get categoryEmpty => 'Momentan nu sunt produse în această categorie.';
+  String get categoryEmpty => 'В этой категории пока нет товаров.';
 
   @override
-  String get descriptionTitle => 'Descriere';
+  String get descriptionTitle => 'Описание';
 
   @override
   String productPieces(String pieces) {
-    return 'Bucăți: $pieces';
+    return 'Количество: $pieces';
   }
 
   @override
   String productWeight(String weight) {
-    return 'Masa: $weight';
+    return 'Вес: $weight';
   }
 
   @override
-  String get productNotFound => 'Produsul nu a fost găsit.';
+  String get productNotFound => 'Товар не найден.';
 
   @override
-  String get increaseQuantity => 'Mărește cantitatea';
+  String get increaseQuantity => 'Увеличить количество';
 
   @override
-  String get decreaseQuantity => 'Micșorează cantitatea';
+  String get decreaseQuantity => 'Уменьшить количество';
 
   @override
   String inCart(int count) {
-    return 'În coș: $count';
+    return 'В корзине: $count';
   }
 
   @override
   String addToCartTotal(String total) {
-    return 'Adaugă în coș · $total';
+    return 'В корзину · $total';
   }
 
   @override
   String addedToCart(int quantity, String productName) {
-    return 'Adăugat în coș: $quantity × $productName';
+    return 'Добавлено в корзину: $quantity × $productName';
   }
 
   @override
   String addToCart(String productName) {
-    return 'Adaugă $productName în coș';
+    return 'Добавить $productName в корзину';
   }
 
   @override
   String removeOneFromCart(String productName) {
-    return 'Scoate o bucată de $productName din coș';
+    return 'Убрать одну штуку $productName из корзины';
   }
 
   @override
   String removeFromCart(String productName) {
-    return 'Scoate $productName din coș';
+    return 'Удалить $productName из корзины';
   }
 
   @override
@@ -710,9 +719,10 @@ class AppLocalizationsRu extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count de produse în coș',
-      few: '$count produse în coș',
-      one: '$count produs în coș',
+      other: '$count товара в корзине',
+      many: '$count товаров в корзине',
+      few: '$count товара в корзине',
+      one: '$count товар в корзине',
     );
     return '$_temp0';
   }
@@ -722,66 +732,68 @@ class AppLocalizationsRu extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Coșul meu, $count de produse în coș',
-      few: 'Coșul meu, $count produse în coș',
-      one: 'Coșul meu, $count produs în coș',
-      zero: 'Coșul meu',
+      other: 'Моя корзина, $count товара',
+      many: 'Моя корзина, $count товаров',
+      few: 'Моя корзина, $count товара',
+      one: 'Моя корзина, $count товар',
+      zero: 'Моя корзина',
     );
     return '$_temp0';
   }
 
   @override
-  String get openCartsTitle => 'Coșurile mele';
+  String get openCartsTitle => 'Мои корзины';
 
   @override
   String openCarts(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Coșurile mele, $count de produse în coș',
-      few: 'Coșurile mele, $count produse în coș',
-      one: 'Coșurile mele, $count produs în coș',
-      zero: 'Coșurile mele',
+      other: 'Мои корзины, $count товара',
+      many: 'Мои корзины, $count товаров',
+      few: 'Мои корзины, $count товара',
+      one: 'Мои корзины, $count товар',
+      zero: 'Мои корзины',
     );
     return '$_temp0';
   }
 
   @override
-  String get openCartsEmptyTitle => 'Nimic în coș deocamdată';
+  String get openCartsEmptyTitle => 'В корзинах пока пусто';
 
   @override
   String get openCartsEmptyMessage =>
-      'Fiecare meniu are coșul lui. Coșurile în care ai adăugat ceva apar aici.';
+      'У каждого меню своя корзина. Здесь появятся корзины, в которых что-то есть.';
 
   @override
-  String get lastOrderTitle => 'Ultima comandă';
+  String get lastOrderTitle => 'Последний заказ';
 
   @override
-  String get orderAgain => 'Comandă din nou';
+  String get orderAgain => 'Заказать снова';
 
   @override
   String get orderAgainHint =>
-      'După prima comandă, o poți repeta de aici cu o singură apăsare.';
+      'После первого заказа его можно будет повторить здесь одним нажатием.';
 
   @override
-  String get cartEmptyTitle => 'Coșul tău e gol';
+  String get cartEmptyTitle => 'Твоя корзина пуста';
 
   @override
   String get cartEmptyMessage =>
-      'Adaugă produse din meniu, apoi revino aici ca să finalizezi comanda.';
+      'Добавь товары из меню и вернись сюда, чтобы оформить заказ.';
 
   @override
-  String get browseMenu => 'Vezi meniul';
+  String get browseMenu => 'Смотреть меню';
 
   @override
-  String get continueOrder => 'Continuă comanda';
+  String get continueOrder => 'Продолжить';
 
   @override
-  String get total => 'Total';
+  String get total => 'Итого';
 
   @override
   String unitPrice(String price) {
-    return '$price / buc.';
+    return '$price / шт.';
   }
 
   @override
@@ -790,233 +802,233 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get fulfilmentTitle => 'Cum primești comanda';
+  String get fulfilmentTitle => 'Как получить заказ';
 
   @override
-  String get delivery => 'Livrare';
+  String get delivery => 'Доставка';
 
   @override
-  String get pickup => 'Ridicare din local';
+  String get pickup => 'Самовывоз';
 
   @override
-  String get deliveryAddress => 'Adresa de livrare';
+  String get deliveryAddress => 'Адрес доставки';
 
   @override
-  String get deliveryAddressHint => 'Strada, numărul, blocul, apartamentul';
+  String get deliveryAddressHint => 'Улица, дом, корпус, квартира';
 
   @override
-  String get deliveryAddressMissing => 'Scrie adresa unde livrăm comanda.';
+  String get deliveryAddressMissing => 'Введи адрес доставки.';
 
   @override
-  String get deliveryTimeTitle => 'Ora livrării';
+  String get deliveryTimeTitle => 'Время доставки';
 
   @override
-  String get pickupTimeTitle => 'Ora ridicării';
+  String get pickupTimeTitle => 'Время самовывоза';
 
   @override
-  String get asSoonAsPossible => 'Cât mai curând';
+  String get asSoonAsPossible => 'Как можно скорее';
 
   @override
-  String get paymentTitle => 'Achitare';
+  String get paymentTitle => 'Оплата';
 
   @override
-  String get paymentOnDelivery => 'Plătești curierului, la primirea comenzii.';
+  String get paymentOnDelivery => 'Оплата курьеру при получении заказа.';
 
   @override
-  String get paymentOnPickup => 'Plătești în local, la ridicarea comenzii.';
+  String get paymentOnPickup => 'Оплата в заведении при получении заказа.';
 
   @override
-  String get orderSummaryTitle => 'Comanda ta';
+  String get orderSummaryTitle => 'Твой заказ';
 
   @override
-  String get placeOrder => 'Plasează comanda';
+  String get placeOrder => 'Оформить заказ';
 
   @override
-  String get paymentCash => 'Numerar';
+  String get paymentCash => 'Наличными';
 
   @override
-  String get paymentCard => 'Card prin POS';
+  String get paymentCard => 'Картой через терминал';
 
   @override
-  String get orderPlacedTitle => 'Comanda a fost plasată';
+  String get orderPlacedTitle => 'Заказ оформлен';
 
   @override
-  String get orderNotFound => 'Comanda nu a fost găsită.';
+  String get orderNotFound => 'Заказ не найден.';
 
   @override
-  String get pickupFrom => 'Ridicare din';
+  String get pickupFrom => 'Самовывоз из';
 
   @override
-  String get orderTime => 'Ora';
+  String get orderTime => 'Время';
 
   @override
   String get trackingComingSoon =>
-      'Urmărirea comenzii pas cu pas va apărea aici în etapele următoare.';
+      'Пошаговое отслеживание заказа появится здесь на следующих этапах.';
 
   @override
   String orderNumber(String id) {
-    return 'Comanda nr. $id';
+    return 'Заказ № $id';
   }
 
   @override
-  String get orderStatusPlaced => 'Plasată';
+  String get orderStatusPlaced => 'Оформлен';
 
   @override
-  String get orderStatusAccepted => 'Acceptată';
+  String get orderStatusAccepted => 'Принят';
 
   @override
-  String get orderStatusPreparing => 'Se pregătește';
+  String get orderStatusPreparing => 'Готовится';
 
   @override
-  String get orderStatusReady => 'Gata';
+  String get orderStatusReady => 'Готов';
 
   @override
-  String get orderStatusOnTheWay => 'În livrare';
+  String get orderStatusOnTheWay => 'В пути';
 
   @override
-  String get orderStatusCompleted => 'Finalizată';
+  String get orderStatusCompleted => 'Завершён';
 
   @override
-  String get advanceToAccepted => 'Acceptă';
+  String get advanceToAccepted => 'Принять';
 
   @override
-  String get advanceToPreparing => 'Începe prepararea';
+  String get advanceToPreparing => 'Начать готовить';
 
   @override
-  String get advanceToReady => 'Marchează gata';
+  String get advanceToReady => 'Отметить готовым';
 
   @override
-  String get advanceToOnTheWay => 'Am preluat comanda';
+  String get advanceToOnTheWay => 'Заказ забран';
 
   @override
-  String get advanceToCompleted => 'Predată clientului';
+  String get advanceToCompleted => 'Передан клиенту';
 
   @override
   String scheduledAt(String time) {
-    return 'La $time';
+    return 'К $time';
   }
 
   @override
-  String get kdsIncoming => 'Noi';
+  String get kdsIncoming => 'Новые';
 
   @override
-  String get kdsInKitchen => 'În lucru';
+  String get kdsInKitchen => 'В работе';
 
   @override
-  String get kdsReady => 'Gata';
+  String get kdsReady => 'Готовы';
 
   @override
-  String get kdsColumnEmpty => 'Nicio comandă';
+  String get kdsColumnEmpty => 'Нет заказов';
 
   @override
-  String get kdsEmptyTitle => 'Nicio comandă deocamdată';
+  String get kdsEmptyTitle => 'Заказов пока нет';
 
   @override
   String get kdsEmptyMessage =>
-      'Comenzile plasate din aplicația clientului apar aici.';
+      'Здесь появятся заказы, оформленные в приложении клиента.';
 
   @override
-  String get waitingForCourier => 'Așteaptă curierul';
+  String get waitingForCourier => 'Ждёт курьера';
 
   @override
-  String get kdsNewTag => 'NOUĂ';
+  String get kdsNewTag => 'НОВЫЙ';
 
   @override
   String newOrderArrived(String orderId) {
-    return 'Comandă nouă: $orderId';
+    return 'Новый заказ: $orderId';
   }
 
   @override
   String pickupAt(String shopName) {
-    return 'Ridicare · $shopName';
+    return 'Самовывоз · $shopName';
   }
 
   @override
   String timeSincePlaced(String elapsed) {
-    return 'Timp de la plasare: $elapsed';
+    return 'Время с оформления: $elapsed';
   }
 
   @override
-  String get favoritesTitle => 'Produse favorite';
+  String get favoritesTitle => 'Избранные товары';
 
   @override
-  String get favoritesEmptyTitle => 'Niciun produs favorit';
+  String get favoritesEmptyTitle => 'Нет избранных товаров';
 
   @override
   String get favoritesEmptyMessage =>
-      'Apasă inima de pe un produs ca să-l găsești repede aici.';
+      'Нажми на сердечко у товара, чтобы быстро найти его здесь.';
 
   @override
   String addToFavorites(String productName) {
-    return 'Adaugă $productName la favorite';
+    return 'Добавить $productName в избранное';
   }
 
   @override
   String removeFromFavorites(String productName) {
-    return 'Scoate $productName din favorite';
+    return 'Удалить $productName из избранного';
   }
 
   @override
   String courierArrivesIn(int minutes) {
-    return 'Curierul ajunge în aproximativ $minutes min';
+    return 'Курьер приедет примерно через $minutes мин';
   }
 
   @override
-  String get courierArrived => 'Curierul a ajuns la adresă';
+  String get courierArrived => 'Курьер прибыл по адресу';
 
   @override
-  String get courierOnline => 'Online';
+  String get courierOnline => 'Онлайн';
 
   @override
-  String get courierOffline => 'Offline';
+  String get courierOffline => 'Офлайн';
 
   @override
-  String get courierOnlineHint => 'Primești comenzi noi';
+  String get courierOnlineHint => 'Новые заказы приходят';
 
   @override
-  String get courierOfflineHint => 'Nu primești comenzi noi';
+  String get courierOfflineHint => 'Новые заказы не приходят';
 
   @override
-  String get courierOnTheWaySection => 'Pe drum spre client';
+  String get courierOnTheWaySection => 'В пути к клиенту';
 
   @override
-  String get courierReadySection => 'De preluat din local';
+  String get courierReadySection => 'Забрать в заведении';
 
   @override
-  String get courierOfflineTitle => 'Ești offline';
+  String get courierOfflineTitle => 'Ты офлайн';
 
   @override
   String get courierOfflineMessage =>
-      'Intră online ca să vezi comenzile de preluat din local.';
+      'Выйди на линию, чтобы видеть заказы, которые нужно забрать в заведении.';
 
   @override
-  String get courierEmptyTitle => 'Nicio livrare deocamdată';
+  String get courierEmptyTitle => 'Доставок пока нет';
 
   @override
   String get courierEmptyMessage =>
-      'Comenzile cu livrare apar aici când localul le marchează gata.';
+      'Заказы с доставкой появятся здесь, когда заведение отметит их готовыми.';
 
   @override
-  String get toCollect => 'De încasat';
+  String get toCollect => 'К оплате';
 
   @override
-  String get itemsTitle => 'Produse';
+  String get itemsTitle => 'Товары';
 
   @override
-  String get courierWaitingForStore => 'Localul încă pregătește comanda.';
+  String get courierWaitingForStore => 'Заведение ещё готовит заказ.';
 
   @override
-  String get deliveryCompleted => 'Livrare finalizată.';
+  String get deliveryCompleted => 'Доставка завершена.';
 
   @override
-  String get backToDeliveries => 'Înapoi la comenzi';
+  String get backToDeliveries => 'Назад к заказам';
 
   @override
-  String get deliveryNotFound => 'Livrarea nu a fost găsită.';
+  String get deliveryNotFound => 'Доставка не найдена.';
 
   @override
   String deliveryTitle(String orderId) {
-    return 'Livrare $orderId';
+    return 'Доставка $orderId';
   }
 
   @override

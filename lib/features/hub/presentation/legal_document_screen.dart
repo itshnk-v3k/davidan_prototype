@@ -5,13 +5,15 @@ import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
-import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/legal_text.dart';
+import 'package:davidan_prototype/core/widgets/info_note.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// One of a brand's legal pages in full, as its site words it, pushed from
-/// the brand's information page. The router only opens it for a document the
-/// brand has.
+/// the brand's information page. The sites have them only in Romanian, so in
+/// any other language a note says so above the text. The router only opens it
+/// for a document the brand has.
 class LegalDocumentScreen extends StatelessWidget {
   const LegalDocumentScreen({
     super.key,
@@ -26,7 +28,8 @@ class LegalDocumentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final document = brandInfos[brand]!.documents.firstWhere(
+    final info = context.content.infoOf(brand)!;
+    final document = info.documents.firstWhere(
       (document) => document.id == documentId,
     );
 
@@ -52,7 +55,19 @@ class LegalDocumentScreen extends StatelessWidget {
                   AppSpacing.gutter,
                   AppSpacing.xl,
                 ),
-                children: [LegalText(document.text)],
+                children: [
+                  // The sites' legal pages exist only in Romanian.
+                  if (context.l10n.localeName != 'ro') ...[
+                    InfoNote(
+                      icon: Icons.translate_rounded,
+                      text: context.l10n.legalDocumentRomanianOnly(
+                        info.website,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.lg),
+                  ],
+                  LegalText(document.text),
+                ],
               ),
             ),
           ],

@@ -10,7 +10,6 @@ import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
-import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -94,7 +93,7 @@ class _OpenCartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final intro = brandIntros[brand]!;
+    final intro = context.content.introOf(brand);
     final image = intro.image;
 
     return Material(

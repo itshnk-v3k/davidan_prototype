@@ -1118,6 +1118,12 @@ abstract class AppLocalizations {
   /// **'Contact'**
   String get rentalContact;
 
+  /// Above a brand's legal page when the app isn't in Romanian: the sites have their legal pages only in Romanian, so the text isn't translated. Never shown in Romanian.
+  ///
+  /// In ro, this message translates to:
+  /// **'Textul este disponibil doar în limba română, ca pe {website}.'**
+  String legalDocumentRomanianOnly(String website);
+
   /// No description provided for @demoProfileNote.
   ///
   /// In ro, this message translates to:

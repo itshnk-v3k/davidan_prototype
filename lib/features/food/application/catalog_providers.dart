@@ -8,14 +8,27 @@ import 'package:davidan_prototype/data/models/brand_catalog.dart';
 import 'package:davidan_prototype/data/models/menu_category.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/data/models/promo_banner.dart';
+import 'package:davidan_prototype/l10n/app_language.dart';
 
 // The only place the app reads mock menus. Each brand has its own, so every
 // provider here takes the brand. Swapping in a real API later means changing
 // these providers, not the screens.
 
-final brandCatalogProvider = Provider.family<BrandCatalog, Brand>(
-  (ref, brand) => mockCatalogs[brand] ?? const BrandCatalog(),
-);
+/// [brand]'s menu in the app's language.
+final brandCatalogProvider = Provider.family<BrandCatalog, Brand>((ref, brand) {
+  final catalog = mockCatalogs[brand] ?? const BrandCatalog();
+  final content = ref.watch(contentProvider);
+  return BrandCatalog(
+    categories: [
+      for (final category in catalog.categories) content.category(category),
+    ],
+    products: [
+      for (final product in catalog.products) content.product(product),
+    ],
+    banners: [for (final banner in catalog.banners) content.banner(banner)],
+    popularProductIds: catalog.popularProductIds,
+  );
+});
 
 final categoriesProvider = Provider.family<List<MenuCategory>, Brand>(
   (ref, brand) => ref.watch(brandCatalogProvider(brand)).categories,

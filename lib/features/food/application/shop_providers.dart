@@ -3,12 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:davidan_prototype/data/mock/bakery/bakery_shops.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/store_location.dart';
+import 'package:davidan_prototype/l10n/app_language.dart';
 
 // The only place the app reads mock shop data.
 
-/// The bakery's shops, where an order can be picked up. Sign-up also suggests
-/// the nearest one.
-final locationsProvider = Provider<List<StoreLocation>>((ref) => bakeryShops);
+/// The bakery's shops, where an order can be picked up, in the app's
+/// language. Sign-up also suggests the nearest one.
+final locationsProvider = Provider<List<StoreLocation>>((ref) {
+  final content = ref.watch(contentProvider);
+  return [for (final shop in bakeryShops) content.shop(shop)];
+});
 
 /// Where [brand]'s orders can be picked up. Empty for a brand whose orders are
 /// only delivered: no sushi or water source names a place to pick one up, and

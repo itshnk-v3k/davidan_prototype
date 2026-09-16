@@ -8,14 +8,13 @@ import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/core/widgets/link_card.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
-import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/brand_info.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// A brand's information page, full screen above its home, which opens it:
 /// its contacts as its site gives them, and its legal pages, each opening in
-/// full. The router only opens it for a brand in [brandInfos].
+/// full. The router only opens it for a brand in brandInfos.
 class BrandInfoScreen extends StatelessWidget {
   const BrandInfoScreen({super.key, required this.brand});
 
@@ -33,7 +32,7 @@ class BrandInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final info = brandInfos[brand]!;
+    final info = context.content.infoOf(brand)!;
 
     return Scaffold(
       backgroundColor: context.colors.background,

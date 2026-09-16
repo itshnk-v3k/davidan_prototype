@@ -7,18 +7,25 @@ import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/data/models/rental_booking.dart';
 import 'package:davidan_prototype/data/models/rental_car.dart';
 import 'package:davidan_prototype/l10n/app_localizations.dart';
+import 'package:davidan_prototype/l10n/content.dart';
 
 export 'package:davidan_prototype/l10n/app_localizations.dart';
 
 // All UI text lives in lib/l10n/app_ro.arb (Romanian, the source) and
 // app_ru.arb; the build generates AppLocalizations from them (l10n.yaml).
 // Product, category and banner names are content and live with the mock data
-// in lib/data/mock/.
+// in lib/data/mock/, their Russian in lib/data/mock/ru/ (see content.dart).
 
 extension AppLocalizationsOfContext on BuildContext {
   /// UI text in the app's language. Notifiers and toasts read stringsProvider
   /// instead, which follows the same language without a BuildContext.
   AppLocalizations get l10n => AppLocalizations.of(this);
+
+  /// The brands' content (brand names and pages) in the app's language, for
+  /// widgets that read it straight from the mock data. Menus, shops and the
+  /// fleet come from their providers already translated.
+  ContentTranslator get content =>
+      ContentTranslator.of(Localizations.localeOf(this));
 }
 
 /// Text for enum values, and for messages that take one, e.g.

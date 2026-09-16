@@ -43,7 +43,7 @@ class WaterHomeScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ScreenHeader(
-              title: WaterPage.title,
+              title: context.content.text(WaterPage.title),
               onBack: () => context.canPop()
                   ? context.pop()
                   : context.go(Routes.clientHome),
@@ -74,7 +74,10 @@ class WaterHomeScreen extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(height: AppSpacing.lg),
-                        Text(WaterPage.line, style: context.textStyles.body),
+                        Text(
+                          context.content.text(WaterPage.line),
+                          style: context.textStyles.body,
+                        ),
                         const SizedBox(height: AppSpacing.xl),
                         if (lastOrder == null)
                           InfoNote(

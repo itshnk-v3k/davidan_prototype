@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:davidan_prototype/core/storage/local_store.dart';
 import 'package:davidan_prototype/l10n/app_localizations.dart';
+import 'package:davidan_prototype/l10n/content.dart';
 
 /// The language setting: Romanian, Russian, or the phone's language.
 enum AppLanguage {
@@ -77,4 +78,10 @@ final appLocaleProvider = Provider<Locale>((ref) {
 /// context.l10n; both follow [appLocaleProvider].
 final stringsProvider = Provider<AppLocalizations>(
   (ref) => lookupAppLocalizations(ref.watch(appLocaleProvider)),
+);
+
+/// The brands' content in the app's language, for providers. Widgets use
+/// context.content; both follow [appLocaleProvider].
+final contentProvider = Provider<ContentTranslator>(
+  (ref) => ContentTranslator.of(ref.watch(appLocaleProvider)),
 );
