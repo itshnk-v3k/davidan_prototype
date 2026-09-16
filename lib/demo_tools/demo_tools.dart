@@ -12,8 +12,9 @@ import 'package:davidan_prototype/demo_tools/demo_tool_strings.dart';
 /// The all-roles board.
 final List<ExtraApp> demoTools = [
   ExtraApp(
-    title: DemoToolStrings.allRolesTitle,
-    hint: DemoToolStrings.allRolesHint,
+    // Internal, so Romanian only.
+    title: (_) => DemoToolStrings.allRolesTitle,
+    hint: (_) => DemoToolStrings.allRolesHint,
     icon: Icons.view_column_rounded,
     location: AllRolesScreen.path,
     windowRoutes: [

@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -14,6 +13,7 @@ import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/product_quantity_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/cart/widgets/cart_line_tile.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/total_bar.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// One brand's cart, opened over the tabs by their cart button: every line
 /// with a quantity stepper, the running total and the way on to checkout.
@@ -36,7 +36,7 @@ class CartScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ScreenHeader(
-              title: AppStrings.cartTitle,
+              title: context.l10n.cartTitle,
               // Opened straight from a link, there's nothing to go back to.
               onBack: () => context.canPop()
                   ? context.pop()
@@ -50,9 +50,9 @@ class CartScreen extends ConsumerWidget {
                     ? EmptyState(
                         key: const ValueKey('empty'),
                         icon: Icons.shopping_bag_outlined,
-                        title: AppStrings.cartEmptyTitle,
-                        message: AppStrings.cartEmptyMessage,
-                        actionLabel: AppStrings.browseMenu,
+                        title: context.l10n.cartEmptyTitle,
+                        message: context.l10n.cartEmptyMessage,
+                        actionLabel: context.l10n.browseMenu,
                         onAction: () => context.go(Routes.clientMenu),
                       )
                     : ListView.separated(
@@ -93,7 +93,7 @@ class CartScreen extends ConsumerWidget {
           ? null
           : TotalBar(
               totalBani: total,
-              actionLabel: AppStrings.continueOrder,
+              actionLabel: context.l10n.continueOrder,
               onAction: () => context.push(Routes.brandCheckout(brand)),
             ),
     );

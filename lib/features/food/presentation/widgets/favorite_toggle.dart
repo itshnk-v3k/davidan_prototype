@@ -1,8 +1,8 @@
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Heart that saves a product to the favourites or removes it, on product
 /// cards and on the product page. Saving pops the heart.
@@ -28,8 +28,8 @@ class FavoriteToggle extends StatelessWidget {
       size: size,
       emphasized: favorite,
       semanticLabel: favorite
-          ? AppStrings.removeFromFavorites(productName)
-          : AppStrings.addToFavorites(productName),
+          ? context.l10n.removeFromFavorites(productName)
+          : context.l10n.addToFavorites(productName),
       onPressed: onToggle,
     );
   }

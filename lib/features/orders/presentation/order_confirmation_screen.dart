@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -20,6 +19,7 @@ import 'package:davidan_prototype/features/orders/application/orders_notifier.da
 import 'package:davidan_prototype/features/orders/presentation/widgets/courier_route_map.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/fulfilment_detail_row.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Shown after checkout: the order number, its live status, a map with the
 /// courier while a delivery is on the way, and what was chosen. A stand-in
@@ -40,8 +40,8 @@ class OrderConfirmationScreen extends ConsumerWidget {
         body: SafeArea(
           child: EmptyState(
             icon: Icons.receipt_long_rounded,
-            title: AppStrings.orderNotFound,
-            actionLabel: AppStrings.backHome,
+            title: context.l10n.orderNotFound,
+            actionLabel: context.l10n.backHome,
             onAction: goHome,
           ),
         ),
@@ -61,7 +61,7 @@ class OrderConfirmationScreen extends ConsumerWidget {
               alignment: Alignment.centerLeft,
               child: AppIconButton(
                 icon: Icons.close_rounded,
-                semanticLabel: AppStrings.backHome,
+                semanticLabel: context.l10n.backHome,
                 onPressed: goHome,
               ),
             ),
@@ -87,13 +87,13 @@ class OrderConfirmationScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpacing.lg),
             Text(
-              AppStrings.orderPlacedTitle,
+              context.l10n.orderPlacedTitle,
               style: context.textStyles.headline,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
-              AppStrings.orderNumber(order.id),
+              context.l10n.orderNumber(order.id),
               style: context.textStyles.bodySecondary,
               textAlign: TextAlign.center,
             ),
@@ -120,24 +120,24 @@ class OrderConfirmationScreen extends ConsumerWidget {
                     const SizedBox(height: AppSpacing.md),
                     DetailRow(
                       icon: Icons.schedule_rounded,
-                      label: AppStrings.orderTime,
+                      label: context.l10n.orderTime,
                       value: scheduledFor == null
-                          ? AppStrings.asSoonAsPossible
+                          ? context.l10n.asSoonAsPossible
                           : formatTime(scheduledFor),
                     ),
                     const SizedBox(height: AppSpacing.md),
                     DetailRow(
                       icon: Icons.payments_rounded,
-                      label: AppStrings.paymentTitle,
-                      value: AppStrings.paymentMethod(order.payment),
+                      label: context.l10n.paymentTitle,
+                      value: context.l10n.paymentMethod(order.payment),
                     ),
                     Divider(
                       height: AppSpacing.xl,
                       color: context.colors.border,
                     ),
                     SummaryRow(
-                      label: AppStrings.total,
-                      value: formatLei(order.totalBani),
+                      label: context.l10n.total,
+                      value: context.l10n.formatLei(order.totalBani),
                       emphasized: true,
                     ),
                   ],
@@ -146,7 +146,7 @@ class OrderConfirmationScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpacing.lg),
             Text(
-              AppStrings.trackingComingSoon,
+              context.l10n.trackingComingSoon,
               style: context.textStyles.caption,
               textAlign: TextAlign.center,
             ),
@@ -157,7 +157,7 @@ class OrderConfirmationScreen extends ConsumerWidget {
         top: false,
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.gutter),
-          child: AppButton(label: AppStrings.backHome, onPressed: goHome),
+          child: AppButton(label: context.l10n.backHome, onPressed: goHome),
         ),
       ),
     );

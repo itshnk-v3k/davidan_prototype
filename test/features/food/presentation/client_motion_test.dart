@@ -12,7 +12,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_theme.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
@@ -89,7 +88,7 @@ void main() {
         ),
       );
       expect(productCard(name), findsOneWidget);
-      await tester.tap(find.text(AppStrings.navHome));
+      await tester.tap(find.text(ro.navHome));
       await tester.pumpAndSettle();
       expect(find.byType(HomeScreen), findsOneWidget);
 
@@ -97,8 +96,7 @@ void main() {
       // card.
       final homeCard = find.descendant(
         of: find.byWidgetPredicate(
-          (widget) =>
-              widget is ProductShelf && widget.title == AppStrings.popularTitle,
+          (widget) => widget is ProductShelf && widget.title == ro.popularTitle,
         ),
         matching: productCard(name),
       );
@@ -281,7 +279,7 @@ void main() {
   testWidgets('a button shrinks slightly while pressed', (tester) async {
     container.read(cartProvider(Brand.bakery).notifier).add('americano');
     await pumpApp(tester, container, Routes.brandCart(Brand.bakery));
-    final button = find.widgetWithText(AppButton, AppStrings.continueOrder);
+    final button = find.widgetWithText(AppButton, ro.continueOrder);
     double buttonScale() => tester
         .widget<AnimatedScale>(
           find.descendant(of: button, matching: find.byType(AnimatedScale)),
@@ -307,7 +305,7 @@ void main() {
           .widget<Opacity>(
             find
                 .ancestor(
-                  of: find.text(AppStrings.cartEmptyTitle),
+                  of: find.text(ro.cartEmptyTitle),
                   matching: find.byType(Opacity),
                 )
                 .first,

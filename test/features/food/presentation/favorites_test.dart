@@ -11,7 +11,6 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/account/presentation/profile/profile_screen.dart';
 import 'package:davidan_prototype/features/food/application/favorites_notifier.dart';
@@ -95,11 +94,11 @@ void main() {
       await pumpApp(tester, container, Routes.clientHome);
       expect(find.byType(HomeScreen), findsOneWidget);
 
-      await tester.tap(find.text(AppStrings.navFavorites));
+      await tester.tap(find.text(ro.navFavorites));
       await tester.pumpAndSettle();
 
       expect(find.byType(FavoritesScreen), findsOneWidget);
-      expect(find.text(AppStrings.navProfile), findsOneWidget);
+      expect(find.text(ro.navProfile), findsOneWidget);
       expect(
         inScreen<FavoritesScreen>(find.byIcon(Icons.arrow_back_rounded)),
         findsNothing,
@@ -115,7 +114,7 @@ void main() {
 
       await tester.tap(heartOn('Coca Cola'));
       await tester.pumpAndSettle();
-      expect(find.text(AppStrings.favoritesEmptyTitle), findsOneWidget);
+      expect(find.text(ro.favoritesEmptyTitle), findsOneWidget);
     },
   );
 
@@ -126,17 +125,14 @@ void main() {
     ));
     await pumpApp(tester, container, Routes.clientProfile);
 
-    expect(
-      inScreen<ProfileScreen>(find.text(AppStrings.favoritesTitle)),
-      findsNothing,
-    );
+    expect(inScreen<ProfileScreen>(find.text(ro.favoritesTitle)), findsNothing);
   });
 
   testWidgets('with nothing saved, the tab points to the menu', (tester) async {
     await pumpApp(tester, container, Routes.clientFavorites);
-    expect(find.text(AppStrings.favoritesEmptyTitle), findsOneWidget);
+    expect(find.text(ro.favoritesEmptyTitle), findsOneWidget);
 
-    await tapVisible(tester, find.text(AppStrings.browseMenu));
+    await tapVisible(tester, find.text(ro.browseMenu));
     expect(find.byType(CatalogScreen), findsOneWidget);
   });
 

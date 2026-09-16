@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -15,6 +14,7 @@ import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/courier/application/courier_online_notifier.dart';
 import 'package:davidan_prototype/features/courier/application/courier_providers.dart';
 import 'package:davidan_prototype/features/courier/presentation/widgets/courier_order_card.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Courier app home: an online/offline switch, then deliveries on the way and
 /// deliveries ready to collect from the shop, each group with its count.
@@ -32,15 +32,15 @@ class CourierOrdersScreen extends ConsumerWidget {
     final Widget list;
     if (onTheWay.isEmpty && (ready.isEmpty || !online)) {
       list = online
-          ? const EmptyState(
+          ? EmptyState(
               icon: Icons.delivery_dining_rounded,
-              title: AppStrings.courierEmptyTitle,
-              message: AppStrings.courierEmptyMessage,
+              title: context.l10n.courierEmptyTitle,
+              message: context.l10n.courierEmptyMessage,
             )
-          : const EmptyState(
+          : EmptyState(
               icon: Icons.power_settings_new_rounded,
-              title: AppStrings.courierOfflineTitle,
-              message: AppStrings.courierOfflineMessage,
+              title: context.l10n.courierOfflineTitle,
+              message: context.l10n.courierOfflineMessage,
             );
     } else {
       list = ListView(
@@ -53,7 +53,7 @@ class CourierOrdersScreen extends ConsumerWidget {
         children: [
           if (onTheWay.isNotEmpty)
             _Group(
-              title: AppStrings.courierOnTheWaySection,
+              title: context.l10n.courierOnTheWaySection,
               orders: onTheWay,
               onOpen: open,
             ),
@@ -61,7 +61,7 @@ class CourierOrdersScreen extends ConsumerWidget {
             const _OfflineNote()
           else if (ready.isNotEmpty)
             _Group(
-              title: AppStrings.courierReadySection,
+              title: context.l10n.courierReadySection,
               orders: ready,
               onOpen: open,
             ),
@@ -76,7 +76,7 @@ class CourierOrdersScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ScreenHeader(title: AppStrings.courierOrdersTitle),
+            ScreenHeader(title: context.l10n.courierOrdersTitle),
             Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppSpacing.gutter,
@@ -141,14 +141,14 @@ class _OnlineSwitch extends StatelessWidget {
                     children: [
                       Text(
                         online
-                            ? AppStrings.courierOnline
-                            : AppStrings.courierOffline,
+                            ? context.l10n.courierOnline
+                            : context.l10n.courierOffline,
                         style: context.textStyles.bodyStrong,
                       ),
                       Text(
                         online
-                            ? AppStrings.courierOnlineHint
-                            : AppStrings.courierOfflineHint,
+                            ? context.l10n.courierOnlineHint
+                            : context.l10n.courierOfflineHint,
                         style: context.textStyles.caption,
                       ),
                     ],
@@ -217,7 +217,7 @@ class _OfflineNote extends StatelessWidget {
         const SizedBox(width: AppSpacing.sm),
         Expanded(
           child: Text(
-            AppStrings.courierOfflineMessage,
+            context.l10n.courierOfflineMessage,
             style: context.textStyles.bodySecondary,
           ),
         ),

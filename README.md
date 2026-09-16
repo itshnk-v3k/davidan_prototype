@@ -18,6 +18,7 @@ Without the store panel and courier, the customer app simulates them: a placed o
 - [go_router](https://pub.dev/packages/go_router) 18.x for routing
 - [shared_preferences](https://pub.dev/packages/shared_preferences) 2.x for local storage (localStorage on web)
 - [geolocator](https://pub.dev/packages/geolocator) 14.x for the phone's location, used only behind `LocationService` in `lib/core/location/`
+- Flutter's gen-l10n (`flutter_localizations` + [intl](https://pub.dev/packages/intl)) for the UI text in Romanian, the default, and Russian. All of it is in `lib/l10n/app_ro.arb`, and `flutter pub get`, `run` and `build` regenerate `lib/l10n/app_localizations*.dart` from it. Setup and gotchas: `docs/sources/flutter_l10n.md`
 
 ## Run
 
@@ -28,7 +29,7 @@ flutter run -d chrome --web-port=8080
 
 There are two entry points:
 
-- `lib/main.dart`: **the client demo.** The customer app on its own: it opens on the splash, with no launcher, courier app or store panel. Theme and **Resetează datele demo** are in **Profil**.
+- `lib/main.dart`: **the client demo.** The customer app on its own: it opens on the splash, with no launcher, courier app or store panel. Theme, language and **Resetează datele demo** are in **Profil**.
 - `lib/main_staff.dart`: **phase 2, not for client meetings.** Adds a launcher, the courier app, the store panel and **Toate rolurile** (the customer's order, the store panel and the courier app side by side). Orders move only when the store panel and courier move them. The staff apps and the board are registered in `lib/staff/staff_build.dart`, which only `main_staff.dart` imports, so `lib/main.dart` never compiles them in (`test/architecture` checks this).
 
 Always use a fixed `--web-port`. localStorage belongs to the origin (host + port), and `flutter run` picks a random port by default, so saved data looks lost between runs.
@@ -120,7 +121,7 @@ An update keeps the demo data on the phone, as long as the new APK is signed wit
 
 ### App name and icon
 
-The app is called **DaviDan Delivery** on the phone's home screen (`android:label` in `android/app/src/main/AndroidManifest.xml`) and in the browser tab (`web/index.html`, `web/manifest.json`, `AppStrings.appTitle`).
+The app is called **DaviDan Delivery** on the phone's home screen (`android:label` in `android/app/src/main/AndroidManifest.xml`) and in the browser tab (`web/index.html`, `web/manifest.json`, `appTitle` in `lib/l10n/app_ro.arb`).
 
 The icon is the logo's wheat "D" in white on the site's caramel, for Android and for the web favicon and PWA icons. It is generated from `assets/images/brand/logo-davidan.webp`, with nothing downloaded:
 

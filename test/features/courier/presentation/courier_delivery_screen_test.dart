@@ -10,12 +10,12 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_delivery_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../../helpers/test_app.dart';
@@ -53,39 +53,30 @@ void main() {
     expect(
       onDeliveryScreen(
         find.text(
-          AppStrings.amountToCollect(
-            '138 lei',
-            AppStrings.paymentMethod(PaymentMethod.cash),
-          ),
+          ro.amountToCollect('138 lei', ro.paymentMethod(PaymentMethod.cash)),
         ),
       ),
       findsOneWidget,
     );
     expect(
-      onDeliveryScreen(find.text(AppStrings.lineItem(2, 'Kurtos cu fistic'))),
+      onDeliveryScreen(find.text(ro.lineItem(2, 'Kurtos cu fistic'))),
       findsOneWidget,
     );
 
-    await tapAndSettle(
-      tester,
-      find.text(AppStrings.advanceTo(OrderStatus.onTheWay)),
-    );
+    await tapAndSettle(tester, find.text(ro.advanceTo(OrderStatus.onTheWay)));
     expect(statusOf(order.id), OrderStatus.onTheWay);
     expect(
-      onDeliveryScreen(find.text(AppStrings.orderStatus(OrderStatus.onTheWay))),
+      onDeliveryScreen(find.text(ro.orderStatus(OrderStatus.onTheWay))),
       findsOneWidget,
     );
 
-    await tapAndSettle(
-      tester,
-      find.text(AppStrings.advanceTo(OrderStatus.completed)),
-    );
+    await tapAndSettle(tester, find.text(ro.advanceTo(OrderStatus.completed)));
     expect(statusOf(order.id), OrderStatus.completed);
-    expect(find.text(AppStrings.deliveryCompleted), findsOneWidget);
+    expect(find.text(ro.deliveryCompleted), findsOneWidget);
 
-    await tapAndSettle(tester, find.text(AppStrings.backToDeliveries));
+    await tapAndSettle(tester, find.text(ro.backToDeliveries));
     expect(find.byType(CourierOrdersScreen), findsOneWidget);
-    expect(find.text(AppStrings.courierEmptyTitle), findsOneWidget);
+    expect(find.text(ro.courierEmptyTitle), findsOneWidget);
   });
 
   testWidgets('opened from a link, back returns to the list', (tester) async {
@@ -108,7 +99,7 @@ void main() {
     advanceOrderTo(container, order.id, OrderStatus.preparing);
     await pumpApp(tester, container, Routes.courierDelivery(order.id));
 
-    expect(find.text(AppStrings.courierWaitingForStore), findsOneWidget);
+    expect(find.text(ro.courierWaitingForStore), findsOneWidget);
     expect(find.byType(AppButton), findsNothing);
   });
 
@@ -122,11 +113,11 @@ void main() {
     advanceOrderTo(container, pickup.id, OrderStatus.ready);
 
     await pumpApp(tester, container, Routes.courierDelivery(pickup.id));
-    expect(find.text(AppStrings.deliveryNotFound), findsOneWidget);
+    expect(find.text(ro.deliveryNotFound), findsOneWidget);
 
     container.read(appRouterProvider).go(Routes.courierDelivery('DD-9999'));
     await tester.pumpAndSettle();
-    expect(find.text(AppStrings.deliveryNotFound), findsOneWidget);
+    expect(find.text(ro.deliveryNotFound), findsOneWidget);
   });
 
   testWidgets('fits a 360 x 640 phone with a long address', (tester) async {

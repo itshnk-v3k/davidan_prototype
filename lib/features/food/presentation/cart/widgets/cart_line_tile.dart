@@ -1,6 +1,5 @@
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -8,6 +7,7 @@ import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_image.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/quantity_stepper.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Cart line: photo, name, line total, a quantity stepper and a remove
 /// button. Tapping the rest of the card opens the product.
@@ -72,12 +72,14 @@ class CartLineTile extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.xs),
                     Text(
-                      formatLei(product.priceBani * quantity),
+                      context.l10n.formatLei(product.priceBani * quantity),
                       style: context.textStyles.price,
                     ),
                     if (quantity > 1)
                       Text(
-                        AppStrings.unitPrice(formatLei(product.priceBani)),
+                        context.l10n.unitPrice(
+                          context.l10n.formatLei(product.priceBani),
+                        ),
                         style: context.textStyles.caption,
                       ),
                   ],
@@ -88,7 +90,7 @@ class CartLineTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   _RemoveButton(
-                    semanticLabel: AppStrings.removeFromCart(product.name),
+                    semanticLabel: context.l10n.removeFromCart(product.name),
                     onTap: onRemove,
                   ),
                   const SizedBox(height: AppSpacing.sm),
@@ -96,8 +98,10 @@ class CartLineTile extends StatelessWidget {
                     quantity: quantity,
                     onIncrement: onIncrement,
                     onDecrement: onDecrement,
-                    incrementLabel: AppStrings.addToCart(product.name),
-                    decrementLabel: AppStrings.removeOneFromCart(product.name),
+                    incrementLabel: context.l10n.addToCart(product.name),
+                    decrementLabel: context.l10n.removeOneFromCart(
+                      product.name,
+                    ),
                   ),
                 ],
               ),

@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -14,6 +13,8 @@ import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/features/account/application/sign_in_draft_notifier.dart';
+import 'package:davidan_prototype/l10n/app_language.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Second step of the demo sign-in: the code "sent by SMS". No SMS is sent
 /// and any 4 digits are accepted (see SignInDraftNotifier); the screen says so.
@@ -37,7 +38,7 @@ class SignInCodeScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ScreenHeader(
-              title: AppStrings.codeTitle,
+              title: context.l10n.codeTitle,
               onBack: () =>
                   context.canPop() ? context.pop() : context.go(Routes.signIn),
             ),
@@ -51,7 +52,7 @@ class SignInCodeScreen extends ConsumerWidget {
                 ),
                 children: [
                   Text(
-                    AppStrings.codeSentTo(MoldovanPhone.format(draft.phone)),
+                    context.l10n.codeSentTo(MoldovanPhone.format(draft.phone)),
                     style: context.textStyles.bodySecondary,
                   ),
                   const SizedBox(height: AppSpacing.xl),
@@ -65,7 +66,7 @@ class SignInCodeScreen extends ConsumerWidget {
                   if (draft.showCodeError && !draft.codeComplete) ...[
                     const SizedBox(height: AppSpacing.sm),
                     Text(
-                      AppStrings.codeIncomplete,
+                      context.l10n.codeIncomplete,
                       style: context.textStyles.caption.copyWith(
                         color: context.colors.error,
                       ),
@@ -73,20 +74,23 @@ class SignInCodeScreen extends ConsumerWidget {
                     ),
                   ],
                   const SizedBox(height: AppSpacing.xl),
-                  AppButton(label: AppStrings.confirmCode, onPressed: confirm),
+                  AppButton(
+                    label: context.l10n.confirmCode,
+                    onPressed: confirm,
+                  ),
                   const SizedBox(height: AppSpacing.sm),
                   TextButton(
                     onPressed: () => ref
                         .read(toastProvider.notifier)
-                        .show(AppStrings.codeResent),
+                        .show(ref.read(stringsProvider).codeResent),
                     style: TextButton.styleFrom(
                       foregroundColor: context.colors.primary,
                       textStyle: context.textStyles.bodyStrong,
                     ),
-                    child: const Text(AppStrings.resendCode),
+                    child: Text(context.l10n.resendCode),
                   ),
                   const SizedBox(height: AppSpacing.lg),
-                  const InfoNote(text: AppStrings.demoCodeNote),
+                  InfoNote(text: context.l10n.demoCodeNote),
                 ],
               ),
             ),
@@ -149,8 +153,8 @@ class _CodeBoxes extends StatelessWidget {
               ],
               showCursor: false,
               enableInteractiveSelection: false,
-              decoration: const InputDecoration.collapsed(
-                hintText: AppStrings.codeLabel,
+              decoration: InputDecoration.collapsed(
+                hintText: context.l10n.codeLabel,
               ),
             ),
           ),

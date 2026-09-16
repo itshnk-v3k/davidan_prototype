@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Customer app frame: the active tab plus the bottom navigation bar. The cart
 /// isn't a tab: each tab's header has a CartButton that opens it.
@@ -60,19 +60,19 @@ class ClientShell extends StatelessWidget {
 class _BottomNav extends StatelessWidget {
   const _BottomNav({required this.currentIndex, required this.onTap});
 
-  /// Same order as the branches of the StatefulShellRoute in app_router.dart.
-  static const _items = <({IconData icon, String label})>[
-    (icon: Icons.home_rounded, label: AppStrings.navHome),
-    (icon: Icons.restaurant_menu_rounded, label: AppStrings.navMenu),
-    (icon: Icons.favorite_rounded, label: AppStrings.navFavorites),
-    (icon: Icons.person_rounded, label: AppStrings.navProfile),
-  ];
-
   final int currentIndex;
   final ValueChanged<int> onTap;
 
   @override
   Widget build(BuildContext context) {
+    // Same order as the branches of the StatefulShellRoute in app_router.dart.
+    final items = [
+      (icon: Icons.home_rounded, label: context.l10n.navHome),
+      (icon: Icons.restaurant_menu_rounded, label: context.l10n.navMenu),
+      (icon: Icons.favorite_rounded, label: context.l10n.navFavorites),
+      (icon: Icons.person_rounded, label: context.l10n.navProfile),
+    ];
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colors.surface,
@@ -84,7 +84,7 @@ class _BottomNav extends StatelessWidget {
           height: 64,
           child: Row(
             children: [
-              for (final (index, item) in _items.indexed)
+              for (final (index, item) in items.indexed)
                 Expanded(
                   child: _NavItem(
                     icon: item.icon,

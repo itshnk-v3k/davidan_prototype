@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -19,6 +18,8 @@ import 'package:davidan_prototype/features/food/application/product_quantity_not
 import 'package:davidan_prototype/features/food/presentation/widgets/favorite_toggle.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_image.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/quantity_stepper.dart';
+import 'package:davidan_prototype/l10n/app_language.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Product photo, name, price and ingredients, with a heart to save it and a
 /// bar to pick a quantity and add it to the cart. Back returns to wherever
@@ -75,7 +76,7 @@ class ProductDetailScreen extends ConsumerWidget {
                   left: AppSpacing.gutter,
                   child: AppIconButton(
                     icon: Icons.arrow_back_rounded,
-                    semanticLabel: AppStrings.back,
+                    semanticLabel: context.l10n.back,
                     onPressed: goBack,
                   ),
                 ),
@@ -107,7 +108,7 @@ class ProductDetailScreen extends ConsumerWidget {
       ),
       bottomNavigationBar: _AddToCartBar(
         quantity: quantity,
-        total: formatLei(product.priceBani * quantity),
+        total: context.l10n.formatLei(product.priceBani * quantity),
         onIncrement: quantity < ProductQuantityNotifier.max
             ? () => ref
                   .read(productQuantityProvider(productKey).notifier)
@@ -124,7 +125,9 @@ class ProductDetailScreen extends ConsumerWidget {
               .add(productKey.id, quantity: quantity);
           ref
               .read(toastProvider.notifier)
-              .show(AppStrings.addedToCart(quantity, product.name));
+              .show(
+                ref.read(stringsProvider).addedToCart(quantity, product.name),
+              );
           goBack();
         },
       ),
@@ -150,7 +153,7 @@ class _ProductInfo extends StatelessWidget {
         Row(
           children: [
             Text(
-              formatLei(product.priceBani),
+              context.l10n.formatLei(product.priceBani),
               style: context.textStyles.priceLarge,
             ),
             if (inCartCount > 0) ...[
@@ -166,7 +169,7 @@ class _ProductInfo extends StatelessWidget {
                     vertical: AppSpacing.xs,
                   ),
                   child: Text(
-                    AppStrings.inCart(inCartCount),
+                    context.l10n.inCart(inCartCount),
                     style: context.textStyles.label,
                   ),
                 ),
@@ -176,7 +179,10 @@ class _ProductInfo extends StatelessWidget {
         ),
         if (description != null) ...[
           const SizedBox(height: AppSpacing.xl),
-          Text(AppStrings.descriptionTitle, style: context.textStyles.subtitle),
+          Text(
+            context.l10n.descriptionTitle,
+            style: context.textStyles.subtitle,
+          ),
           const SizedBox(height: AppSpacing.sm),
           Text(description, style: context.textStyles.bodySecondary),
         ],
@@ -217,14 +223,14 @@ class _AddToCartBar extends StatelessWidget {
                 quantity: quantity,
                 onIncrement: onIncrement,
                 onDecrement: onDecrement,
-                incrementLabel: AppStrings.increaseQuantity,
-                decrementLabel: AppStrings.decreaseQuantity,
+                incrementLabel: context.l10n.increaseQuantity,
+                decrementLabel: context.l10n.decreaseQuantity,
                 buttonSize: 42,
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: AppButton(
-                  label: AppStrings.addToCartTotal(total),
+                  label: context.l10n.addToCartTotal(total),
                   onPressed: onAdd,
                 ),
               ),
@@ -255,7 +261,7 @@ class _ProductNotFound extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: AppIconButton(
                   icon: Icons.arrow_back_rounded,
-                  semanticLabel: AppStrings.back,
+                  semanticLabel: context.l10n.back,
                   onPressed: onBack,
                 ),
               ),
@@ -267,7 +273,7 @@ class _ProductNotFound extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.md),
               Text(
-                AppStrings.productNotFound,
+                context.l10n.productNotFound,
                 style: context.textStyles.subtitle,
                 textAlign: TextAlign.center,
               ),

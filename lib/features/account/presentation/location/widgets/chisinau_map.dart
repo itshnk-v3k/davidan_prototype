@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -9,6 +8,7 @@ import 'package:davidan_prototype/data/mock/mock_sectors.dart';
 import 'package:davidan_prototype/data/models/chisinau_sector.dart';
 import 'package:davidan_prototype/data/models/geo_point.dart';
 import 'package:davidan_prototype/data/models/store_location.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// A schematic, offline map of Chișinău for placing a delivery point by hand
 /// when the phone's location isn't available: the five sectors, the DaviDan
@@ -40,7 +40,7 @@ class ChisinauMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: AppStrings.schematicMap,
+      label: context.l10n.schematicMap,
       child: ExcludeSemantics(
         child: ClipRRect(
           borderRadius: BorderRadius.circular(AppRadii.lg),
@@ -91,7 +91,7 @@ class ChisinauMap extends StatelessWidget {
                           top: toOffset(centre).dy + AppSpacing.md,
                           width: 100,
                           child: Text(
-                            AppStrings.sectorName(sector),
+                            context.l10n.sectorName(sector),
                             textAlign: TextAlign.center,
                             style: context.textStyles.label.copyWith(
                               color: context.colors.textSecondary,

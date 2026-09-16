@@ -10,7 +10,6 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/app_chip.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/demo_tools/all_roles_screen.dart';
@@ -20,6 +19,7 @@ import 'package:davidan_prototype/features/courier/presentation/courier_orders_s
 import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../helpers/test_app.dart';
@@ -40,8 +40,7 @@ void main() {
   Finder courierDelivery(Finder finder) =>
       find.descendant(of: find.byType(CourierDeliveryScreen), matching: finder);
   Finder chip(String label) => find.widgetWithText(AppChip, label);
-  Finder statusLabel(OrderStatus status) =>
-      find.text(AppStrings.orderStatus(status));
+  Finder statusLabel(OrderStatus status) => find.text(ro.orderStatus(status));
 
   group('the customer app build (lib/main.dart)', () {
     setUp(() async => container = await createTestContainer());
@@ -94,7 +93,7 @@ void main() {
           OrderStatus.preparing,
           OrderStatus.ready,
         ]) {
-          await tester.tap(store(find.text(AppStrings.advanceTo(status))));
+          await tester.tap(store(find.text(ro.advanceTo(status))));
           await tester.pump();
           expect(customer(statusLabel(status)), findsOneWidget);
           expect(courierDelivery(statusLabel(status)), findsOneWidget);
@@ -102,9 +101,7 @@ void main() {
         expect(courierList(find.text(order.id)), findsOneWidget);
 
         for (final status in [OrderStatus.onTheWay, OrderStatus.completed]) {
-          await tester.tap(
-            courierDelivery(find.text(AppStrings.advanceTo(status))),
-          );
+          await tester.tap(courierDelivery(find.text(ro.advanceTo(status))));
           await tester.pump();
           expect(customer(statusLabel(status)), findsOneWidget);
         }
@@ -122,20 +119,14 @@ void main() {
         await pumpApp(tester, container, AllRolesScreen.path, size: desktop);
 
         // Without ?order= the board follows the newest order.
-        expect(
-          customer(find.text(AppStrings.orderNumber(second.id))),
-          findsOneWidget,
-        );
+        expect(customer(find.text(ro.orderNumber(second.id))), findsOneWidget);
 
         await tester.tap(chip(first.id));
         await tester.pumpAndSettle();
 
+        expect(customer(find.text(ro.orderNumber(first.id))), findsOneWidget);
         expect(
-          customer(find.text(AppStrings.orderNumber(first.id))),
-          findsOneWidget,
-        );
-        expect(
-          courierDelivery(find.text(AppStrings.deliveryTitle(first.id))),
+          courierDelivery(find.text(ro.deliveryTitle(first.id))),
           findsOneWidget,
         );
         expect(

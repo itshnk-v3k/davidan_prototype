@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -13,6 +12,7 @@ import 'package:davidan_prototype/features/kds/presentation/widgets/elapsed_time
 import 'package:davidan_prototype/features/orders/application/order_lines_provider.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// A store panel ticket: order number, time since it was placed, delivery or
 /// pickup, the items to make, and the shop's next step. A new order has a
@@ -28,13 +28,13 @@ class KdsOrderCard extends ConsumerWidget {
     final isNew = order.status == OrderStatus.placed;
     final scheduledFor = order.scheduledFor;
     final time = scheduledFor == null
-        ? AppStrings.asSoonAsPossible
-        : AppStrings.scheduledAt(formatTime(scheduledFor));
+        ? context.l10n.asSoonAsPossible
+        : context.l10n.scheduledAt(formatTime(scheduledFor));
     final (icon, fulfilment) = switch (order.fulfilment) {
-      HomeDelivery() => (Icons.delivery_dining_rounded, AppStrings.delivery),
+      HomeDelivery() => (Icons.delivery_dining_rounded, context.l10n.delivery),
       StorePickup(:final locationId) => (
         Icons.storefront_rounded,
-        AppStrings.pickupAt(
+        context.l10n.pickupAt(
           ref.watch(locationByIdProvider(locationId))?.name ?? locationId,
         ),
       ),
@@ -90,7 +90,7 @@ class KdsOrderCard extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: AppSpacing.xs),
                 child: Text(
-                  AppStrings.lineItem(line.quantity, line.product.name),
+                  context.l10n.lineItem(line.quantity, line.product.name),
                   style: context.textStyles.bodyStrong,
                 ),
               ),
@@ -98,7 +98,7 @@ class KdsOrderCard extends ConsumerWidget {
             if (order.nextStatus case final next?
                 when order.nextStepBy == OrderActor.store)
               AppButton(
-                label: AppStrings.advanceTo(next),
+                label: context.l10n.advanceTo(next),
                 // Accepting a new order is the call to action; later steps
                 // are routine.
                 variant: isNew
@@ -118,7 +118,7 @@ class KdsOrderCard extends ConsumerWidget {
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Text(
-                      AppStrings.waitingForCourier,
+                      context.l10n.waitingForCourier,
                       style: context.textStyles.bodySecondary,
                     ),
                   ),
@@ -146,7 +146,7 @@ class _NewTag extends StatelessWidget {
           horizontal: AppSpacing.sm,
           vertical: AppSpacing.xxs,
         ),
-        child: Text(AppStrings.kdsNewTag, style: context.textStyles.badge),
+        child: Text(context.l10n.kdsNewTag, style: context.textStyles.badge),
       ),
     );
   }

@@ -10,10 +10,10 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/courier_route_map.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../helpers/test_app.dart';
@@ -74,7 +74,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(CourierRouteMap), findsOneWidget);
-      expect(find.text(AppStrings.courierArrivesIn(2)), findsOneWidget);
+      expect(find.text(ro.courierArrivesIn(2)), findsOneWidget);
       expect((courier(tester) - shop(tester)).distance, lessThan(1));
 
       container.read(ordersProvider.notifier).advance(order.id);
@@ -93,10 +93,10 @@ void main() {
 
       await passTime(tester, const Duration(minutes: 1));
       expect(courier(tester), isNot(start));
-      expect(find.text(AppStrings.courierArrivesIn(1)), findsOneWidget);
+      expect(find.text(ro.courierArrivesIn(1)), findsOneWidget);
 
       await passTime(tester, const Duration(minutes: 1));
-      expect(find.text(AppStrings.courierArrived), findsOneWidget);
+      expect(find.text(ro.courierArrived), findsOneWidget);
       expect((courier(tester) - customer(tester)).distance, lessThan(1));
 
       await passTime(tester, const Duration(minutes: 5));
@@ -111,7 +111,7 @@ void main() {
     now = now.add(const Duration(seconds: 90));
     await pumpApp(tester, container, Routes.clientOrder(order.id));
 
-    expect(find.text(AppStrings.courierArrivesIn(1)), findsOneWidget);
+    expect(find.text(ro.courierArrivesIn(1)), findsOneWidget);
     expect((courier(tester) - shop(tester)).distance, greaterThan(1));
     expect((courier(tester) - customer(tester)).distance, greaterThan(1));
   });
@@ -124,13 +124,10 @@ void main() {
     await pumpApp(tester, container, Routes.courierDelivery(order.id));
     expect(find.byType(CourierRouteMap), findsNothing);
 
-    await tapVisible(
-      tester,
-      find.text(AppStrings.advanceTo(OrderStatus.onTheWay)),
-    );
+    await tapVisible(tester, find.text(ro.advanceTo(OrderStatus.onTheWay)));
 
     expect(find.byType(CourierRouteMap), findsOneWidget);
-    expect(find.text(AppStrings.courierArrivesIn(2)), findsOneWidget);
+    expect(find.text(ro.courierArrivesIn(2)), findsOneWidget);
   });
 
   testWidgets('fits a 360 x 640 phone on both screens', (tester) async {

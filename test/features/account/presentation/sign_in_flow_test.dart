@@ -10,7 +10,6 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/location/location_result.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/app_chip.dart';
 import 'package:davidan_prototype/core/widgets/option_tile.dart';
 import 'package:davidan_prototype/data/models/chisinau_sector.dart';
@@ -27,6 +26,7 @@ import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_
 import 'package:davidan_prototype/features/account/presentation/sign_in/welcome_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/splash/splash_screen.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 import '../../../helpers/fake_location_service.dart';
 import '../../../helpers/test_app.dart';
@@ -45,7 +45,7 @@ void main() {
       inScreen<SignInPhoneScreen>(find.byType(TextField)),
       '69123456',
     );
-    await tapVisible(tester, find.text(AppStrings.sendCode));
+    await tapVisible(tester, find.text(ro.sendCode));
     expect(find.byType(SignInCodeScreen), findsOneWidget);
 
     await tester.enterText(
@@ -69,23 +69,23 @@ void main() {
       expect(find.byType(SignInPhoneScreen), findsOneWidget);
       expect(find.byIcon(Icons.arrow_back_rounded), findsNothing);
 
-      await tapVisible(tester, find.text(AppStrings.signInLater));
+      await tapVisible(tester, find.text(ro.signInLater));
 
       expect(find.byType(LocationScreen), findsOneWidget);
       expect(container.read(signInSkippedProvider), isTrue);
       expect(container.read(accountProvider), isNull);
 
-      await tapVisible(tester, find.text(AppStrings.pickup));
+      await tapVisible(tester, find.text(ro.pickup));
       await tapVisible(tester, find.text('DaviDan Centru'));
-      await tester.tap(find.text(AppStrings.navProfile));
+      await tester.tap(find.text(ro.navProfile));
       await tester.pumpAndSettle();
 
       expect(
-        inScreen<ProfileScreen>(find.text(AppStrings.accountLockedTitle)),
+        inScreen<ProfileScreen>(find.text(ro.accountLockedTitle)),
         findsOneWidget,
       );
       expect(
-        inScreen<ProfileScreen>(find.text(AppStrings.myOrdersTitle)),
+        inScreen<ProfileScreen>(find.text(ro.myOrdersTitle)),
         findsNothing,
       );
     },
@@ -100,53 +100,50 @@ void main() {
       final container = await createTestContainer(locationService: location);
       await pumpApp(tester, container, Routes.clientProfile);
 
-      await tapVisible(tester, find.text(AppStrings.signInTitle));
+      await tapVisible(tester, find.text(ro.signInTitle));
       expect(find.byType(SignInPhoneScreen), findsOneWidget);
       // Opened from the profile: back, and no "Mai târziu".
-      expect(find.text(AppStrings.signInLater), findsNothing);
+      expect(find.text(ro.signInLater), findsNothing);
 
       await tester.enterText(find.byType(TextField), '22123');
-      await tapVisible(tester, find.text(AppStrings.sendCode));
-      expect(find.text(AppStrings.phoneInvalid), findsOneWidget);
+      await tapVisible(tester, find.text(ro.sendCode));
+      expect(find.text(ro.phoneInvalid), findsOneWidget);
       expect(find.byType(SignInCodeScreen), findsNothing);
 
       await tester.enterText(find.byType(TextField), '69123456');
-      await tapVisible(tester, find.text(AppStrings.sendCode));
-      expect(
-        find.text(AppStrings.codeSentTo('+373 69 123 456')),
-        findsOneWidget,
-      );
-      expect(find.text(AppStrings.demoCodeNote), findsOneWidget);
+      await tapVisible(tester, find.text(ro.sendCode));
+      expect(find.text(ro.codeSentTo('+373 69 123 456')), findsOneWidget);
+      expect(find.text(ro.demoCodeNote), findsOneWidget);
 
       final codeField = inScreen<SignInCodeScreen>(find.byType(TextField));
       await tester.enterText(codeField, '482');
-      await tapVisible(tester, find.text(AppStrings.confirmCode));
-      expect(find.text(AppStrings.codeIncomplete), findsOneWidget);
+      await tapVisible(tester, find.text(ro.confirmCode));
+      expect(find.text(ro.codeIncomplete), findsOneWidget);
       await tester.enterText(codeField, '4821');
       await tester.pumpAndSettle();
       expect(find.byType(SignInDetailsScreen), findsOneWidget);
 
-      await tapVisible(tester, find.text(AppStrings.createAccount));
-      expect(find.text(AppStrings.nameMissing), findsOneWidget);
-      expect(find.text(AppStrings.sectorMissing), findsOneWidget);
+      await tapVisible(tester, find.text(ro.createAccount));
+      expect(find.text(ro.nameMissing), findsOneWidget);
+      expect(find.text(ro.sectorMissing), findsOneWidget);
 
       await tester.enterText(
         inScreen<SignInDetailsScreen>(find.byType(TextField)),
         'Ana',
       );
       await tapVisible(tester, chip('Ciocana'));
-      await tapVisible(tester, find.text(AppStrings.createAccount));
+      await tapVisible(tester, find.text(ro.createAccount));
 
       expect(find.byType(WelcomeScreen), findsOneWidget);
-      expect(find.text(AppStrings.welcomeTitle('Ana')), findsOneWidget);
+      expect(find.text(ro.welcomeTitle('Ana')), findsOneWidget);
       expect(find.text('DaviDan Centru'), findsOneWidget);
       expect(
-        find.text(AppStrings.matchedBySector(ChisinauSector.ciocana)),
+        find.text(ro.matchedBySector(ChisinauSector.ciocana)),
         findsOneWidget,
       );
       expect(location.lookups, 0);
 
-      await tester.tap(find.text(AppStrings.chooseHowToReceive));
+      await tester.tap(find.text(ro.chooseHowToReceive));
       await tester.pumpAndSettle();
 
       expect(find.byType(LocationScreen), findsOneWidget);
@@ -154,11 +151,11 @@ void main() {
         find.widgetWithText(OptionTile, 'DaviDan Centru'),
       );
       expect(suggested.selected, isTrue);
-      expect(suggested.subtitle, startsWith(AppStrings.nearestToYou));
+      expect(suggested.subtitle, startsWith(ro.nearestToYou));
       // Suggested, not saved.
       expect(container.read(fulfilmentChoiceProvider), isNull);
 
-      await tapVisible(tester, find.text(AppStrings.confirmShop));
+      await tapVisible(tester, find.text(ro.confirmShop));
 
       expect(inScreen<HomeScreen>(find.text('DaviDan Centru')), findsOneWidget);
       expect(
@@ -166,22 +163,19 @@ void main() {
         isA<StorePickup>().having((c) => c.locationId, 'locationId', 'centru'),
       );
 
-      await tester.tap(find.text(AppStrings.navProfile));
+      await tester.tap(find.text(ro.navProfile));
       await tester.pumpAndSettle();
       Finder inProfile(Finder finder) => inScreen<ProfileScreen>(finder);
       expect(inProfile(find.text('Ana')), findsOneWidget);
       expect(inProfile(find.text('+373 69 *** 456')), findsOneWidget);
       expect(
-        inProfile(find.text(AppStrings.sectorLabel(ChisinauSector.ciocana))),
+        inProfile(find.text(ro.sectorLabel(ChisinauSector.ciocana))),
         findsOneWidget,
       );
       expect(inProfile(find.text('DaviDan Centru')), findsOneWidget);
 
-      await tapVisible(tester, find.text(AppStrings.signOut));
-      expect(
-        inProfile(find.text(AppStrings.accountLockedTitle)),
-        findsOneWidget,
-      );
+      await tapVisible(tester, find.text(ro.signOut));
+      expect(inProfile(find.text(ro.accountLockedTitle)), findsOneWidget);
       expect(container.read(accountProvider), isNull);
     },
   );
@@ -205,7 +199,7 @@ void main() {
     expect(tile('DaviDan Botanica').selected, isFalse);
     expect(container.read(fulfilmentChoiceProvider), isNull);
 
-    await tapVisible(tester, find.text(AppStrings.confirmShop));
+    await tapVisible(tester, find.text(ro.confirmShop));
     expect(
       container.read(fulfilmentChoiceProvider),
       isA<StorePickup>().having((c) => c.locationId, 'locationId', 'buiucani'),
@@ -225,19 +219,19 @@ void main() {
         inScreen<SignInDetailsScreen>(find.byType(TextField)),
         'Ion',
       );
-      await tapVisible(tester, find.text(AppStrings.useMyLocationForShop));
+      await tapVisible(tester, find.text(ro.useMyLocationForShop));
 
       expect(location.lookups, 1);
       expect(
-        find.text(AppStrings.locationFoundNearest('330 m', 'DaviDan Buiucani')),
+        find.text(ro.locationFoundNearest('330 m', 'DaviDan Buiucani')),
         findsOneWidget,
       );
       expect(tester.widget<AppChip>(chip('Buiucani')).selected, isTrue);
 
-      await tapVisible(tester, find.text(AppStrings.createAccount));
+      await tapVisible(tester, find.text(ro.createAccount));
 
       expect(find.text('DaviDan Buiucani'), findsOneWidget);
-      expect(find.text(AppStrings.matchedByLocation('330 m')), findsOneWidget);
+      expect(find.text(ro.matchedByLocation('330 m')), findsOneWidget);
       expect(
         container.read(accountProvider),
         isA<CustomerAccount>()
@@ -260,18 +254,18 @@ void main() {
       inScreen<SignInDetailsScreen>(find.byType(TextField)),
       'Ion',
     );
-    await tapVisible(tester, find.text(AppStrings.useMyLocationForShop));
+    await tapVisible(tester, find.text(ro.useMyLocationForShop));
     expect(
-      find.text(AppStrings.locationFailedUseSector(LocationFailure.denied)),
+      find.text(ro.locationFailedUseSector(LocationFailure.denied)),
       findsOneWidget,
     );
 
     await tapVisible(tester, chip('Botanica'));
-    await tapVisible(tester, find.text(AppStrings.createAccount));
+    await tapVisible(tester, find.text(ro.createAccount));
 
     expect(find.text('DaviDan Botanica'), findsOneWidget);
     expect(
-      find.text(AppStrings.matchedBySector(ChisinauSector.botanica)),
+      find.text(ro.matchedBySector(ChisinauSector.botanica)),
       findsOneWidget,
     );
   });
@@ -287,7 +281,7 @@ void main() {
       'Alexandru-Constantin Popescu',
     );
     await tapVisible(tester, chip('Rîșcani'));
-    await tapVisible(tester, find.text(AppStrings.createAccount));
+    await tapVisible(tester, find.text(ro.createAccount));
     expect(find.byType(WelcomeScreen), findsOneWidget);
   });
 }

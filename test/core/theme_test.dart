@@ -10,7 +10,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_assets.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/theme_mode_notifier.dart';
@@ -63,7 +62,7 @@ void main() {
     (tester) async {
       await pumpApp(tester, container, Routes.clientProfile);
 
-      await tapVisible(tester, find.text(AppStrings.themeLight));
+      await tapVisible(tester, find.text(ro.themeLight));
 
       expect(container.read(themeModeProvider), ThemeMode.light);
       expect(
@@ -94,7 +93,7 @@ void main() {
     await pumpApp(tester, container, Routes.launcher);
     expect(logoAsset(tester), AppAssets.logo);
 
-    await tapVisible(tester, find.text(AppStrings.themeDark));
+    await tapVisible(tester, find.text(ro.themeDark));
 
     expect(
       brightnessOf(tester, find.byType(DemoLauncherScreen)),

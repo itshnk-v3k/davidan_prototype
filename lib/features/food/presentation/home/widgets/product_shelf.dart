@@ -1,12 +1,12 @@
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/press_scale.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/connected_product_card.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// One row of the home screen: a heading with "Vezi mai mult", the site's
 /// blurb when there is one, and the products side by side, scrolling
@@ -69,7 +69,7 @@ class ProductShelf extends StatelessWidget {
                     foregroundColor: context.colors.primary,
                     textStyle: context.textStyles.bodyStrong,
                   ),
-                  child: const Text(AppStrings.seeAll),
+                  child: Text(context.l10n.seeAll),
                 ),
               ],
             ),

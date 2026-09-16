@@ -11,13 +11,13 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/entrance.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/kds/presentation/widgets/kds_order_card.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../helpers/test_app.dart';
@@ -39,7 +39,7 @@ void main() {
 
   Finder statusInPill(OrderStatus status) => find.descendant(
     of: find.byType(OrderStatusPill),
-    matching: find.text(AppStrings.orderStatus(status)),
+    matching: find.text(ro.orderStatus(status)),
   );
 
   testWidgets(
@@ -50,7 +50,7 @@ void main() {
       advanceOrderTo(container, order.id, OrderStatus.ready);
       await pumpApp(tester, container, Routes.courierDelivery(order.id));
 
-      await tester.tap(find.text(AppStrings.advanceTo(OrderStatus.onTheWay)));
+      await tester.tap(find.text(ro.advanceTo(OrderStatus.onTheWay)));
       await tester.pump();
       await tester.pump(midway);
       final next = container.read(orderByIdProvider(order.id))!.nextStatus!;
@@ -58,21 +58,15 @@ void main() {
       // Old and new are both on screen while they crossfade.
       expect(statusInPill(OrderStatus.ready), findsOneWidget);
       expect(statusInPill(OrderStatus.onTheWay), findsOneWidget);
-      expect(
-        find.text(AppStrings.advanceTo(OrderStatus.onTheWay)),
-        findsOneWidget,
-      );
-      expect(find.text(AppStrings.advanceTo(next)), findsOneWidget);
+      expect(find.text(ro.advanceTo(OrderStatus.onTheWay)), findsOneWidget);
+      expect(find.text(ro.advanceTo(next)), findsOneWidget);
 
       await tester.pumpAndSettle();
 
       expect(statusInPill(OrderStatus.ready), findsNothing);
       expect(statusInPill(OrderStatus.onTheWay), findsOneWidget);
-      expect(
-        find.text(AppStrings.advanceTo(OrderStatus.onTheWay)),
-        findsNothing,
-      );
-      expect(find.text(AppStrings.advanceTo(next)), findsOneWidget);
+      expect(find.text(ro.advanceTo(OrderStatus.onTheWay)), findsNothing);
+      expect(find.text(ro.advanceTo(next)), findsOneWidget);
     },
   );
 
@@ -99,7 +93,7 @@ void main() {
         .opacity;
     expect(cardOpacity(), 1);
 
-    await tester.tap(find.text(AppStrings.advanceTo(OrderStatus.accepted)));
+    await tester.tap(find.text(ro.advanceTo(OrderStatus.accepted)));
     await tester.pump();
     await tester.pump(midway);
     expect(cardOpacity(), inExclusiveRange(0, 1));
@@ -119,7 +113,7 @@ void main() {
         .widget<SlideTransition>(
           find
               .ancestor(
-                of: find.text(AppStrings.newOrderArrived(arriving.id)),
+                of: find.text(ro.newOrderArrived(arriving.id)),
                 matching: find.byType(SlideTransition),
               )
               .first,

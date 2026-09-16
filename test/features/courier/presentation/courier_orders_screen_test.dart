@@ -9,13 +9,13 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/section_title.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/courier/application/courier_online_notifier.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_delivery_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
 import 'package:davidan_prototype/features/courier/presentation/widgets/courier_order_card.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../../helpers/test_app.dart';
@@ -50,12 +50,12 @@ void main() {
 
   testWidgets('with nothing to deliver the list says so', (tester) async {
     await pumpApp(tester, container, Routes.courierOrders);
-    expect(find.text(AppStrings.courierEmptyTitle), findsOneWidget);
+    expect(find.text(ro.courierEmptyTitle), findsOneWidget);
   });
 
   testWidgets('the launcher opens the courier app', (tester) async {
     await pumpApp(tester, container, Routes.launcher);
-    await tapVisible(tester, find.text(AppStrings.launcherCourier));
+    await tapVisible(tester, find.text(ro.launcherCourier));
     expect(find.byType(CourierOrdersScreen), findsOneWidget);
   });
 
@@ -93,23 +93,19 @@ void main() {
         readySecond.id,
       ]);
       expect(
-        tester
-            .widget<SectionTitle>(group(AppStrings.courierOnTheWaySection))
-            .count,
+        tester.widget<SectionTitle>(group(ro.courierOnTheWaySection)).count,
         1,
       );
       expect(
-        tester
-            .widget<SectionTitle>(group(AppStrings.courierReadySection))
-            .count,
+        tester.widget<SectionTitle>(group(ro.courierReadySection)).count,
         2,
       );
       expect(
         topOf(tester, card(onTheWay.id)),
-        lessThan(topOf(tester, group(AppStrings.courierReadySection))),
+        lessThan(topOf(tester, group(ro.courierReadySection))),
       );
       expect(
-        topOf(tester, group(AppStrings.courierReadySection)),
+        topOf(tester, group(ro.courierReadySection)),
         lessThan(topOf(tester, card(readyFirst.id))),
       );
     },
@@ -121,16 +117,16 @@ void main() {
       final ready = orderAt(OrderStatus.ready);
       final onTheWay = orderAt(OrderStatus.onTheWay);
       await pumpApp(tester, container, Routes.courierOrders);
-      expect(find.text(AppStrings.courierOnline), findsOneWidget);
+      expect(find.text(ro.courierOnline), findsOneWidget);
 
       await tester.tap(find.byType(Switch));
       await tester.pumpAndSettle();
 
       expect(container.read(courierOnlineProvider), isFalse);
-      expect(find.text(AppStrings.courierOffline), findsOneWidget);
+      expect(find.text(ro.courierOffline), findsOneWidget);
       expect(listedOrderIds(tester), [onTheWay.id]);
-      expect(group(AppStrings.courierReadySection), findsNothing);
-      expect(find.text(AppStrings.courierOfflineMessage), findsOneWidget);
+      expect(group(ro.courierReadySection), findsNothing);
+      expect(find.text(ro.courierOfflineMessage), findsOneWidget);
 
       await tester.tap(find.byType(Switch));
       await tester.pumpAndSettle();
@@ -147,11 +143,11 @@ void main() {
     container.read(courierOnlineProvider.notifier).setOnline(false);
     await pumpApp(tester, container, Routes.courierOrders);
 
-    expect(find.text(AppStrings.courierOfflineTitle), findsOneWidget);
+    expect(find.text(ro.courierOfflineTitle), findsOneWidget);
     expect(find.byType(CourierOrderCard), findsNothing);
 
     // Tapping the row, not just the switch, goes back online.
-    await tester.tap(find.text(AppStrings.courierOffline));
+    await tester.tap(find.text(ro.courierOffline));
     await tester.pumpAndSettle();
     expect(find.byType(CourierOrderCard), findsOneWidget);
   });
@@ -172,15 +168,12 @@ void main() {
       matching: find.text(text),
     );
     expect(inCard(order.id), findsOneWidget);
-    expect(inCard(AppStrings.orderStatus(OrderStatus.ready)), findsOneWidget);
+    expect(inCard(ro.orderStatus(OrderStatus.ready)), findsOneWidget);
     expect(inCard('str. Ismail 88'), findsOneWidget);
     expect(inCard('11:00'), findsOneWidget);
     expect(
       inCard(
-        AppStrings.amountToCollect(
-          '138 lei',
-          AppStrings.paymentMethod(PaymentMethod.card),
-        ),
+        ro.amountToCollect('138 lei', ro.paymentMethod(PaymentMethod.card)),
       ),
       findsOneWidget,
     );
@@ -193,7 +186,7 @@ void main() {
     await tapVisible(tester, find.byType(CourierOrderCard));
 
     expect(find.byType(CourierDeliveryScreen), findsOneWidget);
-    expect(find.text(AppStrings.deliveryTitle(order.id)), findsOneWidget);
+    expect(find.text(ro.deliveryTitle(order.id)), findsOneWidget);
   });
 
   testWidgets('fits a 360 px wide phone with a long address', (tester) async {

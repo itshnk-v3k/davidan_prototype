@@ -10,7 +10,6 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_assets.dart';
 import 'package:davidan_prototype/core/widgets/brand_logo.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
@@ -98,13 +97,13 @@ void main() {
       await enterCustomerApp(tester);
       expect(find.byType(SignInPhoneScreen), findsOneWidget);
 
-      await tapVisible(tester, find.text(AppStrings.signInLater));
+      await tapVisible(tester, find.text(ro.signInLater));
 
       expect(find.byType(LocationScreen), findsOneWidget);
       // Replaced the sign-in, so there is no back button.
       expect(find.byIcon(Icons.arrow_back_rounded), findsNothing);
 
-      await tapVisible(tester, find.text(AppStrings.pickup));
+      await tapVisible(tester, find.text(ro.pickup));
       await tapVisible(tester, find.text('DaviDan Centru'));
 
       expect(find.byType(LocationScreen), findsNothing);

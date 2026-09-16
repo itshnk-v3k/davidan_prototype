@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -13,6 +12,7 @@ import 'package:davidan_prototype/features/food/application/catalog_providers.da
 import 'package:davidan_prototype/features/food/presentation/catalog/widgets/category_chips.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_grid.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Products of one of the brand's categories, under its blurb from the
 /// brand's site, with chips to switch category in place.
@@ -45,7 +45,7 @@ class CatalogScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ScreenHeader(
-              title: AppStrings.menuTitle,
+              title: context.l10n.menuTitle,
               actions: [CartButton(brand: brand)],
             ),
             CategoryChips(
@@ -97,7 +97,7 @@ class _EmptyCategory extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xl),
         child: Text(
-          AppStrings.categoryEmpty,
+          context.l10n.categoryEmpty,
           style: context.textStyles.bodySecondary,
           textAlign: TextAlign.center,
         ),

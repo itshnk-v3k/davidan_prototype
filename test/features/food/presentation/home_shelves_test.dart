@@ -10,7 +10,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/data/mock/bakery/bakery_categories.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
@@ -61,10 +60,7 @@ void main() {
     'its products and the site\'s blurb',
     (tester) async {
       await pumpApp(tester, container, Routes.clientHome);
-      expect(
-        inRow('popular', find.text(AppStrings.popularTitle)),
-        findsOneWidget,
-      );
+      expect(inRow('popular', find.text(ro.popularTitle)), findsOneWidget);
       expect(inRow('popular', find.byType(ProductCard)), findsWidgets);
 
       for (final category in bakeryCategories) {
@@ -116,7 +112,7 @@ void main() {
 
       await tapVisible(
         tester,
-        inRow(BakeryCategoryIds.kurtos, find.text(AppStrings.seeAll)),
+        inRow(BakeryCategoryIds.kurtos, find.text(ro.seeAll)),
       );
       expect(find.byType(CatalogScreen), findsOneWidget);
       expect(
@@ -126,11 +122,11 @@ void main() {
         findsOneWidget,
       );
 
-      await tester.tap(find.text(AppStrings.navHome));
+      await tester.tap(find.text(ro.navHome));
       await tester.pumpAndSettle();
       final endTile = inRow(
         BakeryCategoryIds.kurtos,
-        find.text(AppStrings.seeAllProducts(kurtosCount)),
+        find.text(ro.seeAllProducts(kurtosCount)),
       );
       await tester.scrollUntilVisible(
         endTile,

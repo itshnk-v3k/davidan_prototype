@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -27,6 +26,7 @@ import 'package:davidan_prototype/features/food/application/checkout_notifier.da
 import 'package:davidan_prototype/features/food/presentation/widgets/total_bar.dart';
 import 'package:davidan_prototype/features/orders/application/order_lines_provider.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_summary_card.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Checkout of one brand's cart: delivery address (or a pinned current
 /// location) or pickup shop, time, payment on receipt and the order summary.
@@ -73,7 +73,7 @@ class CheckoutScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ScreenHeader(title: AppStrings.checkoutTitle, onBack: goBack),
+            ScreenHeader(title: context.l10n.checkoutTitle, onBack: goBack),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(
@@ -94,15 +94,15 @@ class CheckoutScreen extends ConsumerWidget {
                   ),
                   _Section(
                     title: delivery
-                        ? AppStrings.deliveryTimeTitle
-                        : AppStrings.pickupTimeTitle,
+                        ? context.l10n.deliveryTimeTitle
+                        : context.l10n.pickupTimeTitle,
                     children: [
                       Wrap(
                         spacing: AppSpacing.sm,
                         runSpacing: AppSpacing.sm,
                         children: [
                           AppChip(
-                            label: AppStrings.asSoonAsPossible,
+                            label: context.l10n.asSoonAsPossible,
                             icon: Icons.bolt_rounded,
                             selected: draft.scheduledFor == null,
                             onTap: () => checkout().setTime(null),
@@ -118,19 +118,19 @@ class CheckoutScreen extends ConsumerWidget {
                     ],
                   ),
                   _Section(
-                    title: AppStrings.paymentTitle,
+                    title: context.l10n.paymentTitle,
                     children: [
                       Text(
                         delivery
-                            ? AppStrings.paymentOnDelivery
-                            : AppStrings.paymentOnPickup,
+                            ? context.l10n.paymentOnDelivery
+                            : context.l10n.paymentOnPickup,
                         style: context.textStyles.bodySecondary,
                       ),
                       for (final method in PaymentMethod.values)
                         Padding(
                           padding: const EdgeInsets.only(top: AppSpacing.sm),
                           child: OptionTile(
-                            title: AppStrings.paymentMethod(method),
+                            title: context.l10n.paymentMethod(method),
                             icon: switch (method) {
                               PaymentMethod.cash => Icons.payments_rounded,
                               PaymentMethod.card => Icons.credit_card_rounded,
@@ -142,7 +142,7 @@ class CheckoutScreen extends ConsumerWidget {
                     ],
                   ),
                   _Section(
-                    title: AppStrings.orderSummaryTitle,
+                    title: context.l10n.orderSummaryTitle,
                     children: [
                       OrderSummaryCard(lines: lines, totalBani: total),
                     ],
@@ -155,7 +155,7 @@ class CheckoutScreen extends ConsumerWidget {
       ),
       bottomNavigationBar: TotalBar(
         totalBani: total,
-        actionLabel: AppStrings.placeOrder,
+        actionLabel: context.l10n.placeOrder,
         onAction: () {
           final order = checkout().placeOrder();
           if (order != null) context.go(Routes.clientOrder(order.id));
@@ -188,7 +188,7 @@ class _FulfilmentSection extends StatelessWidget {
     final pinned = draft.pinned;
 
     return _Section(
-      title: AppStrings.fulfilmentTitle,
+      title: context.l10n.fulfilmentTitle,
       children: [
         FulfilmentTypeChips(selected: draft.type, onChanged: onTypeChanged),
         const SizedBox(height: AppSpacing.md),
@@ -241,8 +241,8 @@ class _PinnedLocationCard extends StatelessWidget {
           children: [
             DetailRow(
               icon: Icons.my_location_rounded,
-              label: AppStrings.deliverToCurrentLocation,
-              value: AppStrings.areaName(sectorAt(pinned.point)),
+              label: context.l10n.deliverToCurrentLocation,
+              value: context.l10n.areaName(sectorAt(pinned.point)),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 32, top: AppSpacing.xxs),
@@ -259,7 +259,7 @@ class _PinnedLocationCard extends StatelessWidget {
                   foregroundColor: context.colors.primary,
                   textStyle: context.textStyles.bodyStrong,
                 ),
-                child: const Text(AppStrings.typeAddressInstead),
+                child: Text(context.l10n.typeAddressInstead),
               ),
             ),
           ],
@@ -305,13 +305,13 @@ class _EmptyCheckout extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ScreenHeader(title: AppStrings.checkoutTitle, onBack: onBack),
+            ScreenHeader(title: context.l10n.checkoutTitle, onBack: onBack),
             Expanded(
               child: EmptyState(
                 icon: Icons.shopping_bag_outlined,
-                title: AppStrings.cartEmptyTitle,
-                message: AppStrings.cartEmptyMessage,
-                actionLabel: AppStrings.browseMenu,
+                title: context.l10n.cartEmptyTitle,
+                message: context.l10n.cartEmptyMessage,
+                actionLabel: context.l10n.browseMenu,
                 onAction: onBrowseMenu,
               ),
             ),

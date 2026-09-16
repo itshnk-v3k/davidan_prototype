@@ -9,7 +9,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/data/models/order.dart';
@@ -17,6 +16,7 @@ import 'package:davidan_prototype/features/kds/application/kds_providers.dart';
 import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/kds/presentation/widgets/kds_order_card.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../../helpers/test_app.dart';
@@ -45,9 +45,8 @@ void main() {
   Finder inColumn(KdsColumn column, Finder finder) =>
       find.descendant(of: find.byKey(ValueKey(column)), matching: finder);
 
-  Finder notice(String orderId) =>
-      find.text(AppStrings.newOrderArrived(orderId));
-  final anyNotice = find.textContaining(AppStrings.newOrderArrived(''));
+  Finder notice(String orderId) => find.text(ro.newOrderArrived(orderId));
+  final anyNotice = find.textContaining(ro.newOrderArrived(''));
 
   OrderStatus statusOf(String orderId) =>
       container.read(orderByIdProvider(orderId))!.status;
@@ -68,12 +67,12 @@ void main() {
 
   testWidgets('with no orders the panel says so', (tester) async {
     await pumpApp(tester, container, Routes.kds, size: tablet);
-    expect(find.text(AppStrings.kdsEmptyTitle), findsOneWidget);
+    expect(find.text(ro.kdsEmptyTitle), findsOneWidget);
   });
 
   testWidgets('the launcher opens the store panel', (tester) async {
     await pumpApp(tester, container, Routes.launcher);
-    await tapVisible(tester, find.text(AppStrings.launcherKds));
+    await tapVisible(tester, find.text(ro.launcherKds));
     expect(find.byType(KdsScreen), findsOneWidget);
   });
 
@@ -89,19 +88,17 @@ void main() {
 
       expect(inColumn(KdsColumn.incoming, card(order.id)), findsOneWidget);
       expect(
-        inCard(order.id, find.text(AppStrings.lineItem(2, 'Kurtos cu fistic'))),
+        inCard(order.id, find.text(ro.lineItem(2, 'Kurtos cu fistic'))),
         findsOneWidget,
       );
       expect(
-        inCard(order.id, find.text(AppStrings.lineItem(1, 'Americano'))),
+        inCard(order.id, find.text(ro.lineItem(1, 'Americano'))),
         findsOneWidget,
       );
       expect(
         inCard(
           order.id,
-          find.text(
-            '${AppStrings.delivery} · ${AppStrings.scheduledAt('11:00')}',
-          ),
+          find.text('${ro.delivery} · ${ro.scheduledAt('11:00')}'),
         ),
         findsOneWidget,
       );
@@ -161,16 +158,12 @@ void main() {
             .border;
 
     final colors = tester.element(card(order.id)).colors;
-    expect(inCard(order.id, find.text(AppStrings.kdsNewTag)), findsOneWidget);
+    expect(inCard(order.id, find.text(ro.kdsNewTag)), findsOneWidget);
     expect(borderOf(order.id), Border.all(color: colors.primary, width: 2));
 
-    await tapInCard(
-      tester,
-      order.id,
-      AppStrings.advanceTo(OrderStatus.accepted),
-    );
+    await tapInCard(tester, order.id, ro.advanceTo(OrderStatus.accepted));
 
-    expect(inCard(order.id, find.text(AppStrings.kdsNewTag)), findsNothing);
+    expect(inCard(order.id, find.text(ro.kdsNewTag)), findsNothing);
     expect(borderOf(order.id), Border.all(color: colors.border));
   });
 
@@ -204,11 +197,7 @@ void main() {
       await waitOutNotice(tester);
       expect(anyNotice, findsNothing);
 
-      await tapInCard(
-        tester,
-        waiting.id,
-        AppStrings.advanceTo(OrderStatus.accepted),
-      );
+      await tapInCard(tester, waiting.id, ro.advanceTo(OrderStatus.accepted));
       expect(anyNotice, findsNothing);
     },
   );
@@ -247,40 +236,22 @@ void main() {
       final order = placeTestOrder(container);
       await pumpApp(tester, container, Routes.kds, size: tablet);
 
-      await tapInCard(
-        tester,
-        order.id,
-        AppStrings.advanceTo(OrderStatus.accepted),
-      );
+      await tapInCard(tester, order.id, ro.advanceTo(OrderStatus.accepted));
       expect(statusOf(order.id), OrderStatus.accepted);
       expect(inColumn(KdsColumn.incoming, card(order.id)), findsNothing);
       expect(inColumn(KdsColumn.inKitchen, card(order.id)), findsOneWidget);
 
-      await tapInCard(
-        tester,
-        order.id,
-        AppStrings.advanceTo(OrderStatus.preparing),
-      );
+      await tapInCard(tester, order.id, ro.advanceTo(OrderStatus.preparing));
       expect(statusOf(order.id), OrderStatus.preparing);
       expect(
-        inCard(
-          order.id,
-          find.text(AppStrings.orderStatus(OrderStatus.preparing)),
-        ),
+        inCard(order.id, find.text(ro.orderStatus(OrderStatus.preparing))),
         findsOneWidget,
       );
 
-      await tapInCard(
-        tester,
-        order.id,
-        AppStrings.advanceTo(OrderStatus.ready),
-      );
+      await tapInCard(tester, order.id, ro.advanceTo(OrderStatus.ready));
       expect(statusOf(order.id), OrderStatus.ready);
       expect(inColumn(KdsColumn.ready, card(order.id)), findsOneWidget);
-      expect(
-        inCard(order.id, find.text(AppStrings.waitingForCourier)),
-        findsOneWidget,
-      );
+      expect(inCard(order.id, find.text(ro.waitingForCourier)), findsOneWidget);
       expect(inCard(order.id, find.byType(AppButton)), findsNothing);
     },
   );
@@ -299,21 +270,17 @@ void main() {
       inCard(
         order.id,
         find.text(
-          '${AppStrings.pickupAt('DaviDan Botanica')} · '
-          '${AppStrings.asSoonAsPossible}',
+          '${ro.pickupAt('DaviDan Botanica')} · '
+          '${ro.asSoonAsPossible}',
         ),
       ),
       findsOneWidget,
     );
 
-    await tapInCard(
-      tester,
-      order.id,
-      AppStrings.advanceTo(OrderStatus.completed),
-    );
+    await tapInCard(tester, order.id, ro.advanceTo(OrderStatus.completed));
     expect(statusOf(order.id), OrderStatus.completed);
     expect(card(order.id), findsNothing);
-    expect(find.text(AppStrings.kdsEmptyTitle), findsOneWidget);
+    expect(find.text(ro.kdsEmptyTitle), findsOneWidget);
   });
 
   testWidgets('orders with the courier or completed are off the panel', (
@@ -347,10 +314,7 @@ void main() {
     await pumpApp(tester, container, Routes.kds, size: const Size(360, 2400));
 
     expect(inColumn(KdsColumn.incoming, card(incoming.id)), findsOneWidget);
-    expect(
-      inCard(incoming.id, find.text(AppStrings.kdsNewTag)),
-      findsOneWidget,
-    );
+    expect(inCard(incoming.id, find.text(ro.kdsNewTag)), findsOneWidget);
     expect(inColumn(KdsColumn.inKitchen, card(inKitchen.id)), findsOneWidget);
     expect(inColumn(KdsColumn.ready, card(ready.id)), findsOneWidget);
     expect(

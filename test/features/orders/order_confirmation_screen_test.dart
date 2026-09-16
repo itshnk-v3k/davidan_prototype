@@ -9,13 +9,13 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 import '../../helpers/test_app.dart';
 
@@ -48,19 +48,13 @@ void main() {
     await pumpApp(tester, container, Routes.clientOrder(order.id));
 
     expect(find.byType(OrderConfirmationScreen), findsOneWidget);
-    expect(find.text(AppStrings.orderPlacedTitle), findsOneWidget);
-    expect(find.text(AppStrings.orderNumber('DD-1001')), findsOneWidget);
-    expect(
-      find.text(AppStrings.orderStatus(OrderStatus.placed)),
-      findsOneWidget,
-    );
-    expect(find.text(AppStrings.deliverTo), findsOneWidget);
+    expect(find.text(ro.orderPlacedTitle), findsOneWidget);
+    expect(find.text(ro.orderNumber('DD-1001')), findsOneWidget);
+    expect(find.text(ro.orderStatus(OrderStatus.placed)), findsOneWidget);
+    expect(find.text(ro.deliverTo), findsOneWidget);
     expect(find.text('str. Ismail 88'), findsOneWidget);
     expect(find.text('12:30'), findsOneWidget);
-    expect(
-      find.text(AppStrings.paymentMethod(PaymentMethod.card)),
-      findsOneWidget,
-    );
+    expect(find.text(ro.paymentMethod(PaymentMethod.card)), findsOneWidget);
     expect(find.text('118 lei'), findsOneWidget);
   });
 
@@ -69,18 +63,12 @@ void main() {
   ) async {
     final order = placeOrder();
     await pumpApp(tester, container, Routes.clientOrder(order.id));
-    expect(
-      find.text(AppStrings.orderStatus(OrderStatus.placed)),
-      findsOneWidget,
-    );
+    expect(find.text(ro.orderStatus(OrderStatus.placed)), findsOneWidget);
 
     container.read(ordersProvider.notifier).advance(order.id);
     await tester.pump();
 
-    expect(
-      find.text(AppStrings.orderStatus(OrderStatus.accepted)),
-      findsOneWidget,
-    );
+    expect(find.text(ro.orderStatus(OrderStatus.accepted)), findsOneWidget);
   });
 
   testWidgets('pickup orders show the shop', (tester) async {
@@ -89,19 +77,19 @@ void main() {
     );
     await pumpApp(tester, container, Routes.clientOrder(order.id));
 
-    expect(find.text(AppStrings.pickupFrom), findsOneWidget);
+    expect(find.text(ro.pickupFrom), findsOneWidget);
     expect(
       find.text('DaviDan Buiucani · str. Alba Iulia 75, Chișinău'),
       findsOneWidget,
     );
-    expect(find.text(AppStrings.asSoonAsPossible), findsOneWidget);
+    expect(find.text(ro.asSoonAsPossible), findsOneWidget);
   });
 
   testWidgets('both "back home" buttons go to the home tab', (tester) async {
     final order = placeOrder();
 
     await pumpApp(tester, container, Routes.clientOrder(order.id));
-    await tester.tap(find.widgetWithText(AppButton, AppStrings.backHome));
+    await tester.tap(find.widgetWithText(AppButton, ro.backHome));
     await tester.pumpAndSettle();
     expect(find.byType(HomeScreen), findsOneWidget);
 
@@ -114,8 +102,8 @@ void main() {
   testWidgets('unknown order id shows not found', (tester) async {
     await pumpApp(tester, container, Routes.clientOrder('DD-9999'));
 
-    expect(find.text(AppStrings.orderNotFound), findsOneWidget);
-    await tester.tap(find.text(AppStrings.backHome));
+    expect(find.text(ro.orderNotFound), findsOneWidget);
+    await tester.tap(find.text(ro.backHome));
     await tester.pumpAndSettle();
     expect(find.byType(HomeScreen), findsOneWidget);
   });

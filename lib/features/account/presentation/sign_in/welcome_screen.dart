@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -12,6 +11,7 @@ import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/entrance.dart';
 import 'package:davidan_prototype/features/account/application/account_notifier.dart';
 import 'package:davidan_prototype/features/account/presentation/widgets/nearest_shop_card.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// After the demo sign-in: a greeting and the nearest shop. Continuing opens
 /// the location screen with that shop selected, for the customer to confirm
@@ -29,9 +29,9 @@ class WelcomeScreen extends ConsumerWidget {
         body: SafeArea(
           child: EmptyState(
             icon: Icons.lock_outline_rounded,
-            title: AppStrings.accountLockedTitle,
-            message: AppStrings.accountLockedMessage,
-            actionLabel: AppStrings.signInTitle,
+            title: context.l10n.accountLockedTitle,
+            message: context.l10n.accountLockedMessage,
+            actionLabel: context.l10n.signInTitle,
             onAction: () => context.go(Routes.signIn),
           ),
         ),
@@ -66,13 +66,13 @@ class WelcomeScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpacing.lg),
             Text(
-              AppStrings.welcomeTitle(account.name),
+              context.l10n.welcomeTitle(account.name),
               style: context.textStyles.headline,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
-              AppStrings.welcomeMessage,
+              context.l10n.welcomeMessage,
               style: context.textStyles.bodySecondary,
               textAlign: TextAlign.center,
             ),
@@ -86,7 +86,7 @@ class WelcomeScreen extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.gutter),
           child: AppButton(
-            label: AppStrings.chooseHowToReceive,
+            label: context.l10n.chooseHowToReceive,
             onPressed: () => context.go(Routes.clientLocationAfterSignUp),
           ),
         ),

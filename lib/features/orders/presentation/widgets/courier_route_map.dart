@@ -1,11 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/clock_ticker.dart';
 import 'package:davidan_prototype/features/orders/application/order_simulation.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Pretend map of a delivery on its way: a drawn street grid, the route from
 /// the shop to the customer, and a courier icon moving along it. There is no
@@ -71,8 +71,8 @@ class CourierRouteMap extends StatelessWidget {
                 Expanded(
                   child: Text(
                     arrived
-                        ? AppStrings.courierArrived
-                        : AppStrings.courierArrivesIn(
+                        ? context.l10n.courierArrived
+                        : context.l10n.courierArrivesIn(
                             (remaining.inSeconds / 60).ceil().clamp(
                               1,
                               tripDuration.inMinutes,

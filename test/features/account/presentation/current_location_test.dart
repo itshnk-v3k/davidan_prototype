@@ -12,7 +12,6 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 import 'package:davidan_prototype/core/location/location_result.dart';
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/app_chip.dart';
 import 'package:davidan_prototype/data/mock/mock_sectors.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
@@ -31,6 +30,7 @@ import 'package:davidan_prototype/features/food/presentation/checkout/checkout_s
 import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../../helpers/fake_location_service.dart';
@@ -58,15 +58,12 @@ void main() {
 
       await tester.tap(homeBar('str. Ismail 88'));
       await tester.pumpAndSettle();
-      await tapVisible(tester, find.text(AppStrings.useCurrentLocation));
+      await tapVisible(tester, find.text(ro.useCurrentLocation));
 
       expect(location.lookups, 1);
       expect(find.byType(LocationScreen), findsNothing);
-      expect(homeBar(AppStrings.deliverToCurrentLocation), findsOneWidget);
-      expect(
-        homeBar(AppStrings.currentLocationValue('Zona Botanica')),
-        findsOneWidget,
-      );
+      expect(homeBar(ro.deliverToCurrentLocation), findsOneWidget);
+      expect(homeBar(ro.currentLocationValue('Zona Botanica')), findsOneWidget);
       expect(
         container.read(currentLocationProvider).pinned,
         isA<PinnedLocation>()
@@ -107,14 +104,12 @@ void main() {
       await pumpApp(tester, container, Routes.brandCheckout(Brand.bakery));
 
       expect(
-        inScreen<CheckoutScreen>(
-          find.text(AppStrings.deliverToCurrentLocation),
-        ),
+        inScreen<CheckoutScreen>(find.text(ro.deliverToCurrentLocation)),
         findsOneWidget,
       );
       expect(find.byType(TextFormField), findsNothing);
 
-      await tapVisible(tester, find.text(AppStrings.placeOrder));
+      await tapVisible(tester, find.text(ro.placeOrder));
 
       expect(find.byType(OrderConfirmationScreen), findsOneWidget);
       final order = container.read(ordersProvider).first;
@@ -124,10 +119,7 @@ void main() {
             .having((d) => d.point, 'point', botanicaCentre)
             .having((d) => d.address, 'address', ''),
       );
-      final shown = AppStrings.pinnedAddress(
-        'Zona Botanica',
-        '46.98500, 28.85800',
-      );
+      final shown = ro.pinnedAddress('Zona Botanica', '46.98500, 28.85800');
       expect(find.text(shown), findsOneWidget);
       expect(container.read(currentLocationProvider).pinned, isNull);
       expect(
@@ -159,7 +151,7 @@ void main() {
     container.read(cartProvider(Brand.bakery).notifier).add('americano');
     await pumpApp(tester, container, Routes.brandCheckout(Brand.bakery));
 
-    await tapVisible(tester, find.text(AppStrings.typeAddressInstead));
+    await tapVisible(tester, find.text(ro.typeAddressInstead));
 
     expect(
       find.widgetWithText(TextFormField, 'str. Ismail 88'),
@@ -178,25 +170,25 @@ void main() {
         );
         await pumpApp(tester, container, Routes.clientLocation);
 
-        await tapVisible(tester, find.text(AppStrings.useCurrentLocation));
+        await tapVisible(tester, find.text(ro.useCurrentLocation));
 
         expect(find.byType(MapPickerScreen), findsOneWidget);
-        expect(find.text(AppStrings.locationFailure(failure)), findsOneWidget);
+        expect(find.text(ro.locationFailure(failure)), findsOneWidget);
         expect(container.read(currentLocationProvider).pinned, isNull);
 
         await tapVisible(tester, find.widgetWithText(AppChip, 'Ciocana'));
         expect(
           find.text(
             'Zona Ciocana · '
-            '${AppStrings.distanceToShop('4,9 km', 'DaviDan Centru')}',
+            '${ro.distanceToShop('4,9 km', 'DaviDan Centru')}',
           ),
           findsOneWidget,
         );
 
-        await tapVisible(tester, find.text(AppStrings.deliverHere));
+        await tapVisible(tester, find.text(ro.deliverHere));
 
         expect(
-          homeBar(AppStrings.currentLocationValue('Zona Ciocana')),
+          homeBar(ro.currentLocationValue('Zona Ciocana')),
           findsOneWidget,
         );
         expect(

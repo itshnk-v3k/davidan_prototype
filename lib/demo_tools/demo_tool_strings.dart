@@ -1,5 +1,6 @@
-/// Text of the internal demo tools. Kept here rather than in AppStrings, so the
-/// app's strings hold no demo-only text and deleting this folder removes it.
+/// Text of the internal demo tools, in Romanian only. Kept here rather than in
+/// the ARB files (lib/l10n/), so the app's strings hold no demo-only text and
+/// deleting this folder removes it.
 abstract final class DemoToolStrings {
   static const allRolesTitle = 'Toate rolurile';
   static const allRolesHint =

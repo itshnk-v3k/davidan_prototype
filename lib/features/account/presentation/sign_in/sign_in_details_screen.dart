@@ -4,7 +4,6 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/location/location_result.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -18,6 +17,7 @@ import 'package:davidan_prototype/data/models/store_location.dart';
 import 'package:davidan_prototype/features/account/application/nearby.dart';
 import 'package:davidan_prototype/features/account/application/sign_in_draft_notifier.dart';
 import 'package:davidan_prototype/features/food/application/shop_providers.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Last step of the demo sign-in: name and sector, and optionally the phone's
 /// location to find the nearest shop by distance. Creating the account opens
@@ -42,7 +42,7 @@ class SignInDetailsScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ScreenHeader(
-              title: AppStrings.detailsTitle,
+              title: context.l10n.detailsTitle,
               onBack: () =>
                   context.canPop() ? context.pop() : context.go(Routes.signIn),
             ),
@@ -64,16 +64,16 @@ class SignInDetailsScreen extends ConsumerWidget {
                     autofillHints: const [AutofillHints.name],
                     style: context.textStyles.body,
                     decoration: InputDecoration(
-                      labelText: AppStrings.nameLabel,
+                      labelText: context.l10n.nameLabel,
                       prefixIcon: const Icon(Icons.person_outline_rounded),
                       errorText: draft.showDetailsErrors && draft.nameMissing
-                          ? AppStrings.nameMissing
+                          ? context.l10n.nameMissing
                           : null,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   Text(
-                    AppStrings.sectorTitle,
+                    context.l10n.sectorTitle,
                     style: context.textStyles.subtitle,
                   ),
                   const SizedBox(height: AppSpacing.md),
@@ -83,7 +83,7 @@ class SignInDetailsScreen extends ConsumerWidget {
                     children: [
                       for (final sector in ChisinauSector.values)
                         AppChip(
-                          label: AppStrings.sectorName(sector),
+                          label: context.l10n.sectorName(sector),
                           selected: sector == draft.sector,
                           onTap: () => signIn().setSector(sector),
                         ),
@@ -92,7 +92,7 @@ class SignInDetailsScreen extends ConsumerWidget {
                   if (draft.showDetailsErrors && draft.sector == null) ...[
                     const SizedBox(height: AppSpacing.sm),
                     Text(
-                      AppStrings.sectorMissing,
+                      context.l10n.sectorMissing,
                       style: context.textStyles.caption.copyWith(
                         color: context.colors.error,
                       ),
@@ -105,9 +105,12 @@ class SignInDetailsScreen extends ConsumerWidget {
                     onLocate: () => signIn().locate(),
                   ),
                   const SizedBox(height: AppSpacing.xl),
-                  AppButton(label: AppStrings.createAccount, onPressed: create),
+                  AppButton(
+                    label: context.l10n.createAccount,
+                    onPressed: create,
+                  ),
                   const SizedBox(height: AppSpacing.xl),
-                  const InfoNote(text: AppStrings.demoSignInNote),
+                  InfoNote(text: context.l10n.demoSignInNote),
                 ],
               ),
             ),
@@ -134,9 +137,10 @@ class _LocateSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final message = switch (draft.located) {
       LocationFound(:final point) => _foundMessage(
+        context.l10n,
         nearestLocation(point, locations),
       ),
-      LocationNotFound(:final failure) => AppStrings.locationFailedUseSector(
+      LocationNotFound(:final failure) => context.l10n.locationFailedUseSector(
         failure,
       ),
       null => null,
@@ -147,8 +151,8 @@ class _LocateSection extends StatelessWidget {
       children: [
         AppButton(
           label: draft.locating
-              ? AppStrings.locating
-              : AppStrings.useMyLocationForShop,
+              ? context.l10n.locating
+              : context.l10n.useMyLocationForShop,
           icon: Icons.my_location_rounded,
           variant: AppButtonVariant.secondary,
           onPressed: draft.locating ? () {} : onLocate,
@@ -162,8 +166,9 @@ class _LocateSection extends StatelessWidget {
   }
 
   static String _foundMessage(
+    AppLocalizations l10n,
     ({StoreLocation location, double meters}) nearest,
-  ) => AppStrings.locationFoundNearest(
+  ) => l10n.locationFoundNearest(
     formatDistance(nearest.meters),
     nearest.location.name,
   );

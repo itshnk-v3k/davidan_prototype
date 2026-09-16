@@ -12,7 +12,6 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/demo_tools/demo_tool_strings.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
@@ -80,9 +79,9 @@ void main() {
 
         expect(find.byType(DemoLauncherScreen), findsOneWidget);
         for (final title in [
-          AppStrings.launcherClient,
-          AppStrings.launcherCourier,
-          AppStrings.launcherKds,
+          ro.launcherClient,
+          ro.launcherCourier,
+          ro.launcherKds,
           DemoToolStrings.allRolesTitle,
         ]) {
           expect(find.text(title), findsOneWidget, reason: title);

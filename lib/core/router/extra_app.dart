@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:davidan_prototype/l10n/l10n.dart';
+
 /// A part of the prototype besides the customer app: a staff app (the courier
 /// app, the store panel) or an internal demo tool (the all-roles board). The
 /// customer app knows none of them. An entry point registers them by
@@ -21,8 +23,10 @@ class ExtraApp {
     this.savedState = const [],
   });
 
-  final String title;
-  final String hint;
+  /// Its name and a one-line hint on the demo launcher, in the app's
+  /// language.
+  final String Function(AppLocalizations l10n) title;
+  final String Function(AppLocalizations l10n) hint;
   final IconData icon;
 
   /// Where the launcher opens it.

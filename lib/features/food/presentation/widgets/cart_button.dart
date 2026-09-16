@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -12,6 +11,7 @@ import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/scale_pop.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The way into [brand]'s cart, at the top right of the customer tabs: a
 /// receipt icon with the number of items in the cart. The cart opens over the
@@ -30,7 +30,7 @@ class CartButton extends ConsumerWidget {
       children: [
         AppIconButton(
           icon: Icons.receipt_long_rounded,
-          semanticLabel: AppStrings.openCart(count),
+          semanticLabel: context.l10n.openCart(count),
           onPressed: () => context.push(Routes.brandCart(brand)),
         ),
         // The badge grows in with the first item, bumps each time the count

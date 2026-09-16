@@ -10,7 +10,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/account/presentation/profile/profile_screen.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
@@ -50,12 +49,7 @@ void main() {
       size: const Size(360, 640),
     );
 
-    const labels = [
-      AppStrings.navHome,
-      AppStrings.navMenu,
-      AppStrings.navFavorites,
-      AppStrings.navProfile,
-    ];
+    final labels = [ro.navHome, ro.navMenu, ro.navFavorites, ro.navProfile];
     // Only positions: flutter_test draws text in a test font where most glyphs
     // are a full em wide, so label widths here say nothing about Roboto.
     const tabWidth = 360 / 4;
@@ -77,9 +71,9 @@ void main() {
       await pumpApp(tester, container, Routes.clientHome);
 
       for (final (tab, screen) in [
-        (AppStrings.navHome, HomeScreen),
-        (AppStrings.navMenu, CatalogScreen),
-        (AppStrings.navFavorites, FavoritesScreen),
+        (ro.navHome, HomeScreen),
+        (ro.navMenu, CatalogScreen),
+        (ro.navFavorites, FavoritesScreen),
       ]) {
         await tester.tap(find.text(tab));
         await tester.pumpAndSettle();
@@ -99,7 +93,7 @@ void main() {
         );
       }
 
-      await tester.tap(find.text(AppStrings.navProfile));
+      await tester.tap(find.text(ro.navProfile));
       await tester.pumpAndSettle();
       expect(inScreen<ProfileScreen>(find.byType(CartButton)), findsNothing);
     },
@@ -120,13 +114,13 @@ void main() {
       );
 
       final semantics = tester.ensureSemantics();
-      expect(find.bySemanticsLabel(AppStrings.openCart(3)), findsOneWidget);
+      expect(find.bySemanticsLabel(ro.openCart(3)), findsOneWidget);
       semantics.dispose();
 
       await tester.tap(button);
       await tester.pumpAndSettle();
       expect(find.byType(CartScreen), findsOneWidget);
-      expect(find.text(AppStrings.navHome), findsNothing);
+      expect(find.text(ro.navHome), findsNothing);
 
       await goBack(tester);
       expect(find.byType(CartScreen), findsNothing);

@@ -8,13 +8,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/orders/application/order_simulation.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_simulator.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/courier_route_map.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../helpers/test_app.dart';
@@ -34,9 +34,8 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  Finder status(OrderStatus status) => inScreen<OrderConfirmationScreen>(
-    find.text(AppStrings.orderStatus(status)),
-  );
+  Finder status(OrderStatus status) =>
+      inScreen<OrderConfirmationScreen>(find.text(ro.orderStatus(status)));
 
   testWidgets(
     'the customer watches a delivery go through every status, with the '
@@ -67,7 +66,7 @@ void main() {
 
       // At the door: the map says the courier has arrived.
       await passTimeTo(tester, onTheWay + courierTripDuration);
-      expect(find.text(AppStrings.courierArrived), findsOneWidget);
+      expect(find.text(ro.courierArrived), findsOneWidget);
 
       await passTimeTo(tester, completed);
       expect(status(OrderStatus.completed), findsOneWidget);

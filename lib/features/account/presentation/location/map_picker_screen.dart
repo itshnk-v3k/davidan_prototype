@@ -4,7 +4,6 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/location/location_result.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -22,6 +21,7 @@ import 'package:davidan_prototype/features/account/application/current_location_
 import 'package:davidan_prototype/features/account/application/nearby.dart';
 import 'package:davidan_prototype/features/account/presentation/location/widgets/chisinau_map.dart';
 import 'package:davidan_prototype/features/food/application/shop_providers.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The fallback for "Folosește locația mea curentă" when the phone's location
 /// isn't available: says why, then lets the customer place the delivery point
@@ -59,7 +59,7 @@ class _MapPickerScreenState extends ConsumerState<MapPickerScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ScreenHeader(
-              title: AppStrings.mapPickerTitle,
+              title: context.l10n.mapPickerTitle,
               onBack: () => context.canPop()
                   ? context.pop()
                   : context.go(Routes.clientLocation),
@@ -76,12 +76,12 @@ class _MapPickerScreenState extends ConsumerState<MapPickerScreen> {
                   if (failure != null) ...[
                     InfoNote(
                       icon: Icons.location_off_rounded,
-                      text: AppStrings.locationFailure(failure),
+                      text: context.l10n.locationFailure(failure),
                     ),
                     const SizedBox(height: AppSpacing.md),
                   ],
                   Text(
-                    AppStrings.mapPickerHint,
+                    context.l10n.mapPickerHint,
                     style: context.textStyles.bodySecondary,
                   ),
                   const SizedBox(height: AppSpacing.md),
@@ -98,7 +98,7 @@ class _MapPickerScreenState extends ConsumerState<MapPickerScreen> {
                       for (final MapEntry(key: sector, value: centre)
                           in sectorCentres.entries)
                         AppChip(
-                          label: AppStrings.sectorName(sector),
+                          label: context.l10n.sectorName(sector),
                           selected: centre == _point,
                           onTap: () => setState(() => _point = centre),
                         ),
@@ -107,10 +107,10 @@ class _MapPickerScreenState extends ConsumerState<MapPickerScreen> {
                   const SizedBox(height: AppSpacing.lg),
                   DetailRow(
                     icon: Icons.place_rounded,
-                    label: AppStrings.chosenPoint,
+                    label: context.l10n.chosenPoint,
                     value:
-                        '${AppStrings.areaName(sectorAt(_point))} · '
-                        '${AppStrings.distanceToShop(formatDistance(nearest.meters), nearest.location.name)}',
+                        '${context.l10n.areaName(sectorAt(_point))} · '
+                        '${context.l10n.distanceToShop(formatDistance(nearest.meters), nearest.location.name)}',
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
@@ -133,7 +133,7 @@ class _MapPickerScreenState extends ConsumerState<MapPickerScreen> {
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.gutter),
           child: AppButton(
-            label: AppStrings.deliverHere,
+            label: context.l10n.deliverHere,
             onPressed: () {
               ref.read(currentLocationProvider.notifier).pinOnMap(_point);
               context.go(Routes.clientHome);

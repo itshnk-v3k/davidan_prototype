@@ -1,11 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/summary_row.dart';
 import 'package:davidan_prototype/data/models/cart_item.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Each item with its line total, then the order total.
 class OrderSummaryCard extends StatelessWidget {
@@ -35,14 +35,17 @@ class OrderSummaryCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: index == 0 ? 0 : AppSpacing.sm),
                 child: SummaryRow(
-                  label: AppStrings.lineItem(line.quantity, line.product.name),
-                  value: formatLei(line.priceBani * line.quantity),
+                  label: context.l10n.lineItem(
+                    line.quantity,
+                    line.product.name,
+                  ),
+                  value: context.l10n.formatLei(line.priceBani * line.quantity),
                 ),
               ),
             Divider(height: AppSpacing.xl, color: context.colors.border),
             SummaryRow(
-              label: AppStrings.total,
-              value: formatLei(totalBani),
+              label: context.l10n.total,
+              value: context.l10n.formatLei(totalBani),
               emphasized: true,
             ),
           ],

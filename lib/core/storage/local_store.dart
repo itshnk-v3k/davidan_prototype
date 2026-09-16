@@ -23,6 +23,7 @@ abstract final class StorageKeys {
   static const signInSkipped = 'signInSkipped';
   static const currentLocation = 'currentLocation';
   static const themeMode = 'themeMode';
+  static const language = 'language';
 
   /// What a demo reset deletes.
   static final demoData = {
@@ -37,7 +38,7 @@ abstract final class StorageKeys {
   };
 
   /// Kept when the demo is reset.
-  static const settings = {themeMode};
+  static const settings = {themeMode, language};
 
   static final all = {...demoData, ...settings};
 }

@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -18,6 +17,7 @@ import 'package:davidan_prototype/features/account/application/fulfilment_choice
 import 'package:davidan_prototype/features/account/application/location_draft_notifier.dart';
 import 'package:davidan_prototype/features/account/presentation/widgets/fulfilment_fields.dart';
 import 'package:davidan_prototype/features/food/application/shop_providers.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Delivery address or pickup shop for the customer's orders. As in delivery
 /// apps' address pickers, a ready option (a recent address, a shop) is chosen
@@ -80,7 +80,7 @@ class LocationScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ScreenHeader(
-              title: AppStrings.locationTitle,
+              title: context.l10n.locationTitle,
               onBack: context.canPop() ? () => context.pop() : null,
             ),
             Expanded(
@@ -93,16 +93,16 @@ class LocationScreen extends ConsumerWidget {
                 ),
                 children: [
                   Text(
-                    AppStrings.locationPrompt,
+                    context.l10n.locationPrompt,
                     style: context.textStyles.bodySecondary,
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   LinkCard(
                     icon: Icons.my_location_rounded,
-                    title: AppStrings.useCurrentLocation,
+                    title: context.l10n.useCurrentLocation,
                     hint: locating
-                        ? AppStrings.locating
-                        : AppStrings.useCurrentLocationHint,
+                        ? context.l10n.locating
+                        : context.l10n.useCurrentLocationHint,
                     onTap: locating ? () {} : useCurrentLocation,
                   ),
                   const SizedBox(height: AppSpacing.lg),
@@ -121,7 +121,7 @@ class LocationScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: AppSpacing.md),
                     AppButton(
-                      label: AppStrings.confirmAddress,
+                      label: context.l10n.confirmAddress,
                       onPressed: confirmAddress,
                     ),
                     _RecentAddresses(
@@ -134,7 +134,7 @@ class LocationScreen extends ConsumerWidget {
                     ),
                   ] else if (draft.pickupSelection case final selection?) ...[
                     Text(
-                      AppStrings.nearestSuggestion,
+                      context.l10n.nearestSuggestion,
                       style: context.textStyles.bodySecondary,
                     ),
                     const SizedBox(height: AppSpacing.md),
@@ -147,7 +147,7 @@ class LocationScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: AppSpacing.md),
                     AppButton(
-                      label: AppStrings.confirmShop,
+                      label: context.l10n.confirmShop,
                       onPressed: () {
                         if (location().confirmPickup()) saved();
                       },
@@ -196,7 +196,7 @@ class _RecentAddresses extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            AppStrings.recentAddressesTitle,
+            context.l10n.recentAddressesTitle,
             style: context.textStyles.subtitle,
           ),
           for (final address in addresses)

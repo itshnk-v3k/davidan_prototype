@@ -1,13 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/utils/distance.dart';
 import 'package:davidan_prototype/data/models/customer_account.dart';
 import 'package:davidan_prototype/features/food/application/shop_providers.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The shop nearest the customer and how it was found: by sector, or by the
 /// phone's location with the distance. Nothing when the shop no longer exists.
@@ -51,7 +51,7 @@ class NearestShopCard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    AppStrings.nearestShopTitle,
+                    context.l10n.nearestShopTitle,
                     style: context.textStyles.caption,
                   ),
                   const SizedBox(height: AppSpacing.xxs),
@@ -63,10 +63,10 @@ class NearestShopCard extends ConsumerWidget {
                   const SizedBox(height: AppSpacing.xs),
                   Text(
                     switch (account.matchedBy) {
-                      ShopMatch.sector => AppStrings.matchedBySector(
+                      ShopMatch.sector => context.l10n.matchedBySector(
                         account.sector,
                       ),
-                      ShopMatch.location => AppStrings.matchedByLocation(
+                      ShopMatch.location => context.l10n.matchedByLocation(
                         formatDistance(
                           (account.distanceMeters ?? 0).toDouble(),
                         ),

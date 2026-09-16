@@ -4,7 +4,6 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -21,6 +20,7 @@ import 'package:davidan_prototype/features/food/presentation/home/widgets/catego
 import 'package:davidan_prototype/features/food/presentation/home/widgets/product_shelf.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/promo_banner_carousel.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// A brand's home: logo, a location bar pinned at the top, banners and
 /// category tiles, then a row of the brand's popular products and one row per
@@ -56,28 +56,28 @@ class HomeScreen extends ConsumerWidget {
     final location = pinned != null
         ? (
             icon: Icons.my_location_rounded,
-            label: AppStrings.deliverToCurrentLocation,
-            value: AppStrings.currentLocationValue(
-              AppStrings.areaName(sectorAt(pinned.point)),
+            label: context.l10n.deliverToCurrentLocation,
+            value: context.l10n.currentLocationValue(
+              context.l10n.areaName(sectorAt(pinned.point)),
             ),
           )
         : switch (ref.watch(fulfilmentChoiceProvider)) {
             HomeDelivery(:final address) => (
               icon: Icons.location_on_rounded,
-              label: AppStrings.deliverTo,
+              label: context.l10n.deliverTo,
               value: address,
             ),
             StorePickup(:final locationId) => (
               icon: Icons.storefront_rounded,
-              label: AppStrings.pickupFrom,
+              label: context.l10n.pickupFrom,
               value:
                   ref.watch(locationByIdProvider(locationId))?.name ??
                   locationId,
             ),
             null => (
               icon: Icons.location_on_rounded,
-              label: AppStrings.deliverTo,
-              value: AppStrings.chooseAddress,
+              label: context.l10n.deliverTo,
+              value: context.l10n.chooseAddress,
             ),
           };
 
@@ -118,8 +118,8 @@ class HomeScreen extends ConsumerWidget {
                 },
               ),
             ),
-            const SliverToBoxAdapter(
-              child: _SectionTitle(AppStrings.categoriesTitle),
+            SliverToBoxAdapter(
+              child: _SectionTitle(context.l10n.categoriesTitle),
             ),
             SliverToBoxAdapter(
               child: CategoryStrip(
@@ -131,7 +131,7 @@ class HomeScreen extends ConsumerWidget {
             SliverToBoxAdapter(
               child: ProductShelf(
                 id: _popularRowId,
-                title: AppStrings.popularTitle,
+                title: context.l10n.popularTitle,
                 products: popular,
                 onSeeAll: () => context.go(Routes.clientMenu),
               ),
@@ -149,7 +149,7 @@ class HomeScreen extends ConsumerWidget {
                   description: category.description,
                   products: products,
                   onSeeAll: openCategory,
-                  seeAllLabel: AppStrings.seeAllProducts(products.length),
+                  seeAllLabel: context.l10n.seeAllProducts(products.length),
                 );
               },
             ),
@@ -185,7 +185,7 @@ class _BrandRow extends StatelessWidget {
           if (onLauncherTap case final onLauncherTap?) ...[
             AppIconButton(
               icon: Icons.apps_rounded,
-              semanticLabel: AppStrings.openLauncher,
+              semanticLabel: context.l10n.openLauncher,
               onPressed: onLauncherTap,
             ),
             const SizedBox(width: AppSpacing.sm),
@@ -270,7 +270,7 @@ class _LocationBar extends StatelessWidget {
                   if (onClear != null)
                     AppIconButton(
                       icon: Icons.close_rounded,
-                      semanticLabel: AppStrings.dropCurrentLocation,
+                      semanticLabel: context.l10n.dropCurrentLocation,
                       size: 32,
                       onPressed: onClear,
                     )

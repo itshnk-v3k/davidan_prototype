@@ -17,8 +17,13 @@ import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/account/application/account_notifier.dart';
 import 'package:davidan_prototype/features/account/application/nearby.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 import 'fake_location_service.dart';
+
+/// The app's text in Romanian, its default language, for finding widgets by
+/// what they say.
+final ro = lookupAppLocalizations(const Locale('ro'));
 
 /// "Now" in widget tests: 15 September 2026, 10:07.
 final testNow = DateTime(2026, 9, 15, 10, 7);

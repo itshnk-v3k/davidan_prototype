@@ -1,0 +1,595 @@
+{
+  "@@locale": "ro",
+  "appTitle": "DaviDan Delivery",
+  "@appTitle": {
+    "description": "App name; the browser tab title."
+  },
+  "priceLei": "{amount} lei",
+  "@priceLei": {
+    "description": "A price in Moldovan lei. amount is already formatted, e.g. \"19\" or \"19,50\".",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "19,50"
+      }
+    }
+  },
+  "launcherTitle": "Prototip DaviDan",
+  "launcherSubtitle": "Alege partea sistemului pe care vrei s-o vezi.",
+  "launcherClient": "Aplicația clientului",
+  "launcherClientHint": "Meniu, coș, comandă și urmărire",
+  "launcherCourier": "Aplicația curierului",
+  "launcherCourierHint": "Comenzi de livrat și statusul livrării",
+  "launcherKds": "Panoul magazinului",
+  "launcherKdsHint": "Comenzi noi, cronometru și acceptare",
+  "resetDemoData": "Resetează datele demo",
+  "resetDemoDataDone": "Datele demo au fost resetate.",
+  "launcherFooter": "Prototip pentru prezentare. Datele sunt fictive și se păstrează doar pe acest dispozitiv.",
+  "openLauncher": "Înapoi la prototip",
+  "themeTitle": "Tema aplicației",
+  "themeDark": "Întunecată",
+  "themeLight": "Luminoasă",
+  "themeSystem": "Ca telefonul",
+  "@themeSystem": {
+    "description": "Theme follows the phone setting."
+  },
+  "languageTitle": "Limba aplicației",
+  "languageSystem": "Ca telefonul",
+  "@languageSystem": {
+    "description": "Language follows the phone's language (Romanian when the phone uses neither Romanian nor Russian)."
+  },
+  "navHome": "Acasă",
+  "navMenu": "Meniu",
+  "navFavorites": "Favorite",
+  "navProfile": "Profil",
+  "locationTitle": "Livrare sau ridicare",
+  "menuTitle": "Meniu",
+  "cartTitle": "Coșul meu",
+  "checkoutTitle": "Finalizează comanda",
+  "profileTitle": "Profil",
+  "courierOrdersTitle": "Comenzi de livrat",
+  "kdsTitle": "Panoul magazinului",
+  "back": "Înapoi",
+  "backHome": "Înapoi acasă",
+  "locationPrompt": "Alege cum primești comenzile. Poți schimba oricând din bara de sus a ecranului Acasă.",
+  "confirmAddress": "Livrează la această adresă",
+  "recentAddressesTitle": "Adrese folosite recent",
+  "nearestToYou": "Cel mai aproape de tine",
+  "nearestSuggestion": "Ți-am selectat localul cel mai apropiat. Confirmă-l sau alege altul.",
+  "confirmShop": "Confirmă localul",
+  "useCurrentLocation": "Folosește locația mea curentă",
+  "useCurrentLocationHint": "Doar pentru comanda următoare. Adresa salvată rămâne.",
+  "locating": "Se caută locația…",
+  "deliverToCurrentLocation": "Livrare la locația curentă",
+  "currentLocationValue": "{area} · doar comanda următoare",
+  "@currentLocationValue": {
+    "description": "Home header value when the next order goes to the phone's location. area is areaOf(...) or outsideChisinau.",
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "dropCurrentLocation": "Renunță la locația curentă",
+  "typeAddressInstead": "Scrie o adresă",
+  "outsideChisinau": "În afara Chișinăului",
+  "@outsideChisinau": {
+    "description": "Area name for a point outside the Chișinău sectors."
+  },
+  "areaOf": "Zona {sector}",
+  "@areaOf": {
+    "description": "Area name of a point inside a Chișinău sector. sector is a sector name (sectorBotanica…).",
+    "placeholders": {
+      "sector": {
+        "type": "String"
+      }
+    }
+  },
+  "pinnedAddress": "Locația clientului · {area} ({coordinates})",
+  "@pinnedAddress": {
+    "description": "Address shown for a delivery to the customer's current location.",
+    "placeholders": {
+      "area": {
+        "type": "String"
+      },
+      "coordinates": {
+        "type": "String",
+        "example": "47.0105, 28.8638"
+      }
+    }
+  },
+  "locationFailureDenied": "Nu ai permis accesul la locație.",
+  "locationFailureDeniedForever": "Accesul la locație e blocat din setările telefonului.",
+  "locationFailureServiceOff": "Localizarea telefonului e oprită.",
+  "locationFailureTimeout": "Nu am primit semnal de localizare la timp.",
+  "locationFailureUnavailable": "Locația nu e disponibilă pe acest dispozitiv.",
+  "mapPickerTitle": "Alege locația pe hartă",
+  "mapPickerHint": "Atinge harta sau alege zona unde livrăm.",
+  "schematicMap": "Hartă schematică a Chișinăului",
+  "chosenPoint": "Punctul ales",
+  "distanceToShop": "{distance} până la {shopName}",
+  "@distanceToShop": {
+    "description": "Distance from the chosen map point to the nearest shop.",
+    "placeholders": {
+      "distance": {
+        "type": "String",
+        "example": "1,2 km"
+      },
+      "shopName": {
+        "type": "String"
+      }
+    }
+  },
+  "deliverHere": "Livrează aici",
+  "signInTitle": "Intră în cont",
+  "signInPrompt": "Scrie numărul de telefon. Îți trimitem un cod ca să-l confirmi.",
+  "phoneLabel": "Număr de telefon",
+  "phoneHint": "69 123 456",
+  "@phoneHint": {
+    "description": "Example Moldovan mobile number in the phone field."
+  },
+  "phoneInvalid": "Scrie un număr de mobil din 8 cifre, care începe cu 6 sau 7.",
+  "sendCode": "Primește codul",
+  "signInLater": "Mai târziu",
+  "demoSignInNote": "Cont demonstrativ: nu se trimite niciun SMS și nimic nu e verificat. Datele rămân doar pe acest dispozitiv.",
+  "codeTitle": "Codul din SMS",
+  "codeSentTo": "Scrie codul de 4 cifre trimis la {phone}.",
+  "@codeSentTo": {
+    "description": "Sign-in code prompt.",
+    "placeholders": {
+      "phone": {
+        "type": "String",
+        "example": "+373 69 123 456"
+      }
+    }
+  },
+  "codeLabel": "Cod de 4 cifre",
+  "codeIncomplete": "Scrie toate cele 4 cifre.",
+  "confirmCode": "Confirmă codul",
+  "resendCode": "Retrimite codul",
+  "codeResent": "Cod retrimis (demo, fără SMS real).",
+  "demoCodeNote": "Demo: orice cod din 4 cifre este acceptat.",
+  "detailsTitle": "Câteva detalii",
+  "nameLabel": "Numele tău",
+  "nameMissing": "Scrie-ți numele.",
+  "sectorTitle": "Sectorul în care locuiești",
+  "sectorMissing": "Alege sectorul.",
+  "useMyLocationForShop": "Găsește localul după locația mea",
+  "locationFoundNearest": "Locația găsită: {shopName} e la {distance}.",
+  "@locationFoundNearest": {
+    "description": "Sign-in: the nearest shop was found from the phone's location.",
+    "placeholders": {
+      "distance": {
+        "type": "String",
+        "example": "850 m"
+      },
+      "shopName": {
+        "type": "String"
+      }
+    }
+  },
+  "findShopBySectorAfter": "{reason} Găsim localul după sectorul ales.",
+  "@findShopBySectorAfter": {
+    "description": "Sign-in: the phone's location failed. reason is one of the locationFailure… messages.",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "createAccount": "Creează contul",
+  "welcomeTitle": "Bun venit, {name}!",
+  "@welcomeTitle": {
+    "description": "Title after creating the demo account.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "welcomeMessage": "Contul tău e gata. Iată localul DaviDan cel mai apropiat de tine.",
+  "nearestShopTitle": "Cel mai apropiat local",
+  "matchedBySectorOf": "După sectorul {sector}",
+  "@matchedBySectorOf": {
+    "description": "How the nearest shop was chosen. sector is a sector name.",
+    "placeholders": {
+      "sector": {
+        "type": "String"
+      }
+    }
+  },
+  "matchedByLocation": "După locația ta · {distance}",
+  "@matchedByLocation": {
+    "description": "How the nearest shop was chosen.",
+    "placeholders": {
+      "distance": {
+        "type": "String",
+        "example": "850 m"
+      }
+    }
+  },
+  "chooseHowToReceive": "Alege cum primești comenzile",
+  "sectorBotanica": "Botanica",
+  "@sectorBotanica": {
+    "description": "Chișinău sector name."
+  },
+  "sectorBuiucani": "Buiucani",
+  "@sectorBuiucani": {
+    "description": "Chișinău sector name."
+  },
+  "sectorCentru": "Centru",
+  "@sectorCentru": {
+    "description": "Chișinău sector name."
+  },
+  "sectorCiocana": "Ciocana",
+  "@sectorCiocana": {
+    "description": "Chișinău sector name."
+  },
+  "sectorRiscani": "Rîșcani",
+  "@sectorRiscani": {
+    "description": "Chișinău sector name."
+  },
+  "sectorOf": "Sectorul {sector}",
+  "@sectorOf": {
+    "description": "A sector with its name, e.g. on the profile.",
+    "placeholders": {
+      "sector": {
+        "type": "String"
+      }
+    }
+  },
+  "accountLockedTitle": "Contul tău",
+  "accountLockedMessage": "Intră în cont ca să-ți vezi comenzile și localul cel mai apropiat.",
+  "signOut": "Ieși din cont",
+  "myOrdersTitle": "Comenzile mele",
+  "ordersEmptyTitle": "Nicio comandă încă",
+  "ordersEmptyMessage": "Comenzile tale apar aici, cu statusul lor la zi.",
+  "demoProfileNote": "Cont demonstrativ, fără verificare reală prin SMS.",
+  "deliverTo": "Livrare la",
+  "chooseAddress": "Alege adresa sau localul",
+  "categoriesTitle": "Categorii",
+  "popularTitle": "Produse DaviDan",
+  "@popularTitle": {
+    "description": "Heading over the home page's featured products, as on davidan.md."
+  },
+  "seeAll": "Vezi mai mult",
+  "@seeAll": {
+    "description": "Link at the end of a home shelf; davidan.md's wording on its category list."
+  },
+  "seeAllProducts": "{count, plural, one{Vezi {count} produs} few{Vezi toate cele {count} produse} other{Vezi toate cele {count} de produse}}",
+  "@seeAllProducts": {
+    "description": "Button under a home shelf that opens the whole category.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "categoryEmpty": "Momentan nu sunt produse în această categorie.",
+  "descriptionTitle": "Descriere",
+  "productNotFound": "Produsul nu a fost găsit.",
+  "increaseQuantity": "Mărește cantitatea",
+  "decreaseQuantity": "Micșorează cantitatea",
+  "inCart": "În coș: {count}",
+  "@inCart": {
+    "description": "How many of this product are in the cart.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "addToCartTotal": "Adaugă în coș · {total}",
+  "@addToCartTotal": {
+    "description": "Product page button.",
+    "placeholders": {
+      "total": {
+        "type": "String",
+        "example": "118 lei"
+      }
+    }
+  },
+  "addedToCart": "Adăugat în coș: {quantity} × {productName}",
+  "@addedToCart": {
+    "description": "Toast after adding a product.",
+    "placeholders": {
+      "quantity": {
+        "type": "int"
+      },
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "addToCart": "Adaugă {productName} în coș",
+  "@addToCart": {
+    "description": "Screen reader label of the add button.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "removeOneFromCart": "Scoate o bucată de {productName} din coș",
+  "@removeOneFromCart": {
+    "description": "Screen reader label of the minus button.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "removeFromCart": "Scoate {productName} din coș",
+  "@removeFromCart": {
+    "description": "Screen reader label of the remove button.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "itemsInCart": "{count, plural, one{{count} produs în coș} few{{count} produse în coș} other{{count} de produse în coș}}",
+  "@itemsInCart": {
+    "description": "Number of products in the cart.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "openCart": "{count, plural, =0{Coșul meu} one{Coșul meu, {count} produs în coș} few{Coșul meu, {count} produse în coș} other{Coșul meu, {count} de produse în coș}}",
+  "@openCart": {
+    "description": "Screen reader label of the header cart button: cartTitle, plus itemsInCart when the cart has anything.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cartEmptyTitle": "Coșul tău e gol",
+  "cartEmptyMessage": "Adaugă produse din meniu, apoi revino aici ca să finalizezi comanda.",
+  "browseMenu": "Vezi meniul",
+  "continueOrder": "Continuă comanda",
+  "total": "Total",
+  "unitPrice": "{price} / buc.",
+  "@unitPrice": {
+    "description": "Price of one piece.",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "59 lei"
+      }
+    }
+  },
+  "lineItem": "{quantity} × {productName}",
+  "@lineItem": {
+    "description": "An order line.",
+    "placeholders": {
+      "quantity": {
+        "type": "int"
+      },
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "fulfilmentTitle": "Cum primești comanda",
+  "delivery": "Livrare",
+  "pickup": "Ridicare din local",
+  "deliveryAddress": "Adresa de livrare",
+  "deliveryAddressHint": "Strada, numărul, blocul, apartamentul",
+  "deliveryAddressMissing": "Scrie adresa unde livrăm comanda.",
+  "deliveryTimeTitle": "Ora livrării",
+  "pickupTimeTitle": "Ora ridicării",
+  "asSoonAsPossible": "Cât mai curând",
+  "paymentTitle": "Achitare",
+  "@paymentTitle": {
+    "description": "davidan.md's \"Livrare și achitare\" page calls payment \"achitare\": cash or the courier's POS terminal."
+  },
+  "paymentOnDelivery": "Plătești curierului, la primirea comenzii.",
+  "paymentOnPickup": "Plătești în local, la ridicarea comenzii.",
+  "orderSummaryTitle": "Comanda ta",
+  "placeOrder": "Plasează comanda",
+  "paymentCash": "Numerar",
+  "paymentCard": "Card prin POS",
+  "@paymentCard": {
+    "description": "Card payment on the courier's or shop's POS terminal."
+  },
+  "orderPlacedTitle": "Comanda a fost plasată",
+  "orderNotFound": "Comanda nu a fost găsită.",
+  "pickupFrom": "Ridicare din",
+  "orderTime": "Ora",
+  "trackingComingSoon": "Urmărirea comenzii pas cu pas va apărea aici în etapele următoare.",
+  "orderNumber": "Comanda nr. {id}",
+  "@orderNumber": {
+    "description": "Order title.",
+    "placeholders": {
+      "id": {
+        "type": "String",
+        "example": "DD-1001"
+      }
+    }
+  },
+  "orderStatusPlaced": "Plasată",
+  "@orderStatusPlaced": {
+    "description": "Order status."
+  },
+  "orderStatusAccepted": "Acceptată",
+  "@orderStatusAccepted": {
+    "description": "Order status."
+  },
+  "orderStatusPreparing": "Se pregătește",
+  "@orderStatusPreparing": {
+    "description": "Order status."
+  },
+  "orderStatusReady": "Gata",
+  "@orderStatusReady": {
+    "description": "Order status."
+  },
+  "orderStatusOnTheWay": "În livrare",
+  "@orderStatusOnTheWay": {
+    "description": "Order status."
+  },
+  "orderStatusCompleted": "Finalizată",
+  "@orderStatusCompleted": {
+    "description": "Order status."
+  },
+  "advanceToAccepted": "Acceptă",
+  "@advanceToAccepted": {
+    "description": "Store panel button that accepts an order."
+  },
+  "advanceToPreparing": "Începe prepararea",
+  "@advanceToPreparing": {
+    "description": "Store panel button."
+  },
+  "advanceToReady": "Marchează gata",
+  "@advanceToReady": {
+    "description": "Store panel button."
+  },
+  "advanceToOnTheWay": "Am preluat comanda",
+  "@advanceToOnTheWay": {
+    "description": "Courier app button: the courier has collected the order."
+  },
+  "advanceToCompleted": "Predată clientului",
+  "@advanceToCompleted": {
+    "description": "Courier app or store panel button: handed to the customer."
+  },
+  "scheduledAt": "La {time}",
+  "@scheduledAt": {
+    "description": "A scheduled order time.",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "14:30"
+      }
+    }
+  },
+  "kdsIncoming": "Noi",
+  "@kdsIncoming": {
+    "description": "Store panel column: new orders."
+  },
+  "kdsInKitchen": "În lucru",
+  "@kdsInKitchen": {
+    "description": "Store panel column: orders being prepared."
+  },
+  "kdsReady": "Gata",
+  "@kdsReady": {
+    "description": "Store panel column: orders ready."
+  },
+  "kdsColumnEmpty": "Nicio comandă",
+  "kdsEmptyTitle": "Nicio comandă deocamdată",
+  "kdsEmptyMessage": "Comenzile plasate din aplicația clientului apar aici.",
+  "waitingForCourier": "Așteaptă curierul",
+  "kdsNewTag": "NOUĂ",
+  "@kdsNewTag": {
+    "description": "Badge on a new order in the store panel."
+  },
+  "newOrderArrived": "Comandă nouă: {orderId}",
+  "@newOrderArrived": {
+    "description": "Store panel toast.",
+    "placeholders": {
+      "orderId": {
+        "type": "String",
+        "example": "DD-1001"
+      }
+    }
+  },
+  "pickupAt": "Ridicare · {shopName}",
+  "@pickupAt": {
+    "description": "Store panel order card.",
+    "placeholders": {
+      "shopName": {
+        "type": "String"
+      }
+    }
+  },
+  "timeSincePlaced": "Timp de la plasare: {elapsed}",
+  "@timeSincePlaced": {
+    "description": "Screen reader label of the store panel timer.",
+    "placeholders": {
+      "elapsed": {
+        "type": "String",
+        "example": "04:12"
+      }
+    }
+  },
+  "favoritesTitle": "Produse favorite",
+  "favoritesEmptyTitle": "Niciun produs favorit",
+  "favoritesEmptyMessage": "Apasă inima de pe un produs ca să-l găsești repede aici.",
+  "addToFavorites": "Adaugă {productName} la favorite",
+  "@addToFavorites": {
+    "description": "Screen reader label of the heart button.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "removeFromFavorites": "Scoate {productName} din favorite",
+  "@removeFromFavorites": {
+    "description": "Screen reader label of the heart button.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "courierArrivesIn": "Curierul ajunge în aproximativ {minutes} min",
+  "@courierArrivesIn": {
+    "description": "Delivery map.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "courierArrived": "Curierul a ajuns la adresă",
+  "courierOnline": "Online",
+  "@courierOnline": {
+    "description": "Courier availability switch."
+  },
+  "courierOffline": "Offline",
+  "@courierOffline": {
+    "description": "Courier availability switch."
+  },
+  "courierOnlineHint": "Primești comenzi noi",
+  "courierOfflineHint": "Nu primești comenzi noi",
+  "courierOnTheWaySection": "Pe drum spre client",
+  "courierReadySection": "De preluat din local",
+  "courierOfflineTitle": "Ești offline",
+  "courierOfflineMessage": "Intră online ca să vezi comenzile de preluat din local.",
+  "courierEmptyTitle": "Nicio livrare deocamdată",
+  "courierEmptyMessage": "Comenzile cu livrare apar aici când localul le marchează gata.",
+  "toCollect": "De încasat",
+  "@toCollect": {
+    "description": "Courier app: money to collect from the customer."
+  },
+  "itemsTitle": "Produse",
+  "courierWaitingForStore": "Localul încă pregătește comanda.",
+  "deliveryCompleted": "Livrare finalizată.",
+  "backToDeliveries": "Înapoi la comenzi",
+  "deliveryNotFound": "Livrarea nu a fost găsită.",
+  "deliveryTitle": "Livrare {orderId}",
+  "@deliveryTitle": {
+    "description": "Courier app delivery screen title.",
+    "placeholders": {
+      "orderId": {
+        "type": "String",
+        "example": "DD-1001"
+      }
+    }
+  },
+  "amountToCollect": "{total} · {paymentMethod}",
+  "@amountToCollect": {
+    "description": "Courier app: amount to collect and how.",
+    "placeholders": {
+      "total": {
+        "type": "String",
+        "example": "138 lei"
+      },
+      "paymentMethod": {
+        "type": "String"
+      }
+    }
+  }
+}

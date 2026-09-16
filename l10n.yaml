@@ -1,0 +1,12 @@
+# gen-l10n: lib/l10n/app_ro.arb is the source of all UI text; `flutter pub get`,
+# `flutter run` and `flutter build` regenerate lib/l10n/app_localizations*.dart.
+# Research and gotchas: docs/sources/flutter_l10n.md.
+arb-dir: lib/l10n
+template-arb-file: app_ro.arb
+output-localization-file: app_localizations.dart
+nullable-getter: false
+# Romanian first: the language used when the phone's is neither ro nor ru.
+preferred-supported-locales: [ro]
+# Lists messages app_ru.arb lacks instead of printing them on every build.
+# test/architecture/translations_test.dart is what fails on a gap.
+untranslated-messages-file: build/untranslated_messages.json

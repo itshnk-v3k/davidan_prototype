@@ -10,7 +10,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/widgets/toast_host.dart';
@@ -43,10 +42,10 @@ void main() {
         container,
         Routes.brandProduct((brand: Brand.bakery, id: 'coca-cola')),
       );
-      await tester.tap(find.text(AppStrings.addToCartTotal('25 lei')));
+      await tester.tap(find.text(ro.addToCartTotal('25 lei')));
       await tester.pumpAndSettle();
 
-      final message = AppStrings.addedToCart(1, 'Coca Cola');
+      final message = ro.addedToCart(1, 'Coca Cola');
       expect(find.byType(HomeScreen), findsOneWidget);
       expect(toast(message), findsOneWidget);
       expect(tester.getTopLeft(toast(message)).dy, lessThan(80));
@@ -69,13 +68,10 @@ void main() {
 
   testWidgets('resetting the demo data confirms at the top', (tester) async {
     await pumpApp(tester, container, Routes.clientProfile);
-    await tapVisible(tester, find.text(AppStrings.resetDemoData));
+    await tapVisible(tester, find.text(ro.resetDemoData));
 
-    expect(toast(AppStrings.resetDemoDataDone), findsOneWidget);
-    expect(
-      tester.getTopLeft(toast(AppStrings.resetDemoDataDone)).dy,
-      lessThan(80),
-    );
+    expect(toast(ro.resetDemoDataDone), findsOneWidget);
+    expect(tester.getTopLeft(toast(ro.resetDemoDataDone)).dy, lessThan(80));
     expect(find.byType(SnackBar), findsNothing);
 
     await waitOutToast(tester);

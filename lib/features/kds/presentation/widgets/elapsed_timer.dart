@@ -1,11 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/clock_ticker.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Time since [since] as "mm:ss", redrawn every second. Each redraw works it
 /// out again from the saved timestamp, so reopening the panel or reloading the
@@ -32,7 +32,7 @@ class ElapsedTimer extends StatelessWidget {
             : context.colors.textSecondary;
 
         return Semantics(
-          label: AppStrings.timeSincePlaced(text),
+          label: context.l10n.timeSincePlaced(text),
           excludeSemantics: true,
           child: Row(
             mainAxisSize: MainAxisSize.min,

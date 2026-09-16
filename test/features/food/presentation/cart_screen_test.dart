@@ -9,7 +9,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/cart/cart_screen.dart';
@@ -41,13 +40,10 @@ void main() {
   ) async {
     await pumpApp(tester, container, Routes.brandCart(Brand.bakery));
 
-    expect(
-      inScreen<CartScreen>(find.text(AppStrings.cartEmptyTitle)),
-      findsOneWidget,
-    );
+    expect(inScreen<CartScreen>(find.text(ro.cartEmptyTitle)), findsOneWidget);
     expect(find.byType(TotalBar), findsNothing);
 
-    await tapVisible(tester, find.text(AppStrings.browseMenu));
+    await tapVisible(tester, find.text(ro.browseMenu));
     expect(find.byType(CatalogScreen), findsOneWidget);
   });
 
@@ -66,7 +62,7 @@ void main() {
     );
     expect(inLine('Coca Cola', find.text('50 lei')), findsOneWidget);
     expect(
-      inLine('Coca Cola', find.text(AppStrings.unitPrice('25 lei'))),
+      inLine('Coca Cola', find.text(ro.unitPrice('25 lei'))),
       findsOneWidget,
     );
     expect(total('69 lei'), findsOneWidget);
@@ -114,7 +110,7 @@ void main() {
       ),
     );
     await tester.pump();
-    expect(find.text(AppStrings.cartEmptyTitle), findsOneWidget);
+    expect(find.text(ro.cartEmptyTitle), findsOneWidget);
     expect(find.byType(TotalBar), findsNothing);
   });
 
@@ -124,7 +120,7 @@ void main() {
     container.read(cartProvider(Brand.bakery).notifier).add('americano');
     await pumpApp(tester, container, Routes.brandCart(Brand.bakery));
 
-    await tapVisible(tester, find.text(AppStrings.continueOrder));
+    await tapVisible(tester, find.text(ro.continueOrder));
     expect(find.byType(CheckoutScreen), findsOneWidget);
 
     await tester.tap(

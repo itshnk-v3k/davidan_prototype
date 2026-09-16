@@ -1,11 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/summary_row.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Bottom bar with the running total and the next step, on the cart and
 /// checkout screens.
@@ -42,8 +42,8 @@ class TotalBar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SummaryRow(
-                label: AppStrings.total,
-                value: formatLei(totalBani),
+                label: context.l10n.total,
+                value: context.l10n.formatLei(totalBani),
                 emphasized: true,
               ),
               const SizedBox(height: AppSpacing.md),

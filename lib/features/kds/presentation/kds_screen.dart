@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -16,6 +15,7 @@ import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/kds/application/kds_providers.dart';
 import 'package:davidan_prototype/features/kds/presentation/widgets/kds_order_card.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Store panel: every order the shop still has work on, in three columns
 /// (new, in the kitchen, ready). A tablet or desktop shows the columns side
@@ -80,16 +80,16 @@ class _KdsScreenState extends ConsumerState<KdsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ScreenHeader(title: AppStrings.kdsTitle),
+            ScreenHeader(title: context.l10n.kdsTitle),
             Expanded(
               child: Stack(
                 children: [
                   Positioned.fill(
                     child: columns.values.every((orders) => orders.isEmpty)
-                        ? const EmptyState(
+                        ? EmptyState(
                             icon: Icons.receipt_long_rounded,
-                            title: AppStrings.kdsEmptyTitle,
-                            message: AppStrings.kdsEmptyMessage,
+                            title: context.l10n.kdsEmptyTitle,
+                            message: context.l10n.kdsEmptyMessage,
                           )
                         : LayoutBuilder(
                             builder: (context, constraints) =>
@@ -114,7 +114,7 @@ class _KdsScreenState extends ConsumerState<KdsScreen> {
                               : TopNotice(
                                   key: ValueKey(announcedOrderId),
                                   icon: Icons.notifications_active_rounded,
-                                  message: AppStrings.newOrderArrived(
+                                  message: context.l10n.newOrderArrived(
                                     announcedOrderId,
                                   ),
                                 ),
@@ -171,7 +171,7 @@ class _SideBySide extends StatelessWidget {
                           child: orders.isEmpty
                               ? Center(
                                   child: Text(
-                                    AppStrings.kdsColumnEmpty,
+                                    context.l10n.kdsColumnEmpty,
                                     style: context.textStyles.bodySecondary,
                                   ),
                                 )
@@ -224,7 +224,7 @@ class _Stacked extends StatelessWidget {
                 const SizedBox(height: AppSpacing.md),
                 if (orders.isEmpty)
                   Text(
-                    AppStrings.kdsColumnEmpty,
+                    context.l10n.kdsColumnEmpty,
                     style: context.textStyles.bodySecondary,
                   )
                 else
@@ -254,9 +254,9 @@ class _ColumnTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionTitle(
       title: switch (column) {
-        KdsColumn.incoming => AppStrings.kdsIncoming,
-        KdsColumn.inKitchen => AppStrings.kdsInKitchen,
-        KdsColumn.ready => AppStrings.kdsReady,
+        KdsColumn.incoming => context.l10n.kdsIncoming,
+        KdsColumn.inKitchen => context.l10n.kdsInKitchen,
+        KdsColumn.ready => context.l10n.kdsReady,
       },
       count: count,
     );

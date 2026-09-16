@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -18,6 +17,7 @@ import 'package:davidan_prototype/features/orders/application/orders_notifier.da
 import 'package:davidan_prototype/features/orders/presentation/widgets/courier_route_map.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_summary_card.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// One delivery: where to go (with the route map once it's on the way), what
 /// to collect, the items, and the courier's next step. Pickup orders and
@@ -44,14 +44,14 @@ class CourierDeliveryScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ScreenHeader(
-                title: AppStrings.deliveryTitle(orderId),
+                title: context.l10n.deliveryTitle(orderId),
                 onBack: goBack,
               ),
               Expanded(
                 child: EmptyState(
                   icon: Icons.receipt_long_rounded,
-                  title: AppStrings.deliveryNotFound,
-                  actionLabel: AppStrings.backToDeliveries,
+                  title: context.l10n.deliveryNotFound,
+                  actionLabel: context.l10n.backToDeliveries,
                   onAction: goBack,
                 ),
               ),
@@ -71,7 +71,7 @@ class CourierDeliveryScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ScreenHeader(
-              title: AppStrings.deliveryTitle(order.id),
+              title: context.l10n.deliveryTitle(order.id),
               onBack: goBack,
             ),
             Expanded(
@@ -105,7 +105,7 @@ class CourierDeliveryScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   Text(
-                    AppStrings.itemsTitle,
+                    context.l10n.itemsTitle,
                     style: context.textStyles.subtitle,
                   ),
                   const SizedBox(height: AppSpacing.md),
@@ -162,7 +162,7 @@ class _ActionBar extends StatelessWidget {
                 child: switch (order.nextStatus) {
                   final next? when order.nextStepBy == OrderActor.courier =>
                     AppButton(
-                      label: AppStrings.advanceTo(next),
+                      label: context.l10n.advanceTo(next),
                       onPressed: onAdvance,
                     ),
                   null => Column(
@@ -179,21 +179,21 @@ class _ActionBar extends StatelessWidget {
                           ),
                           const SizedBox(width: AppSpacing.sm),
                           Text(
-                            AppStrings.deliveryCompleted,
+                            context.l10n.deliveryCompleted,
                             style: context.textStyles.bodyStrong,
                           ),
                         ],
                       ),
                       const SizedBox(height: AppSpacing.md),
                       AppButton(
-                        label: AppStrings.backToDeliveries,
+                        label: context.l10n.backToDeliveries,
                         variant: AppButtonVariant.secondary,
                         onPressed: onBack,
                       ),
                     ],
                   ),
                   _ => Text(
-                    AppStrings.courierWaitingForStore,
+                    context.l10n.courierWaitingForStore,
                     style: context.textStyles.bodySecondary,
                     textAlign: TextAlign.center,
                   ),

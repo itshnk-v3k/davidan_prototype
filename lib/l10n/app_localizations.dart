@@ -1,0 +1,1334 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations_ro.dart';
+import 'app_localizations_ru.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'l10n/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ro'),
+    Locale('ru'),
+  ];
+
+  /// App name; the browser tab title.
+  ///
+  /// In ro, this message translates to:
+  /// **'DaviDan Delivery'**
+  String get appTitle;
+
+  /// A price in Moldovan lei. amount is already formatted, e.g. "19" or "19,50".
+  ///
+  /// In ro, this message translates to:
+  /// **'{amount} lei'**
+  String priceLei(String amount);
+
+  /// No description provided for @launcherTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Prototip DaviDan'**
+  String get launcherTitle;
+
+  /// No description provided for @launcherSubtitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Alege partea sistemului pe care vrei s-o vezi.'**
+  String get launcherSubtitle;
+
+  /// No description provided for @launcherClient.
+  ///
+  /// In ro, this message translates to:
+  /// **'Aplicația clientului'**
+  String get launcherClient;
+
+  /// No description provided for @launcherClientHint.
+  ///
+  /// In ro, this message translates to:
+  /// **'Meniu, coș, comandă și urmărire'**
+  String get launcherClientHint;
+
+  /// No description provided for @launcherCourier.
+  ///
+  /// In ro, this message translates to:
+  /// **'Aplicația curierului'**
+  String get launcherCourier;
+
+  /// No description provided for @launcherCourierHint.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comenzi de livrat și statusul livrării'**
+  String get launcherCourierHint;
+
+  /// No description provided for @launcherKds.
+  ///
+  /// In ro, this message translates to:
+  /// **'Panoul magazinului'**
+  String get launcherKds;
+
+  /// No description provided for @launcherKdsHint.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comenzi noi, cronometru și acceptare'**
+  String get launcherKdsHint;
+
+  /// No description provided for @resetDemoData.
+  ///
+  /// In ro, this message translates to:
+  /// **'Resetează datele demo'**
+  String get resetDemoData;
+
+  /// No description provided for @resetDemoDataDone.
+  ///
+  /// In ro, this message translates to:
+  /// **'Datele demo au fost resetate.'**
+  String get resetDemoDataDone;
+
+  /// No description provided for @launcherFooter.
+  ///
+  /// In ro, this message translates to:
+  /// **'Prototip pentru prezentare. Datele sunt fictive și se păstrează doar pe acest dispozitiv.'**
+  String get launcherFooter;
+
+  /// No description provided for @openLauncher.
+  ///
+  /// In ro, this message translates to:
+  /// **'Înapoi la prototip'**
+  String get openLauncher;
+
+  /// No description provided for @themeTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Tema aplicației'**
+  String get themeTitle;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In ro, this message translates to:
+  /// **'Întunecată'**
+  String get themeDark;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In ro, this message translates to:
+  /// **'Luminoasă'**
+  String get themeLight;
+
+  /// Theme follows the phone setting.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ca telefonul'**
+  String get themeSystem;
+
+  /// No description provided for @languageTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Limba aplicației'**
+  String get languageTitle;
+
+  /// Language follows the phone's language (Romanian when the phone uses neither Romanian nor Russian).
+  ///
+  /// In ro, this message translates to:
+  /// **'Ca telefonul'**
+  String get languageSystem;
+
+  /// No description provided for @navHome.
+  ///
+  /// In ro, this message translates to:
+  /// **'Acasă'**
+  String get navHome;
+
+  /// No description provided for @navMenu.
+  ///
+  /// In ro, this message translates to:
+  /// **'Meniu'**
+  String get navMenu;
+
+  /// No description provided for @navFavorites.
+  ///
+  /// In ro, this message translates to:
+  /// **'Favorite'**
+  String get navFavorites;
+
+  /// No description provided for @navProfile.
+  ///
+  /// In ro, this message translates to:
+  /// **'Profil'**
+  String get navProfile;
+
+  /// No description provided for @locationTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Livrare sau ridicare'**
+  String get locationTitle;
+
+  /// No description provided for @menuTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Meniu'**
+  String get menuTitle;
+
+  /// No description provided for @cartTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Coșul meu'**
+  String get cartTitle;
+
+  /// No description provided for @checkoutTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Finalizează comanda'**
+  String get checkoutTitle;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Profil'**
+  String get profileTitle;
+
+  /// No description provided for @courierOrdersTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comenzi de livrat'**
+  String get courierOrdersTitle;
+
+  /// No description provided for @kdsTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Panoul magazinului'**
+  String get kdsTitle;
+
+  /// No description provided for @back.
+  ///
+  /// In ro, this message translates to:
+  /// **'Înapoi'**
+  String get back;
+
+  /// No description provided for @backHome.
+  ///
+  /// In ro, this message translates to:
+  /// **'Înapoi acasă'**
+  String get backHome;
+
+  /// No description provided for @locationPrompt.
+  ///
+  /// In ro, this message translates to:
+  /// **'Alege cum primești comenzile. Poți schimba oricând din bara de sus a ecranului Acasă.'**
+  String get locationPrompt;
+
+  /// No description provided for @confirmAddress.
+  ///
+  /// In ro, this message translates to:
+  /// **'Livrează la această adresă'**
+  String get confirmAddress;
+
+  /// No description provided for @recentAddressesTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Adrese folosite recent'**
+  String get recentAddressesTitle;
+
+  /// No description provided for @nearestToYou.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cel mai aproape de tine'**
+  String get nearestToYou;
+
+  /// No description provided for @nearestSuggestion.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ți-am selectat localul cel mai apropiat. Confirmă-l sau alege altul.'**
+  String get nearestSuggestion;
+
+  /// No description provided for @confirmShop.
+  ///
+  /// In ro, this message translates to:
+  /// **'Confirmă localul'**
+  String get confirmShop;
+
+  /// No description provided for @useCurrentLocation.
+  ///
+  /// In ro, this message translates to:
+  /// **'Folosește locația mea curentă'**
+  String get useCurrentLocation;
+
+  /// No description provided for @useCurrentLocationHint.
+  ///
+  /// In ro, this message translates to:
+  /// **'Doar pentru comanda următoare. Adresa salvată rămâne.'**
+  String get useCurrentLocationHint;
+
+  /// No description provided for @locating.
+  ///
+  /// In ro, this message translates to:
+  /// **'Se caută locația…'**
+  String get locating;
+
+  /// No description provided for @deliverToCurrentLocation.
+  ///
+  /// In ro, this message translates to:
+  /// **'Livrare la locația curentă'**
+  String get deliverToCurrentLocation;
+
+  /// Home header value when the next order goes to the phone's location. area is areaOf(...) or outsideChisinau.
+  ///
+  /// In ro, this message translates to:
+  /// **'{area} · doar comanda următoare'**
+  String currentLocationValue(String area);
+
+  /// No description provided for @dropCurrentLocation.
+  ///
+  /// In ro, this message translates to:
+  /// **'Renunță la locația curentă'**
+  String get dropCurrentLocation;
+
+  /// No description provided for @typeAddressInstead.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scrie o adresă'**
+  String get typeAddressInstead;
+
+  /// Area name for a point outside the Chișinău sectors.
+  ///
+  /// In ro, this message translates to:
+  /// **'În afara Chișinăului'**
+  String get outsideChisinau;
+
+  /// Area name of a point inside a Chișinău sector. sector is a sector name (sectorBotanica…).
+  ///
+  /// In ro, this message translates to:
+  /// **'Zona {sector}'**
+  String areaOf(String sector);
+
+  /// Address shown for a delivery to the customer's current location.
+  ///
+  /// In ro, this message translates to:
+  /// **'Locația clientului · {area} ({coordinates})'**
+  String pinnedAddress(String area, String coordinates);
+
+  /// No description provided for @locationFailureDenied.
+  ///
+  /// In ro, this message translates to:
+  /// **'Nu ai permis accesul la locație.'**
+  String get locationFailureDenied;
+
+  /// No description provided for @locationFailureDeniedForever.
+  ///
+  /// In ro, this message translates to:
+  /// **'Accesul la locație e blocat din setările telefonului.'**
+  String get locationFailureDeniedForever;
+
+  /// No description provided for @locationFailureServiceOff.
+  ///
+  /// In ro, this message translates to:
+  /// **'Localizarea telefonului e oprită.'**
+  String get locationFailureServiceOff;
+
+  /// No description provided for @locationFailureTimeout.
+  ///
+  /// In ro, this message translates to:
+  /// **'Nu am primit semnal de localizare la timp.'**
+  String get locationFailureTimeout;
+
+  /// No description provided for @locationFailureUnavailable.
+  ///
+  /// In ro, this message translates to:
+  /// **'Locația nu e disponibilă pe acest dispozitiv.'**
+  String get locationFailureUnavailable;
+
+  /// No description provided for @mapPickerTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Alege locația pe hartă'**
+  String get mapPickerTitle;
+
+  /// No description provided for @mapPickerHint.
+  ///
+  /// In ro, this message translates to:
+  /// **'Atinge harta sau alege zona unde livrăm.'**
+  String get mapPickerHint;
+
+  /// No description provided for @schematicMap.
+  ///
+  /// In ro, this message translates to:
+  /// **'Hartă schematică a Chișinăului'**
+  String get schematicMap;
+
+  /// No description provided for @chosenPoint.
+  ///
+  /// In ro, this message translates to:
+  /// **'Punctul ales'**
+  String get chosenPoint;
+
+  /// Distance from the chosen map point to the nearest shop.
+  ///
+  /// In ro, this message translates to:
+  /// **'{distance} până la {shopName}'**
+  String distanceToShop(String distance, String shopName);
+
+  /// No description provided for @deliverHere.
+  ///
+  /// In ro, this message translates to:
+  /// **'Livrează aici'**
+  String get deliverHere;
+
+  /// No description provided for @signInTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Intră în cont'**
+  String get signInTitle;
+
+  /// No description provided for @signInPrompt.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scrie numărul de telefon. Îți trimitem un cod ca să-l confirmi.'**
+  String get signInPrompt;
+
+  /// No description provided for @phoneLabel.
+  ///
+  /// In ro, this message translates to:
+  /// **'Număr de telefon'**
+  String get phoneLabel;
+
+  /// Example Moldovan mobile number in the phone field.
+  ///
+  /// In ro, this message translates to:
+  /// **'69 123 456'**
+  String get phoneHint;
+
+  /// No description provided for @phoneInvalid.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scrie un număr de mobil din 8 cifre, care începe cu 6 sau 7.'**
+  String get phoneInvalid;
+
+  /// No description provided for @sendCode.
+  ///
+  /// In ro, this message translates to:
+  /// **'Primește codul'**
+  String get sendCode;
+
+  /// No description provided for @signInLater.
+  ///
+  /// In ro, this message translates to:
+  /// **'Mai târziu'**
+  String get signInLater;
+
+  /// No description provided for @demoSignInNote.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cont demonstrativ: nu se trimite niciun SMS și nimic nu e verificat. Datele rămân doar pe acest dispozitiv.'**
+  String get demoSignInNote;
+
+  /// No description provided for @codeTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Codul din SMS'**
+  String get codeTitle;
+
+  /// Sign-in code prompt.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scrie codul de 4 cifre trimis la {phone}.'**
+  String codeSentTo(String phone);
+
+  /// No description provided for @codeLabel.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cod de 4 cifre'**
+  String get codeLabel;
+
+  /// No description provided for @codeIncomplete.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scrie toate cele 4 cifre.'**
+  String get codeIncomplete;
+
+  /// No description provided for @confirmCode.
+  ///
+  /// In ro, this message translates to:
+  /// **'Confirmă codul'**
+  String get confirmCode;
+
+  /// No description provided for @resendCode.
+  ///
+  /// In ro, this message translates to:
+  /// **'Retrimite codul'**
+  String get resendCode;
+
+  /// No description provided for @codeResent.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cod retrimis (demo, fără SMS real).'**
+  String get codeResent;
+
+  /// No description provided for @demoCodeNote.
+  ///
+  /// In ro, this message translates to:
+  /// **'Demo: orice cod din 4 cifre este acceptat.'**
+  String get demoCodeNote;
+
+  /// No description provided for @detailsTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Câteva detalii'**
+  String get detailsTitle;
+
+  /// No description provided for @nameLabel.
+  ///
+  /// In ro, this message translates to:
+  /// **'Numele tău'**
+  String get nameLabel;
+
+  /// No description provided for @nameMissing.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scrie-ți numele.'**
+  String get nameMissing;
+
+  /// No description provided for @sectorTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Sectorul în care locuiești'**
+  String get sectorTitle;
+
+  /// No description provided for @sectorMissing.
+  ///
+  /// In ro, this message translates to:
+  /// **'Alege sectorul.'**
+  String get sectorMissing;
+
+  /// No description provided for @useMyLocationForShop.
+  ///
+  /// In ro, this message translates to:
+  /// **'Găsește localul după locația mea'**
+  String get useMyLocationForShop;
+
+  /// Sign-in: the nearest shop was found from the phone's location.
+  ///
+  /// In ro, this message translates to:
+  /// **'Locația găsită: {shopName} e la {distance}.'**
+  String locationFoundNearest(String distance, String shopName);
+
+  /// Sign-in: the phone's location failed. reason is one of the locationFailure… messages.
+  ///
+  /// In ro, this message translates to:
+  /// **'{reason} Găsim localul după sectorul ales.'**
+  String findShopBySectorAfter(String reason);
+
+  /// No description provided for @createAccount.
+  ///
+  /// In ro, this message translates to:
+  /// **'Creează contul'**
+  String get createAccount;
+
+  /// Title after creating the demo account.
+  ///
+  /// In ro, this message translates to:
+  /// **'Bun venit, {name}!'**
+  String welcomeTitle(String name);
+
+  /// No description provided for @welcomeMessage.
+  ///
+  /// In ro, this message translates to:
+  /// **'Contul tău e gata. Iată localul DaviDan cel mai apropiat de tine.'**
+  String get welcomeMessage;
+
+  /// No description provided for @nearestShopTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cel mai apropiat local'**
+  String get nearestShopTitle;
+
+  /// How the nearest shop was chosen. sector is a sector name.
+  ///
+  /// In ro, this message translates to:
+  /// **'După sectorul {sector}'**
+  String matchedBySectorOf(String sector);
+
+  /// How the nearest shop was chosen.
+  ///
+  /// In ro, this message translates to:
+  /// **'După locația ta · {distance}'**
+  String matchedByLocation(String distance);
+
+  /// No description provided for @chooseHowToReceive.
+  ///
+  /// In ro, this message translates to:
+  /// **'Alege cum primești comenzile'**
+  String get chooseHowToReceive;
+
+  /// Chișinău sector name.
+  ///
+  /// In ro, this message translates to:
+  /// **'Botanica'**
+  String get sectorBotanica;
+
+  /// Chișinău sector name.
+  ///
+  /// In ro, this message translates to:
+  /// **'Buiucani'**
+  String get sectorBuiucani;
+
+  /// Chișinău sector name.
+  ///
+  /// In ro, this message translates to:
+  /// **'Centru'**
+  String get sectorCentru;
+
+  /// Chișinău sector name.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ciocana'**
+  String get sectorCiocana;
+
+  /// Chișinău sector name.
+  ///
+  /// In ro, this message translates to:
+  /// **'Rîșcani'**
+  String get sectorRiscani;
+
+  /// A sector with its name, e.g. on the profile.
+  ///
+  /// In ro, this message translates to:
+  /// **'Sectorul {sector}'**
+  String sectorOf(String sector);
+
+  /// No description provided for @accountLockedTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Contul tău'**
+  String get accountLockedTitle;
+
+  /// No description provided for @accountLockedMessage.
+  ///
+  /// In ro, this message translates to:
+  /// **'Intră în cont ca să-ți vezi comenzile și localul cel mai apropiat.'**
+  String get accountLockedMessage;
+
+  /// No description provided for @signOut.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ieși din cont'**
+  String get signOut;
+
+  /// No description provided for @myOrdersTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comenzile mele'**
+  String get myOrdersTitle;
+
+  /// No description provided for @ordersEmptyTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Nicio comandă încă'**
+  String get ordersEmptyTitle;
+
+  /// No description provided for @ordersEmptyMessage.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comenzile tale apar aici, cu statusul lor la zi.'**
+  String get ordersEmptyMessage;
+
+  /// No description provided for @demoProfileNote.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cont demonstrativ, fără verificare reală prin SMS.'**
+  String get demoProfileNote;
+
+  /// No description provided for @deliverTo.
+  ///
+  /// In ro, this message translates to:
+  /// **'Livrare la'**
+  String get deliverTo;
+
+  /// No description provided for @chooseAddress.
+  ///
+  /// In ro, this message translates to:
+  /// **'Alege adresa sau localul'**
+  String get chooseAddress;
+
+  /// No description provided for @categoriesTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Categorii'**
+  String get categoriesTitle;
+
+  /// Heading over the home page's featured products, as on davidan.md.
+  ///
+  /// In ro, this message translates to:
+  /// **'Produse DaviDan'**
+  String get popularTitle;
+
+  /// Link at the end of a home shelf; davidan.md's wording on its category list.
+  ///
+  /// In ro, this message translates to:
+  /// **'Vezi mai mult'**
+  String get seeAll;
+
+  /// Button under a home shelf that opens the whole category.
+  ///
+  /// In ro, this message translates to:
+  /// **'{count, plural, one{Vezi {count} produs} few{Vezi toate cele {count} produse} other{Vezi toate cele {count} de produse}}'**
+  String seeAllProducts(int count);
+
+  /// No description provided for @categoryEmpty.
+  ///
+  /// In ro, this message translates to:
+  /// **'Momentan nu sunt produse în această categorie.'**
+  String get categoryEmpty;
+
+  /// No description provided for @descriptionTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Descriere'**
+  String get descriptionTitle;
+
+  /// No description provided for @productNotFound.
+  ///
+  /// In ro, this message translates to:
+  /// **'Produsul nu a fost găsit.'**
+  String get productNotFound;
+
+  /// No description provided for @increaseQuantity.
+  ///
+  /// In ro, this message translates to:
+  /// **'Mărește cantitatea'**
+  String get increaseQuantity;
+
+  /// No description provided for @decreaseQuantity.
+  ///
+  /// In ro, this message translates to:
+  /// **'Micșorează cantitatea'**
+  String get decreaseQuantity;
+
+  /// How many of this product are in the cart.
+  ///
+  /// In ro, this message translates to:
+  /// **'În coș: {count}'**
+  String inCart(int count);
+
+  /// Product page button.
+  ///
+  /// In ro, this message translates to:
+  /// **'Adaugă în coș · {total}'**
+  String addToCartTotal(String total);
+
+  /// Toast after adding a product.
+  ///
+  /// In ro, this message translates to:
+  /// **'Adăugat în coș: {quantity} × {productName}'**
+  String addedToCart(int quantity, String productName);
+
+  /// Screen reader label of the add button.
+  ///
+  /// In ro, this message translates to:
+  /// **'Adaugă {productName} în coș'**
+  String addToCart(String productName);
+
+  /// Screen reader label of the minus button.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scoate o bucată de {productName} din coș'**
+  String removeOneFromCart(String productName);
+
+  /// Screen reader label of the remove button.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scoate {productName} din coș'**
+  String removeFromCart(String productName);
+
+  /// Number of products in the cart.
+  ///
+  /// In ro, this message translates to:
+  /// **'{count, plural, one{{count} produs în coș} few{{count} produse în coș} other{{count} de produse în coș}}'**
+  String itemsInCart(int count);
+
+  /// Screen reader label of the header cart button: cartTitle, plus itemsInCart when the cart has anything.
+  ///
+  /// In ro, this message translates to:
+  /// **'{count, plural, =0{Coșul meu} one{Coșul meu, {count} produs în coș} few{Coșul meu, {count} produse în coș} other{Coșul meu, {count} de produse în coș}}'**
+  String openCart(int count);
+
+  /// No description provided for @cartEmptyTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Coșul tău e gol'**
+  String get cartEmptyTitle;
+
+  /// No description provided for @cartEmptyMessage.
+  ///
+  /// In ro, this message translates to:
+  /// **'Adaugă produse din meniu, apoi revino aici ca să finalizezi comanda.'**
+  String get cartEmptyMessage;
+
+  /// No description provided for @browseMenu.
+  ///
+  /// In ro, this message translates to:
+  /// **'Vezi meniul'**
+  String get browseMenu;
+
+  /// No description provided for @continueOrder.
+  ///
+  /// In ro, this message translates to:
+  /// **'Continuă comanda'**
+  String get continueOrder;
+
+  /// No description provided for @total.
+  ///
+  /// In ro, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// Price of one piece.
+  ///
+  /// In ro, this message translates to:
+  /// **'{price} / buc.'**
+  String unitPrice(String price);
+
+  /// An order line.
+  ///
+  /// In ro, this message translates to:
+  /// **'{quantity} × {productName}'**
+  String lineItem(int quantity, String productName);
+
+  /// No description provided for @fulfilmentTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cum primești comanda'**
+  String get fulfilmentTitle;
+
+  /// No description provided for @delivery.
+  ///
+  /// In ro, this message translates to:
+  /// **'Livrare'**
+  String get delivery;
+
+  /// No description provided for @pickup.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ridicare din local'**
+  String get pickup;
+
+  /// No description provided for @deliveryAddress.
+  ///
+  /// In ro, this message translates to:
+  /// **'Adresa de livrare'**
+  String get deliveryAddress;
+
+  /// No description provided for @deliveryAddressHint.
+  ///
+  /// In ro, this message translates to:
+  /// **'Strada, numărul, blocul, apartamentul'**
+  String get deliveryAddressHint;
+
+  /// No description provided for @deliveryAddressMissing.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scrie adresa unde livrăm comanda.'**
+  String get deliveryAddressMissing;
+
+  /// No description provided for @deliveryTimeTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ora livrării'**
+  String get deliveryTimeTitle;
+
+  /// No description provided for @pickupTimeTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ora ridicării'**
+  String get pickupTimeTitle;
+
+  /// No description provided for @asSoonAsPossible.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cât mai curând'**
+  String get asSoonAsPossible;
+
+  /// davidan.md's "Livrare și achitare" page calls payment "achitare": cash or the courier's POS terminal.
+  ///
+  /// In ro, this message translates to:
+  /// **'Achitare'**
+  String get paymentTitle;
+
+  /// No description provided for @paymentOnDelivery.
+  ///
+  /// In ro, this message translates to:
+  /// **'Plătești curierului, la primirea comenzii.'**
+  String get paymentOnDelivery;
+
+  /// No description provided for @paymentOnPickup.
+  ///
+  /// In ro, this message translates to:
+  /// **'Plătești în local, la ridicarea comenzii.'**
+  String get paymentOnPickup;
+
+  /// No description provided for @orderSummaryTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comanda ta'**
+  String get orderSummaryTitle;
+
+  /// No description provided for @placeOrder.
+  ///
+  /// In ro, this message translates to:
+  /// **'Plasează comanda'**
+  String get placeOrder;
+
+  /// No description provided for @paymentCash.
+  ///
+  /// In ro, this message translates to:
+  /// **'Numerar'**
+  String get paymentCash;
+
+  /// Card payment on the courier's or shop's POS terminal.
+  ///
+  /// In ro, this message translates to:
+  /// **'Card prin POS'**
+  String get paymentCard;
+
+  /// No description provided for @orderPlacedTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comanda a fost plasată'**
+  String get orderPlacedTitle;
+
+  /// No description provided for @orderNotFound.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comanda nu a fost găsită.'**
+  String get orderNotFound;
+
+  /// No description provided for @pickupFrom.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ridicare din'**
+  String get pickupFrom;
+
+  /// No description provided for @orderTime.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ora'**
+  String get orderTime;
+
+  /// No description provided for @trackingComingSoon.
+  ///
+  /// In ro, this message translates to:
+  /// **'Urmărirea comenzii pas cu pas va apărea aici în etapele următoare.'**
+  String get trackingComingSoon;
+
+  /// Order title.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comanda nr. {id}'**
+  String orderNumber(String id);
+
+  /// Order status.
+  ///
+  /// In ro, this message translates to:
+  /// **'Plasată'**
+  String get orderStatusPlaced;
+
+  /// Order status.
+  ///
+  /// In ro, this message translates to:
+  /// **'Acceptată'**
+  String get orderStatusAccepted;
+
+  /// Order status.
+  ///
+  /// In ro, this message translates to:
+  /// **'Se pregătește'**
+  String get orderStatusPreparing;
+
+  /// Order status.
+  ///
+  /// In ro, this message translates to:
+  /// **'Gata'**
+  String get orderStatusReady;
+
+  /// Order status.
+  ///
+  /// In ro, this message translates to:
+  /// **'În livrare'**
+  String get orderStatusOnTheWay;
+
+  /// Order status.
+  ///
+  /// In ro, this message translates to:
+  /// **'Finalizată'**
+  String get orderStatusCompleted;
+
+  /// Store panel button that accepts an order.
+  ///
+  /// In ro, this message translates to:
+  /// **'Acceptă'**
+  String get advanceToAccepted;
+
+  /// Store panel button.
+  ///
+  /// In ro, this message translates to:
+  /// **'Începe prepararea'**
+  String get advanceToPreparing;
+
+  /// Store panel button.
+  ///
+  /// In ro, this message translates to:
+  /// **'Marchează gata'**
+  String get advanceToReady;
+
+  /// Courier app button: the courier has collected the order.
+  ///
+  /// In ro, this message translates to:
+  /// **'Am preluat comanda'**
+  String get advanceToOnTheWay;
+
+  /// Courier app or store panel button: handed to the customer.
+  ///
+  /// In ro, this message translates to:
+  /// **'Predată clientului'**
+  String get advanceToCompleted;
+
+  /// A scheduled order time.
+  ///
+  /// In ro, this message translates to:
+  /// **'La {time}'**
+  String scheduledAt(String time);
+
+  /// Store panel column: new orders.
+  ///
+  /// In ro, this message translates to:
+  /// **'Noi'**
+  String get kdsIncoming;
+
+  /// Store panel column: orders being prepared.
+  ///
+  /// In ro, this message translates to:
+  /// **'În lucru'**
+  String get kdsInKitchen;
+
+  /// Store panel column: orders ready.
+  ///
+  /// In ro, this message translates to:
+  /// **'Gata'**
+  String get kdsReady;
+
+  /// No description provided for @kdsColumnEmpty.
+  ///
+  /// In ro, this message translates to:
+  /// **'Nicio comandă'**
+  String get kdsColumnEmpty;
+
+  /// No description provided for @kdsEmptyTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Nicio comandă deocamdată'**
+  String get kdsEmptyTitle;
+
+  /// No description provided for @kdsEmptyMessage.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comenzile plasate din aplicația clientului apar aici.'**
+  String get kdsEmptyMessage;
+
+  /// No description provided for @waitingForCourier.
+  ///
+  /// In ro, this message translates to:
+  /// **'Așteaptă curierul'**
+  String get waitingForCourier;
+
+  /// Badge on a new order in the store panel.
+  ///
+  /// In ro, this message translates to:
+  /// **'NOUĂ'**
+  String get kdsNewTag;
+
+  /// Store panel toast.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comandă nouă: {orderId}'**
+  String newOrderArrived(String orderId);
+
+  /// Store panel order card.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ridicare · {shopName}'**
+  String pickupAt(String shopName);
+
+  /// Screen reader label of the store panel timer.
+  ///
+  /// In ro, this message translates to:
+  /// **'Timp de la plasare: {elapsed}'**
+  String timeSincePlaced(String elapsed);
+
+  /// No description provided for @favoritesTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Produse favorite'**
+  String get favoritesTitle;
+
+  /// No description provided for @favoritesEmptyTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Niciun produs favorit'**
+  String get favoritesEmptyTitle;
+
+  /// No description provided for @favoritesEmptyMessage.
+  ///
+  /// In ro, this message translates to:
+  /// **'Apasă inima de pe un produs ca să-l găsești repede aici.'**
+  String get favoritesEmptyMessage;
+
+  /// Screen reader label of the heart button.
+  ///
+  /// In ro, this message translates to:
+  /// **'Adaugă {productName} la favorite'**
+  String addToFavorites(String productName);
+
+  /// Screen reader label of the heart button.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scoate {productName} din favorite'**
+  String removeFromFavorites(String productName);
+
+  /// Delivery map.
+  ///
+  /// In ro, this message translates to:
+  /// **'Curierul ajunge în aproximativ {minutes} min'**
+  String courierArrivesIn(int minutes);
+
+  /// No description provided for @courierArrived.
+  ///
+  /// In ro, this message translates to:
+  /// **'Curierul a ajuns la adresă'**
+  String get courierArrived;
+
+  /// Courier availability switch.
+  ///
+  /// In ro, this message translates to:
+  /// **'Online'**
+  String get courierOnline;
+
+  /// Courier availability switch.
+  ///
+  /// In ro, this message translates to:
+  /// **'Offline'**
+  String get courierOffline;
+
+  /// No description provided for @courierOnlineHint.
+  ///
+  /// In ro, this message translates to:
+  /// **'Primești comenzi noi'**
+  String get courierOnlineHint;
+
+  /// No description provided for @courierOfflineHint.
+  ///
+  /// In ro, this message translates to:
+  /// **'Nu primești comenzi noi'**
+  String get courierOfflineHint;
+
+  /// No description provided for @courierOnTheWaySection.
+  ///
+  /// In ro, this message translates to:
+  /// **'Pe drum spre client'**
+  String get courierOnTheWaySection;
+
+  /// No description provided for @courierReadySection.
+  ///
+  /// In ro, this message translates to:
+  /// **'De preluat din local'**
+  String get courierReadySection;
+
+  /// No description provided for @courierOfflineTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ești offline'**
+  String get courierOfflineTitle;
+
+  /// No description provided for @courierOfflineMessage.
+  ///
+  /// In ro, this message translates to:
+  /// **'Intră online ca să vezi comenzile de preluat din local.'**
+  String get courierOfflineMessage;
+
+  /// No description provided for @courierEmptyTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Nicio livrare deocamdată'**
+  String get courierEmptyTitle;
+
+  /// No description provided for @courierEmptyMessage.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comenzile cu livrare apar aici când localul le marchează gata.'**
+  String get courierEmptyMessage;
+
+  /// Courier app: money to collect from the customer.
+  ///
+  /// In ro, this message translates to:
+  /// **'De încasat'**
+  String get toCollect;
+
+  /// No description provided for @itemsTitle.
+  ///
+  /// In ro, this message translates to:
+  /// **'Produse'**
+  String get itemsTitle;
+
+  /// No description provided for @courierWaitingForStore.
+  ///
+  /// In ro, this message translates to:
+  /// **'Localul încă pregătește comanda.'**
+  String get courierWaitingForStore;
+
+  /// No description provided for @deliveryCompleted.
+  ///
+  /// In ro, this message translates to:
+  /// **'Livrare finalizată.'**
+  String get deliveryCompleted;
+
+  /// No description provided for @backToDeliveries.
+  ///
+  /// In ro, this message translates to:
+  /// **'Înapoi la comenzi'**
+  String get backToDeliveries;
+
+  /// No description provided for @deliveryNotFound.
+  ///
+  /// In ro, this message translates to:
+  /// **'Livrarea nu a fost găsită.'**
+  String get deliveryNotFound;
+
+  /// Courier app delivery screen title.
+  ///
+  /// In ro, this message translates to:
+  /// **'Livrare {orderId}'**
+  String deliveryTitle(String orderId);
+
+  /// Courier app: amount to collect and how.
+  ///
+  /// In ro, this message translates to:
+  /// **'{total} · {paymentMethod}'**
+  String amountToCollect(String total, String paymentMethod);
+}
+
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) =>
+      <String>['ro', 'ru'].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'ro':
+      return AppLocalizationsRo();
+    case 'ru':
+      return AppLocalizationsRu();
+  }
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
+}

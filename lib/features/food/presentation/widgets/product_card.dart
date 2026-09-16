@@ -1,6 +1,5 @@
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -11,6 +10,7 @@ import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/favorite_toggle.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_image.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/quantity_stepper.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Product card: photo with a favourite heart, name, price, and an add button
 /// that turns into a quantity stepper once the product is in the cart.
@@ -48,7 +48,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final price = Text(
-      formatLei(product.priceBani),
+      context.l10n.formatLei(product.priceBani),
       style: context.textStyles.price,
     );
     final cartControl = AnimatedSwitcher(
@@ -75,7 +75,7 @@ class ProductCard extends StatelessWidget {
               padding: const EdgeInsets.all(QuantityStepper.inset),
               child: RoundIconButton(
                 icon: Icons.add_rounded,
-                semanticLabel: AppStrings.addToCart(product.name),
+                semanticLabel: context.l10n.addToCart(product.name),
                 onTap: onAdd,
               ),
             )
@@ -84,8 +84,8 @@ class ProductCard extends StatelessWidget {
               quantity: quantity,
               onIncrement: onAdd,
               onDecrement: onRemove,
-              incrementLabel: AppStrings.addToCart(product.name),
-              decrementLabel: AppStrings.removeOneFromCart(product.name),
+              incrementLabel: context.l10n.addToCart(product.name),
+              decrementLabel: context.l10n.removeOneFromCart(product.name),
             ),
     );
 

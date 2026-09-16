@@ -10,7 +10,6 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
@@ -67,9 +66,7 @@ void main() {
     await tester.pump();
 
     await tester.tap(
-      inScreen<ProductDetailScreen>(
-        find.text(AppStrings.addToCartTotal('50 lei')),
-      ),
+      inScreen<ProductDetailScreen>(find.text(ro.addToCartTotal('50 lei'))),
     );
     await tester.pumpAndSettle();
 
@@ -78,7 +75,7 @@ void main() {
     expect(container.read(cartQuantitiesProvider(Brand.bakery)), {
       'coca-cola': 2,
     });
-    expect(find.text(AppStrings.addedToCart(2, 'Coca Cola')), findsOneWidget);
+    expect(find.text(ro.addedToCart(2, 'Coca Cola')), findsOneWidget);
 
     // Let the snack bar time out so no timer outlives the test.
     await tester.pump(const Duration(seconds: 5));
@@ -109,13 +106,13 @@ void main() {
       container,
       Routes.brandProduct((brand: Brand.bakery, id: 'placinta-branza')),
     );
-    expect(find.text(AppStrings.descriptionTitle), findsOneWidget);
+    expect(find.text(ro.descriptionTitle), findsOneWidget);
 
     container
         .read(appRouterProvider)
         .go(Routes.brandProduct((brand: Brand.bakery, id: 'kurtos-fistic')));
     await tester.pumpAndSettle();
-    expect(find.text(AppStrings.descriptionTitle), findsNothing);
+    expect(find.text(ro.descriptionTitle), findsNothing);
   });
 
   testWidgets('unknown product id shows not found', (tester) async {
@@ -124,6 +121,6 @@ void main() {
       container,
       Routes.brandProduct((brand: Brand.bakery, id: 'no-such-product')),
     );
-    expect(find.text(AppStrings.productNotFound), findsOneWidget);
+    expect(find.text(ro.productNotFound), findsOneWidget);
   });
 }

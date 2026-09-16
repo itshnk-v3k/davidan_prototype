@@ -114,6 +114,7 @@ Evidence:
 - `localizationsDelegates: AppLocalizations.localizationsDelegates` with `locale: ru` and material_ui's `MaterialApp`:
   - The debug log says "A MaterialLocalizations delegate that supports the ru locale was not found".
   - Then it throws "**No MaterialLocalizations found.** … (package:material_ui/src/debug.dart)".
+- Confirmed in the app itself (step 3, 2026-09-16): with the generated list, the app's widget tests fail **in Romanian too**, not only in Russian, because material_ui's widgets find no `MaterialLocalizations` in any locale.
 - `[AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates]` works:
   - `MaterialLocalizations.of(context).cancelButtonLabel` gives "Anulați" for ro and "Отмена" for ru.
 - Importing both `package:flutter_localizations/flutter_localizations.dart` and `package:material_ui/material_ui.dart` in one file is an `ambiguous_import` error for `GlobalMaterialLocalizations`.

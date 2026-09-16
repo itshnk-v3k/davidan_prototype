@@ -13,7 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
+import 'package:davidan_prototype/app.dart';
 import 'package:davidan_prototype/core/theme/app_theme.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_delivery_screen.dart';
@@ -21,6 +21,7 @@ import 'package:davidan_prototype/features/courier/presentation/courier_orders_s
 import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/kds/presentation/widgets/kds_order_card.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 import 'package:davidan_prototype/staff/staff_build.dart';
 
 import '../../helpers/test_app.dart';
@@ -45,6 +46,9 @@ void main() {
         container: container,
         child: MaterialApp(
           theme: AppTheme.light(),
+          locale: const Locale('ro'),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: DaviDanApp.localizationsDelegates,
           home: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -88,8 +92,7 @@ void main() {
     await tester.pump();
   }
 
-  Finder statusLabel(OrderStatus status) =>
-      find.text(AppStrings.orderStatus(status));
+  Finder statusLabel(OrderStatus status) => find.text(ro.orderStatus(status));
 
   testWidgets(
     'a delivery goes from store panel to courier, and the customer and '
@@ -102,7 +105,7 @@ void main() {
       expect(store(find.text(order.id)), findsOneWidget);
       expect(courierList(find.text(order.id)), findsNothing);
       expect(
-        courierDelivery(find.text(AppStrings.courierWaitingForStore)),
+        courierDelivery(find.text(ro.courierWaitingForStore)),
         findsOneWidget,
       );
 
@@ -112,18 +115,18 @@ void main() {
         OrderStatus.preparing,
         OrderStatus.ready,
       ]) {
-        await tapOnce(tester, store(find.text(AppStrings.advanceTo(status))));
+        await tapOnce(tester, store(find.text(ro.advanceTo(status))));
         expect(customer(statusLabel(status)), findsOneWidget);
         expect(courierDelivery(statusLabel(status)), findsOneWidget);
         expect(storeTicket(statusLabel(status)), findsOneWidget);
       }
-      expect(store(find.text(AppStrings.waitingForCourier)), findsOneWidget);
+      expect(store(find.text(ro.waitingForCourier)), findsOneWidget);
       expect(courierList(find.text(order.id)), findsOneWidget);
 
       // Courier: take the order from the shop.
       await tapOnce(
         tester,
-        courierDelivery(find.text(AppStrings.advanceTo(OrderStatus.onTheWay))),
+        courierDelivery(find.text(ro.advanceTo(OrderStatus.onTheWay))),
       );
       expect(customer(statusLabel(OrderStatus.onTheWay)), findsOneWidget);
       expect(courierList(statusLabel(OrderStatus.onTheWay)), findsOneWidget);
@@ -132,13 +135,10 @@ void main() {
       // Courier: hand it over.
       await tapOnce(
         tester,
-        courierDelivery(find.text(AppStrings.advanceTo(OrderStatus.completed))),
+        courierDelivery(find.text(ro.advanceTo(OrderStatus.completed))),
       );
       expect(customer(statusLabel(OrderStatus.completed)), findsOneWidget);
-      expect(
-        courierDelivery(find.text(AppStrings.deliveryCompleted)),
-        findsOneWidget,
-      );
+      expect(courierDelivery(find.text(ro.deliveryCompleted)), findsOneWidget);
       expect(courierList(find.text(order.id)), findsNothing);
     },
   );
@@ -159,15 +159,12 @@ void main() {
         OrderStatus.ready,
         OrderStatus.completed,
       ]) {
-        await tapOnce(tester, store(find.text(AppStrings.advanceTo(status))));
+        await tapOnce(tester, store(find.text(ro.advanceTo(status))));
         expect(customer(statusLabel(status)), findsOneWidget);
         expect(courierList(find.text(order.id)), findsNothing);
       }
       expect(store(find.text(order.id)), findsNothing);
-      expect(
-        courierDelivery(find.text(AppStrings.deliveryNotFound)),
-        findsOneWidget,
-      );
+      expect(courierDelivery(find.text(ro.deliveryNotFound)), findsOneWidget);
     },
   );
 }

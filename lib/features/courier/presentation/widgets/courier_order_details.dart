@@ -1,12 +1,12 @@
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/orders/presentation/delivery_address.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// What a courier needs at a glance: where to go (an address, or the area
 /// and coordinates of a customer's current location), when, and how much to
@@ -26,25 +26,25 @@ class CourierOrderDetails extends StatelessWidget {
         if (order.fulfilment case final HomeDelivery delivery) ...[
           DetailRow(
             icon: Icons.location_on_rounded,
-            label: AppStrings.deliverTo,
-            value: deliveryAddressText(delivery),
+            label: context.l10n.deliverTo,
+            value: context.l10n.deliveryAddressText(delivery),
           ),
           const SizedBox(height: AppSpacing.md),
         ],
         DetailRow(
           icon: Icons.schedule_rounded,
-          label: AppStrings.orderTime,
+          label: context.l10n.orderTime,
           value: scheduledFor == null
-              ? AppStrings.asSoonAsPossible
+              ? context.l10n.asSoonAsPossible
               : formatTime(scheduledFor),
         ),
         const SizedBox(height: AppSpacing.md),
         DetailRow(
           icon: Icons.payments_rounded,
-          label: AppStrings.toCollect,
-          value: AppStrings.amountToCollect(
-            formatLei(order.totalBani),
-            AppStrings.paymentMethod(order.payment),
+          label: context.l10n.toCollect,
+          value: context.l10n.amountToCollect(
+            context.l10n.formatLei(order.totalBani),
+            context.l10n.paymentMethod(order.payment),
           ),
         ),
       ],

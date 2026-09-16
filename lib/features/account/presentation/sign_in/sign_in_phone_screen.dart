@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -15,6 +14,7 @@ import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/features/account/application/account_notifier.dart';
 import 'package:davidan_prototype/features/account/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/account/application/sign_in_draft_notifier.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// First step of the demo sign-in: the phone number, as in Glovo and Yandex
 /// Eda. Opened by the splash on first launch, where "Mai târziu" lets the
@@ -46,7 +46,7 @@ class SignInPhoneScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ScreenHeader(
-              title: AppStrings.signInTitle,
+              title: context.l10n.signInTitle,
               onBack: canPop ? () => context.pop() : null,
             ),
             Expanded(
@@ -59,7 +59,7 @@ class SignInPhoneScreen extends ConsumerWidget {
                 ),
                 children: [
                   Text(
-                    AppStrings.signInPrompt,
+                    context.l10n.signInPrompt,
                     style: context.textStyles.bodySecondary,
                   ),
                   const SizedBox(height: AppSpacing.lg),
@@ -78,27 +78,27 @@ class SignInPhoneScreen extends ConsumerWidget {
                     ],
                     style: context.textStyles.body,
                     decoration: InputDecoration(
-                      labelText: AppStrings.phoneLabel,
-                      hintText: AppStrings.phoneHint,
+                      labelText: context.l10n.phoneLabel,
+                      hintText: context.l10n.phoneHint,
                       prefixText: '${MoldovanPhone.prefix} ',
                       prefixIcon: const Icon(Icons.phone_iphone_rounded),
                       errorText: draft.showPhoneError && !draft.phoneValid
-                          ? AppStrings.phoneInvalid
+                          ? context.l10n.phoneInvalid
                           : null,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.md),
-                  AppButton(label: AppStrings.sendCode, onPressed: sendCode),
+                  AppButton(label: context.l10n.sendCode, onPressed: sendCode),
                   if (!canPop) ...[
                     const SizedBox(height: AppSpacing.sm),
                     AppButton(
-                      label: AppStrings.signInLater,
+                      label: context.l10n.signInLater,
                       variant: AppButtonVariant.secondary,
                       onPressed: skip,
                     ),
                   ],
                   const SizedBox(height: AppSpacing.xl),
-                  const InfoNote(text: AppStrings.demoSignInNote),
+                  InfoNote(text: context.l10n.demoSignInNote),
                 ],
               ),
             ),

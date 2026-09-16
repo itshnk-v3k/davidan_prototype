@@ -9,7 +9,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/brand_logo.dart';
 import 'package:davidan_prototype/features/account/presentation/location/location_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
@@ -26,7 +25,7 @@ void main() {
   testWidgets('the location bar stays pinned at the top while the page scrolls '
       'beneath it, and still opens the location screen', (tester) async {
     await pumpApp(tester, container, Routes.clientHome);
-    final bar = inScreen<HomeScreen>(find.text(AppStrings.chooseAddress));
+    final bar = inScreen<HomeScreen>(find.text(ro.chooseAddress));
     final logo = inScreen<HomeScreen>(find.byType(BrandLogo));
     final barTopBefore = tester.getTopLeft(bar).dy;
     expect(tester.getTopLeft(logo).dy, lessThan(barTopBefore));

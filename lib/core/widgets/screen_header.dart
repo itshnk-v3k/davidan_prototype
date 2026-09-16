@@ -4,10 +4,10 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Title row at the top of a screen.
 ///
@@ -52,7 +52,7 @@ class ScreenHeader extends ConsumerWidget {
                 if (hasLauncher)
                   AppIconButton(
                     icon: Icons.apps_rounded,
-                    semanticLabel: AppStrings.openLauncher,
+                    semanticLabel: context.l10n.openLauncher,
                     onPressed: () => context.go(Routes.launcher),
                   ),
                 for (final (index, action) in actions.indexed) ...[
@@ -64,7 +64,7 @@ class ScreenHeader extends ConsumerWidget {
             : [
                 AppIconButton(
                   icon: Icons.arrow_back_rounded,
-                  semanticLabel: AppStrings.back,
+                  semanticLabel: context.l10n.back,
                   onPressed: onBack,
                 ),
                 const SizedBox(width: AppSpacing.md),

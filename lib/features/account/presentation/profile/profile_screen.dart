@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -14,6 +13,7 @@ import 'package:davidan_prototype/core/utils/phone.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
+import 'package:davidan_prototype/core/widgets/language_selector.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/core/widgets/summary_row.dart';
 import 'package:davidan_prototype/core/widgets/theme_mode_selector.dart';
@@ -25,12 +25,14 @@ import 'package:davidan_prototype/features/launcher/application/demo_reset_notif
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/fulfilment_detail_row.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
+import 'package:davidan_prototype/l10n/app_language.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Profile tab. Locked until the customer goes through the demo sign-in;
 /// then their name, number, sector and nearest shop, their orders with a
 /// live status, and a way to sign out. Saved products have their own tab.
-/// The theme switch and the demo reset are there either way: the customer app
-/// build has no launcher to hold them.
+/// The theme and language switches and the demo reset are there either way:
+/// the customer app build has no launcher to hold them.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
@@ -46,29 +48,39 @@ class ProfileScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ScreenHeader(title: AppStrings.profileTitle),
+            ScreenHeader(title: context.l10n.profileTitle),
             Expanded(
               child: account == null
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: EmptyState(
-                            icon: Icons.lock_outline_rounded,
-                            title: AppStrings.accountLockedTitle,
-                            message: AppStrings.accountLockedMessage,
-                            actionLabel: AppStrings.signInTitle,
-                            onAction: () => context.push(Routes.signIn),
+                  // The lock message fills the space above the settings, and
+                  // on a short phone the page scrolls instead of squeezing
+                  // the "Intră în cont" button out of sight.
+                  ? CustomScrollView(
+                      slivers: [
+                        SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(
+                                child: EmptyState(
+                                  icon: Icons.lock_outline_rounded,
+                                  title: context.l10n.accountLockedTitle,
+                                  message: context.l10n.accountLockedMessage,
+                                  actionLabel: context.l10n.signInTitle,
+                                  onAction: () => context.push(Routes.signIn),
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                  AppSpacing.gutter,
+                                  0,
+                                  AppSpacing.gutter,
+                                  AppSpacing.xl,
+                                ),
+                                child: _DemoSettings(),
+                              ),
+                            ],
                           ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(
-                            AppSpacing.gutter,
-                            0,
-                            AppSpacing.gutter,
-                            AppSpacing.xl,
-                          ),
-                          child: _DemoSettings(),
                         ),
                       ],
                     )
@@ -84,13 +96,13 @@ class ProfileScreen extends ConsumerWidget {
                         const SizedBox(height: AppSpacing.md),
                         NearestShopCard(account: account),
                         const SizedBox(height: AppSpacing.lg),
-                        const _SectionTitle(AppStrings.myOrdersTitle),
+                        _SectionTitle(context.l10n.myOrdersTitle),
                         if (orders.isEmpty)
                           EmptyState(
                             icon: Icons.receipt_long_rounded,
-                            title: AppStrings.ordersEmptyTitle,
-                            message: AppStrings.ordersEmptyMessage,
-                            actionLabel: AppStrings.browseMenu,
+                            title: context.l10n.ordersEmptyTitle,
+                            message: context.l10n.ordersEmptyMessage,
+                            actionLabel: context.l10n.browseMenu,
                             onAction: () => context.go(Routes.clientMenu),
                           ),
                         for (final (index, order) in orders.indexed)
@@ -107,7 +119,7 @@ class ProfileScreen extends ConsumerWidget {
                           ),
                         const SizedBox(height: AppSpacing.xl),
                         AppButton(
-                          label: AppStrings.signOut,
+                          label: context.l10n.signOut,
                           icon: Icons.logout_rounded,
                           variant: AppButtonVariant.secondary,
                           onPressed: () =>
@@ -117,7 +129,7 @@ class ProfileScreen extends ConsumerWidget {
                         const _DemoSettings(),
                         const SizedBox(height: AppSpacing.lg),
                         Text(
-                          AppStrings.demoProfileNote,
+                          context.l10n.demoProfileNote,
                           style: context.textStyles.caption,
                           textAlign: TextAlign.center,
                         ),
@@ -131,8 +143,9 @@ class ProfileScreen extends ConsumerWidget {
   }
 }
 
-/// The theme switch and the demo reset. Resetting starts the demo over from
-/// the splash, the way a first launch would.
+/// The theme and language switches and the demo reset. Resetting starts the
+/// demo over from the splash, the way a first launch would; the theme and the
+/// language stay as chosen.
 class _DemoSettings extends ConsumerWidget {
   const _DemoSettings();
 
@@ -146,15 +159,22 @@ class _DemoSettings extends ConsumerWidget {
           onSelected: ref.read(themeModeProvider.notifier).select,
         ),
         const SizedBox(height: AppSpacing.lg),
+        LanguageSelector(
+          selected: ref.watch(appLanguageProvider),
+          onSelected: ref.read(appLanguageProvider.notifier).select,
+        ),
+        const SizedBox(height: AppSpacing.lg),
         AppButton(
-          label: AppStrings.resetDemoData,
+          label: context.l10n.resetDemoData,
           icon: Icons.restart_alt_rounded,
           variant: AppButtonVariant.secondary,
           onPressed: () async {
             await ref.read(demoResetProvider.notifier).reset();
             if (!context.mounted) return;
             context.go(Routes.clientSplash);
-            ref.read(toastProvider.notifier).show(AppStrings.resetDemoDataDone);
+            ref
+                .read(toastProvider.notifier)
+                .show(ref.read(stringsProvider).resetDemoDataDone);
           },
         ),
       ],
@@ -207,7 +227,7 @@ class _AccountCard extends StatelessWidget {
                     style: context.textStyles.bodySecondary,
                   ),
                   Text(
-                    AppStrings.sectorLabel(account.sector),
+                    context.l10n.sectorLabel(account.sector),
                     style: context.textStyles.caption,
                   ),
                 ],
@@ -265,7 +285,7 @@ class _OrderHistoryCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppStrings.orderNumber(order.id),
+                          context.l10n.orderNumber(order.id),
                           style: context.textStyles.subtitle,
                         ),
                         const SizedBox(height: AppSpacing.xxs),
@@ -284,8 +304,8 @@ class _OrderHistoryCard extends StatelessWidget {
               FulfilmentDetailRow(fulfilment: order.fulfilment),
               Divider(height: AppSpacing.xl, color: context.colors.border),
               SummaryRow(
-                label: AppStrings.total,
-                value: formatLei(order.totalBani),
+                label: context.l10n.total,
+                value: context.l10n.formatLei(order.totalBani),
               ),
             ],
           ),

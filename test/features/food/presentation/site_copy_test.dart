@@ -9,7 +9,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/data/mock/bakery/bakery_categories.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
@@ -17,6 +16,7 @@ import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/home_screen.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 import '../../../helpers/test_app.dart';
 
@@ -36,12 +36,9 @@ void main() {
       inScreen<HomeScreen>(find.text('DaviDan - Pasiune pentru Patiserie!')),
       findsOneWidget,
     );
-    expect(
-      inScreen<HomeScreen>(find.text(AppStrings.popularTitle)),
-      findsOneWidget,
-    );
-    expect(AppStrings.popularTitle, 'Produse DaviDan');
-    expect(AppStrings.seeAll, 'Vezi mai mult');
+    expect(inScreen<HomeScreen>(find.text(ro.popularTitle)), findsOneWidget);
+    expect(ro.popularTitle, 'Produse DaviDan');
+    expect(ro.seeAll, 'Vezi mai mult');
     expect(find.text('Populare'), findsNothing);
   });
 
@@ -100,14 +97,11 @@ void main() {
     await pumpApp(tester, container, Routes.brandCheckout(Brand.bakery));
 
     expect(
-      inScreen<CheckoutScreen>(find.text(AppStrings.paymentTitle)),
+      inScreen<CheckoutScreen>(find.text(ro.paymentTitle)),
       findsOneWidget,
     );
-    expect(AppStrings.paymentTitle, 'Achitare');
-    expect(
-      find.text(AppStrings.paymentMethod(PaymentMethod.card)),
-      findsOneWidget,
-    );
-    expect(AppStrings.paymentMethod(PaymentMethod.card), 'Card prin POS');
+    expect(ro.paymentTitle, 'Achitare');
+    expect(find.text(ro.paymentMethod(PaymentMethod.card)), findsOneWidget);
+    expect(ro.paymentMethod(PaymentMethod.card), 'Card prin POS');
   });
 }

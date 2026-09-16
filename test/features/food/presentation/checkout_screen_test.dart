@@ -9,7 +9,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/strings/app_strings.dart';
 import 'package:davidan_prototype/core/widgets/option_tile.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
@@ -20,6 +19,7 @@ import 'package:davidan_prototype/features/food/presentation/checkout/checkout_s
 import 'package:davidan_prototype/features/food/presentation/widgets/total_bar.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 import '../../../helpers/test_app.dart';
 
@@ -37,26 +37,26 @@ void main() {
 
   final placeOrderButton = find.descendant(
     of: find.byType(TotalBar),
-    matching: find.text(AppStrings.placeOrder),
+    matching: find.text(ro.placeOrder),
   );
 
   testWidgets('delivery needs an address before the order is placed', (
     tester,
   ) async {
     await pumpApp(tester, container, Routes.brandCheckout(Brand.bakery));
-    expect(find.text(AppStrings.deliveryAddressMissing), findsNothing);
+    expect(find.text(ro.deliveryAddressMissing), findsNothing);
 
     await tester.tap(placeOrderButton);
     await tester.pumpAndSettle();
 
     expect(find.byType(CheckoutScreen), findsOneWidget);
-    expect(find.text(AppStrings.deliveryAddressMissing), findsOneWidget);
+    expect(find.text(ro.deliveryAddressMissing), findsOneWidget);
     expect(container.read(ordersProvider), isEmpty);
     expect(container.read(cartCountProvider(Brand.bakery)), 3);
 
     await tester.enterText(find.byType(TextFormField), 'str. Ismail 88');
     await tester.pump();
-    expect(find.text(AppStrings.deliveryAddressMissing), findsNothing);
+    expect(find.text(ro.deliveryAddressMissing), findsNothing);
   });
 
   testWidgets(
@@ -66,9 +66,7 @@ void main() {
       await pumpApp(tester, container, Routes.brandCheckout(Brand.bakery));
 
       expect(
-        inScreen<CheckoutScreen>(
-          find.text(AppStrings.lineItem(2, 'Coca Cola')),
-        ),
+        inScreen<CheckoutScreen>(find.text(ro.lineItem(2, 'Coca Cola'))),
         findsOneWidget,
       );
       await tester.enterText(
@@ -77,17 +75,14 @@ void main() {
       );
       // testNow is 10:07, so the first slot is 11:00.
       await tapVisible(tester, find.text('11:00'));
-      await tapVisible(
-        tester,
-        find.text(AppStrings.paymentMethod(PaymentMethod.card)),
-      );
+      await tapVisible(tester, find.text(ro.paymentMethod(PaymentMethod.card)));
 
       await tester.tap(placeOrderButton);
       // The checkout must not flash its empty-cart state while the
       // confirmation slides in.
       for (var frame = 0; frame < 40; frame++) {
         await tester.pump(const Duration(milliseconds: 16));
-        expect(find.text(AppStrings.cartEmptyTitle), findsNothing);
+        expect(find.text(ro.cartEmptyTitle), findsNothing);
       }
       await tester.pumpAndSettle();
 
@@ -117,7 +112,7 @@ void main() {
 
       expect(find.byType(CheckoutScreen), findsNothing);
       expect(find.byType(OrderConfirmationScreen), findsOneWidget);
-      expect(find.text(AppStrings.orderNumber('DD-1001')), findsOneWidget);
+      expect(find.text(ro.orderNumber('DD-1001')), findsOneWidget);
       expect(find.text('str. Ismail 88, ap. 12'), findsOneWidget);
       expect(find.text('11:00'), findsOneWidget);
     },
@@ -128,7 +123,7 @@ void main() {
   ) async {
     await pumpApp(tester, container, Routes.brandCheckout(Brand.bakery));
 
-    await tapVisible(tester, find.text(AppStrings.pickup));
+    await tapVisible(tester, find.text(ro.pickup));
     expect(find.byType(TextFormField), findsNothing);
     expect(find.text('DaviDan Centru'), findsOneWidget);
 
@@ -146,7 +141,7 @@ void main() {
       find.text('DaviDan Botanica · bd. Dacia 47, Chișinău'),
       findsOneWidget,
     );
-    expect(find.text(AppStrings.asSoonAsPossible), findsOneWidget);
+    expect(find.text(ro.asSoonAsPossible), findsOneWidget);
   });
 
   testWidgets('the typed address survives switching to pickup and back', (
@@ -155,8 +150,8 @@ void main() {
     await pumpApp(tester, container, Routes.brandCheckout(Brand.bakery));
     await tester.enterText(find.byType(TextFormField), 'str. Ismail 88');
 
-    await tapVisible(tester, find.text(AppStrings.pickup));
-    await tapVisible(tester, find.text(AppStrings.delivery));
+    await tapVisible(tester, find.text(ro.pickup));
+    await tapVisible(tester, find.text(ro.delivery));
 
     expect(find.text('str. Ismail 88'), findsOneWidget);
   });
@@ -167,10 +162,10 @@ void main() {
     container.read(cartProvider(Brand.bakery).notifier).clear();
     await pumpApp(tester, container, Routes.brandCheckout(Brand.bakery));
 
-    expect(find.text(AppStrings.cartEmptyTitle), findsOneWidget);
+    expect(find.text(ro.cartEmptyTitle), findsOneWidget);
     expect(find.byType(TotalBar), findsNothing);
 
-    await tapVisible(tester, find.text(AppStrings.browseMenu));
+    await tapVisible(tester, find.text(ro.browseMenu));
     expect(find.byType(CatalogScreen), findsOneWidget);
   });
 
@@ -189,9 +184,9 @@ void main() {
     );
     await tester.tap(placeOrderButton);
     await tester.pumpAndSettle();
-    expect(find.text(AppStrings.deliveryAddressMissing), findsOneWidget);
+    expect(find.text(ro.deliveryAddressMissing), findsOneWidget);
 
-    await tester.tap(find.text(AppStrings.pickup));
+    await tester.tap(find.text(ro.pickup));
     await tester.pumpAndSettle();
     expect(find.text('DaviDan Buiucani'), findsOneWidget);
   });
@@ -250,7 +245,7 @@ void main() {
     ) async {
       await pumpApp(tester, container, Routes.brandCheckout(Brand.bakery));
 
-      expect(find.text(AppStrings.asSoonAsPossible), findsOneWidget);
+      expect(find.text(ro.asSoonAsPossible), findsOneWidget);
       expect(find.textContaining(RegExp(r'^\d\d:\d\d$')), findsNothing);
     });
   });
