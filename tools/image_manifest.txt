@@ -211,3 +211,9 @@ banners   banner-sushi-dulciuri-nipone  https://davidansushi.md/wp-content/uploa
 brand     logo-davidan                  https://davidan.md/cdn/shop/files/Captura_de_ecran_din_2024-08-23_la_16.18.19-removebg-preview.png
 # DaviDan Sushi's logo, made for dark backgrounds (near-white and red)
 brand     logo-davidan-sushi            https://davidansushi.md/wp-content/uploads/2024/04/logo-red.png
+# DaviDan Rent Car's site icon (1080 px): the "D" with a red car key. The
+# site's full "DaviDan Car Rent" wordmark is only published at 130x60.
+brand     logo-davidan-rent-car         https://davidanrentcar.md/wp-content/uploads/2025/02/Davidan-logo.png
+# Apa DaviDan's logo ("DAVIDAN" and blue drops), from davidan.md's homepage
+# logo strip, where it links to davidanwater.md. Published at 352x207 only.
+brand     logo-apa-davidan              https://davidan.md/cdn/shop/files/1-removebg-preview_1.png

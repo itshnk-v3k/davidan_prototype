@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 class BrandIntro {
   const BrandIntro({
     required this.name,
+    required this.logo,
     this.image,
     this.description,
     this.comingSoon = false,
@@ -15,8 +16,12 @@ class BrandIntro {
   /// The brand's name under its bubble.
   final String name;
 
-  /// Bundled photo for the bubble and the intro page. Null when no source has
-  /// one yet; the bubble shows an icon instead.
+  /// Bundled logo for the bubble, in the brand's version for a light
+  /// background: bubbles are white in both themes.
+  final String logo;
+
+  /// Bundled photo for the intro page, the open carts and the active orders
+  /// strip. Null when no source has one yet.
   final String? image;
 
   /// The brand's one-line description. Null when its page is the brand's own

@@ -8,10 +8,10 @@ import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/brand_intro.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// Every brand as a round photo with its name, on a band of DaviDan's caramel,
-/// in the client's order ([Brand]'s): three on the first row of a phone, two
-/// centred below. A brand that isn't open in the app yet says so on its
-/// bubble, so nobody taps into a page with nothing to order.
+/// Every brand as its logo on a round white tile with its name, on a band of
+/// DaviDan's caramel, in the client's order ([Brand]'s): three on the first
+/// row of a phone, two centred below. A brand that isn't open in the app yet
+/// says so on its bubble, so nobody taps into a page with nothing to order.
 class BrandBubbles extends StatelessWidget {
   const BrandBubbles({super.key, required this.onOpen});
 
@@ -51,22 +51,24 @@ class _Bubble extends StatelessWidget {
 
   static const _size = 80.0;
 
+  /// Keeps a square mark's corners inside the circle; wordmarks, being wide
+  /// and short, fit with room to spare.
+  static const _logoInset = 10.0;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final image = intro.image;
 
-    final photo = Container(
+    final tile = Container(
       width: _size,
       height: _size,
+      padding: const EdgeInsets.all(_logoInset),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: colors.hubBubble,
         shape: BoxShape.circle,
       ),
-      child: image == null
-          ? Icon(Icons.directions_car_rounded, size: 40, color: colors.hubBand)
-          : Image.asset(image, fit: BoxFit.cover),
+      child: Image.asset(intro.logo, fit: BoxFit.contain),
     );
 
     return Semantics(
@@ -89,7 +91,7 @@ class _Bubble extends StatelessWidget {
                     clipBehavior: Clip.none,
                     alignment: Alignment.bottomCenter,
                     children: [
-                      photo,
+                      tile,
                       // Overlaps the bubble's lower edge, like a sticker.
                       Positioned(
                         bottom: -AppSpacing.xs,
@@ -100,7 +102,7 @@ class _Bubble extends StatelessWidget {
                     ],
                   )
                 else
-                  photo,
+                  tile,
                 const SizedBox(height: AppSpacing.sm),
                 Text(
                   intro.name,

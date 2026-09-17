@@ -212,7 +212,7 @@ void main() {
   });
 
   testWidgets(
-    'the Rent Car bubble shows a car from its site and opens the fleet: its '
+    'the Rent Car bubble shows its site\'s key "D" and opens the fleet: its '
     'line, how prices work, and all 11 cars, each with its lowest price and '
     'its price for 1–3 days, in the Rent Car red',
     (tester) async {
@@ -230,7 +230,7 @@ void main() {
                     .image
                 as AssetImage)
             .assetName,
-        'assets/images/cars/audi-q5-2021.webp',
+        'assets/images/brand/logo-davidan-rent-car.webp',
       );
       await tester.tap(
         find.descendant(

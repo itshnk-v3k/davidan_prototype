@@ -41,7 +41,7 @@ void main() {
         AppAssets.sushiLogo,
         AppAssets.sushiLogoOnDark,
         AppAssets.splashBackground,
-        for (final intro in brandIntros.values) ?intro.image,
+        for (final intro in brandIntros.values) ...[intro.logo, ?intro.image],
         for (final car in rentalCars) car.image,
         for (final catalog in mockCatalogs.values) ...[
           for (final product in catalog.products) ?product.image,

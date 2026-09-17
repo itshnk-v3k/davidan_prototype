@@ -152,6 +152,59 @@ void main() {
   );
 
   testWidgets(
+    'each bubble shows its brand\'s own logo, not a photo; the restaurant, '
+    'with none yet, shows DaviDan\'s, as the bakery does',
+    (tester) async {
+      await pumpApp(tester, container, Routes.clientHome);
+
+      String logoOn(Brand brand) =>
+          (tester
+                      .widget<Image>(
+                        find.descendant(
+                          of: find.ancestor(
+                            of: bubble(brand),
+                            matching: find.byType(InkWell),
+                          ),
+                          matching: find.byType(Image),
+                        ),
+                      )
+                      .image
+                  as AssetImage)
+              .assetName;
+
+      expect(
+        {for (final brand in Brand.values) brand: logoOn(brand)},
+        {
+          Brand.restaurant: 'assets/images/brand/logo-davidan.webp',
+          Brand.sushi: 'assets/images/brand/logo-davidan-sushi-on-light.png',
+          Brand.bakery: 'assets/images/brand/logo-davidan.webp',
+          Brand.water: 'assets/images/brand/logo-apa-davidan.webp',
+          Brand.carRental: 'assets/images/brand/logo-davidan-rent-car.webp',
+        },
+      );
+
+      // Logos are made for a light background, and the bubbles stay white in
+      // the dark theme too.
+      final tile = tester.widget<Container>(
+        find
+            .ancestor(
+              of: find.descendant(
+                of: find.byType(BrandBubbles),
+                matching: find.byType(Image),
+              ),
+              matching: find.byType(Container),
+            )
+            .first,
+      );
+      expect(
+        (tile.decoration! as BoxDecoration).color,
+        AppColors.dark.hubBubble,
+      );
+      expect(AppColors.dark.hubBubble, const Color(0xFFFFFFFF));
+    },
+  );
+
+  testWidgets(
     'with no order on its way there is no strip; an order shows in it with '
     'its brand, what was ordered and its live status, opens from there, and '
     'leaves once completed',

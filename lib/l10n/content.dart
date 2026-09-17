@@ -119,6 +119,7 @@ class ContentTranslator {
         ? intro
         : BrandIntro(
             name: text(intro.name),
+            logo: intro.logo,
             image: intro.image,
             description: textOrNull(intro.description),
             comingSoon: intro.comingSoon,
