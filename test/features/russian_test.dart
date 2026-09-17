@@ -17,9 +17,9 @@ import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/total_bar.dart';
-import 'package:davidan_prototype/features/hub/presentation/brand_intro_screen.dart';
+import 'package:davidan_prototype/features/hub/presentation/widgets/coming_soon_feed.dart';
 import 'package:davidan_prototype/features/hub/presentation/legal_document_screen.dart';
-import 'package:davidan_prototype/features/hub/presentation/widgets/brand_bubbles.dart';
+import 'package:davidan_prototype/features/hub/presentation/widgets/brand_switcher_row.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/orders/presentation/orders_screen.dart';
 import 'package:davidan_prototype/features/rental/presentation/rental_booking_screen.dart';
@@ -66,7 +66,7 @@ void main() {
       [
         for (final text in tester.widgetList<Text>(
           find.descendant(
-            of: find.byType(BrandBubbles),
+            of: find.byType(BrandSwitcherRow),
             matching: find.byType(Text),
           ),
         ))
@@ -85,7 +85,7 @@ void main() {
 
     await tester.tap(find.text('Ресторан'));
     await tester.pumpAndSettle();
-    expect(find.byType(BrandIntroScreen), findsOneWidget);
+    expect(find.byType(ComingSoonFeed), findsOneWidget);
     expectTexts([
       ru.comingSoonTitle,
       'Незабываемые гастрономические впечатления в элегантной и уютной '

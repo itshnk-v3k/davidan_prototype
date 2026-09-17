@@ -7,10 +7,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
+import 'package:davidan_prototype/core/theme/app_palette.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/quantity_stepper.dart';
+import 'package:davidan_prototype/features/hub/presentation/widgets/brand_switcher_row.dart';
 
 double contrast(Color a, Color b) {
   final la = a.computeLuminance();
@@ -101,20 +103,6 @@ void main() {
         );
       });
 
-      test('the hub\'s brand bubbles: names 4.5:1 on the caramel band, and '
-          'an icon, or the bubble against the band, 3:1', () {
-        expect(
-          contrast(colors.onHubBand, colors.hubBand),
-          greaterThanOrEqualTo(4.5),
-          reason: 'brand name on the band',
-        );
-        expect(
-          contrast(colors.hubBand, colors.hubBubble),
-          greaterThanOrEqualTo(3),
-          reason: 'icon on a bubble',
-        );
-      });
-
       test('the quantity stepper: its number 4.5:1, its buttons 3:1', () {
         final stepper = QuantityStepper.paletteFor(colors);
         expect(
@@ -137,6 +125,49 @@ void main() {
           greaterThanOrEqualTo(3),
           reason: 'minus icon on its tint',
         );
+      });
+    });
+  }
+
+  // The brand switcher's bubbles, which carry each brand's own colour rather
+  // than the theme's.
+  for (final brightness in Brightness.values) {
+    final colors = brightness == Brightness.dark
+        ? AppColors.dark
+        : AppColors.light;
+    group('the ${brightness.name} theme\'s brand switcher', () {
+      test('every brand\'s name reads on the page, its white logo on its own '
+          'bubble, and its bubble against the page', () {
+        expect(
+          contrast(colors.textSecondary, colors.background),
+          greaterThanOrEqualTo(4.5),
+          reason: 'a brand\'s name under its bubble',
+        );
+        for (final brand in Brand.values) {
+          final fill = BrandColors.fillOf(brand);
+          final marked = BrandColors.of(brand, brightness).primary;
+          expect(
+            contrast(AppPalette.white, fill),
+            greaterThanOrEqualTo(4.5),
+            reason: '${brand.name}: its white logo on its bubble',
+          );
+          // Its edge reads either by its own colour or by the hairline
+          // round it, whichever separates from the page.
+          const rim = BrandSwitcherRow.bubbleRim;
+          expect(
+            math.max(
+              contrast(fill, colors.background),
+              contrast(Color.alphaBlend(rim, fill), colors.background),
+            ),
+            greaterThanOrEqualTo(3),
+            reason: '${brand.name}: its bubble\'s edge against the page',
+          );
+          expect(
+            contrast(marked, colors.background),
+            greaterThanOrEqualTo(4.5),
+            reason: '${brand.name}: its name and ring when it is the open one',
+          );
+        }
       });
     });
   }

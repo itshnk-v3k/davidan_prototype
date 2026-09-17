@@ -13,7 +13,7 @@ import 'package:davidan_prototype/core/widgets/app_chip.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_phone_screen.dart';
-import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
 import 'package:davidan_prototype/features/orders/presentation/orders_screen.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -62,7 +62,7 @@ void main() {
     expect(inOrders(find.text(ro.ordersEmptyTitle)), findsOneWidget);
 
     await tapVisible(tester, inOrders(find.text(ro.backHome)));
-    expect(find.byType(HubHomeScreen), findsOneWidget);
+    expect(find.byType(BrandFeedScreen), findsOneWidget);
   });
 
   testWidgets(

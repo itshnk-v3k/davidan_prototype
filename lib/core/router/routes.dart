@@ -21,7 +21,9 @@ abstract final class Routes {
     queryParameters: {'reason': ?failure?.name},
   ).toString();
 
-  // The hub's tabs
+  // The tabs
+  /// Acasă. It has no screen of its own: it opens on the brand last shopped
+  /// in (LastBrandNotifier), and every screen above the tabs comes back here.
   static const clientHome = '/client/home';
   static const clientOrders = '/client/orders';
 
@@ -31,15 +33,8 @@ abstract final class Routes {
     queryParameters: {'brand': brand.name},
   ).toString();
 
-  /// Search across every brand, and the latest news of the customer's orders
-  /// and requests: browse screens inside Acasă.
-  static const clientSearch = '$clientHome/search';
-
-  /// Search across every brand, narrowed to one brand's [categoryId].
-  static String clientSearchIn(Brand brand, String categoryId) => Uri(
-    path: clientSearch,
-    queryParameters: {'brand': brand.name, 'category': categoryId},
-  ).toString();
+  /// The latest news of the customer's orders and requests, from the bell:
+  /// a browse screen inside Acasă.
   static const clientNotifications = '$clientHome/notifications';
 
   static const clientFavorites = '/client/favorites';
@@ -53,10 +48,12 @@ abstract final class Routes {
   /// Every brand's cart that has something in it, full screen above the tabs.
   static const openCarts = '/client/carts';
 
-  // A brand. Its browse screens (home, menu, information) open inside Acasă,
-  // above the hub and under the bottom bar. Its task screens, the ones with
-  // their own bottom button (product, cart, checkout, car, request), open
-  // full screen above the tabs. Every brand has its own cart.
+  // A brand. Its feed and its category pages open inside Acasă's shell, under
+  // the bar and the brand switcher that stay in place while they change
+  // (BrandShell), and under the bottom bar. Its search and its information
+  // page cover that shell, having a top of their own. Its task screens, the
+  // ones with their own bottom button (product, cart, checkout, car,
+  // request), open full screen above the tabs. Every brand has its own cart.
   //
   // A task screen reaches a browse screen with go(), never push(): pushed
   // from above the tabs, a route inside them builds the tabs a second time

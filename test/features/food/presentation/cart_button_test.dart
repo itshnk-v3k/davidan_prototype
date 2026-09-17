@@ -1,6 +1,5 @@
-// The hub's bottom tabs, and the cart buttons at the top right of a brand's
-// pages and of the hub's tabs, which replaced the cart tab, in the real app,
-// in Chrome:
+// The bottom tabs, and the cart buttons at the top right of Acasă's shell and
+// of the other tabs, which replaced the cart tab, in the real app, in Chrome:
 //   flutter test --platform chrome
 @TestOn('browser')
 library;
@@ -19,9 +18,9 @@ import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/cart/cart_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/favorites/favorites_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
-import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
+import 'package:davidan_prototype/features/hub/presentation/brand_shell.dart';
 import 'package:davidan_prototype/features/orders/presentation/orders_screen.dart';
 
 import '../../../helpers/test_app.dart';
@@ -95,11 +94,12 @@ void main() {
 
     expect(find.text('Coș'), findsNothing);
     expect(find.text(ro.menuTitle), findsNothing);
-    // The only shopping bag is the carts button in Acasă's header: no tab.
+    // The only shopping bag is the one in Acasă's bar: no tab. Acasă opens on
+    // the patisserie, so it is that brand's own cart.
     expect(find.byIcon(PhosphorIconsRegular.handbag), findsOneWidget);
     expect(
       find.descendant(
-        of: find.byType(OpenCartsButton),
+        of: find.byType(CartButton),
         matching: find.byIcon(PhosphorIconsRegular.handbag),
       ),
       findsOneWidget,
@@ -107,14 +107,16 @@ void main() {
   });
 
   testWidgets(
-    'a brand\'s home and menu show its cart button at the top right, and '
-    'Acasă and Favorite the button for every cart; Comenzi and Profil show '
-    'neither',
+    'Acasă\'s bar carries the open brand\'s cart, and every cart for a brand '
+    'that sells nothing; Favorite the button for every cart; Comenzi and '
+    'Profil show neither',
     (tester) async {
       for (final (route, screen, button) in [
-        (Routes.brandHome(Brand.bakery), BrandHomeScreen, CartButton),
-        (Routes.brandMenu(Brand.sushi), CatalogScreen, CartButton),
-        (Routes.clientHome, HubHomeScreen, OpenCartsButton),
+        (Routes.brandHome(Brand.bakery), BrandShell, CartButton),
+        (Routes.brandMenu(Brand.sushi), BrandShell, CartButton),
+        (Routes.clientHome, BrandShell, CartButton),
+        // Rent Car is a request by phone, not a cart.
+        (Routes.brandHome(Brand.carRental), BrandShell, OpenCartsButton),
         (Routes.clientFavorites, FavoritesScreen, OpenCartsButton),
       ]) {
         await pumpApp(tester, container, route);
@@ -158,7 +160,7 @@ void main() {
         ..add('americano')
         ..add('coca-cola', quantity: 2);
       await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
-      final button = inScreen<BrandHomeScreen>(find.byType(CartButton));
+      final button = find.byType(CartButton);
       expect(
         find.descendant(of: button, matching: find.text('3')),
         findsOneWidget,
@@ -175,7 +177,7 @@ void main() {
 
       await goBack(tester);
       expect(find.byType(CartScreen), findsNothing);
-      expect(find.byType(BrandHomeScreen), findsOneWidget);
+      expect(find.byType(BrandFeedScreen), findsOneWidget);
     },
   );
 
@@ -189,7 +191,7 @@ void main() {
       Routes.brandMenu(Brand.bakery, categoryId: 'bauturi'),
     );
 
-    await tester.tap(inScreen<CatalogScreen>(find.byType(CartButton)));
+    await tester.tap(find.byType(CartButton));
     await tester.pumpAndSettle();
     expect(find.byType(CartScreen), findsOneWidget);
 
@@ -204,6 +206,6 @@ void main() {
     expect(find.byType(CartScreen), findsOneWidget);
 
     await goBack(tester);
-    expect(find.byType(BrandHomeScreen), findsOneWidget);
+    expect(find.byType(BrandFeedScreen), findsOneWidget);
   });
 }

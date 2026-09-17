@@ -23,6 +23,7 @@ abstract final class StorageKeys {
   static const account = 'account';
   static const signInSkipped = 'signInSkipped';
   static const currentLocation = 'currentLocation';
+  static const lastBrand = 'lastBrand';
   static const themeMode = 'themeMode';
   static const language = 'language';
   static const productLayout = 'productLayout';
@@ -38,6 +39,7 @@ abstract final class StorageKeys {
     account,
     signInSkipped,
     currentLocation,
+    lastBrand,
   };
 
   /// Kept when the demo is reset.

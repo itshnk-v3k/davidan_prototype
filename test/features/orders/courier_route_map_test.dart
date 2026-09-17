@@ -45,7 +45,8 @@ void main() {
       centerOf(tester, PhosphorIconsFill.moped);
   Offset shop(WidgetTester tester) =>
       centerOf(tester, PhosphorIconsFill.storefront);
-  Offset customer(WidgetTester tester) => centerOf(tester, PhosphorIconsFill.house);
+  Offset customer(WidgetTester tester) =>
+      centerOf(tester, PhosphorIconsFill.house);
 
   /// Moves the clock on, lets the map's once-a-second tick notice, and waits
   /// for the courier to finish gliding.

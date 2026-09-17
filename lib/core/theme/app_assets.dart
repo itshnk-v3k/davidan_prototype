@@ -1,3 +1,5 @@
+import 'package:davidan_prototype/data/models/brand.dart';
+
 /// Brand asset paths. Product and banner images are referenced from
 /// lib/data/mock/.
 abstract final class AppAssets {
@@ -35,4 +37,17 @@ abstract final class AppAssets {
   /// fills a phone screen with little cropping.
   static const splashBackground =
       'assets/images/banners/banner-croissante.webp';
+}
+
+/// Each brand's own mark, for showing the brand on its colour.
+abstract final class BrandMarks {
+  /// The white logo each brand shows on its own colour: the brand switcher's
+  /// bubbles. The restaurant has none of its own yet, so it shows DaviDan's,
+  /// as the bakery does.
+  static String whiteLogoOf(Brand brand) => switch (brand) {
+    Brand.restaurant || Brand.bakery => AppAssets.logoWhite,
+    Brand.sushi => AppAssets.sushiLogoWhite,
+    Brand.water => AppAssets.waterLogoWhite,
+    Brand.carRental => AppAssets.rentCarLogoWhite,
+  };
 }

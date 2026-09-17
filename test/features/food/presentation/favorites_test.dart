@@ -20,7 +20,7 @@ import 'package:davidan_prototype/features/food/presentation/favorites/favorites
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/favorite_toggle.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
-import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 
 import '../../../helpers/test_app.dart';
 
@@ -99,7 +99,7 @@ void main() {
         ..toggle((brand: Brand.bakery, id: 'coca-cola'))
         ..toggle((brand: Brand.bakery, id: 'americano'));
       await pumpApp(tester, container, Routes.clientHome);
-      expect(find.byType(HubHomeScreen), findsOneWidget);
+      expect(find.byType(BrandFeedScreen), findsOneWidget);
 
       await tester.tap(find.text(ro.navFavorites));
       await tester.pumpAndSettle();
@@ -142,7 +142,7 @@ void main() {
     expect(find.text(ro.favoritesEmptyTitle), findsOneWidget);
 
     await tapVisible(tester, find.text(ro.backHome));
-    expect(find.byType(HubHomeScreen), findsOneWidget);
+    expect(find.byType(BrandFeedScreen), findsOneWidget);
   });
 
   testWidgets('the saved list fits a 360 x 640 phone', (tester) async {

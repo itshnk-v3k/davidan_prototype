@@ -23,11 +23,11 @@ import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/cart/cart_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/water_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/water_feed.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/total_bar.dart';
-import 'package:davidan_prototype/features/hub/presentation/widgets/brand_bubbles.dart';
+import 'package:davidan_prototype/features/hub/presentation/widgets/brand_switcher_row.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
 
@@ -44,7 +44,7 @@ void main() {
   const sparkling = (brand: Brand.water, id: 'apa-davidan-carbogazoasa');
 
   Finder inPage(Finder finder) =>
-      find.descendant(of: find.byType(WaterHomeScreen), matching: finder);
+      find.descendant(of: find.byType(WaterFeed), matching: finder);
 
   Order placeWaterOrder({
     List<OrderItem> items = const [
@@ -72,13 +72,13 @@ void main() {
       await pumpApp(tester, container, Routes.clientHome);
       await tester.tap(
         find.descendant(
-          of: find.byType(BrandBubbles),
+          of: find.byType(BrandSwitcherRow),
           matching: find.text(brandIntros[Brand.water]!.name),
         ),
       );
       await tester.pumpAndSettle();
 
-      expect(find.byType(WaterHomeScreen), findsOneWidget);
+      expect(find.byType(WaterFeed), findsOneWidget);
       expect(find.text(ro.navOrders), findsOneWidget);
       expect(inPage(find.text('Apa DaviDan')), findsOneWidget);
       expect(
@@ -107,7 +107,7 @@ void main() {
       );
       expect(inPage(find.text(ro.formatLei(1500))), findsNWidgets(2));
       expect(
-        Theme.of(tester.element(find.byType(WaterHomeScreen)))
+        Theme.of(tester.element(find.byType(WaterFeed)))
             .extension<AppColors>()!
             .primary,
         BrandColors.of(Brand.water, Brightness.dark).primary,
@@ -132,7 +132,7 @@ void main() {
       );
 
       await pumpApp(tester, container, Routes.brandMenu(Brand.water));
-      expect(find.byType(WaterHomeScreen), findsOneWidget);
+      expect(find.byType(WaterFeed), findsOneWidget);
     },
   );
 

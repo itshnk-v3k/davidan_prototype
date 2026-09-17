@@ -13,6 +13,7 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
+import 'package:davidan_prototype/core/theme/app_assets.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/theme/theme_mode_notifier.dart';
@@ -22,20 +23,19 @@ import 'package:davidan_prototype/data/mock/rental/rental_cars.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/data/models/rental_booking.dart';
-import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/total_bar.dart';
 import 'package:davidan_prototype/features/hub/presentation/brand_info_screen.dart';
-import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/legal_document_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/active_orders_strip.dart';
-import 'package:davidan_prototype/features/hub/presentation/widgets/brand_bubbles.dart';
+import 'package:davidan_prototype/features/hub/presentation/widgets/brand_switcher_row.dart';
 import 'package:davidan_prototype/features/orders/application/customer_requests_provider.dart';
 import 'package:davidan_prototype/features/orders/presentation/orders_screen.dart';
 import 'package:davidan_prototype/features/rental/application/rental_bookings_notifier.dart';
 import 'package:davidan_prototype/features/rental/application/rental_providers.dart';
 import 'package:davidan_prototype/features/rental/presentation/car_detail_screen.dart';
 import 'package:davidan_prototype/features/rental/presentation/rental_booking_screen.dart';
-import 'package:davidan_prototype/features/rental/presentation/rental_home_screen.dart';
+import 'package:davidan_prototype/features/rental/presentation/rental_feed.dart';
 import 'package:davidan_prototype/features/rental/presentation/rental_request_screen.dart';
 import 'package:davidan_prototype/features/rental/presentation/widgets/rental_quote_card.dart';
 
@@ -220,12 +220,14 @@ void main() {
     'its price for 1–3 days, in the Rent Car red',
     (tester) async {
       await pumpApp(tester, container, Routes.clientHome);
+      // Its bubble carries the site's key "D", in white on the Rent Car
+      // green.
       expect(
         (tester
                     .widget<Image>(
                       find
                           .descendant(
-                            of: find.byType(BrandBubbles),
+                            of: find.byType(BrandSwitcherRow),
                             matching: find.byType(Image),
                           )
                           .last,
@@ -233,31 +235,29 @@ void main() {
                     .image
                 as AssetImage)
             .assetName,
-        'assets/images/brand/logo-davidan-rent-car.webp',
+        AppAssets.rentCarLogoWhite,
       );
       await tester.tap(
         find.descendant(
-          of: find.byType(BrandBubbles),
+          of: find.byType(BrandSwitcherRow),
           matching: find.text(brandIntros[Brand.carRental]!.name),
         ),
       );
       await tester.pumpAndSettle();
 
-      final home = find.byType(RentalHomeScreen);
+      final home = find.byType(RentalFeed);
       expect(home, findsOneWidget);
       expect(find.text(ro.navOrders), findsOneWidget);
       expect(
-        inScreen<RentalHomeScreen>(find.text('DaviDan Rent Car')),
+        inScreen<RentalFeed>(find.text('DaviDan Rent Car')),
         findsOneWidget,
       );
       expect(
-        inScreen<RentalHomeScreen>(
-          find.text('Mașini de Închiriat Rapid și Simplu'),
-        ),
+        inScreen<RentalFeed>(find.text('Mașini de Închiriat Rapid și Simplu')),
         findsOneWidget,
       );
       expect(
-        inScreen<RentalHomeScreen>(find.text(ro.rentalFleetHint('11 €'))),
+        inScreen<RentalFeed>(find.text(ro.rentalFleetHint('11 €'))),
         findsOneWidget,
       );
       expect(
@@ -285,7 +285,7 @@ void main() {
           .descendant(of: home, matching: find.byType(Scrollable))
           .first;
       for (final car in rentalCars) {
-        final name = inScreen<RentalHomeScreen>(find.text(car.name));
+        final name = inScreen<RentalFeed>(find.text(car.name));
         await tester.scrollUntilVisible(name, 200, scrollable: list);
         expect(name, findsOneWidget);
         if (car.id != logan) continue;
@@ -308,10 +308,7 @@ void main() {
         }
       }
 
-      await tapVisible(
-        tester,
-        inScreen<RentalHomeScreen>(find.text('Toyota RAV4')),
-      );
+      await tapVisible(tester, inScreen<RentalFeed>(find.text('Toyota RAV4')));
       expect(
         inScreen<CarDetailScreen>(find.text('Toyota RAV4')),
         findsOneWidget,
@@ -320,7 +317,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
       await tester.pumpAndSettle();
-      expect(find.byType(HubHomeScreen), findsOneWidget);
+      expect(find.byType(BrandFeedScreen), findsOneWidget);
     },
   );
 
@@ -378,7 +375,7 @@ void main() {
       // Opened from its link, back goes to the fleet.
       await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
       await tester.pumpAndSettle();
-      expect(find.byType(RentalHomeScreen), findsOneWidget);
+      expect(find.byType(RentalFeed), findsOneWidget);
     },
   );
 
@@ -657,13 +654,9 @@ void main() {
     'the info button opens davidanrentcar.md\'s contacts and both legal '
     'pages in full',
     (tester) async {
-      final semantics = tester.ensureSemantics();
       await pumpApp(tester, container, Routes.brandHome(Brand.carRental));
-      await tester.tap(
-        find.bySemanticsLabel(ro.openBrandInfo('DaviDan Rent Car')),
-      );
-      await tester.pumpAndSettle();
-      semantics.dispose();
+      // The link to the brand's information sits at the end of its feed.
+      await tapVisible(tester, find.text(ro.openBrandInfo('DaviDan Rent Car')));
 
       expect(find.byType(BrandInfoScreen), findsOneWidget);
       for (final text in [
@@ -702,16 +695,16 @@ void main() {
     'that brand, and an unknown request says so',
     (tester) async {
       await pumpApp(tester, container, Routes.rentalCar('trabant'));
-      expect(find.byType(RentalHomeScreen), findsOneWidget);
+      expect(find.byType(RentalFeed), findsOneWidget);
 
       await pumpApp(tester, container, '/b/sushi/car/$logan');
-      expect(find.byType(BrandHomeScreen), findsOneWidget);
+      expect(find.byType(BrandFeedScreen), findsOneWidget);
 
       await pumpApp(tester, container, Routes.rentalRequest('trabant'));
-      expect(find.byType(RentalHomeScreen), findsOneWidget);
+      expect(find.byType(RentalFeed), findsOneWidget);
 
       await pumpApp(tester, container, Routes.brandMenu(Brand.carRental));
-      expect(find.byType(RentalHomeScreen), findsOneWidget);
+      expect(find.byType(RentalFeed), findsOneWidget);
 
       await pumpApp(tester, container, Routes.clientBooking('RC-9999'));
       expect(find.text(ro.rentalBookingNotFound), findsOneWidget);

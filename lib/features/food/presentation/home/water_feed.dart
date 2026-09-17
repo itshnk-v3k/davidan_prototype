@@ -4,88 +4,75 @@ import 'package:material_ui/material_ui.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/app_card.dart';
-import 'package:davidan_prototype/core/widgets/bottom_bar_space.dart';
-import 'package:davidan_prototype/core/widgets/brand_header_band.dart';
 import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/data/mock/water/water_catalog.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
-import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_grid.dart';
 import 'package:davidan_prototype/features/orders/application/order_lines_provider.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// Apa DaviDan, inside Acasă. Water has two products and no
-/// menu, so it is one page: davidan.md's photo of both bottles and its line,
-/// the last water order with "Comandă din nou" (water is bought again and
-/// again), then the two bottles, which add to the water cart and open their
-/// product page like any product card.
-class WaterHomeScreen extends ConsumerWidget {
-  const WaterHomeScreen({super.key});
+/// Apa DaviDan, inside Acasă's shell. Water has two products and no menu, so
+/// it is one block: davidan.md's photo of both bottles and its line, the last
+/// water order with "Comandă din nou" (water is bought again and again), then
+/// the two bottles, which add to the water cart and open their product page
+/// like any product card.
+class WaterFeed extends ConsumerWidget {
+  const WaterFeed({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final products = ref.watch(productsProvider(Brand.water));
     final lastOrder = ref.watch(lastOrderOfProvider(Brand.water));
 
-    return Scaffold(
-      backgroundColor: context.colors.background,
-      body: CustomScrollView(
-        slivers: [
-          BrandHeaderBand(
-            brand: Brand.water,
-            onBack: () => context.pop(),
-            actions: const [CartButton(brand: Brand.water)],
+    return SliverMainAxisGroup(
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.gutter,
+            AppSpacing.sm,
+            AppSpacing.gutter,
+            AppSpacing.md,
           ),
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.gutter,
-              AppSpacing.sm,
-              AppSpacing.gutter,
-              AppSpacing.md,
-            ),
-            sliver: SliverList.list(
-              children: [
-                const _BottlesPhoto(),
-                const SizedBox(height: AppSpacing.lg),
-                Text(
-                  context.content.text(WaterPage.line),
-                  style: context.textStyles.body,
+          sliver: SliverList.list(
+            children: [
+              const _BottlesPhoto(),
+              const SizedBox(height: AppSpacing.lg),
+              Text(
+                context.content.text(WaterPage.line),
+                style: context.textStyles.body,
+              ),
+              const SizedBox(height: AppSpacing.xl),
+              if (lastOrder == null)
+                InfoNote(
+                  icon: PhosphorIconsRegular.arrowCounterClockwise,
+                  text: context.l10n.orderAgainHint,
+                )
+              else
+                _LastOrderCard(
+                  order: lastOrder,
+                  onOrderAgain: () {
+                    ref
+                        .read(cartProvider(Brand.water).notifier)
+                        .repeat(lastOrder);
+                    context.push(Routes.brandCart(Brand.water));
+                  },
                 ),
-                const SizedBox(height: AppSpacing.xl),
-                if (lastOrder == null)
-                  InfoNote(
-                    icon: PhosphorIconsRegular.arrowCounterClockwise,
-                    text: context.l10n.orderAgainHint,
-                  )
-                else
-                  _LastOrderCard(
-                    order: lastOrder,
-                    onOrderAgain: () {
-                      ref
-                          .read(cartProvider(Brand.water).notifier)
-                          .repeat(lastOrder);
-                      context.push(Routes.brandCart(Brand.water));
-                    },
-                  ),
-                const SizedBox(height: AppSpacing.md),
-              ],
-            ),
+              const SizedBox(height: AppSpacing.md),
+            ],
           ),
-          ProductGrid(products: products, title: context.l10n.itemsTitle),
-          const SliverBottomBarSpace(),
-        ],
-      ),
+        ),
+        ProductGrid(products: products, title: context.l10n.itemsTitle),
+      ],
     );
   }
 }

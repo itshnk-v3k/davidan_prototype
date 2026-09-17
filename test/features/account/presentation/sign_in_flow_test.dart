@@ -26,7 +26,7 @@ import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_
 import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_details_screen.dart';
 import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_phone_screen.dart';
 import 'package:davidan_prototype/features/account/presentation/sign_in/welcome_screen.dart';
-import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/splash/splash_screen.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
@@ -157,7 +157,7 @@ void main() {
       await tapVisible(tester, find.text(ro.confirmShop));
 
       expect(
-        inScreen<HubHomeScreen>(find.text('DaviDan Centru')),
+        inScreen<BrandFeedScreen>(find.text('DaviDan Centru')),
         findsOneWidget,
       );
       expect(

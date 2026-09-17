@@ -18,7 +18,7 @@ import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/toast_host.dart';
 import 'package:davidan_prototype/data/mock/sushi/sushi_products.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
-import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 
 import '../helpers/test_app.dart';
 
@@ -50,7 +50,7 @@ void main() {
       await tester.pumpAndSettle();
 
       final message = ro.addedToCart(1, 'Coca Cola');
-      expect(find.byType(BrandHomeScreen), findsOneWidget);
+      expect(find.byType(BrandFeedScreen), findsOneWidget);
       expect(toast(message), findsOneWidget);
       expect(tester.getTopLeft(toast(message)).dy, lessThan(80));
       expect(find.byType(SnackBar), findsNothing);

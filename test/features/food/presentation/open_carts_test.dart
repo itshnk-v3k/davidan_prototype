@@ -20,7 +20,7 @@ import 'package:davidan_prototype/features/food/presentation/cart/open_carts_scr
 import 'package:davidan_prototype/features/food/presentation/favorites/favorites_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
-import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 
 import '../../../helpers/test_app.dart';
 
@@ -52,7 +52,7 @@ void main() {
           .add('alasca', quantity: 2);
       await pumpApp(tester, container, Routes.clientHome);
 
-      final button = inScreen<HubHomeScreen>(find.byType(OpenCartsButton));
+      final button = inScreen<BrandFeedScreen>(find.byType(OpenCartsButton));
       expect(
         find.descendant(of: button, matching: find.text('3')),
         findsOneWidget,
@@ -107,7 +107,7 @@ void main() {
       await tapBack(tester, CartScreen);
       expect(list, findsOneWidget);
       await tapBack(tester, OpenCartsScreen);
-      expect(find.byType(HubHomeScreen), findsOneWidget);
+      expect(find.byType(BrandFeedScreen), findsOneWidget);
     },
   );
 
@@ -126,7 +126,7 @@ void main() {
 
       await tester.tap(find.text(ro.backHome));
       await tester.pumpAndSettle();
-      expect(find.byType(HubHomeScreen), findsOneWidget);
+      expect(find.byType(BrandFeedScreen), findsOneWidget);
     },
   );
 

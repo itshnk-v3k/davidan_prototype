@@ -15,7 +15,7 @@ import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 import '../../../helpers/test_app.dart';
@@ -33,13 +33,13 @@ void main() {
     await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
 
     expect(
-      inScreen<BrandHomeScreen>(
+      inScreen<BrandFeedScreen>(
         find.text('DaviDan - Pasiune pentru Patiserie!'),
       ),
       findsOneWidget,
     );
     expect(
-      inScreen<BrandHomeScreen>(find.text(ro.popularTitle)),
+      inScreen<BrandFeedScreen>(find.text(ro.popularTitle)),
       findsOneWidget,
     );
     expect(ro.popularTitle, 'Produse DaviDan');

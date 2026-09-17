@@ -1,7 +1,7 @@
 // The bottom bar inside the five brands, in the real app, in Chrome. A brand's
-// browse screens (home, menu, information, legal pages) open inside Acasă and
-// keep the bar; its task screens, which have their own bottom button
-// (product, cart, checkout, car, request), cover it:
+// browse screens (its feed, a category, its information and legal pages) open
+// inside Acasă and keep the bar; its task screens, which have their own bottom
+// button (product, cart, checkout, car, request), cover it:
 //   flutter test --platform chrome
 @TestOn('browser')
 library;
@@ -19,20 +19,19 @@ import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/cart/cart_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/water_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/water_feed.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/category_grid.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
 import 'package:davidan_prototype/features/hub/presentation/brand_info_screen.dart';
-import 'package:davidan_prototype/features/hub/presentation/brand_intro_screen.dart';
+import 'package:davidan_prototype/features/hub/presentation/widgets/coming_soon_feed.dart';
 import 'package:davidan_prototype/features/hub/presentation/client_shell.dart';
-import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/legal_document_screen.dart';
-import 'package:davidan_prototype/features/hub/presentation/widgets/brand_bubbles.dart';
+import 'package:davidan_prototype/features/hub/presentation/widgets/brand_switcher_row.dart';
 import 'package:davidan_prototype/features/orders/presentation/orders_screen.dart';
 import 'package:davidan_prototype/features/rental/presentation/car_detail_screen.dart';
-import 'package:davidan_prototype/features/rental/presentation/rental_home_screen.dart';
+import 'package:davidan_prototype/features/rental/presentation/rental_feed.dart';
 import 'package:davidan_prototype/features/rental/presentation/rental_request_screen.dart';
 
 import '../../../helpers/test_app.dart';
@@ -72,7 +71,7 @@ void main() {
   Future<void> openBrand(WidgetTester tester, Brand brand) async {
     await tester.tap(
       find.descendant(
-        of: find.byType(BrandBubbles),
+        of: find.byType(BrandSwitcherRow),
         matching: find.text(brandIntros[brand]!.name),
       ),
     );
@@ -84,12 +83,9 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  Future<void> tapInfoButton(WidgetTester tester, String brandName) async {
-    final semantics = tester.ensureSemantics();
-    await tester.tap(find.bySemanticsLabel(ro.openBrandInfo(brandName)));
-    await tester.pumpAndSettle();
-    semantics.dispose();
-  }
+  /// The link to the brand's information, at the end of its feed.
+  Future<void> tapInfoLink(WidgetTester tester, String brandName) =>
+      tapVisible(tester, find.text(ro.openBrandInfo(brandName)));
 
   testWidgets('Patiserie: home and menu keep the bar; a product and the cart '
       'cover it; the empty cart\'s "browse the menu" opens the menu under the '
@@ -97,7 +93,7 @@ void main() {
     await pumpApp(tester, container, Routes.clientHome);
 
     await openBrand(tester, Brand.bakery);
-    expectBar(tester, BrandHomeScreen);
+    expectBar(tester, BrandFeedScreen);
 
     await tapVisible(
       tester,
@@ -122,10 +118,11 @@ void main() {
 
     await tapVisible(tester, find.text(ro.browseMenu));
     expectBar(tester, CatalogScreen);
+    // The feed is Acasă's first screen, so back from a category returns to it
+    // and stops there.
     await back(tester);
-    expectBar(tester, BrandHomeScreen);
-    await back(tester);
-    expectBar(tester, HubHomeScreen);
+    expectBar(tester, BrandFeedScreen);
+    expect(find.byIcon(PhosphorIconsRegular.arrowLeft), findsNothing);
   });
 
   testWidgets('Sushi: home, information and a legal page keep the bar; the '
@@ -135,17 +132,17 @@ void main() {
     await pumpApp(tester, container, Routes.clientHome);
 
     await openBrand(tester, Brand.sushi);
-    expectBar(tester, BrandHomeScreen);
+    expectBar(tester, BrandFeedScreen);
 
-    await tapInfoButton(tester, 'DaviDan Sushi');
+    await tapInfoLink(tester, 'DaviDan Sushi');
     expectBar(tester, BrandInfoScreen);
     await tapVisible(tester, find.text('Termeni și Condiții'));
     expectBar(tester, LegalDocumentScreen);
     await back(tester);
     await back(tester);
-    expectBar(tester, BrandHomeScreen);
+    expectBar(tester, BrandFeedScreen);
 
-    await tester.tap(inScreen<BrandHomeScreen>(find.byType(CartButton)));
+    await tester.tap(find.byType(CartButton));
     await tester.pumpAndSettle();
     expectNoBar(CartScreen);
     await tapVisible(tester, find.text(ro.continueOrder));
@@ -160,9 +157,7 @@ void main() {
       Brand.sushi,
     );
     await back(tester);
-    expectBar(tester, BrandHomeScreen);
-    await back(tester);
-    expectBar(tester, HubHomeScreen);
+    expectBar(tester, BrandFeedScreen);
   });
 
   testWidgets('Apă: its home keeps the bar; a product and the cart cover it; '
@@ -171,33 +166,34 @@ void main() {
     await pumpApp(tester, container, Routes.clientHome);
 
     await openBrand(tester, Brand.water);
-    expectBar(tester, WaterHomeScreen);
+    expectBar(tester, WaterFeed);
 
     await tapVisible(
       tester,
-      inScreen<WaterHomeScreen>(find.text('Apa DaviDan naturală')),
+      inScreen<WaterFeed>(find.text('Apa DaviDan naturală')),
     );
     expectNoBar(ProductDetailScreen);
     await back(tester);
-    expectBar(tester, WaterHomeScreen);
+    expectBar(tester, WaterFeed);
 
-    await tester.tap(inScreen<WaterHomeScreen>(find.byType(CartButton)));
+    await tester.tap(find.byType(CartButton));
     await tester.pumpAndSettle();
     expectNoBar(CartScreen);
     await tapVisible(tester, find.text(ro.browseProducts));
-    expectBar(tester, WaterHomeScreen);
-    await back(tester);
-    expectBar(tester, HubHomeScreen);
+    expectBar(tester, WaterFeed);
   });
 
-  testWidgets('Restaurant: "În curând" keeps the bar, and back returns to the '
-      'hub', (tester) async {
+  testWidgets('Restaurant: "În curând" keeps the bar and the switcher, which '
+      'leads on to a brand that is open', (tester) async {
     await pumpApp(tester, container, Routes.clientHome);
 
     await openBrand(tester, Brand.restaurant);
-    expectBar(tester, BrandIntroScreen);
-    await back(tester);
-    expectBar(tester, HubHomeScreen);
+    expectBar(tester, ComingSoonFeed);
+    expect(find.byType(BrandSwitcherRow), findsOneWidget);
+
+    await openBrand(tester, Brand.bakery);
+    expectBar(tester, BrandFeedScreen);
+    expect(find.byType(ComingSoonFeed), findsNothing);
   });
 
   testWidgets('Rent Car: the fleet, information and a legal page keep the bar; '
@@ -205,34 +201,29 @@ void main() {
     await pumpApp(tester, container, Routes.clientHome);
 
     await openBrand(tester, Brand.carRental);
-    expectBar(tester, RentalHomeScreen);
+    expectBar(tester, RentalFeed);
 
-    await tapInfoButton(tester, 'DaviDan Rent Car');
+    await tapInfoLink(tester, 'DaviDan Rent Car');
     expectBar(tester, BrandInfoScreen);
     await tapVisible(tester, find.text('Termeni și Condiții'));
     expectBar(tester, LegalDocumentScreen);
     await back(tester);
     await back(tester);
-    expectBar(tester, RentalHomeScreen);
+    expectBar(tester, RentalFeed);
 
-    await tapVisible(
-      tester,
-      inScreen<RentalHomeScreen>(find.text('Audi Q5 2012')),
-    );
+    await tapVisible(tester, inScreen<RentalFeed>(find.text('Audi Q5 2012')));
     expectNoBar(CarDetailScreen);
     await tapVisible(tester, find.text(ro.rentalRequestAction));
     expectNoBar(RentalRequestScreen);
     await back(tester);
     expectNoBar(CarDetailScreen);
     await back(tester);
-    expectBar(tester, RentalHomeScreen);
-    await back(tester);
-    expectBar(tester, HubHomeScreen);
+    expectBar(tester, RentalFeed);
   });
 
   testWidgets('inside a brand, another tab and back keeps the brand\'s screen; '
       'the phone\'s back steps back inside Acasă; tapping Acasă again returns '
-      'to the hub', (tester) async {
+      'to the brand\'s feed', (tester) async {
     await pumpApp(tester, container, Routes.clientHome);
     await openBrand(tester, Brand.bakery);
     await tapVisible(
@@ -252,11 +243,15 @@ void main() {
 
     await tester.binding.handlePopRoute();
     await tester.pumpAndSettle();
-    expectBar(tester, BrandHomeScreen);
+    expectBar(tester, BrandFeedScreen);
 
     await tester.tap(find.text(ro.navHome));
     await tester.pumpAndSettle();
-    expectBar(tester, HubHomeScreen);
+    expectBar(tester, BrandFeedScreen);
+    expect(
+      tester.widget<BrandFeedScreen>(find.byType(BrandFeedScreen)).brand,
+      Brand.bakery,
+    );
   });
 
   testWidgets('Profil opens a brand\'s information and legal pages inside '
@@ -278,6 +273,6 @@ void main() {
 
     await tester.tap(find.text(ro.navHome));
     await tester.pumpAndSettle();
-    expectBar(tester, HubHomeScreen);
+    expectBar(tester, BrandFeedScreen);
   });
 }

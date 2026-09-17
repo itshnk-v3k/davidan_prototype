@@ -28,7 +28,7 @@ import 'package:davidan_prototype/features/account/presentation/location/widgets
 import 'package:davidan_prototype/features/courier/presentation/courier_delivery_screen.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
-import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -44,7 +44,7 @@ void main() {
   const nearBotanica = GeoPoint(46.9915, 28.8575);
   final botanicaCentre = sectorCentres[ChisinauSector.botanica]!;
 
-  Finder homeBar(String text) => inScreen<HubHomeScreen>(find.text(text));
+  Finder homeBar(String text) => inScreen<BrandFeedScreen>(find.text(text));
 
   testWidgets(
     'the phone\'s location is pinned for the next order; the saved address '
@@ -81,7 +81,7 @@ void main() {
       );
 
       await tester.tap(
-        inScreen<HubHomeScreen>(find.byIcon(PhosphorIconsRegular.x)),
+        inScreen<BrandFeedScreen>(find.byIcon(PhosphorIconsRegular.x)),
       );
       await tester.pumpAndSettle();
 

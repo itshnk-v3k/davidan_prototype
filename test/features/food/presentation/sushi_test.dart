@@ -23,13 +23,13 @@ import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/shop_providers.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/category_grid.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/product_shelf.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/total_bar.dart';
-import 'package:davidan_prototype/features/hub/presentation/widgets/brand_bubbles.dart';
+import 'package:davidan_prototype/features/hub/presentation/widgets/brand_switcher_row.dart';
 import 'package:davidan_prototype/features/orders/application/order_lines_provider.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/orders/presentation/order_confirmation_screen.dart';
@@ -66,17 +66,17 @@ void main() {
       await pumpApp(tester, container, Routes.clientHome);
       await tester.tap(
         find.descendant(
-          of: find.byType(BrandBubbles),
+          of: find.byType(BrandSwitcherRow),
           matching: find.text(brandIntros[Brand.sushi]!.name),
         ),
       );
       await tester.pumpAndSettle();
 
-      final home = tester.widget<BrandHomeScreen>(find.byType(BrandHomeScreen));
+      final home = tester.widget<BrandFeedScreen>(find.byType(BrandFeedScreen));
       expect(home.brand, Brand.sushi);
       // The app starts in the dark theme.
       final logo = tester.widget<Image>(
-        inScreen<BrandHomeScreen>(
+        inScreen<BrandFeedScreen>(
           find.descendant(
             of: find.byType(BrandLogo),
             matching: find.byType(Image),
@@ -85,7 +85,7 @@ void main() {
       );
       expect((logo.image as AssetImage).assetName, AppAssets.sushiLogoOnDark);
       expect(
-        inScreen<BrandHomeScreen>(find.text('Dulciuri Nipone')),
+        inScreen<BrandFeedScreen>(find.text('Dulciuri Nipone')),
         findsOneWidget,
       );
       expect([
@@ -104,20 +104,17 @@ void main() {
       );
       // "Produse DaviDan" is davidan.md's heading; the sushi site has none.
       expect(
-        find.descendant(
-          of: row('popular'),
-          matching: find.text('Populare'),
-        ),
+        find.descendant(of: row('popular'), matching: find.text('Populare')),
         findsOneWidget,
       );
       expect(
-        inScreen<BrandHomeScreen>(find.text(ro.popularTitle)),
+        inScreen<BrandFeedScreen>(find.text(ro.popularTitle)),
         findsNothing,
       );
 
       final homeScroll = find
           .descendant(
-            of: find.byType(BrandHomeScreen),
+            of: find.byType(BrandFeedScreen),
             matching: find.byType(Scrollable),
           )
           .first;

@@ -23,13 +23,12 @@ import 'package:davidan_prototype/features/food/presentation/catalog/catalog_scr
 import 'package:davidan_prototype/features/food/presentation/categories/categories_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/favorites/favorites_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/water_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/brand_info_screen.dart';
-import 'package:davidan_prototype/features/hub/presentation/brand_intro_screen.dart';
+import 'package:davidan_prototype/features/hub/application/last_brand_notifier.dart';
+import 'package:davidan_prototype/features/hub/presentation/brand_shell.dart';
 import 'package:davidan_prototype/features/hub/presentation/client_shell.dart';
-import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/legal_document_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/splash/splash_screen.dart';
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
@@ -38,7 +37,6 @@ import 'package:davidan_prototype/features/orders/presentation/orders_screen.dar
 import 'package:davidan_prototype/features/rental/application/rental_providers.dart';
 import 'package:davidan_prototype/features/rental/presentation/car_detail_screen.dart';
 import 'package:davidan_prototype/features/rental/presentation/rental_booking_screen.dart';
-import 'package:davidan_prototype/features/rental/presentation/rental_home_screen.dart';
 import 'package:davidan_prototype/features/rental/presentation/rental_request_screen.dart';
 import 'package:davidan_prototype/features/orders/presentation/notifications_screen.dart';
 import 'package:davidan_prototype/features/search/presentation/search_screen.dart';
@@ -123,58 +121,54 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 ClientShell(navigationShell: navigationShell),
             branches: [
               StatefulShellBranch(
+                navigatorKey: _acasaNavigatorKey,
                 routes: [
+                  // Acasă has no screen of its own any more: it opens on the
+                  // brand the customer was last shopping in, the patisserie
+                  // until they pick another. Kept as a route rather than
+                  // deleted, since it is the branch's first screen (tapping
+                  // Acasă again returns here) and the address every screen
+                  // above the tabs goes back to.
                   GoRoute(
                     path: Routes.clientHome,
-                    builder: (_, _) => const HubHomeScreen(),
+                    redirect: (_, _) =>
+                        Routes.brandHome(ref.read(lastBrandProvider)),
+                  ),
+                  GoRoute(
+                    path: Routes.clientNotifications,
+                    builder: (_, _) => const NotificationsScreen(),
+                  ),
+                  // The brand switcher and the bar above it, kept in place
+                  // while the brand's own pages change under them: a
+                  // ShellRoute of its own inside Acasă, so it is built once
+                  // (BrandShell). The pages that aren't part of browsing a
+                  // brand name the branch's navigator instead, and so cover
+                  // it.
+                  ShellRoute(
+                    builder: (_, state, child) => BrandShell(
+                      brand: _brandIn(state)!,
+                      // A page of the brand's is open over its feed.
+                      showBack:
+                          state.uri.path != Routes.brandHome(_brandIn(state)!),
+                      child: child,
+                    ),
                     routes: [
-                      // Pushed by the hub's search field and its bell.
+                      // A brand's feed, the one layout every brand opens in
+                      // (BrandFeedScreen). Its category pages push on the
+                      // shell's own navigator, so the bar and the switcher
+                      // above them stay put; its search and its information
+                      // page name the branch's navigator and cover them. Each
+                      // names its brand (Routes.brandHome and the others); an
+                      // unknown brand goes to Acasă, which picks one.
                       GoRoute(
-                        path: 'search',
-                        // A category filter is in the query (Routes.clientSearchIn).
-                        builder: (_, state) => SearchScreen(
-                          initialCategory: switch ((
-                            _brandNamed(state.uri.queryParameters['brand']),
-                            state.uri.queryParameters['category'],
-                          )) {
-                            (final brand?, final categoryId?) => (
-                              brand: brand,
-                              categoryId: categoryId,
-                            ),
-                            _ => null,
-                          },
-                        ),
-                      ),
-                      GoRoute(
-                        path: 'notifications',
-                        builder: (_, _) => const NotificationsScreen(),
-                      ),
-                      // A brand's browse screens, above the hub and under the
-                      // bottom bar, pushed from its bubble on the hub. Its
-                      // screens push the ones below, so back returns to the
-                      // screen they were opened from; opened straight from a
-                      // link, the brand's home and the hub are underneath.
-                      // Each names its brand (Routes.brandHome and the
-                      // others); an unknown brand goes to the hub.
-                      GoRoute(
-                        path: 'b/:${Routes.brandParam}',
+                        path: '${Routes.clientHome}/b/:${Routes.brandParam}',
                         redirect: _unknownBrandGoesHome,
                         builder: (_, state) =>
-                            _branded(state, switch (_brandIn(state)!) {
-                              final brand && (Brand.bakery || Brand.sushi) =>
-                                BrandHomeScreen(brand: brand),
-                              Brand.water => const WaterHomeScreen(),
-                              // The client has no restaurant menu yet: its
-                              // intro stays.
-                              Brand.restaurant => const BrandIntroScreen(
-                                brand: Brand.restaurant,
-                              ),
-                              Brand.carRental => const RentalHomeScreen(),
-                            }),
+                            BrandFeedScreen(brand: _brandIn(state)!),
                         routes: [
                           GoRoute(
                             path: 'menu',
-                            // A brand without a menu shows its home instead.
+                            // A brand without a menu shows its feed instead.
                             redirect: (_, state) =>
                                 ref
                                     .read(categoriesProvider(_brandIn(state)!))
@@ -185,20 +179,31 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                             // (Routes.brandMenu). Switching category replaces
                             // this page, keeping its key, so there is no
                             // transition and CatalogScreen just rebuilds.
-                            builder: (_, state) => _branded(
-                              state,
-                              CatalogScreen(
-                                brand: _brandIn(state)!,
-                                categoryId:
-                                    state.uri.queryParameters['category'],
-                              ),
+                            builder: (_, state) => CatalogScreen(
+                              brand: _brandIn(state)!,
+                              categoryId: state.uri.queryParameters['category'],
                             ),
                           ),
-                          // Pushed by the brand home's info button.
-                          _brandInfoRoute('info', tab: Routes.clientHome),
-                          // Pushed by the brand home's search field.
+                          // Pushed by the feed's "Mai multe" category tile.
+                          GoRoute(
+                            path: 'categories',
+                            builder: (_, state) =>
+                                CategoriesScreen(brand: _brandIn(state)!),
+                          ),
+                          // Pushed by the link at the end of the feed. It is a
+                          // page of its own, not the brand's menu narrowed,
+                          // so it covers the shell's bar and switcher.
+                          _brandInfoRoute(
+                            'info',
+                            tab: Routes.clientHome,
+                            parentNavigatorKey: _acasaNavigatorKey,
+                          ),
+                          // Pushed by the feed's search field: its own field
+                          // and back button take the top, so it covers the
+                          // shell too.
                           GoRoute(
                             path: 'search',
+                            parentNavigatorKey: _acasaNavigatorKey,
                             builder: (_, state) => _branded(
                               state,
                               SearchScreen(
@@ -213,14 +218,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                                   null => null,
                                 },
                               ),
-                            ),
-                          ),
-                          // Pushed by the home's "Mai multe" category tile.
-                          GoRoute(
-                            path: 'categories',
-                            builder: (_, state) => _branded(
-                              state,
-                              CategoriesScreen(brand: _brandIn(state)!),
                             ),
                           ),
                         ],
@@ -365,12 +362,21 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   return router;
 });
 
+/// Acasă's own navigator, named by the pages inside Acasă that cover the
+/// brand shell rather than sitting under it (search, a brand's information).
+final _acasaNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'acasa');
+
 /// A brand's information page and its legal pages at [path], inside [tab]
 /// (Routes.clientHome or Routes.clientProfile), for a brand that has an
 /// information page; any other brand shows its home instead. A legal page the
 /// brand doesn't have shows the information page.
-GoRoute _brandInfoRoute(String path, {required String tab}) => GoRoute(
+GoRoute _brandInfoRoute(
+  String path, {
+  required String tab,
+  GlobalKey<NavigatorState>? parentNavigatorKey,
+}) => GoRoute(
   path: path,
+  parentNavigatorKey: parentNavigatorKey,
   redirect: (context, state) =>
       _unknownBrandGoesHome(context, state) ??
       (brandInfos[_brandIn(state)!] == null

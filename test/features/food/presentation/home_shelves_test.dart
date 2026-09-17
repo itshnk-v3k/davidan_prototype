@@ -16,7 +16,7 @@ import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/product_shelf.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
@@ -43,7 +43,7 @@ void main() {
       inRow(id, find.widgetWithText(ProductCard, name));
   final homeScroll = find
       .descendant(
-        of: find.byType(BrandHomeScreen),
+        of: find.byType(BrandFeedScreen),
         matching: find.byType(Scrollable),
       )
       .first;
@@ -123,9 +123,8 @@ void main() {
         findsOneWidget,
       );
 
-      await tester.tap(
-        inScreen<CatalogScreen>(find.byIcon(PhosphorIconsRegular.arrowLeft)),
-      );
+      // The way back is in the shell's bar above the category.
+      await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
       await tester.pumpAndSettle();
       final endTile = inRow(
         BakeryCategoryIds.kurtos,

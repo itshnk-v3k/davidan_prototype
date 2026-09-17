@@ -13,7 +13,7 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
-import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/brand_info_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/legal_document_screen.dart';
 
@@ -112,7 +112,7 @@ void main() {
 
       await tapBack(tester, LegalDocumentScreen);
       await tapBack(tester, BrandInfoScreen);
-      expect(find.byType(BrandHomeScreen), findsOneWidget);
+      expect(find.byType(BrandFeedScreen), findsOneWidget);
     },
   );
 
@@ -127,7 +127,7 @@ void main() {
       semantics.dispose();
 
       await pumpApp(tester, container, Routes.brandInfo(Brand.bakery));
-      expect(find.byType(BrandHomeScreen), findsOneWidget);
+      expect(find.byType(BrandFeedScreen), findsOneWidget);
       expect(find.byType(BrandInfoScreen), findsNothing);
 
       await pumpApp(
@@ -138,7 +138,7 @@ void main() {
       expect(find.byType(BrandInfoScreen), findsOneWidget);
       await tapBack(tester, BrandInfoScreen);
       expect(
-        tester.widget<BrandHomeScreen>(find.byType(BrandHomeScreen)).brand,
+        tester.widget<BrandFeedScreen>(find.byType(BrandFeedScreen)).brand,
         Brand.sushi,
       );
 

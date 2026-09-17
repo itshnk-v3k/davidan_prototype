@@ -19,7 +19,7 @@ import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/account/presentation/profile/profile_screen.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
-import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/launcher/application/demo_reset_notifier.dart';
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
 import 'package:davidan_prototype/staff/staff_build.dart';
@@ -112,7 +112,7 @@ void main() {
 
         await pumpApp(tester, container, Routes.clientHome);
         expect(
-          accentOf(tester.element(find.byType(HubHomeScreen)).colors),
+          accentOf(tester.element(find.byType(BrandFeedScreen)).colors),
           accentOf(daviDan),
         );
 

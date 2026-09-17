@@ -14,7 +14,7 @@ import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/category_grid.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 
@@ -27,8 +27,9 @@ void main() {
 
   setUp(() async => container = await createTestContainer());
 
-  testWidgets('home category opens the catalog; chips switch category in '
-      'place, so back still returns home', (tester) async {
+  testWidgets('a category tile opens the category under the same bar and '
+      'switcher; chips switch category in place, so back still returns to the '
+      'feed', (tester) async {
     await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
     await tapVisible(
       tester,
@@ -52,12 +53,12 @@ void main() {
       findsNothing,
     );
 
-    await tester.tap(
-      inScreen<CatalogScreen>(find.byIcon(PhosphorIconsRegular.arrowLeft)),
-    );
+    // The way back is in the shell's bar above the category, which the
+    // switcher and the bar never left.
+    await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
     await tester.pumpAndSettle();
     expect(find.byType(CatalogScreen), findsNothing);
-    expect(find.byType(BrandHomeScreen), findsOneWidget);
+    expect(find.byType(BrandFeedScreen), findsOneWidget);
   });
 
   testWidgets('card opens detail; add to cart adds the chosen quantity', (
@@ -98,7 +99,7 @@ void main() {
     // In two rows (Produse DaviDan and Kurtos); either opens it.
     await tapVisible(
       tester,
-      inScreen<BrandHomeScreen>(find.text('Kurtos cu zahăr și scorțișoară'))
+      inScreen<BrandFeedScreen>(find.text('Kurtos cu zahăr și scorțișoară'))
           .first,
     );
     expect(find.byType(ProductDetailScreen), findsOneWidget);
@@ -107,7 +108,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(ProductDetailScreen), findsNothing);
-    expect(find.byType(BrandHomeScreen), findsOneWidget);
+    expect(find.byType(BrandFeedScreen), findsOneWidget);
   });
 
   testWidgets('description appears only for products that have one', (

@@ -18,7 +18,7 @@ import 'package:davidan_prototype/features/account/application/account_notifier.
 import 'package:davidan_prototype/features/account/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/account/presentation/location/location_screen.dart';
 import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_phone_screen.dart';
-import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/splash/splash_screen.dart';
 
 import '../../../helpers/test_app.dart';
@@ -109,7 +109,7 @@ void main() {
 
       expect(find.byType(LocationScreen), findsNothing);
       expect(
-        inScreen<HubHomeScreen>(find.text('DaviDan Centru')),
+        inScreen<BrandFeedScreen>(find.text('DaviDan Centru')),
         findsOneWidget,
       );
     },
@@ -127,7 +127,7 @@ void main() {
     expect(find.byType(SignInPhoneScreen), findsNothing);
     expect(find.byType(LocationScreen), findsNothing);
     expect(
-      inScreen<HubHomeScreen>(find.text('str. Ismail 88')),
+      inScreen<BrandFeedScreen>(find.text('str. Ismail 88')),
       findsOneWidget,
     );
   });
@@ -140,7 +140,7 @@ void main() {
     await enterCustomerApp(tester);
 
     expect(
-      inScreen<HubHomeScreen>(find.text('DaviDan Botanica')),
+      inScreen<BrandFeedScreen>(find.text('DaviDan Botanica')),
       findsOneWidget,
     );
   });

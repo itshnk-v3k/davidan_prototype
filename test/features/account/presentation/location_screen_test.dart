@@ -15,7 +15,7 @@ import 'package:davidan_prototype/core/widgets/option_tile.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/account/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/account/presentation/location/location_screen.dart';
-import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 
 import '../../../helpers/test_app.dart';
 
@@ -26,7 +26,7 @@ void main() {
 
   setUp(() async => container = await createTestContainer());
 
-  Finder homeBar(String text) => inScreen<HubHomeScreen>(find.text(text));
+  Finder homeBar(String text) => inScreen<BrandFeedScreen>(find.text(text));
   Fulfilment? savedChoice() => container.read(fulfilmentChoiceProvider);
   OptionTile tile(WidgetTester tester, String title) =>
       tester.widget<OptionTile>(find.widgetWithText(OptionTile, title));

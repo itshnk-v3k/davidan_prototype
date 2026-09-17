@@ -7,6 +7,7 @@ import 'package:davidan_prototype/features/account/application/current_location_
 import 'package:davidan_prototype/features/account/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/favorites_notifier.dart';
+import 'package:davidan_prototype/features/hub/application/last_brand_notifier.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/features/rental/application/rental_bookings_notifier.dart';
 
@@ -32,7 +33,8 @@ class DemoResetNotifier extends Notifier<void> {
       ..invalidate(favoritesProvider)
       ..invalidate(accountProvider)
       ..invalidate(signInSkippedProvider)
-      ..invalidate(currentLocationProvider);
+      ..invalidate(currentLocationProvider)
+      ..invalidate(lastBrandProvider);
     for (final app in ref.read(extraAppsProvider)) {
       app.savedState.forEach(ref.invalidate);
     }

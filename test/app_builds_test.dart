@@ -15,7 +15,7 @@ import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/demo_tools/demo_tool_strings.dart';
 import 'package:davidan_prototype/features/courier/presentation/courier_orders_screen.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
-import 'package:davidan_prototype/features/hub/presentation/hub_home_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/splash/splash_screen.dart';
 import 'package:davidan_prototype/features/kds/presentation/kds_screen.dart';
 import 'package:davidan_prototype/features/launcher/presentation/demo_launcher_screen.dart';
@@ -95,7 +95,7 @@ void main() {
     testWidgets('the hub has the button back to the launcher', (tester) async {
       await pumpApp(tester, container, Routes.clientHome);
 
-      await tester.tap(inScreen<HubHomeScreen>(launcherButton()));
+      await tester.tap(inScreen<BrandFeedScreen>(launcherButton()));
       await tester.pumpAndSettle();
 
       expect(find.byType(DemoLauncherScreen), findsOneWidget);
