@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -29,13 +30,13 @@ class FulfilmentTypeChips extends StatelessWidget {
       children: [
         AppChip(
           label: context.l10n.delivery,
-          icon: Icons.delivery_dining_rounded,
+          icon: PhosphorIconsRegular.moped,
           selected: selected == FulfilmentType.delivery,
           onTap: () => onChanged(FulfilmentType.delivery),
         ),
         AppChip(
           label: context.l10n.pickup,
-          icon: Icons.storefront_rounded,
+          icon: PhosphorIconsRegular.storefront,
           selected: selected == FulfilmentType.pickup,
           onTap: () => onChanged(FulfilmentType.pickup),
         ),
@@ -72,7 +73,7 @@ class DeliveryAddressField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: context.l10n.deliveryAddress,
         hintText: context.l10n.deliveryAddressHint,
-        prefixIcon: const Icon(Icons.location_on_rounded),
+        prefixIcon: const Icon(PhosphorIconsRegular.mapPin),
         errorText: showMissingError
             ? context.l10n.deliveryAddressMissing
             : null,
@@ -114,7 +115,7 @@ class PickupShopList extends StatelessWidget {
                 location.address,
                 location.openingHours,
               ].join(' · '),
-              icon: Icons.storefront_rounded,
+              icon: PhosphorIconsRegular.storefront,
               selected: location.id == selectedId,
               onTap: () => onSelected(location.id),
             ),

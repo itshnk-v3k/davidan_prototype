@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -25,13 +26,13 @@ class BrandInfoScreen extends StatelessWidget {
   final String tab;
 
   static IconData _iconOf(BrandInfoKind kind) => switch (kind) {
-    BrandInfoKind.deliveryArea => Icons.delivery_dining_rounded,
-    BrandInfoKind.address => Icons.location_on_rounded,
-    BrandInfoKind.hours => Icons.schedule_rounded,
-    BrandInfoKind.phone => Icons.phone_rounded,
-    BrandInfoKind.email => Icons.mail_outline_rounded,
-    BrandInfoKind.instagram => Icons.photo_camera_rounded,
-    BrandInfoKind.company => Icons.business_rounded,
+    BrandInfoKind.deliveryArea => PhosphorIconsRegular.moped,
+    BrandInfoKind.address => PhosphorIconsRegular.mapPin,
+    BrandInfoKind.hours => PhosphorIconsRegular.clock,
+    BrandInfoKind.phone => PhosphorIconsRegular.phone,
+    BrandInfoKind.email => PhosphorIconsRegular.envelopeSimple,
+    BrandInfoKind.instagram => PhosphorIconsRegular.instagramLogo,
+    BrandInfoKind.company => PhosphorIconsRegular.buildingOffice,
   };
 
   @override
@@ -96,7 +97,7 @@ class BrandInfoScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: AppSpacing.md),
                         child: LinkCard(
-                          icon: Icons.description_rounded,
+                          icon: PhosphorIconsRegular.fileText,
                           title: document.title,
                           hint: context.l10n.legalDocumentHint(info.website),
                           onTap: () => context.push(

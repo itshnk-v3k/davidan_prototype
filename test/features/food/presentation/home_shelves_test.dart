@@ -7,6 +7,7 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
@@ -123,7 +124,7 @@ void main() {
       );
 
       await tester.tap(
-        inScreen<CatalogScreen>(find.byIcon(Icons.arrow_back_rounded)),
+        inScreen<CatalogScreen>(find.byIcon(PhosphorIconsRegular.arrowLeft)),
       );
       await tester.pumpAndSettle();
       final endTile = inRow(
@@ -156,7 +157,7 @@ void main() {
         tester,
         find.descendant(
           of: cardInRow('popular', croissant),
-          matching: find.byIcon(Icons.add_rounded),
+          matching: find.byIcon(PhosphorIconsBold.plus),
         ),
       );
       expect(container.read(cartQuantitiesProvider(Brand.bakery)), {
@@ -202,7 +203,7 @@ void main() {
         ), scope: 'popular'),
       );
 
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
       await tester.pumpAndSettle();
       await scrollHomeTo(tester, row(BakeryCategoryIds.patiserie));
       final patiserieCard = cardInRow(BakeryCategoryIds.patiserie, croissant);

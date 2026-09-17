@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -41,7 +42,7 @@ class RentalBookingScreen extends ConsumerWidget {
         backgroundColor: context.colors.background,
         body: SafeArea(
           child: EmptyState(
-            icon: Icons.event_busy_rounded,
+            icon: PhosphorIconsRegular.calendarX,
             title: l10n.rentalBookingNotFound,
             actionLabel: l10n.backHome,
             onAction: goHome,
@@ -63,7 +64,7 @@ class RentalBookingScreen extends ConsumerWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: AppIconButton(
-                icon: Icons.close_rounded,
+                icon: PhosphorIconsRegular.x,
                 semanticLabel: l10n.backHome,
                 onPressed: goHome,
               ),
@@ -79,8 +80,8 @@ class RentalBookingScreen extends ConsumerWidget {
                 ),
                 child: Icon(
                   booking.cancelled
-                      ? Icons.event_busy_rounded
-                      : Icons.check_rounded,
+                      ? PhosphorIconsRegular.calendarX
+                      : PhosphorIconsBold.check,
                   size: 48,
                   color: context.colors.primary,
                 ),
@@ -111,7 +112,7 @@ class RentalBookingScreen extends ConsumerWidget {
               ),
               const SizedBox(height: AppSpacing.lg),
               InfoNote(
-                icon: Icons.info_outline_rounded,
+                icon: PhosphorIconsRegular.info,
                 text: l10n.rentalRequestNotReserved,
               ),
             ],
@@ -128,13 +129,13 @@ class RentalBookingScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     DetailRow(
-                      icon: Icons.directions_car_rounded,
+                      icon: PhosphorIconsRegular.car,
                       label: l10n.rentalCar,
                       value: car?.name ?? booking.carId,
                     ),
                     const SizedBox(height: AppSpacing.md),
                     DetailRow(
-                      icon: Icons.key_rounded,
+                      icon: PhosphorIconsRegular.key,
                       label: l10n.rentalPickupTitle,
                       value:
                           '${l10n.rentalLocation(booking.pickupLocation)} · '
@@ -142,7 +143,7 @@ class RentalBookingScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: AppSpacing.md),
                     DetailRow(
-                      icon: Icons.keyboard_return_rounded,
+                      icon: PhosphorIconsRegular.arrowUDownLeft,
                       label: l10n.rentalReturnTitle,
                       value:
                           '${l10n.rentalLocation(booking.returnLocation)} · '
@@ -150,7 +151,7 @@ class RentalBookingScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: AppSpacing.md),
                     DetailRow(
-                      icon: Icons.person_outline_rounded,
+                      icon: PhosphorIconsRegular.user,
                       label: l10n.rentalContact,
                       value:
                           '${booking.name} · '
@@ -159,7 +160,7 @@ class RentalBookingScreen extends ConsumerWidget {
                     if (notes.isNotEmpty) ...[
                       const SizedBox(height: AppSpacing.md),
                       DetailRow(
-                        icon: Icons.notes_rounded,
+                        icon: PhosphorIconsRegular.notepad,
                         label: l10n.rentalNotesLabel,
                         value: notes,
                       ),

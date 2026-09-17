@@ -8,6 +8,7 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/app_router.dart';
@@ -315,9 +316,9 @@ void main() {
         inScreen<CarDetailScreen>(find.text('Toyota RAV4')),
         findsOneWidget,
       );
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
       await tester.pumpAndSettle();
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
       await tester.pumpAndSettle();
       expect(find.byType(HubHomeScreen), findsOneWidget);
     },
@@ -370,12 +371,12 @@ void main() {
       await tester.tap(find.text(ro.rentalRequestAction));
       await tester.pumpAndSettle();
       expect(find.byType(RentalRequestScreen), findsOneWidget);
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
       await tester.pumpAndSettle();
       expect(find.byType(CarDetailScreen), findsOneWidget);
 
       // Opened from its link, back goes to the fleet.
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
       await tester.pumpAndSettle();
       expect(find.byType(RentalHomeScreen), findsOneWidget);
     },
@@ -687,7 +688,7 @@ void main() {
         find.textContaining('400 de kilometri gratuiti pe zi'),
         findsOneWidget,
       );
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
       await tester.pumpAndSettle();
 
       await tapVisible(tester, find.text('Politica de Confidențialitate'));
@@ -761,7 +762,7 @@ void main() {
         expect(fillAround(feature), isNot(colors.accentSoft));
         final check = find.descendant(
           of: find.ancestor(of: feature, matching: find.byType(Row)).first,
-          matching: find.byIcon(Icons.check_rounded),
+          matching: find.byIcon(PhosphorIconsBold.check),
         );
         expect(tester.widget<Icon>(check).color, colors.primary);
       }

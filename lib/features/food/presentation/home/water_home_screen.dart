@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -63,7 +64,7 @@ class WaterHomeScreen extends ConsumerWidget {
                 const SizedBox(height: AppSpacing.xl),
                 if (lastOrder == null)
                   InfoNote(
-                    icon: Icons.replay_rounded,
+                    icon: PhosphorIconsRegular.arrowCounterClockwise,
                     text: context.l10n.orderAgainHint,
                   )
                 else
@@ -153,7 +154,7 @@ class _LastOrderCard extends ConsumerWidget {
             const SizedBox(height: AppSpacing.lg),
             AppButton(
               label: context.l10n.orderAgain,
-              icon: Icons.replay_rounded,
+              icon: PhosphorIconsRegular.arrowCounterClockwise,
               onPressed: onOrderAgain,
             ),
           ],

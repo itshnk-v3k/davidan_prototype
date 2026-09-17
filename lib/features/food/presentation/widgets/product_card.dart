@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -83,8 +84,8 @@ class ProductCard extends StatelessWidget {
         AppSpacing.xxs +
         line(styles.caption) +
         TapTarget.min +
-        // Rounding in the text layout.
-        AppSpacing.xxs;
+        // Rounding in the text layout, which differs between platforms.
+        AppSpacing.sm;
   }
 
   @override
@@ -146,13 +147,17 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: AppSpacing.md),
-                    child: Text(
-                      product.name,
-                      style: context.textStyles.bodyStrong,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                  // Gives way rather than overflow if the text ever needs
+                  // more than heightFor allowed.
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: AppSpacing.md),
+                      child: Text(
+                        product.name,
+                        style: context.textStyles.bodyStrong,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xxs),
@@ -194,7 +199,11 @@ class ProductMetaLine extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.star_rounded, size: 15, color: context.colors.star),
+                Icon(
+                  PhosphorIconsFill.star,
+                  size: 15,
+                  color: context.colors.star,
+                ),
                 const SizedBox(width: AppSpacing.xxs),
                 Text(
                   rating.toStringAsFixed(1).replaceAll('.', ','),
@@ -244,7 +253,7 @@ class ProductPriceRow extends StatelessWidget {
     const addMargin = (TapTarget.min - 32) / 2;
     final control = quantity == 0
         ? RoundIconButton(
-            icon: Icons.add_rounded,
+            icon: PhosphorIconsBold.plus,
             semanticLabel: context.l10n.addToCart(product.name),
             onTap: data.onAdd,
           )

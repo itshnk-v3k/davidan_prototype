@@ -7,6 +7,7 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/app_router.dart';
@@ -374,7 +375,7 @@ void main() {
           );
         }
         expect(find.text(ro.navOrders), findsOneWidget, reason: '$brand');
-        await tester.tap(find.byIcon(Icons.arrow_back_rounded).first);
+        await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft).first);
         await tester.pumpAndSettle();
         expect(find.byType(HubHomeScreen), findsOneWidget, reason: '$brand');
         expect(find.byType(ClientShell), findsOneWidget, reason: '$brand');
@@ -419,7 +420,7 @@ void main() {
       expect(inScreen<BrandIntroScreen>(find.text(ro.menuTitle)), findsNothing);
 
       await tester.tap(
-        inScreen<BrandIntroScreen>(find.byIcon(Icons.arrow_back_rounded)),
+        inScreen<BrandIntroScreen>(find.byIcon(PhosphorIconsRegular.arrowLeft)),
       );
       await tester.pumpAndSettle();
       expect(find.byType(HubHomeScreen), findsOneWidget);
@@ -432,7 +433,7 @@ void main() {
     (tester) async {
       await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
       expect(find.byType(BrandHomeScreen), findsOneWidget);
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded).first);
+      await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft).first);
       await tester.pumpAndSettle();
       expect(find.byType(HubHomeScreen), findsOneWidget);
 

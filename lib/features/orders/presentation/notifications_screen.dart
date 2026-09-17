@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -44,7 +45,7 @@ class NotificationsScreen extends ConsumerWidget {
             Expanded(
               child: updates.isEmpty
                   ? EmptyState(
-                      icon: Icons.notifications_rounded,
+                      icon: PhosphorIconsRegular.bell,
                       title: context.l10n.notificationsEmptyTitle,
                       message: context.l10n.notificationsEmptyMessage,
                     )
@@ -123,7 +124,7 @@ class _UpdateCard extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: image == null
-                  ? Icon(Icons.directions_car_rounded, color: colors.primary)
+                  ? Icon(PhosphorIconsRegular.car, color: colors.primary)
                   : Image.asset(image, fit: BoxFit.cover),
             ),
             const SizedBox(width: AppSpacing.md),

@@ -15,28 +15,38 @@ void main() {
     'lib/features/kds/',
   ];
 
-  /// Every `Icons.x` the customer app uses, as "path: name".
-  final icons = [
+  /// Every customer app source file, as (path, contents).
+  final sources = [
     for (final file in Directory('lib').listSync(recursive: true))
       if (file is File && file.path.endsWith('.dart'))
-        for (final match in RegExp(
-          r'Icons\.(\w+)',
-        ).allMatches(file.readAsStringSync()))
-          (path: file.path.replaceAll(r'\', '/'), name: match.group(1)!),
-  ].where((icon) => !staffFolders.any(icon.path.startsWith)).toList();
+        (path: file.path.replaceAll(r'\', '/'), text: file.readAsStringSync()),
+  ].where((source) => !staffFolders.any(source.path.startsWith)).toList();
 
-  test('the customer app draws its icons from the rounded set', () {
-    expect(
-      [
-        for (final icon in icons)
-          if (!icon.name.endsWith('_rounded')) '${icon.path}: ${icon.name}',
-      ],
-      [
-        // The tab bar's unselected house and receipt: the icon font has no
-        // rounded outline of either.
-        'lib/features/hub/presentation/client_shell.dart: home_outlined',
-        'lib/features/hub/presentation/client_shell.dart: receipt_long_outlined',
-      ],
-    );
+  test('the customer app draws no Material Icons glyphs', () {
+    expect([
+      for (final source in sources)
+        for (final match in RegExp(
+          r'(?<![A-Za-z_])Icons\.(\w+)',
+        ).allMatches(source.text))
+          '${source.path}: ${match.group(1)}',
+    ], isEmpty);
+  });
+
+  test('its icons are Phosphor in the styles the app uses: Regular by '
+      'default, Fill for a selected or active state, Bold for small action '
+      'glyphs', () {
+    const styles = {
+      'PhosphorIconsRegular',
+      'PhosphorIconsFill',
+      'PhosphorIconsBold',
+    };
+    expect([
+      for (final source in sources)
+        for (final match in RegExp(
+          r'\b(Phosphor\w*)\.\w+',
+        ).allMatches(source.text))
+          if (!styles.contains(match.group(1)))
+            '${source.path}: ${match.group(0)}',
+    ], isEmpty);
   });
 }

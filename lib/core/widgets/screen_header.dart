@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
@@ -62,7 +63,7 @@ class ScreenHeader extends ConsumerWidget {
                 ),
                 if (hasLauncher)
                   AppIconButton(
-                    icon: Icons.apps_rounded,
+                    icon: PhosphorIconsRegular.dotsNine,
                     semanticLabel: context.l10n.openLauncher,
                     onPressed: () => context.go(Routes.launcher),
                   ),
@@ -74,7 +75,7 @@ class ScreenHeader extends ConsumerWidget {
               ]
             : [
                 AppIconButton(
-                  icon: Icons.arrow_back_rounded,
+                  icon: PhosphorIconsRegular.arrowLeft,
                   semanticLabel: context.l10n.back,
                   onPressed: onBack,
                 ),

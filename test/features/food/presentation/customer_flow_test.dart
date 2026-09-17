@@ -5,7 +5,7 @@ library;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/app_router.dart';
@@ -53,7 +53,7 @@ void main() {
     );
 
     await tester.tap(
-      inScreen<CatalogScreen>(find.byIcon(Icons.arrow_back_rounded)),
+      inScreen<CatalogScreen>(find.byIcon(PhosphorIconsRegular.arrowLeft)),
     );
     await tester.pumpAndSettle();
     expect(find.byType(CatalogScreen), findsNothing);
@@ -72,7 +72,7 @@ void main() {
 
     expect(find.byType(ProductDetailScreen), findsOneWidget);
     await tester.tap(
-      inScreen<ProductDetailScreen>(find.byIcon(Icons.add_rounded)),
+      inScreen<ProductDetailScreen>(find.byIcon(PhosphorIconsBold.plus)),
     );
     await tester.pump();
 
@@ -103,7 +103,7 @@ void main() {
     );
     expect(find.byType(ProductDetailScreen), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+    await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
     await tester.pumpAndSettle();
 
     expect(find.byType(ProductDetailScreen), findsNothing);
@@ -151,7 +151,7 @@ void main() {
 
         expect(inBar(find.text(ro.inCart(2))), findsOneWidget);
         expect(inBar(find.text(ro.updateCartTotal('118 lei'))), findsOneWidget);
-        await tester.tap(inBar(find.byIcon(Icons.add_rounded)));
+        await tester.tap(inBar(find.byIcon(PhosphorIconsBold.plus)));
         await tester.pump();
         await tester.tap(inBar(find.text(ro.updateCartTotal('177 lei'))));
         await tester.pumpAndSettle();
@@ -175,7 +175,7 @@ void main() {
       container.read(cartProvider(Brand.bakery).notifier).add(kurtos.id);
       await pumpApp(tester, container, Routes.brandProduct(kurtos));
 
-      await tester.tap(inBar(find.byIcon(Icons.remove_rounded)));
+      await tester.tap(inBar(find.byIcon(PhosphorIconsBold.minus)));
       await tester.pump();
       await tester.tap(inBar(find.text(ro.removeFromCartAction)));
       await tester.pumpAndSettle();

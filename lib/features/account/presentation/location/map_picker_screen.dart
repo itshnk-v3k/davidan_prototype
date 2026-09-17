@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/location/location_result.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
@@ -75,7 +76,7 @@ class _MapPickerScreenState extends ConsumerState<MapPickerScreen> {
                 children: [
                   if (failure != null) ...[
                     InfoNote(
-                      icon: Icons.location_off_rounded,
+                      icon: PhosphorIconsRegular.gpsSlash,
                       text: context.l10n.locationFailure(failure),
                     ),
                     const SizedBox(height: AppSpacing.md),
@@ -107,7 +108,7 @@ class _MapPickerScreenState extends ConsumerState<MapPickerScreen> {
                   ),
                   const SizedBox(height: AppSpacing.lg - AppChip.tapMargin),
                   DetailRow(
-                    icon: Icons.location_on_rounded,
+                    icon: PhosphorIconsRegular.mapPin,
                     label: context.l10n.chosenPoint,
                     value:
                         '${context.l10n.areaName(sectorAt(_point))} · '

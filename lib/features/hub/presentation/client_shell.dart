@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -102,28 +103,27 @@ class _BottomNav extends ConsumerWidget {
       favoriteKeysProvider.select((keys) => keys.length),
     );
     // Same order as the branches of the StatefulShellRoute in app_router.dart.
-    // The current tab's icon is filled and the others are outlines, as
-    // Material 3 does. The icon font has no rounded outline of the house or
-    // the receipt, so those two use the outlined set.
+    // The current tab's icon is filled and the others are Phosphor's soft
+    // line icons, as Material 3 does with its own.
     final items = [
       (
-        icon: Icons.home_outlined,
-        selectedIcon: Icons.home_rounded,
+        icon: PhosphorIconsRegular.house,
+        selectedIcon: PhosphorIconsFill.house,
         label: context.l10n.navHome,
       ),
       (
-        icon: Icons.receipt_long_outlined,
-        selectedIcon: Icons.receipt_long_rounded,
+        icon: PhosphorIconsRegular.receipt,
+        selectedIcon: PhosphorIconsFill.receipt,
         label: context.l10n.navOrders,
       ),
       (
-        icon: Icons.favorite_border_rounded,
-        selectedIcon: Icons.favorite_rounded,
+        icon: PhosphorIconsRegular.heart,
+        selectedIcon: PhosphorIconsFill.heart,
         label: context.l10n.navFavorites,
       ),
       (
-        icon: Icons.person_outline_rounded,
-        selectedIcon: Icons.person_rounded,
+        icon: PhosphorIconsRegular.user,
+        selectedIcon: PhosphorIconsFill.user,
         label: context.l10n.navProfile,
       ),
     ];

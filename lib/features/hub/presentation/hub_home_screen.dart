@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
@@ -37,7 +38,7 @@ class HubHomeScreen extends ConsumerWidget {
     // back once that order is placed or the pin is dropped.
     final location = pinned != null
         ? (
-            icon: Icons.my_location_rounded,
+            icon: PhosphorIconsRegular.navigationArrow,
             label: context.l10n.deliverToCurrentLocation,
             value: context.l10n.currentLocationValue(
               context.l10n.areaName(sectorAt(pinned.point)),
@@ -45,19 +46,19 @@ class HubHomeScreen extends ConsumerWidget {
           )
         : switch (ref.watch(fulfilmentChoiceProvider)) {
             HomeDelivery(:final address) => (
-              icon: Icons.location_on_rounded,
+              icon: PhosphorIconsRegular.mapPin,
               label: context.l10n.deliverTo,
               value: address,
             ),
             StorePickup(:final locationId) => (
-              icon: Icons.storefront_rounded,
+              icon: PhosphorIconsRegular.storefront,
               label: context.l10n.pickupFrom,
               value:
                   ref.watch(locationByIdProvider(locationId))?.name ??
                   locationId,
             ),
             null => (
-              icon: Icons.location_on_rounded,
+              icon: PhosphorIconsRegular.mapPin,
               label: context.l10n.deliverTo,
               value: context.l10n.chooseAddress,
             ),
@@ -203,7 +204,7 @@ class _HubHeader extends StatelessWidget {
                                       ),
                                     ),
                                     Icon(
-                                      Icons.keyboard_arrow_down_rounded,
+                                      PhosphorIconsBold.caretDown,
                                       size: 22,
                                       color: colors.textPrimary,
                                     ),
@@ -220,14 +221,14 @@ class _HubHeader extends StatelessWidget {
               ),
               if (onClearLocation != null)
                 AppIconButton(
-                  icon: Icons.close_rounded,
+                  icon: PhosphorIconsRegular.x,
                   semanticLabel: context.l10n.dropCurrentLocation,
                   size: 32,
                   onPressed: onClearLocation,
                 ),
               if (onLauncherTap case final onLauncherTap?)
                 AppIconButton(
-                  icon: Icons.apps_rounded,
+                  icon: PhosphorIconsRegular.dotsNine,
                   semanticLabel: context.l10n.openLauncher,
                   onPressed: onLauncherTap,
                 ),

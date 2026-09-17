@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
@@ -129,8 +130,8 @@ class _Heading extends StatelessWidget {
           // Shows the layout a tap switches to.
           AppIconButton(
             icon: layout == ProductLayout.grid
-                ? Icons.view_agenda_rounded
-                : Icons.grid_view_rounded,
+                ? PhosphorIconsRegular.rows
+                : PhosphorIconsRegular.squaresFour,
             semanticLabel: layout == ProductLayout.grid
                 ? context.l10n.showAsList
                 : context.l10n.showAsGrid,

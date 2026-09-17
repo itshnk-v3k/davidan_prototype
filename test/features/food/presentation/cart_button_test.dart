@@ -8,6 +8,7 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
@@ -37,7 +38,7 @@ void main() {
 
   Future<void> goBack(WidgetTester tester) async {
     await tester.tap(
-      inScreen<CartScreen>(find.byIcon(Icons.arrow_back_rounded)),
+      inScreen<CartScreen>(find.byIcon(PhosphorIconsRegular.arrowLeft)),
     );
     await tester.pumpAndSettle();
   }
@@ -76,18 +77,18 @@ void main() {
         )
         .icon;
     expect(labels.map(tabIcon), [
-      Icons.home_rounded,
-      Icons.receipt_long_outlined,
-      Icons.favorite_border_rounded,
-      Icons.person_outline_rounded,
+      PhosphorIconsFill.house,
+      PhosphorIconsRegular.receipt,
+      PhosphorIconsRegular.heart,
+      PhosphorIconsRegular.user,
     ]);
     await tester.tap(find.text(ro.navOrders));
     await tester.pumpAndSettle();
     expect(labels.map(tabIcon), [
-      Icons.home_outlined,
-      Icons.receipt_long_rounded,
-      Icons.favorite_border_rounded,
-      Icons.person_outline_rounded,
+      PhosphorIconsRegular.house,
+      PhosphorIconsFill.receipt,
+      PhosphorIconsRegular.heart,
+      PhosphorIconsRegular.user,
     ]);
     await tester.tap(find.text(ro.navHome));
     await tester.pumpAndSettle();
@@ -95,11 +96,11 @@ void main() {
     expect(find.text('Coș'), findsNothing);
     expect(find.text(ro.menuTitle), findsNothing);
     // The only shopping bag is the carts button in Acasă's header: no tab.
-    expect(find.byIcon(Icons.shopping_bag_rounded), findsOneWidget);
+    expect(find.byIcon(PhosphorIconsRegular.handbag), findsOneWidget);
     expect(
       find.descendant(
         of: find.byType(OpenCartsButton),
-        matching: find.byIcon(Icons.shopping_bag_rounded),
+        matching: find.byIcon(PhosphorIconsRegular.handbag),
       ),
       findsOneWidget,
     );
@@ -129,7 +130,7 @@ void main() {
         );
         expect(tester.getTopLeft(found).dy, lessThan(80), reason: route);
         expect(
-          inScreenOf(screen, find.byIcon(Icons.shopping_bag_rounded)),
+          inScreenOf(screen, find.byIcon(PhosphorIconsRegular.handbag)),
           findsOneWidget,
           reason: route,
         );
@@ -141,7 +142,7 @@ void main() {
       ]) {
         await pumpApp(tester, container, route);
         expect(
-          inScreenOf(screen, find.byIcon(Icons.shopping_bag_rounded)),
+          inScreenOf(screen, find.byIcon(PhosphorIconsRegular.handbag)),
           findsNothing,
           reason: route,
         );

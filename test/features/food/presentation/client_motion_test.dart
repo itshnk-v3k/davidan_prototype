@@ -8,6 +8,7 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
@@ -69,7 +70,7 @@ void main() {
       );
       expect(productCard(name), findsOneWidget);
       await tester.tap(
-        inScreen<CatalogScreen>(find.byIcon(Icons.arrow_back_rounded)),
+        inScreen<CatalogScreen>(find.byIcon(PhosphorIconsRegular.arrowLeft)),
       );
       await tester.pumpAndSettle();
       expect(find.byType(BrandHomeScreen), findsOneWidget);
@@ -95,7 +96,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(inScreen<ProductDetailScreen>(find.byType(Image)), findsOneWidget);
 
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
       await tester.pump();
       await tester.pump(midway);
       expect(inScreen<ProductDetailScreen>(find.byType(Image)), findsNothing);
@@ -141,15 +142,15 @@ void main() {
 
     await tapAndWait(
       tester,
-      inCard(name, find.byIcon(Icons.add_rounded)),
+      inCard(name, find.byIcon(PhosphorIconsBold.plus)),
       Duration.zero,
     );
-    expect(inCard(name, find.byIcon(Icons.add_rounded)), findsOneWidget);
+    expect(inCard(name, find.byIcon(PhosphorIconsBold.plus)), findsOneWidget);
     expect(inCard(name, find.byType(QuantityStepper)), findsOneWidget);
 
     await tapAndWait(
       tester,
-      inCard(name, find.byIcon(Icons.add_rounded)),
+      inCard(name, find.byIcon(PhosphorIconsBold.plus)),
       Duration.zero,
     );
     expect(inCard(name, find.text('1')), findsNothing);

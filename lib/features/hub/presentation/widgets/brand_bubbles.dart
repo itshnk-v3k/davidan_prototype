@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -199,7 +200,7 @@ class _OpenArrow extends StatelessWidget {
         border: Border.all(color: _frostBorder),
       ),
       child: const Icon(
-        Icons.arrow_forward_rounded,
+        PhosphorIconsBold.arrowRight,
         color: Colors.white,
         size: 16,
       ),

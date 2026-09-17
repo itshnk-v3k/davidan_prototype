@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
@@ -23,7 +24,7 @@ class FavoriteToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppIconButton(
-      icon: favorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+      icon: favorite ? PhosphorIconsFill.heart : PhosphorIconsRegular.heart,
       iconColor: favorite ? context.colors.primary : context.colors.textPrimary,
       size: size,
       semanticLabel: favorite

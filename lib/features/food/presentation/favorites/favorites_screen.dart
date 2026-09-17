@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -36,7 +37,7 @@ class FavoritesScreen extends ConsumerWidget {
             Expanded(
               child: products.isEmpty
                   ? EmptyState(
-                      icon: Icons.favorite_border_rounded,
+                      icon: PhosphorIconsRegular.heart,
                       title: context.l10n.favoritesEmptyTitle,
                       message: context.l10n.favoritesEmptyMessage,
                       actionLabel: context.l10n.backHome,

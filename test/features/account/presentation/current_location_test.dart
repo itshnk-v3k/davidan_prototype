@@ -7,6 +7,7 @@ library;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/location/location_result.dart';
@@ -80,7 +81,7 @@ void main() {
       );
 
       await tester.tap(
-        inScreen<HubHomeScreen>(find.byIcon(Icons.close_rounded)),
+        inScreen<HubHomeScreen>(find.byIcon(PhosphorIconsRegular.x)),
       );
       await tester.pumpAndSettle();
 

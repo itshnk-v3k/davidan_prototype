@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -71,8 +72,8 @@ class OptionTile extends StatelessWidget {
                 const SizedBox(width: AppSpacing.sm),
                 Icon(
                   selected
-                      ? Icons.radio_button_checked_rounded
-                      : Icons.radio_button_unchecked_rounded,
+                      ? PhosphorIconsFill.radioButton
+                      : PhosphorIconsRegular.circle,
                   size: 22,
                   color: selected
                       ? context.colors.primary

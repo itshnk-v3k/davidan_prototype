@@ -8,6 +8,7 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
@@ -38,7 +39,7 @@ void main() {
       'underneath', (tester) async {
     container.read(cartProvider(Brand.bakery).notifier).add('americano');
     await pumpApp(tester, container, Routes.brandCart(Brand.bakery));
-    final minus = stepperIcon(Icons.remove_rounded);
+    final minus = stepperIcon(PhosphorIconsBold.minus);
 
     final press = await tester.startGesture(tester.getCenter(minus));
     await tester.pump(pressed);
@@ -64,7 +65,7 @@ void main() {
 
     final add = find.descendant(
       of: card,
-      matching: find.byIcon(Icons.add_rounded),
+      matching: find.byIcon(PhosphorIconsBold.plus),
     );
     final addCenter = tester.getCenter(add);
     await tester.tap(add);
@@ -72,7 +73,7 @@ void main() {
 
     final plus = find.descendant(
       of: find.descendant(of: card, matching: find.byType(QuantityStepper)),
-      matching: find.byIcon(Icons.add_rounded),
+      matching: find.byIcon(PhosphorIconsBold.plus),
     );
     expect(tester.getCenter(plus).dx, closeTo(addCenter.dx, 0.5));
     expect(tester.getCenter(plus).dy, closeTo(addCenter.dy, 0.5));

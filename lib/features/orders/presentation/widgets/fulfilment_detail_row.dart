@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/data/models/order.dart';
@@ -18,12 +19,12 @@ class FulfilmentDetailRow extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return switch (fulfilment) {
       final HomeDelivery delivery => DetailRow(
-        icon: Icons.delivery_dining_rounded,
+        icon: PhosphorIconsRegular.moped,
         label: context.l10n.deliverTo,
         value: context.l10n.customerDeliveryAddressText(delivery),
       ),
       StorePickup(:final locationId) => DetailRow(
-        icon: Icons.storefront_rounded,
+        icon: PhosphorIconsRegular.storefront,
         label: context.l10n.pickupFrom,
         value: switch (ref.watch(locationByIdProvider(locationId))) {
           final location? => '${location.name} · ${location.address}',

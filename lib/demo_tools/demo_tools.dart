@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/demo_tools/all_roles_screen.dart';
@@ -15,7 +15,7 @@ final List<ExtraApp> demoTools = [
     // Internal, so Romanian only.
     title: (_) => DemoToolStrings.allRolesTitle,
     hint: (_) => DemoToolStrings.allRolesHint,
-    icon: Icons.view_column_rounded,
+    icon: PhosphorIconsRegular.columns,
     location: AllRolesScreen.path,
     windowRoutes: [
       GoRoute(

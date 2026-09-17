@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -106,7 +107,7 @@ class CarDetailScreen extends ConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Icon(
-                                    Icons.badge_rounded,
+                                    PhosphorIconsRegular.identificationCard,
                                     size: 20,
                                     color: context.colors.primary,
                                   ),
@@ -146,7 +147,7 @@ class CarDetailScreen extends ConsumerWidget {
             ),
             child: AppButton(
               label: l10n.rentalRequestAction,
-              icon: Icons.event_available_rounded,
+              icon: PhosphorIconsRegular.calendarCheck,
               onPressed: () => context.push(Routes.rentalRequest(car.id)),
             ),
           ),
@@ -265,7 +266,11 @@ class _FeatureTag extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.check_rounded, size: 14, color: context.colors.primary),
+            Icon(
+              PhosphorIconsBold.check,
+              size: 14,
+              color: context.colors.primary,
+            ),
             const SizedBox(width: AppSpacing.xs),
             Flexible(child: Text(label, style: context.textStyles.label)),
           ],

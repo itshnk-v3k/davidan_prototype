@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -77,7 +78,7 @@ class SignInPhoneScreen extends ConsumerWidget {
                       labelText: context.l10n.phoneLabel,
                       hintText: context.l10n.phoneHint,
                       prefixText: '${MoldovanPhone.prefix} ',
-                      prefixIcon: const Icon(Icons.smartphone_rounded),
+                      prefixIcon: const Icon(PhosphorIconsRegular.deviceMobile),
                       errorText: draft.showPhoneError && !draft.phoneValid
                           ? context.l10n.phoneInvalid
                           : null,

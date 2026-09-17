@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/widgets/setting_selector.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -24,17 +25,17 @@ class ThemeModeSelector extends StatelessWidget {
       options: [
         (
           value: ThemeMode.dark,
-          icon: const Icon(Icons.dark_mode_rounded),
+          icon: const Icon(PhosphorIconsRegular.moon),
           label: l10n.themeDark,
         ),
         (
           value: ThemeMode.light,
-          icon: const Icon(Icons.light_mode_rounded),
+          icon: const Icon(PhosphorIconsRegular.sun),
           label: l10n.themeLight,
         ),
         (
           value: ThemeMode.system,
-          icon: const Icon(Icons.smartphone_rounded),
+          icon: const Icon(PhosphorIconsRegular.deviceMobile),
           label: l10n.themeSystem,
         ),
       ],

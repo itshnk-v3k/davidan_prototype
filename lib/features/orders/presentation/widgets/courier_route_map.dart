@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -63,7 +64,9 @@ class CourierRouteMap extends StatelessWidget {
             Row(
               children: [
                 Icon(
-                  arrived ? Icons.check_circle_rounded : Icons.schedule_rounded,
+                  arrived
+                      ? PhosphorIconsFill.checkCircle
+                      : PhosphorIconsRegular.clock,
                   size: 18,
                   color: context.colors.primary,
                 ),
@@ -136,12 +139,12 @@ class _MapView extends StatelessWidget {
             _centeredOn(
               at(CourierRouteMap._route.first),
               _pinSize,
-              const _Pin(icon: Icons.storefront_rounded),
+              const _Pin(icon: PhosphorIconsFill.storefront),
             ),
             _centeredOn(
               at(CourierRouteMap._route.last),
               _pinSize,
-              const _Pin(icon: Icons.home_rounded),
+              const _Pin(icon: PhosphorIconsFill.house),
             ),
             _centeredOn(courier, _courierSize, const _CourierMarker()),
           ],
@@ -251,7 +254,7 @@ class _CourierMarker extends StatelessWidget {
         ],
       ),
       child: Icon(
-        Icons.delivery_dining_rounded,
+        PhosphorIconsFill.moped,
         size: 20,
         color: context.colors.onPrimary,
       ),

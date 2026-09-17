@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_motion.dart';
@@ -75,7 +76,7 @@ class _Placeholder extends StatelessWidget {
       color: context.colors.accentSoft,
       child: Center(
         child: Icon(
-          Icons.restaurant_rounded,
+          PhosphorIconsRegular.forkKnife,
           size: 32,
           color: context.colors.primary,
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -116,7 +117,7 @@ class _ActiveRequestCard extends ConsumerWidget {
                   shape: BoxShape.circle,
                 ),
                 child: image == null
-                    ? Icon(Icons.directions_car_rounded, color: colors.primary)
+                    ? Icon(PhosphorIconsRegular.car, color: colors.primary)
                     : Image.asset(image, fit: BoxFit.cover),
               ),
               const SizedBox(width: AppSpacing.md),

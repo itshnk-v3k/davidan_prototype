@@ -6,6 +6,7 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
@@ -94,7 +95,7 @@ void main() {
     expect(find.byType(HubHomeScreen), findsOneWidget);
 
     await pumpApp(tester, container, Routes.clientOrder(order.id));
-    await tester.tap(find.byIcon(Icons.close_rounded));
+    await tester.tap(find.byIcon(PhosphorIconsRegular.x));
     await tester.pumpAndSettle();
     expect(find.byType(HubHomeScreen), findsOneWidget);
   });

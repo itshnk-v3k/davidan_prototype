@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -100,7 +101,7 @@ class ProductDetailScreen extends ConsumerWidget {
                       top: buttonsTop,
                       left: AppSpacing.gutter - margin,
                       child: AppIconButton(
-                        icon: Icons.arrow_back_rounded,
+                        icon: PhosphorIconsRegular.arrowLeft,
                         semanticLabel: context.l10n.back,
                         onPressed: goBack,
                       ),
@@ -213,7 +214,7 @@ class _ProductInfo extends StatelessWidget {
             if (inCartCount > 0)
               _Pill(
                 label: context.l10n.inCart(inCartCount),
-                icon: Icons.shopping_bag_rounded,
+                icon: PhosphorIconsRegular.handbag,
                 color: InfoNote.fillOf(context.colors),
                 style: context.textStyles.label,
               ),
@@ -373,14 +374,14 @@ class _ProductNotFound extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: AppIconButton(
-                  icon: Icons.arrow_back_rounded,
+                  icon: PhosphorIconsRegular.arrowLeft,
                   semanticLabel: context.l10n.back,
                   onPressed: onBack,
                 ),
               ),
               const Spacer(),
               Icon(
-                Icons.search_off_rounded,
+                PhosphorIconsRegular.smileyMeh,
                 size: 48,
                 color: context.colors.primary,
               ),

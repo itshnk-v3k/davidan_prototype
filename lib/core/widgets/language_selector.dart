@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/widgets/setting_selector.dart';
 import 'package:davidan_prototype/l10n/app_language.dart';
@@ -33,7 +34,7 @@ class LanguageSelector extends StatelessWidget {
         (value: AppLanguage.ru, icon: const Text('RU'), label: russian),
         (
           value: AppLanguage.system,
-          icon: const Icon(Icons.smartphone_rounded),
+          icon: const Icon(PhosphorIconsRegular.deviceMobile),
           label: l10n.languageSystem,
         ),
       ],

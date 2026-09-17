@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_assets.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -154,7 +155,7 @@ class _ButtonRow extends StatelessWidget {
         child: Row(
           children: [
             AppIconButton(
-              icon: Icons.arrow_back_rounded,
+              icon: PhosphorIconsRegular.arrowLeft,
               semanticLabel: context.l10n.backHome,
               onPressed: onBack,
             ),

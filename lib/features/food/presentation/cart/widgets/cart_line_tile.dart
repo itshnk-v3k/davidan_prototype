@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -156,7 +157,7 @@ class _RemoveButton extends StatelessWidget {
           child: SizedBox.square(
             dimension: TapTarget.min,
             child: Icon(
-              Icons.delete_outline_rounded,
+              PhosphorIconsRegular.trash,
               size: 20,
               color: context.colors.textSecondary,
             ),

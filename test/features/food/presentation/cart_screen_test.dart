@@ -6,6 +6,7 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
@@ -72,7 +73,7 @@ void main() {
     expect(total('69 lei'), findsOneWidget);
 
     await tester.tap(
-      inLine('Croissant cu ciocolată', find.byIcon(Icons.add_rounded)),
+      inLine('Croissant cu ciocolată', find.byIcon(PhosphorIconsBold.plus)),
     );
     await tester.pump();
     expect(
@@ -81,7 +82,7 @@ void main() {
     );
     expect(total('88 lei'), findsOneWidget);
 
-    await tester.tap(inLine('Coca Cola', find.byIcon(Icons.remove_rounded)));
+    await tester.tap(inLine('Coca Cola', find.byIcon(PhosphorIconsBold.minus)));
     await tester.pump();
     expect(
       container.read(cartQuantitiesProvider(Brand.bakery))['coca-cola'],
@@ -90,7 +91,7 @@ void main() {
     expect(total('63 lei'), findsOneWidget);
 
     // At 1 the minus button is disabled: removing is the bin button's job.
-    await tester.tap(inLine('Coca Cola', find.byIcon(Icons.remove_rounded)));
+    await tester.tap(inLine('Coca Cola', find.byIcon(PhosphorIconsBold.minus)));
     await tester.pump();
     expect(
       container.read(cartQuantitiesProvider(Brand.bakery))['coca-cola'],
@@ -98,7 +99,7 @@ void main() {
     );
 
     await tester.tap(
-      inLine('Coca Cola', find.byIcon(Icons.delete_outline_rounded)),
+      inLine('Coca Cola', find.byIcon(PhosphorIconsRegular.trash)),
     );
     await tester.pump();
     expect(find.widgetWithText(CartLineTile, 'Coca Cola'), findsNothing);
@@ -108,10 +109,7 @@ void main() {
     expect(total('38 lei'), findsOneWidget);
 
     await tester.tap(
-      inLine(
-        'Croissant cu ciocolată',
-        find.byIcon(Icons.delete_outline_rounded),
-      ),
+      inLine('Croissant cu ciocolată', find.byIcon(PhosphorIconsRegular.trash)),
     );
     await tester.pump();
     expect(find.text(ro.cartEmptyTitle), findsOneWidget);
@@ -128,7 +126,7 @@ void main() {
     expect(find.byType(CheckoutScreen), findsOneWidget);
 
     await tester.tap(
-      inScreen<CheckoutScreen>(find.byIcon(Icons.arrow_back_rounded)),
+      inScreen<CheckoutScreen>(find.byIcon(PhosphorIconsRegular.arrowLeft)),
     );
     await tester.pumpAndSettle();
     expect(find.byType(CheckoutScreen), findsNothing);

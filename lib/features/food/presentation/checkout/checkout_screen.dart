@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -106,7 +107,7 @@ class CheckoutScreen extends ConsumerWidget {
                         children: [
                           AppChip(
                             label: context.l10n.asSoonAsPossible,
-                            icon: Icons.bolt_rounded,
+                            icon: PhosphorIconsRegular.lightning,
                             selected: draft.scheduledFor == null,
                             onTap: () => checkout().setTime(null),
                           ),
@@ -135,8 +136,9 @@ class CheckoutScreen extends ConsumerWidget {
                           child: OptionTile(
                             title: context.l10n.paymentMethod(method),
                             icon: switch (method) {
-                              PaymentMethod.cash => Icons.payments_rounded,
-                              PaymentMethod.card => Icons.credit_card_rounded,
+                              PaymentMethod.cash => PhosphorIconsRegular.money,
+                              PaymentMethod.card =>
+                                PhosphorIconsRegular.creditCard,
                             },
                             selected: method == draft.payment,
                             onTap: () => checkout().setPayment(method),
@@ -253,7 +255,7 @@ class _PinnedLocationCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             DetailRow(
-              icon: Icons.my_location_rounded,
+              icon: PhosphorIconsRegular.navigationArrow,
               label: context.l10n.deliverToCurrentLocation,
               value: context.l10n.areaName(sectorAt(pinned.point)),
             ),
@@ -321,7 +323,7 @@ class _EmptyCheckout extends StatelessWidget {
             ScreenHeader(title: context.l10n.checkoutTitle, onBack: onBack),
             Expanded(
               child: EmptyState(
-                icon: Icons.shopping_bag_rounded,
+                icon: PhosphorIconsRegular.handbag,
                 title: context.l10n.cartEmptyTitle,
                 message: context.l10n.cartEmptyMessage,
                 actionLabel: context.l10n.browseMenu,

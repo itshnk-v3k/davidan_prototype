@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/toast/toast_notifier.dart';
@@ -33,7 +34,7 @@ class ToastHost extends ConsumerWidget {
                   ? null
                   : TopNotice(
                       key: ValueKey(toast.id),
-                      icon: Icons.check_circle_rounded,
+                      icon: PhosphorIconsFill.checkCircle,
                       message: toast.message,
                       brand: toast.brand,
                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -120,7 +121,7 @@ class AllRolesScreen extends ConsumerWidget {
                     ),
                   AppChip(
                     label: DemoToolStrings.testDelivery,
-                    icon: Icons.add_rounded,
+                    icon: PhosphorIconsBold.plus,
                     selected: false,
                     onTap: () => placeTestOrder(
                       const HomeDelivery(address: _testAddress),
@@ -128,7 +129,7 @@ class AllRolesScreen extends ConsumerWidget {
                   ),
                   AppChip(
                     label: DemoToolStrings.testPickup,
-                    icon: Icons.add_rounded,
+                    icon: PhosphorIconsBold.plus,
                     selected: false,
                     onTap: () => placeTestOrder(
                       StorePickup(
@@ -243,7 +244,7 @@ class _NoOrder extends StatelessWidget {
     return ColoredBox(
       color: context.colors.background,
       child: const EmptyState(
-        icon: Icons.receipt_long_rounded,
+        icon: PhosphorIconsRegular.receipt,
         title: DemoToolStrings.noOrderTitle,
         message: DemoToolStrings.noOrderMessage,
       ),

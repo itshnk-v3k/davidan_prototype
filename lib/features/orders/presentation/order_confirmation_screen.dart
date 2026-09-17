@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -38,7 +39,7 @@ class OrderConfirmationScreen extends ConsumerWidget {
         backgroundColor: context.colors.background,
         body: SafeArea(
           child: EmptyState(
-            icon: Icons.receipt_long_rounded,
+            icon: PhosphorIconsRegular.receipt,
             title: context.l10n.orderNotFound,
             actionLabel: context.l10n.backHome,
             onAction: goHome,
@@ -59,7 +60,7 @@ class OrderConfirmationScreen extends ConsumerWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: AppIconButton(
-                icon: Icons.close_rounded,
+                icon: PhosphorIconsRegular.x,
                 semanticLabel: context.l10n.backHome,
                 onPressed: goHome,
               ),
@@ -74,7 +75,7 @@ class OrderConfirmationScreen extends ConsumerWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
-                  Icons.check_rounded,
+                  PhosphorIconsBold.check,
                   size: 48,
                   color: context.colors.primary,
                 ),
@@ -114,7 +115,7 @@ class OrderConfirmationScreen extends ConsumerWidget {
                     FulfilmentDetailRow(fulfilment: order.fulfilment),
                     const SizedBox(height: AppSpacing.md),
                     DetailRow(
-                      icon: Icons.schedule_rounded,
+                      icon: PhosphorIconsRegular.clock,
                       label: context.l10n.orderTime,
                       value: scheduledFor == null
                           ? context.l10n.asSoonAsPossible
@@ -122,7 +123,7 @@ class OrderConfirmationScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: AppSpacing.md),
                     DetailRow(
-                      icon: Icons.payments_rounded,
+                      icon: PhosphorIconsRegular.money,
                       label: context.l10n.paymentTitle,
                       value: context.l10n.paymentMethod(order.payment),
                     ),

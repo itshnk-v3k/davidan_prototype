@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -59,7 +60,7 @@ class ProfileScreen extends ConsumerWidget {
                             children: [
                               Expanded(
                                 child: EmptyState(
-                                  icon: Icons.lock_outline_rounded,
+                                  icon: PhosphorIconsRegular.lockSimple,
                                   title: context.l10n.accountLockedTitle,
                                   message: context.l10n.accountLockedMessage,
                                   actionLabel: context.l10n.signInTitle,
@@ -101,7 +102,7 @@ class ProfileScreen extends ConsumerWidget {
                         const SizedBox(height: AppSpacing.xl),
                         AppButton(
                           label: context.l10n.signOut,
-                          icon: Icons.logout_rounded,
+                          icon: PhosphorIconsRegular.signOut,
                           variant: AppButtonVariant.secondary,
                           onPressed: () async {
                             final l10n = context.l10n;
@@ -144,7 +145,7 @@ class _ProfileSections extends ConsumerWidget {
         const SizedBox(height: AppSpacing.md),
         for (final brand in brandInfos.keys) ...[
           LinkCard(
-            icon: Icons.info_outline_rounded,
+            icon: PhosphorIconsRegular.info,
             title: context.content.introOf(brand).name,
             hint: context.l10n.profileBrandInfoHint,
             onTap: () => context.push(
@@ -168,7 +169,7 @@ class _ProfileSections extends ConsumerWidget {
         const SizedBox(height: AppSpacing.md),
         AppButton(
           label: context.l10n.resetDemoData,
-          icon: Icons.restart_alt_rounded,
+          icon: PhosphorIconsRegular.arrowsCounterClockwise,
           variant: AppButtonVariant.secondary,
           onPressed: () async {
             await ref.read(demoResetProvider.notifier).reset();

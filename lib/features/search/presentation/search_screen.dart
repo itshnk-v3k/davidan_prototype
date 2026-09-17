@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -63,7 +64,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     final Widget results;
     if (searchWords(_text).isEmpty) {
       results = EmptyState(
-        icon: Icons.search_rounded,
+        icon: PhosphorIconsRegular.magnifyingGlass,
         title: context.l10n.searchPromptTitle,
         message: brand == null
             ? context.l10n.searchPromptHub
@@ -71,7 +72,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       );
     } else if (products.isEmpty && cars.isEmpty) {
       results = EmptyState(
-        icon: Icons.search_off_rounded,
+        icon: PhosphorIconsRegular.smileyMeh,
         title: context.l10n.searchNoResultsTitle,
         message: context.l10n.searchNoResultsMessage(_text.trim()),
       );
@@ -125,7 +126,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               child: Row(
                 children: [
                   AppIconButton(
-                    icon: Icons.arrow_back_rounded,
+                    icon: PhosphorIconsRegular.arrowLeft,
                     semanticLabel: context.l10n.back,
                     onPressed: () => context.pop(),
                   ),
@@ -162,7 +163,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               right: AppSpacing.md,
                             ),
                             child: Icon(
-                              Icons.search_rounded,
+                              PhosphorIconsRegular.magnifyingGlass,
                               size: 22,
                               color: colors.primary,
                             ),
@@ -171,7 +172,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           suffixIcon: _text.isEmpty
                               ? null
                               : IconButton(
-                                  icon: const Icon(Icons.close_rounded),
+                                  icon: const Icon(PhosphorIconsRegular.x),
                                   color: colors.textSecondary,
                                   tooltip: context.l10n.searchClear,
                                   onPressed: _clear,

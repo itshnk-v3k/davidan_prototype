@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -115,7 +116,7 @@ class ChisinauMap extends StatelessWidget {
                         width: _pinSize,
                         height: _pinSize,
                         child: Icon(
-                          Icons.location_on_rounded,
+                          PhosphorIconsFill.mapPin,
                           size: _pinSize,
                           color: context.colors.primary,
                         ),
@@ -183,7 +184,7 @@ class _ShopPin extends StatelessWidget {
         border: Border.all(color: context.colors.primary, width: 2),
       ),
       child: Icon(
-        Icons.storefront_rounded,
+        PhosphorIconsFill.storefront,
         size: 16,
         color: context.colors.primary,
       ),

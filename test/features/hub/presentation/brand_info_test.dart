@@ -7,6 +7,7 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
@@ -32,7 +33,7 @@ void main() {
     await tester.tap(
       find.descendant(
         of: find.byType(screen),
-        matching: find.byIcon(Icons.arrow_back_rounded),
+        matching: find.byIcon(PhosphorIconsRegular.arrowLeft),
       ),
     );
     await tester.pumpAndSettle();

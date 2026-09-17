@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -140,9 +141,7 @@ class RentalRequestScreen extends ConsumerWidget {
                           style: context.textStyles.body,
                           decoration: InputDecoration(
                             labelText: l10n.nameLabel,
-                            prefixIcon: const Icon(
-                              Icons.person_outline_rounded,
-                            ),
+                            prefixIcon: const Icon(PhosphorIconsRegular.user),
                             errorText: draft.showErrors && draft.nameMissing
                                 ? l10n.nameMissing
                                 : null,
@@ -160,7 +159,9 @@ class RentalRequestScreen extends ConsumerWidget {
                             labelText: l10n.phoneLabel,
                             hintText: l10n.phoneHint,
                             prefixText: '${MoldovanPhone.prefix} ',
-                            prefixIcon: const Icon(Icons.smartphone_rounded),
+                            prefixIcon: const Icon(
+                              PhosphorIconsRegular.deviceMobile,
+                            ),
                             errorText: draft.showErrors && !draft.phoneValid
                                 ? l10n.phoneInvalid
                                 : null,
@@ -191,14 +192,14 @@ class RentalRequestScreen extends ConsumerWidget {
                           RentalQuoteCard(quote: quote)
                         else
                           InfoNote(
-                            icon: Icons.event_busy_rounded,
+                            icon: PhosphorIconsRegular.calendarX,
                             text: draft.pickupPassed
                                 ? l10n.rentalPickupPassed
                                 : l10n.rentalReturnNotAfterPickup,
                           ),
                         const SizedBox(height: AppSpacing.md),
                         InfoNote(
-                          icon: Icons.phone_in_talk_rounded,
+                          icon: PhosphorIconsRegular.phoneCall,
                           text: l10n.rentalNoPaymentNote,
                         ),
                       ],
@@ -304,8 +305,8 @@ class _PlaceAndTime extends StatelessWidget {
               AppChip(
                 label: context.l10n.rentalLocation(place),
                 icon: switch (place) {
-                  RentalLocation.airport => Icons.flight_rounded,
-                  RentalLocation.chisinau => Icons.location_city_rounded,
+                  RentalLocation.airport => PhosphorIconsRegular.airplane,
+                  RentalLocation.chisinau => PhosphorIconsRegular.buildings,
                 },
                 selected: place == location,
                 onTap: () => onLocationChanged(place),
@@ -396,7 +397,7 @@ class _DateField extends StatelessWidget {
         isEmpty: false,
         decoration: InputDecoration(
           labelText: context.l10n.rentalDateLabel,
-          prefixIcon: const Icon(Icons.calendar_today_rounded),
+          prefixIcon: const Icon(PhosphorIconsRegular.calendarBlank),
           enabledBorder: hasError
               ? OutlineInputBorder(
                   borderRadius: BorderRadius.circular(AppRadii.md),
@@ -435,6 +436,7 @@ class _TimeField extends StatelessWidget {
       menuMaxHeight: 320,
       style: context.textStyles.body,
       dropdownColor: context.colors.surface,
+      icon: const Icon(PhosphorIconsBold.caretDown, size: 18),
       decoration: InputDecoration(labelText: context.l10n.rentalTimeLabel),
       items: [
         for (var slot = 0; slot < 24 * 60; slot += _step)
@@ -487,8 +489,8 @@ class _ExtraTile extends StatelessWidget {
               children: [
                 Icon(
                   selected
-                      ? Icons.check_box_rounded
-                      : Icons.check_box_outline_blank_rounded,
+                      ? PhosphorIconsFill.checkSquare
+                      : PhosphorIconsRegular.square,
                   size: 22,
                   color: selected
                       ? context.colors.primary

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -191,7 +192,7 @@ class QuantityStepper extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             RoundIconButton(
-              icon: Icons.remove_rounded,
+              icon: PhosphorIconsBold.minus,
               filled: false,
               semanticLabel: decrementLabel,
               onTap: onDecrement,
@@ -199,7 +200,7 @@ class QuantityStepper extends StatelessWidget {
             ),
             SizedBox(width: countWidth - 2 * margin),
             RoundIconButton(
-              icon: Icons.add_rounded,
+              icon: PhosphorIconsBold.plus,
               semanticLabel: incrementLabel,
               onTap: onIncrement,
               size: buttonSize,

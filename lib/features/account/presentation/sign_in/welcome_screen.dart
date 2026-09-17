@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -27,7 +28,7 @@ class WelcomeScreen extends ConsumerWidget {
         backgroundColor: context.colors.background,
         body: SafeArea(
           child: EmptyState(
-            icon: Icons.lock_outline_rounded,
+            icon: PhosphorIconsRegular.lockSimple,
             title: context.l10n.accountLockedTitle,
             message: context.l10n.accountLockedMessage,
             actionLabel: context.l10n.signInTitle,
@@ -54,7 +55,7 @@ class WelcomeScreen extends ConsumerWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
-                  Icons.waving_hand_rounded,
+                  PhosphorIconsRegular.handWaving,
                   size: 44,
                   color: context.colors.primary,
                 ),

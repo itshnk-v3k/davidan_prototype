@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -89,14 +90,14 @@ class OrdersScreen extends ConsumerWidget {
             Expanded(
               child: switch ((account, requests)) {
                 (null, _) => EmptyState(
-                  icon: Icons.lock_outline_rounded,
+                  icon: PhosphorIconsRegular.lockSimple,
                   title: context.l10n.accountLockedTitle,
                   message: context.l10n.accountLockedMessage,
                   actionLabel: context.l10n.signInTitle,
                   onAction: () => context.push(Routes.signIn),
                 ),
                 (_, []) => EmptyState(
-                  icon: Icons.receipt_long_rounded,
+                  icon: PhosphorIconsRegular.receipt,
                   title: context.l10n.ordersEmptyTitle,
                   message: context.l10n.ordersEmptyMessage,
                   actionLabel: context.l10n.backHome,
@@ -151,7 +152,7 @@ class OrdersScreen extends ConsumerWidget {
                                   booking: booking,
                                 ),
                                 details: DetailRow(
-                                  icon: Icons.directions_car_rounded,
+                                  icon: PhosphorIconsRegular.car,
                                   label:
                                       ref
                                           .watch(

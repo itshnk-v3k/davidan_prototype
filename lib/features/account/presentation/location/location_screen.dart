@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -98,7 +99,7 @@ class LocationScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   LinkCard(
-                    icon: Icons.my_location_rounded,
+                    icon: PhosphorIconsRegular.navigationArrow,
                     title: context.l10n.useCurrentLocation,
                     hint: locating
                         ? context.l10n.locating
@@ -204,7 +205,7 @@ class _RecentAddresses extends StatelessWidget {
               padding: const EdgeInsets.only(top: AppSpacing.md),
               child: OptionTile(
                 title: address,
-                icon: Icons.history_rounded,
+                icon: PhosphorIconsRegular.clockCounterClockwise,
                 selected: address == selected,
                 onTap: () => onSelected(address),
               ),

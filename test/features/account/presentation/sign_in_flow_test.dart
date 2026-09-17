@@ -6,6 +6,7 @@ library;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/location/location_result.dart';
@@ -68,7 +69,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(SignInPhoneScreen), findsOneWidget);
-      expect(find.byIcon(Icons.arrow_back_rounded), findsNothing);
+      expect(find.byIcon(PhosphorIconsRegular.arrowLeft), findsNothing);
 
       await tapVisible(tester, find.text(ro.signInLater));
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
@@ -223,7 +224,7 @@ class _CallToAction extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppSpacing.xs),
-          Icon(Icons.arrow_forward_rounded, size: 18, color: colors.onPrimary),
+          Icon(PhosphorIconsBold.arrowRight, size: 18, color: colors.onPrimary),
         ],
       ),
     );

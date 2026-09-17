@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/location/location_result.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
@@ -65,7 +66,7 @@ class SignInDetailsScreen extends ConsumerWidget {
                     style: context.textStyles.body,
                     decoration: InputDecoration(
                       labelText: context.l10n.nameLabel,
-                      prefixIcon: const Icon(Icons.person_outline_rounded),
+                      prefixIcon: const Icon(PhosphorIconsRegular.user),
                       errorText: draft.showDetailsErrors && draft.nameMissing
                           ? context.l10n.nameMissing
                           : null,
@@ -154,7 +155,7 @@ class _LocateSection extends StatelessWidget {
           label: draft.locating
               ? context.l10n.locating
               : context.l10n.useMyLocationForShop,
-          icon: Icons.my_location_rounded,
+          icon: PhosphorIconsRegular.navigationArrow,
           variant: AppButtonVariant.secondary,
           onPressed: draft.locating ? () {} : onLocate,
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
@@ -29,7 +30,7 @@ class DemoLauncherScreen extends ConsumerWidget {
     final l10n = context.l10n;
     final roles = [
       (
-        icon: Icons.shopping_bag_rounded,
+        icon: PhosphorIconsRegular.handbag,
         title: l10n.launcherClient,
         hint: l10n.launcherClientHint,
         location: Routes.clientSplash,
@@ -85,7 +86,7 @@ class DemoLauncherScreen extends ConsumerWidget {
             const SizedBox(height: AppSpacing.xl),
             AppButton(
               label: l10n.resetDemoData,
-              icon: Icons.restart_alt_rounded,
+              icon: PhosphorIconsRegular.arrowsCounterClockwise,
               variant: AppButtonVariant.secondary,
               onPressed: () async {
                 await ref.read(demoResetProvider.notifier).reset();

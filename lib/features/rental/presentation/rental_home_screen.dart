@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -57,7 +58,7 @@ class _RentalHomeScreenState extends ConsumerState<RentalHomeScreen> {
             onBack: () => context.pop(),
             actions: [
               AppIconButton(
-                icon: Icons.info_rounded,
+                icon: PhosphorIconsRegular.info,
                 semanticLabel: context.l10n.openBrandInfo(info.name),
                 onPressed: () =>
                     context.push(Routes.brandInfo(Brand.carRental)),
@@ -79,7 +80,7 @@ class _RentalHomeScreenState extends ConsumerState<RentalHomeScreen> {
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 InfoNote(
-                  icon: Icons.sell_rounded,
+                  icon: PhosphorIconsRegular.tag,
                   text: context.l10n.rentalFleetHint(
                     context.l10n.formatEuro(RentalTerms.locationFeeEur),
                   ),
