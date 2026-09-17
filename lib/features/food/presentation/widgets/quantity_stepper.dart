@@ -1,15 +1,17 @@
+import 'dart:math' as math;
+
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
-import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
-import 'package:davidan_prototype/core/widgets/press_scale.dart';
+import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 
 /// Round icon button: solid caramel when [filled] ("add"), a caramel tint
-/// otherwise ("remove"). It shrinks while pressed and ticks on phones that
-/// support haptics. A null [onTap] renders it disabled.
+/// otherwise ("remove"). It ticks on phones that support haptics. A null
+/// [onTap] renders it disabled. It looks [size] big
+/// and takes taps in [TapTarget.min].
 class RoundIconButton extends StatelessWidget {
   const RoundIconButton({
     super.key,
@@ -50,35 +52,37 @@ class RoundIconButton extends StatelessWidget {
       child: GestureDetector(
         onTap: enabled ? null : () {},
         excludeFromSemantics: true,
-        child: PressScale(
-          scale: AppMotion.pressedScaleButton,
-          builder: (onHighlightChanged) => DecoratedBox(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              boxShadow: filled && enabled
-                  ? [
-                      BoxShadow(
-                        color: colors.shadow,
-                        blurRadius: 6,
-                        offset: const Offset(0, 2),
-                      ),
-                    ]
-                  : null,
-            ),
-            child: Material(
-              color: background,
-              shape: const CircleBorder(),
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
-                onTap: onTap == null
-                    ? null
-                    : () {
-                        HapticFeedback.selectionClick();
-                        onTap();
-                      },
-                onHighlightChanged: onHighlightChanged,
-                child: SizedBox.square(
-                  dimension: size,
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkResponse(
+            onTap: onTap == null
+                ? null
+                : () {
+                    HapticFeedback.selectionClick();
+                    onTap();
+                  },
+            // The ripple fills the visible circle only.
+            radius: size / 2,
+            child: SizedBox.square(
+              dimension: math.max(size, TapTarget.min),
+              child: Center(
+                // Painted on the Material, so the ripple shows above it.
+                child: Ink(
+                  width: size,
+                  height: size,
+                  decoration: ShapeDecoration(
+                    color: background,
+                    shape: const CircleBorder(),
+                    shadows: filled && enabled
+                        ? [
+                            BoxShadow(
+                              color: colors.shadow,
+                              blurRadius: 6,
+                              offset: const Offset(0, 2),
+                            ),
+                          ]
+                        : null,
+                  ),
                   child: Icon(icon, size: size * 0.62, color: foreground),
                 ),
               ),
@@ -102,6 +106,7 @@ class QuantityStepper extends StatelessWidget {
     required this.incrementLabel,
     required this.decrementLabel,
     this.buttonSize = 32,
+    this.raised = false,
   });
 
   final int quantity;
@@ -113,10 +118,19 @@ class QuantityStepper extends StatelessWidget {
   /// The stepper is this plus twice [inset] tall.
   final double buttonSize;
 
-  /// Space between the track's edge and its buttons. A card's add button
-  /// keeps the same space around it, so the stepper's plus appears exactly
-  /// where the add button was.
+  /// Casts a shadow, for a stepper over a photo.
+  final bool raised;
+
+  /// Space between the track's edge and its buttons, as they look. A card's
+  /// add button keeps the same space around it, so the stepper's plus appears
+  /// exactly where the add button was.
   static const inset = 3.0;
+
+  /// How far the stepper's tap area reaches past its pill on each side, left
+  /// and right (the pill is [buttonSize] plus twice [inset] tall; the stepper
+  /// is at least [TapTarget.min]).
+  static double outsetFor(double buttonSize) =>
+      TapTarget.marginFor(buttonSize) - inset;
 
   /// Share of caramel in the minus button's tint.
   static const _tintShare = 0.16;
@@ -141,14 +155,39 @@ class QuantityStepper extends StatelessWidget {
               fontFeatures: const [FontFeature.tabularFigures()],
             );
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: paletteFor(context.colors).track,
-        borderRadius: BorderRadius.circular(AppRadii.pill),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(inset),
-        child: Row(
+    // The buttons take taps in TapTarget.min, more than they show. Their clear
+    // margins overlap the pill's ends and the number, so the pill is drawn
+    // behind them at the size it looks, and the number on top lets taps
+    // through.
+    final margin = TapTarget.marginFor(buttonSize);
+    final countWidth = buttonSize * 0.8;
+    final pillInset = outsetFor(buttonSize);
+
+    return Stack(
+      alignment: Alignment.center,
+      clipBehavior: Clip.none,
+      children: [
+        Positioned(
+          left: pillInset,
+          right: pillInset,
+          child: Container(
+            height: buttonSize + 2 * inset,
+            decoration: BoxDecoration(
+              color: paletteFor(context.colors).track,
+              borderRadius: BorderRadius.circular(AppRadii.pill),
+              boxShadow: raised
+                  ? [
+                      BoxShadow(
+                        color: context.colors.shadow,
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                  : null,
+            ),
+          ),
+        ),
+        Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             RoundIconButton(
@@ -158,11 +197,7 @@ class QuantityStepper extends StatelessWidget {
               onTap: onDecrement,
               size: buttonSize,
             ),
-            _RollingCount(
-              quantity: quantity,
-              width: buttonSize * 0.8,
-              style: numberStyle,
-            ),
+            SizedBox(width: countWidth - 2 * margin),
             RoundIconButton(
               icon: Icons.add_rounded,
               semanticLabel: incrementLabel,
@@ -171,73 +206,17 @@ class QuantityStepper extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-/// The stepper's number. Like a counter, a higher number rolls in from below
-/// and a lower one from above, while the old number leaves the other way.
-class _RollingCount extends StatefulWidget {
-  const _RollingCount({
-    required this.quantity,
-    required this.width,
-    required this.style,
-  });
-
-  final int quantity;
-  final double width;
-  final TextStyle style;
-
-  @override
-  State<_RollingCount> createState() => _RollingCountState();
-}
-
-class _RollingCountState extends State<_RollingCount> {
-  /// 1 after counting up, -1 after counting down.
-  double _direction = 1;
-
-  @override
-  void didUpdateWidget(_RollingCount oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.quantity != oldWidget.quantity) {
-      _direction = widget.quantity > oldWidget.quantity ? 1 : -1;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.width,
-      child: ClipRect(
-        child: AnimatedSwitcher(
-          duration: AppMotion.of(context, AppMotion.fast),
-          switchInCurve: AppMotion.standard,
-          switchOutCurve: AppMotion.standard,
-          // Rebuilt on every change, so the leaving number also picks up the
-          // current direction.
-          transitionBuilder: (child, animation) {
-            final incoming = child.key == ValueKey(widget.quantity);
-            final slide = Tween(
-              begin: Offset(0, (incoming ? 0.6 : -0.6) * _direction),
-              end: Offset.zero,
-            );
-            return FadeTransition(
-              opacity: animation,
-              child: SlideTransition(
-                position: slide.animate(animation),
-                child: child,
-              ),
-            );
-          },
-          child: Text(
-            '${widget.quantity}',
-            key: ValueKey(widget.quantity),
-            style: widget.style,
-            textAlign: TextAlign.center,
+        IgnorePointer(
+          child: SizedBox(
+            width: countWidth,
+            child: Text(
+              '$quantity',
+              style: numberStyle,
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

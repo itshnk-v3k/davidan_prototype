@@ -30,7 +30,7 @@ class BrandInfoScreen extends StatelessWidget {
     BrandInfoKind.hours => Icons.schedule_rounded,
     BrandInfoKind.phone => Icons.phone_rounded,
     BrandInfoKind.email => Icons.mail_outline_rounded,
-    BrandInfoKind.instagram => Icons.photo_camera_outlined,
+    BrandInfoKind.instagram => Icons.photo_camera_rounded,
     BrandInfoKind.company => Icons.business_rounded,
   };
 
@@ -96,7 +96,7 @@ class BrandInfoScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: AppSpacing.md),
                         child: LinkCard(
-                          icon: Icons.description_outlined,
+                          icon: Icons.description_rounded,
                           title: document.title,
                           hint: context.l10n.legalDocumentHint(info.website),
                           onTap: () => context.push(

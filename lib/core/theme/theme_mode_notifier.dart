@@ -7,9 +7,9 @@ final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(
   ThemeModeNotifier.new,
 );
 
-/// Dark, light, or following the phone, for the whole prototype. Dark by
-/// default; saved to local storage. A presenter's preference rather than demo
-/// data, so resetting the demo keeps it.
+/// Dark, light, or following the phone, for the whole prototype. Light by
+/// default, as delivery apps are; saved to local storage. A presenter's preference rather than demo data, so
+/// resetting the demo keeps it.
 class ThemeModeNotifier extends Notifier<ThemeMode> {
   @override
   ThemeMode build() =>
@@ -19,7 +19,7 @@ class ThemeModeNotifier extends Notifier<ThemeMode> {
             StorageKeys.themeMode,
             (json) => ThemeMode.values.byName(json! as String),
           ) ??
-      ThemeMode.dark;
+      ThemeMode.light;
 
   void select(ThemeMode mode) {
     state = mode;

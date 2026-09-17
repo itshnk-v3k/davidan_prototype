@@ -5,7 +5,7 @@ import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Heart that saves a product to the favourites or removes it, on product
-/// cards and on the product page. Saving pops the heart.
+/// cards and on the product page.
 class FavoriteToggle extends StatelessWidget {
   const FavoriteToggle({
     super.key,
@@ -26,7 +26,6 @@ class FavoriteToggle extends StatelessWidget {
       icon: favorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
       iconColor: favorite ? context.colors.primary : context.colors.textPrimary,
       size: size,
-      emphasized: favorite,
       semanticLabel: favorite
           ? context.l10n.removeFromFavorites(productName)
           : context.l10n.addToFavorites(productName),

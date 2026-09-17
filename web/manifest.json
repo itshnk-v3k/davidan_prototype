@@ -3,7 +3,7 @@
   "short_name": "DaviDan",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#FCF8F8",
+  "background_color": "#FBF8F3",
   "theme_color": "#A26B25",
   "description": "DaviDan: prototipul aplicației de livrare DaviDan.",
   "orientation": "portrait-primary",

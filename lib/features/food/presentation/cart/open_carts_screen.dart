@@ -43,7 +43,7 @@ class OpenCartsScreen extends ConsumerWidget {
             Expanded(
               child: carts.isEmpty
                   ? EmptyState(
-                      icon: Icons.shopping_bag_outlined,
+                      icon: Icons.shopping_bag_rounded,
                       title: context.l10n.openCartsEmptyTitle,
                       message: context.l10n.openCartsEmptyMessage,
                       actionLabel: context.l10n.backHome,

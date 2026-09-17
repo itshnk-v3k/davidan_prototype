@@ -22,6 +22,10 @@ enum RentalTier {
       values.lastWhere((tier) => days >= tier.fromDays);
 }
 
+/// The kind of car, for browsing the fleet. davidanrentcar.md doesn't group
+/// its cars; these groups are ours, by size and price.
+enum RentalCarClass { economy, family, suv, premium }
+
 /// One line of a car's spec list on davidanrentcar.md, in the site's order.
 /// Its label is UI text; its value is the car's.
 enum RentalSpec {
@@ -42,6 +46,7 @@ class RentalCar {
   const RentalCar({
     required this.id,
     required this.name,
+    required this.carClass,
     required this.tagline,
     required this.image,
     required this.year,
@@ -62,6 +67,8 @@ class RentalCar {
 
   /// The page's title, e.g. "Dacia Logan".
   final String name;
+
+  final RentalCarClass carClass;
 
   /// The first line of the page's description, e.g. "Dacia 1.0 Benzină +
   /// GPL 2022 – Economică și Fiabilă!".

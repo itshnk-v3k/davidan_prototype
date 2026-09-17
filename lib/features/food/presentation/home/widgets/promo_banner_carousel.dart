@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
@@ -5,8 +7,9 @@ import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/data/models/promo_banner.dart';
 
-/// Swipeable banner slides with page dots. The current page index is local
-/// UI state, so it lives in the widget rather than in a Notifier.
+/// Banner slides that advance on their own every few seconds and can still be
+/// swiped. A swipe restarts the wait. With reduced motion on, they only move
+/// by hand.
 class PromoBannerCarousel extends StatefulWidget {
   const PromoBannerCarousel({
     super.key,
@@ -22,11 +25,42 @@ class PromoBannerCarousel extends StatefulWidget {
 }
 
 class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
+  static const _interval = Duration(seconds: 4);
+
   final _controller = PageController(viewportFraction: 0.92);
-  int _page = 0;
+  Timer? _timer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _restartTimer();
+  }
+
+  @override
+  void didUpdateWidget(PromoBannerCarousel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.banners.length != widget.banners.length) _restartTimer();
+  }
+
+  void _restartTimer() {
+    _timer?.cancel();
+    if (widget.banners.length < 2 || MediaQuery.disableAnimationsOf(context)) {
+      return;
+    }
+    _timer = Timer.periodic(_interval, (_) {
+      if (!_controller.hasClients) return;
+      final page = (_controller.page ?? 0).round();
+      _controller.animateToPage(
+        (page + 1) % widget.banners.length,
+        duration: const Duration(milliseconds: 450),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
 
   @override
   void dispose() {
+    _timer?.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -35,46 +69,26 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
   Widget build(BuildContext context) {
     final banners = widget.banners;
 
-    return Column(
-      children: [
-        SizedBox(
-          height: 172,
-          child: PageView.builder(
-            controller: _controller,
-            itemCount: banners.length,
-            onPageChanged: (page) => setState(() => _page = page),
-            itemBuilder: (context, index) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-              child: _BannerSlide(
-                banner: banners[index],
-                onTap: () => widget.onBannerTap(banners[index]),
-              ),
+    return SizedBox(
+      height: 172,
+      // A swipe by hand restarts the wait before the next slide.
+      child: NotificationListener<ScrollStartNotification>(
+        onNotification: (notification) {
+          if (notification.dragDetails != null) _restartTimer();
+          return false;
+        },
+        child: PageView.builder(
+          controller: _controller,
+          itemCount: banners.length,
+          itemBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+            child: _BannerSlide(
+              banner: banners[index],
+              onTap: () => widget.onBannerTap(banners[index]),
             ),
           ),
         ),
-        // One banner has no pages to count.
-        if (banners.length > 1) ...[
-          const SizedBox(height: AppSpacing.sm),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              for (var i = 0; i < banners.length; i++)
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  margin: const EdgeInsets.symmetric(horizontal: 3),
-                  width: i == _page ? 18 : 6,
-                  height: 6,
-                  decoration: BoxDecoration(
-                    color: i == _page
-                        ? context.colors.primary
-                        : context.colors.border,
-                    borderRadius: BorderRadius.circular(AppRadii.pill),
-                  ),
-                ),
-            ],
-          ),
-        ],
-      ],
+      ),
     );
   }
 }

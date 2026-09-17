@@ -4,11 +4,9 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
-import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
-import 'package:davidan_prototype/core/widgets/scale_pop.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -77,32 +75,15 @@ class _BagButton extends StatelessWidget {
           semanticLabel: semanticLabel,
           onPressed: onPressed,
         ),
-        // The badge grows in with the first item, bumps each time the count
-        // goes up, and shrinks away when the cart empties. This is the
-        // "added" feedback from anywhere in the app.
-        Positioned(
-          top: -AppSpacing.xs,
-          right: -AppSpacing.xs,
-          child: IgnorePointer(
-            child: ExcludeSemantics(
-              child: AnimatedSwitcher(
-                duration: AppMotion.of(context, AppMotion.medium),
-                switchInCurve: AppMotion.emphasized,
-                transitionBuilder: (child, animation) =>
-                    ScaleTransition(scale: animation, child: child),
-                child: count > 0
-                    ? ScalePop<int>(
-                        key: const ValueKey('badge'),
-                        value: count,
-                        shouldPop: (previous, current) => current > previous,
-                        scale: 1.25,
-                        child: _Badge(count: count),
-                      )
-                    : const SizedBox.shrink(),
-              ),
+        // On the circle's corner, inside the button's clear margin.
+        if (count > 0)
+          Positioned(
+            top: TapTarget.iconButtonMargin - AppSpacing.xs,
+            right: TapTarget.iconButtonMargin - AppSpacing.xs,
+            child: IgnorePointer(
+              child: ExcludeSemantics(child: _Badge(count: count)),
             ),
           ),
-        ),
       ],
     );
   }

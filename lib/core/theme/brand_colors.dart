@@ -13,6 +13,15 @@ import 'package:davidan_prototype/data/models/brand.dart';
 /// share a red, because both sites use the same one, so they are told apart
 /// by name and photo, never by colour. Water is the blue of its bottle label.
 abstract final class BrandColors {
+  /// The brand's colour as a surface of its own (the hub's bubbles, a brand's
+  /// header band), the same in both themes. The deep tones, so white logos
+  /// and text on them read at 4.5:1 or more.
+  static Color fillOf(Brand brand) => switch (brand) {
+    Brand.restaurant || Brand.bakery => AppPalette.caramel700,
+    Brand.sushi || Brand.carRental => AppPalette.crimson700,
+    Brand.water => AppPalette.blue700,
+  };
+
   static AppColors of(Brand brand, Brightness brightness) {
     final dark = brightness == Brightness.dark;
     final base = dark ? AppColors.dark : AppColors.light;

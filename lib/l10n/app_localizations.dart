@@ -794,6 +794,12 @@ abstract class AppLocalizations {
   /// **'Finalizate'**
   String get ordersPastTitle;
 
+  /// A group of cars on the Rent Car fleet's filter chips.
+  ///
+  /// In ro, this message translates to:
+  /// **'{carClass, select, economy{Economice} family{Familie} suv{SUV} premium{Premium} other{Altele}}'**
+  String rentalCarClass(String carClass);
+
   /// Filter chip showing orders from every brand.
   ///
   /// In ro, this message translates to:

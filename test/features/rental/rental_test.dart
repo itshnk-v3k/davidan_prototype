@@ -14,6 +14,8 @@ import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
+import 'package:davidan_prototype/core/theme/theme_mode_notifier.dart';
+import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/mock/rental/rental_cars.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
@@ -712,6 +714,57 @@ void main() {
 
       await pumpApp(tester, container, Routes.clientBooking('RC-9999'));
       expect(find.text(ro.rentalBookingNotFound), findsOneWidget);
+    },
+  );
+  testWidgets(
+    'the fleet\'s note and a car\'s Dotări are neutral, with Rent Car\'s red '
+    'only on their icons, so none reads as a warning',
+    (tester) async {
+      Color fillAround(Finder finder) =>
+          (tester
+                      .widget<DecoratedBox>(
+                        find
+                            .ancestor(
+                              of: finder,
+                              matching: find.byType(DecoratedBox),
+                            )
+                            .first,
+                      )
+                      .decoration
+                  as BoxDecoration)
+              .color!;
+
+      for (final brightness in Brightness.values) {
+        container
+            .read(themeModeProvider.notifier)
+            .select(
+              brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
+            );
+        final colors = BrandColors.of(Brand.carRental, brightness);
+
+        await pumpApp(tester, container, Routes.brandHome(Brand.carRental));
+        final note = find.byType(InfoNote).first;
+        final noteIcon = find.descendant(of: note, matching: find.byType(Icon));
+        expect(
+          fillAround(noteIcon),
+          colors.surfaceMuted,
+          reason: '$brightness',
+        );
+        expect(tester.widget<Icon>(noteIcon).color, colors.primary);
+
+        await pumpApp(tester, container, Routes.rentalCar(porsche), size: tall);
+        final car = rentalCars.firstWhere((car) => car.id == porsche);
+        final feature = inScreen<CarDetailScreen>(
+          find.text(car.features.first),
+        );
+        expect(fillAround(feature), colors.surfaceMuted, reason: '$brightness');
+        expect(fillAround(feature), isNot(colors.accentSoft));
+        final check = find.descendant(
+          of: find.ancestor(of: feature, matching: find.byType(Row)).first,
+          matching: find.byIcon(Icons.check_rounded),
+        );
+        expect(tester.widget<Icon>(check).color, colors.primary);
+      }
     },
   );
 }

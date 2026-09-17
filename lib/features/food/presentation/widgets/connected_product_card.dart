@@ -22,7 +22,6 @@ class ConnectedProductCard extends ConsumerWidget {
     super.key,
     required this.product,
     this.heroScope,
-    this.compact = false,
     this.showBrand = false,
   });
 
@@ -30,7 +29,6 @@ class ConnectedProductCard extends ConsumerWidget {
 
   /// See [ProductCard.heroScope]; also sent to the product page.
   final String? heroScope;
-  final bool compact;
   final bool showBrand;
 
   @override
@@ -49,7 +47,6 @@ class ConnectedProductCard extends ConsumerWidget {
       quantity: quantity,
       favorite: favorite,
       heroScope: heroScope,
-      compact: compact,
       brandName: showBrand ? context.content.introOf(brand).name : null,
       onTap: () =>
           context.push(Routes.brandProduct(product.key, heroScope: heroScope)),
@@ -64,6 +61,7 @@ class ConnectedProductCard extends ConsumerWidget {
                 strings.addedToBrandCart(
                   ref.read(contentProvider).introOf(brand).name,
                 ),
+                brand: brand,
               );
         }
       },

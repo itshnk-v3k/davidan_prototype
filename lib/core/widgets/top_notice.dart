@@ -4,18 +4,34 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/theme/brand_colors.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
 
-/// A short message in a caramel pill that floats at the top of the screen:
-/// the store panel's new-order notice and the phone apps' confirmations.
-/// Screen readers announce it when it appears.
+/// A short message in a pill that floats at the top of the screen: the store
+/// panel's new-order notice and the phone apps' confirmations. It's in
+/// [brand]'s colour, or DaviDan's caramel without one. Screen readers announce
+/// it when it appears.
 class TopNotice extends StatelessWidget {
-  const TopNotice({super.key, required this.icon, required this.message});
+  const TopNotice({
+    super.key,
+    required this.icon,
+    required this.message,
+    this.brand,
+  });
 
   final IconData icon;
   final String message;
+  final Brand? brand;
 
   @override
   Widget build(BuildContext context) {
+    final brand = this.brand;
+    if (brand != null) {
+      return BrandTheme(
+        brand: brand,
+        child: TopNotice(icon: icon, message: message),
+      );
+    }
     return Semantics(
       liveRegion: true,
       // Keeps text styles clean when shown above a screen's Scaffold.

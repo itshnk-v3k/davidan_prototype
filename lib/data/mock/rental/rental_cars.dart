@@ -43,6 +43,7 @@ const rentalCars = <RentalCar>[
   RentalCar(
     id: 'audi-q5-2012',
     name: 'Audi Q5 2012',
+    carClass: RentalCarClass.suv,
     tagline: 'Audi Q5 2.0 Benzină 2012 – Confort și Fiabilitate!',
     image: '${_img}audi-q5-2012.webp',
     year: 2012,
@@ -74,6 +75,7 @@ const rentalCars = <RentalCar>[
   RentalCar(
     id: 'audi-q5-2021',
     name: 'Audi Q5 2021',
+    carClass: RentalCarClass.suv,
     tagline: 'Audi Q5 2.0 Benzină 2021 – Lux și Performanță!',
     image: '${_img}audi-q5-2021.webp',
     year: 2021,
@@ -107,6 +109,7 @@ const rentalCars = <RentalCar>[
   RentalCar(
     id: 'bmw-x5',
     name: 'BMW X5',
+    carClass: RentalCarClass.premium,
     tagline: 'BMW X5 2.0 Benzină Plug-in Hybrid – Putere și Eficiență!',
     image: '${_img}bmw-x5.webp',
     year: 2017,
@@ -140,6 +143,7 @@ const rentalCars = <RentalCar>[
   RentalCar(
     id: 'dacia-lodgy',
     name: 'Dacia Lodgy',
+    carClass: RentalCarClass.family,
     tagline: 'Dacia Lodgy 1.5 Diesel 2016 – Spațioasă și Economică!',
     image: '${_img}dacia-lodgy.webp',
     year: 2016,
@@ -173,6 +177,7 @@ const rentalCars = <RentalCar>[
   RentalCar(
     id: 'dacia-1-0-benzina-gpl-2022',
     name: 'Dacia Logan',
+    carClass: RentalCarClass.economy,
     tagline: 'Dacia 1.0 Benzină + GPL 2022 – Economică și Fiabilă!',
     image: '${_img}dacia-1-0-benzina-gpl-2022.webp',
     year: 2022,
@@ -195,6 +200,7 @@ const rentalCars = <RentalCar>[
   RentalCar(
     id: 'dacia-sandero',
     name: 'Dacia Sandero',
+    carClass: RentalCarClass.economy,
     tagline: 'Dacia Sandero 1.0 Turbo Benzină 2015 – Economică și Fiabilă!',
     image: '${_img}dacia-sandero.webp',
     year: 2015,
@@ -228,6 +234,7 @@ const rentalCars = <RentalCar>[
   RentalCar(
     id: 'ford-focus',
     name: 'Ford Focus',
+    carClass: RentalCarClass.economy,
     tagline: 'Ford Focus 2.0 Diesel 2018 ST-Line – Sportivitate și Eficiență!',
     image: '${_img}ford-focus.webp',
     year: 2018,
@@ -261,6 +268,7 @@ const rentalCars = <RentalCar>[
   RentalCar(
     id: 'ford-kuga',
     name: 'Ford Kuga',
+    carClass: RentalCarClass.suv,
     tagline: 'Ford Kuga 2021 – Modernă, Confortabilă și Pregătită de Aventură!',
     image: '${_img}ford-kuga.webp',
     year: 2021,
@@ -294,6 +302,7 @@ const rentalCars = <RentalCar>[
   RentalCar(
     id: 'mercedes-benz-e-class-2017-diesel',
     name: 'Mercedes-Benz',
+    carClass: RentalCarClass.premium,
     tagline: 'Mercedes-Benz E-Class 2017 Diesel – Eleganță și Performanță!',
     image: '${_img}mercedes-benz-e-class-2017-diesel.webp',
     year: 2017,
@@ -322,6 +331,7 @@ const rentalCars = <RentalCar>[
   RentalCar(
     id: 'porsche-cayenne-3-0-plug-in-hybrid',
     name: 'Porsche Cayenne',
+    carClass: RentalCarClass.premium,
     tagline: 'Porsche Cayenne 3.0 Plug-in Hybrid 2017 – Lux și Performanță!',
     image: '${_img}porsche-cayenne-3-0-plug-in-hybrid.webp',
     year: 2017,
@@ -351,6 +361,7 @@ const rentalCars = <RentalCar>[
   RentalCar(
     id: 'toyota-rav4-2-5-plug-in',
     name: 'Toyota RAV4',
+    carClass: RentalCarClass.suv,
     tagline: 'Toyota RAV4 2.5 Plug-in Hybrid – Confort și Siguranță!',
     image: '${_img}toyota-rav4-2-5-plug-in.webp',
     year: 2020,

@@ -2,14 +2,24 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_motion.dart';
+import 'package:davidan_prototype/core/widgets/photo_hero.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 
 /// Product photo that fills its box, or a branded tile when there is no photo.
 /// With a [heroTag], the photo flies between the screens that show it.
 class ProductImage extends StatelessWidget {
-  const ProductImage({super.key, required this.path, this.heroTag});
+  const ProductImage({
+    super.key,
+    required this.path,
+    this.heroTag,
+    this.borderRadius = BorderRadius.zero,
+  });
 
   final String? path;
+
+  /// The photo's rounded corners, clipped inside the flying photo so they
+  /// change smoothly in flight.
+  final BorderRadius borderRadius;
 
   /// [heroTagFor] the product, on the product card, the cart line and the
   /// product page. A tag may appear only once per screen.
@@ -47,7 +57,12 @@ class ProductImage extends StatelessWidget {
                     ),
             ),
           );
-    return heroTag == null ? image : Hero(tag: heroTag, child: image);
+    if (heroTag != null) {
+      return PhotoHero(tag: heroTag, borderRadius: borderRadius, child: image);
+    }
+    return borderRadius == BorderRadius.zero
+        ? image
+        : ClipRRect(borderRadius: borderRadius, child: image);
   }
 }
 
@@ -62,7 +77,7 @@ class _Placeholder extends StatelessWidget {
         child: Icon(
           Icons.restaurant_rounded,
           size: 32,
-          color: context.colors.accent,
+          color: context.colors.primary,
         ),
       ),
     );

@@ -13,7 +13,6 @@ import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/confirm_dialog.dart';
 import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
-import 'package:davidan_prototype/core/widgets/entrance.dart';
 import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/features/rental/application/rental_bookings_notifier.dart';
 import 'package:davidan_prototype/features/rental/application/rental_providers.dart';
@@ -70,24 +69,20 @@ class RentalBookingScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
-            // The check mark pops in once, as the request is sent.
             Center(
-              child: Entrance(
-                pop: true,
-                child: Container(
-                  width: 88,
-                  height: 88,
-                  decoration: BoxDecoration(
-                    color: context.colors.accentSoft,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    booking.cancelled
-                        ? Icons.event_busy_rounded
-                        : Icons.check_rounded,
-                    size: 48,
-                    color: context.colors.primary,
-                  ),
+              child: Container(
+                width: 88,
+                height: 88,
+                decoration: BoxDecoration(
+                  color: context.colors.accentSoft,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  booking.cancelled
+                      ? Icons.event_busy_rounded
+                      : Icons.check_rounded,
+                  size: 48,
+                  color: context.colors.primary,
                 ),
               ),
             ),

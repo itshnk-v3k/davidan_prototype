@@ -3,14 +3,20 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:davidan_prototype/data/models/brand.dart';
+
 /// A short confirmation in the phone apps, e.g. "Adăugat în coș".
 @immutable
 class Toast {
-  const Toast({required this.id, required this.message});
+  const Toast({required this.id, required this.message, this.brand});
 
   /// Tells toasts apart, so the same text shown twice comes in again.
   final int id;
   final String message;
+
+  /// The brand the toast is about, whose colour it takes; DaviDan's own
+  /// caramel when null.
+  final Brand? brand;
 }
 
 final toastProvider = NotifierProvider<ToastNotifier, Toast?>(
@@ -32,9 +38,9 @@ class ToastNotifier extends Notifier<Toast?> {
     return null;
   }
 
-  void show(String message) {
+  void show(String message, {Brand? brand}) {
     _timer?.cancel();
-    state = Toast(id: _shown++, message: message);
+    state = Toast(id: _shown++, message: message, brand: brand);
     _timer = Timer(duration, () => state = null);
   }
 }

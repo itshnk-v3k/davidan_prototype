@@ -2,9 +2,9 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/theme/app_palette.dart';
 
-/// Colour roles. [dark] (the default) and [light] give the palette's colours
-/// their jobs; widgets read the active set with `context.colors`, so a widget
-/// styled once works in both themes. Every text pairing below meets WCAG AA
+/// Colour roles. [dark] and [light] give the palette's colours their jobs;
+/// widgets read the active set with `context.colors`, so a widget styled once
+/// works in both themes. Every text pairing below meets WCAG AA
 /// (4.5:1) in both sets.
 @immutable
 class AppColors extends ThemeExtension<AppColors> {
@@ -64,13 +64,13 @@ class AppColors extends ThemeExtension<AppColors> {
     hubBand: AppPalette.caramel500,
     onHubBand: AppPalette.espresso,
     hubBubble: AppPalette.white,
-    background: AppPalette.snow,
+    background: AppPalette.linen,
     surface: AppPalette.white,
-    surfaceMuted: AppPalette.mist,
-    border: AppPalette.line,
-    textPrimary: AppPalette.charcoal,
-    textSecondary: AppPalette.grey600,
-    textDisabled: AppPalette.grey400,
+    surfaceMuted: AppPalette.oat,
+    border: AppPalette.sandLine,
+    textPrimary: AppPalette.graphite,
+    textSecondary: AppPalette.taupe600,
+    textDisabled: AppPalette.taupe400,
     error: AppPalette.red700,
     warning: AppPalette.amber700,
     onImage: AppPalette.white,
@@ -87,10 +87,12 @@ class AppColors extends ThemeExtension<AppColors> {
   /// Text and icons on a [primary] fill.
   final Color onPrimary;
 
-  /// The site's caramel. Decoration and large shapes only, never small text.
+  /// The brand's bright colour. Decoration and large shapes only, never text
+  /// or icons.
   final Color accent;
 
-  /// Caramel tint for icon backgrounds, pills and image placeholders.
+  /// Caramel tint behind icons and image placeholders. Icons on it are
+  /// [primary].
   final Color accentSoft;
 
   /// DaviDan's caramel behind the brand bubbles on the hub, the same in both
@@ -111,7 +113,12 @@ class AppColors extends ThemeExtension<AppColors> {
 
   // Text
   final Color textPrimary;
+
+  /// Secondary text, and the outline of an unticked radio button or checkbox
+  /// (a control that still works needs 3:1).
   final Color textSecondary;
+
+  /// Disabled controls only, which need no contrast.
   final Color textDisabled;
 
   // Feedback

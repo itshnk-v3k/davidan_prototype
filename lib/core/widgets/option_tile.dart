@@ -76,7 +76,7 @@ class OptionTile extends StatelessWidget {
                   size: 22,
                   color: selected
                       ? context.colors.primary
-                      : context.colors.textDisabled,
+                      : context.colors.textSecondary,
                 ),
               ],
             ),

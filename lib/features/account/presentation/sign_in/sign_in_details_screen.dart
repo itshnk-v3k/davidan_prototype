@@ -76,10 +76,11 @@ class SignInDetailsScreen extends ConsumerWidget {
                     context.l10n.sectorTitle,
                     style: context.textStyles.subtitle,
                   ),
-                  const SizedBox(height: AppSpacing.md),
+                  // The chips' clear margins make up the rest of the gaps.
+                  const SizedBox(height: AppSpacing.md - AppChip.tapMargin),
                   Wrap(
                     spacing: AppSpacing.sm,
-                    runSpacing: AppSpacing.sm,
+                    runSpacing: AppChip.runSpacing,
                     children: [
                       for (final sector in ChisinauSector.values)
                         AppChip(
@@ -90,7 +91,7 @@ class SignInDetailsScreen extends ConsumerWidget {
                     ],
                   ),
                   if (draft.showDetailsErrors && draft.sector == null) ...[
-                    const SizedBox(height: AppSpacing.sm),
+                    const SizedBox(height: AppSpacing.sm - AppChip.tapMargin),
                     Text(
                       context.l10n.sectorMissing,
                       style: context.textStyles.caption.copyWith(

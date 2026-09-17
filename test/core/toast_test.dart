@@ -10,9 +10,13 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
+import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
+import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/toast/toast_notifier.dart';
+import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/toast_host.dart';
+import 'package:davidan_prototype/data/mock/sushi/sushi_products.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
 
@@ -107,6 +111,37 @@ void main() {
     expect(rect.right, lessThan(phoneLeft + AppLayout.phoneWidth));
     expect(rect.top, lessThan(AppSpacing.xl + 80));
 
+    await waitOutToast(tester);
+  });
+  testWidgets('a toast about a brand is in its colour; one about the app keeps '
+      'DaviDan\'s caramel', (tester) async {
+    Color pillColour() =>
+        (tester
+                    .widget<DecoratedBox>(
+                      find
+                          .descendant(
+                            of: find.byType(ToastHost),
+                            matching: find.byType(DecoratedBox),
+                          )
+                          .first,
+                    )
+                    .decoration
+                as BoxDecoration)
+            .color!;
+
+    await pumpApp(
+      tester,
+      container,
+      Routes.brandProduct((brand: Brand.sushi, id: sushiProducts.first.id)),
+    );
+    await tester.tap(find.byType(AppButton));
+    await tester.pumpAndSettle();
+    expect(pillColour(), BrandColors.of(Brand.sushi, Brightness.light).primary);
+    await waitOutToast(tester);
+
+    await pumpApp(tester, container, Routes.clientProfile);
+    await tapVisible(tester, find.text(ro.resetDemoData));
+    expect(pillColour(), AppColors.light.primary);
     await waitOutToast(tester);
   });
 }

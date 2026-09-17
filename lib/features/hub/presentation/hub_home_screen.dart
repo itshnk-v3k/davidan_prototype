@@ -17,7 +17,6 @@ import 'package:davidan_prototype/features/food/application/shop_providers.dart'
 import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/active_orders_strip.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/brand_bubbles.dart';
-import 'package:davidan_prototype/features/hub/presentation/widgets/for_you_sheet.dart';
 import 'package:davidan_prototype/features/orders/application/customer_requests_provider.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
@@ -99,12 +98,12 @@ class HubHomeScreen extends ConsumerWidget {
                 }),
               ),
             ),
+            // The service selector: one card per brand.
             SliverToBoxAdapter(
               child: BrandBubbles(
                 onOpen: (brand) => context.push(Routes.brandHome(brand)),
               ),
             ),
-            const SliverToBoxAdapter(child: ForYouSheet()),
           ],
         ),
       ),
@@ -121,15 +120,18 @@ class _HubHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // The buttons' clear margins take the place of the padding and the gap
+    // between them, so the circles sit where they would without them.
+    const margin = TapTarget.iconButtonMargin;
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
-        AppSpacing.md,
-        AppSpacing.gutter,
+        AppSpacing.md - margin,
+        AppSpacing.gutter - margin,
         0,
       ),
       child: SizedBox(
-        height: 40,
+        height: TapTarget.min,
         child: Row(
           children: [
             const BrandLogo(height: 26),
@@ -140,7 +142,7 @@ class _HubHeader extends StatelessWidget {
                 semanticLabel: context.l10n.openLauncher,
                 onPressed: onLauncherTap,
               ),
-              const SizedBox(width: AppSpacing.sm),
+              const SizedBox(width: AppSpacing.sm - 2 * margin),
             ],
             const OpenCartsButton(),
           ],
@@ -149,6 +151,12 @@ class _HubHeader extends StatelessWidget {
     );
   }
 }
+
+/// The location bar's inner padding, its icon's circle and its clear button,
+/// as they look.
+const _barPadding = AppSpacing.sm + AppSpacing.xxs;
+const _iconSize = 36.0;
+const _clearSize = 32.0;
 
 class _LocationBar extends StatelessWidget {
   const _LocationBar({
@@ -188,13 +196,22 @@ class _LocationBar extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: onTap,
+            // The clear button's margins take the place of the padding beside
+            // and around it, so the bar keeps its height with it.
             child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.sm + AppSpacing.xxs),
+              padding: onClear == null
+                  ? const EdgeInsets.all(_barPadding)
+                  : const EdgeInsets.fromLTRB(
+                      _barPadding,
+                      _barPadding - (TapTarget.min - _iconSize) / 2,
+                      _barPadding - (TapTarget.min - _clearSize) / 2,
+                      _barPadding - (TapTarget.min - _iconSize) / 2,
+                    ),
               child: Row(
                 children: [
                   Container(
-                    width: 36,
-                    height: 36,
+                    width: _iconSize,
+                    height: _iconSize,
                     decoration: BoxDecoration(
                       color: context.colors.accentSoft,
                       shape: BoxShape.circle,
@@ -224,7 +241,7 @@ class _LocationBar extends StatelessWidget {
                     AppIconButton(
                       icon: Icons.close_rounded,
                       semanticLabel: context.l10n.dropCurrentLocation,
-                      size: 32,
+                      size: _clearSize,
                       onPressed: onClear,
                     )
                   else

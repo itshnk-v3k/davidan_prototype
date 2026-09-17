@@ -10,6 +10,7 @@ import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
@@ -55,7 +56,10 @@ class ProductDetailScreen extends ConsumerWidget {
     final inCart =
         ref.watch(cartQuantitiesProvider(productKey.brand))[productKey.id] ?? 0;
     final favorite = ref.watch(favoriteKeysProvider).contains(productKey);
-    final buttonsTop = MediaQuery.paddingOf(context).top + AppSpacing.md;
+    // Where the buttons' circles sit; their clear tap margins reach beyond.
+    const margin = TapTarget.iconButtonMargin;
+    final buttonsTop =
+        MediaQuery.paddingOf(context).top + AppSpacing.md - margin;
 
     return Scaffold(
       backgroundColor: context.colors.background,
@@ -76,7 +80,7 @@ class ProductDetailScreen extends ConsumerWidget {
                 ),
                 Positioned(
                   top: buttonsTop,
-                  left: AppSpacing.gutter,
+                  left: AppSpacing.gutter - margin,
                   child: AppIconButton(
                     icon: Icons.arrow_back_rounded,
                     semanticLabel: context.l10n.back,
@@ -85,7 +89,7 @@ class ProductDetailScreen extends ConsumerWidget {
                 ),
                 Positioned(
                   top: buttonsTop,
-                  right: AppSpacing.gutter,
+                  right: AppSpacing.gutter - margin,
                   child: FavoriteToggle(
                     productName: product.name,
                     favorite: favorite,
@@ -137,7 +141,9 @@ class ProductDetailScreen extends ConsumerWidget {
                 ? strings.removedFromCart(product.name)
                 : strings.cartUpdated(quantity, product.name);
           }
-          ref.read(toastProvider.notifier).show(message);
+          ref
+              .read(toastProvider.notifier)
+              .show(message, brand: productKey.brand);
           goBack();
         },
       ),
@@ -186,7 +192,8 @@ class _ProductInfo extends StatelessWidget {
             if (inCartCount > 0)
               _Pill(
                 label: context.l10n.inCart(inCartCount),
-                color: context.colors.accentSoft,
+                icon: Icons.shopping_bag_rounded,
+                color: InfoNote.fillOf(context.colors),
                 style: context.textStyles.label,
               ),
             for (final fact in size)
@@ -216,13 +223,20 @@ class _ProductInfo extends StatelessWidget {
 bool _isVolume(String size) =>
     RegExp(r'(ml|l|мл|л)$', caseSensitive: false).hasMatch(size.trim());
 
-/// A small fact about the product next to its price.
+/// A small fact about the product next to its price, with an [icon] in the
+/// brand's colour when it has one.
 class _Pill extends StatelessWidget {
-  const _Pill({required this.label, required this.color, required this.style});
+  const _Pill({
+    required this.label,
+    required this.color,
+    required this.style,
+    this.icon,
+  });
 
   final String label;
   final Color color;
   final TextStyle style;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -236,7 +250,16 @@ class _Pill extends StatelessWidget {
           horizontal: AppSpacing.sm + AppSpacing.xxs,
           vertical: AppSpacing.xs,
         ),
-        child: Text(label, style: style),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (icon case final icon?) ...[
+              Icon(icon, size: 14, color: context.colors.primary),
+              const SizedBox(width: AppSpacing.xs),
+            ],
+            Text(label, style: style),
+          ],
+        ),
       ),
     );
   }
@@ -315,8 +338,14 @@ class _ProductNotFound extends StatelessWidget {
     return Scaffold(
       backgroundColor: context.colors.background,
       body: SafeArea(
+        // The back button's clear margin takes the place of the padding by it.
         child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.gutter),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.gutter - TapTarget.iconButtonMargin,
+            AppSpacing.gutter - TapTarget.iconButtonMargin,
+            AppSpacing.gutter - TapTarget.iconButtonMargin,
+            AppSpacing.gutter,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -332,7 +361,7 @@ class _ProductNotFound extends StatelessWidget {
               Icon(
                 Icons.search_off_rounded,
                 size: 48,
-                color: context.colors.accent,
+                color: context.colors.primary,
               ),
               const SizedBox(height: AppSpacing.md),
               Text(

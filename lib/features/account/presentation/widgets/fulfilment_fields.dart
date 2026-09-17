@@ -25,7 +25,7 @@ class FulfilmentTypeChips extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       spacing: AppSpacing.sm,
-      runSpacing: AppSpacing.sm,
+      runSpacing: AppChip.runSpacing,
       children: [
         AppChip(
           label: context.l10n.delivery,
@@ -72,7 +72,7 @@ class DeliveryAddressField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: context.l10n.deliveryAddress,
         hintText: context.l10n.deliveryAddressHint,
-        prefixIcon: const Icon(Icons.location_on_outlined),
+        prefixIcon: const Icon(Icons.location_on_rounded),
         errorText: showMissingError
             ? context.l10n.deliveryAddressMissing
             : null,

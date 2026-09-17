@@ -60,18 +60,16 @@ abstract final class AppTheme {
       splashColor: colors.accentSoft,
       highlightColor: Colors.transparent,
       // One page transition on every platform, so the web demo and the
-      // Android app feel the same: new pages fade forwards. On Android the
-      // back gesture also previews the page underneath (predictive back).
+      // Android app feel the same: Android's zoom, 300 ms. Flutter's newer
+      // default (fade forwards) takes 450 ms and dips through the background
+      // on the way; the zoom is shorter, and on phones it animates snapshots
+      // of the two pages, which keeps it smooth on older devices.
       pageTransitionsTheme: PageTransitionsTheme(
         builders: {
           for (final platform in TargetPlatform.values)
-            platform: platform == TargetPlatform.android
-                ? PredictiveBackPageTransitionsBuilder(
-                    fallbackColor: colors.background,
-                  )
-                : FadeForwardsPageTransitionsBuilder(
-                    backgroundColor: colors.background,
-                  ),
+            platform: ZoomPageTransitionsBuilder(
+              backgroundColor: colors.background,
+            ),
         },
       ),
       textSelectionTheme: TextSelectionThemeData(

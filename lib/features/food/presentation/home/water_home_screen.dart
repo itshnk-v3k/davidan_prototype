@@ -9,8 +9,8 @@ import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
+import 'package:davidan_prototype/core/widgets/brand_header_band.dart';
 import 'package:davidan_prototype/core/widgets/info_note.dart';
-import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/data/mock/water/water_catalog.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
@@ -37,75 +37,73 @@ class WaterHomeScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: context.colors.background,
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ScreenHeader(
-              title: context.content.text(WaterPage.title),
-              onBack: () => context.pop(),
-              actions: const [CartButton(brand: Brand.water)],
-            ),
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(
-                      AppSpacing.gutter,
-                      0,
-                      AppSpacing.gutter,
-                      AppSpacing.md,
-                    ),
-                    sliver: SliverList.list(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(AppRadii.lg),
-                          // Just taller than wide: the square photo loses
-                          // only white above and below the bottles.
-                          child: AspectRatio(
-                            aspectRatio: 1.1,
-                            child: Image.asset(
-                              WaterPage.photo,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: AppSpacing.lg),
-                        Text(
-                          context.content.text(WaterPage.line),
-                          style: context.textStyles.body,
-                        ),
-                        const SizedBox(height: AppSpacing.xl),
-                        if (lastOrder == null)
-                          InfoNote(
-                            icon: Icons.replay_rounded,
-                            text: context.l10n.orderAgainHint,
-                          )
-                        else
-                          _LastOrderCard(
-                            order: lastOrder,
-                            onOrderAgain: () {
-                              ref
-                                  .read(cartProvider(Brand.water).notifier)
-                                  .repeat(lastOrder);
-                              context.push(Routes.brandCart(Brand.water));
-                            },
-                          ),
-                        const SizedBox(height: AppSpacing.xl),
-                        Text(
-                          context.l10n.itemsTitle,
-                          style: context.textStyles.subtitle,
-                        ),
-                      ],
-                    ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          BrandHeaderBand(
+            brand: Brand.water,
+            onBack: () => context.pop(),
+            actions: const [CartButton(brand: Brand.water)],
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          Expanded(
+            child: CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.gutter,
+                    0,
+                    AppSpacing.gutter,
+                    AppSpacing.md,
                   ),
-                  ProductGrid(products: products),
-                ],
-              ),
+                  sliver: SliverList.list(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(AppRadii.lg),
+                        // Just taller than wide: the square photo loses
+                        // only white above and below the bottles.
+                        child: AspectRatio(
+                          aspectRatio: 1.1,
+                          child: Image.asset(
+                            WaterPage.photo,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      Text(
+                        context.content.text(WaterPage.line),
+                        style: context.textStyles.body,
+                      ),
+                      const SizedBox(height: AppSpacing.xl),
+                      if (lastOrder == null)
+                        InfoNote(
+                          icon: Icons.replay_rounded,
+                          text: context.l10n.orderAgainHint,
+                        )
+                      else
+                        _LastOrderCard(
+                          order: lastOrder,
+                          onOrderAgain: () {
+                            ref
+                                .read(cartProvider(Brand.water).notifier)
+                                .repeat(lastOrder);
+                            context.push(Routes.brandCart(Brand.water));
+                          },
+                        ),
+                      const SizedBox(height: AppSpacing.xl),
+                      Text(
+                        context.l10n.itemsTitle,
+                        style: context.textStyles.subtitle,
+                      ),
+                    ],
+                  ),
+                ),
+                ProductGrid(products: products),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

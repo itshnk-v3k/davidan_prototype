@@ -8,6 +8,8 @@ import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
+import 'package:davidan_prototype/core/widgets/info_note.dart';
+import 'package:davidan_prototype/core/widgets/photo_hero.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/core/widgets/summary_row.dart';
 import 'package:davidan_prototype/data/mock/rental/rental_cars.dart';
@@ -57,17 +59,15 @@ class CarDetailScreen extends ConsumerWidget {
                   AppSpacing.xl,
                 ),
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(AppRadii.lg),
-                    child: AspectRatio(
-                      aspectRatio: 3 / 2,
-                      child: Hero(
-                        tag: CarDetailScreen.heroTagFor(car.id),
-                        child: Image.asset(
-                          car.image,
-                          fit: BoxFit.cover,
-                          alignment: const Alignment(0, 0.5),
-                        ),
+                  AspectRatio(
+                    aspectRatio: 3 / 2,
+                    child: PhotoHero(
+                      tag: CarDetailScreen.heroTagFor(car.id),
+                      borderRadius: BorderRadius.circular(AppRadii.lg),
+                      child: Image.asset(
+                        car.image,
+                        fit: BoxFit.cover,
+                        alignment: const Alignment(0, 0.5),
                       ),
                     ),
                   ),
@@ -106,7 +106,7 @@ class CarDetailScreen extends ConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Icon(
-                                    Icons.badge_outlined,
+                                    Icons.badge_rounded,
                                     size: 20,
                                     color: context.colors.primary,
                                   ),
@@ -248,17 +248,28 @@ class _FeatureTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Neutral, with the brand's colour on the check only, so a list of
+    // features doesn't read as a row of red warnings.
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: context.colors.accentSoft,
+        color: InfoNote.fillOf(context.colors),
         borderRadius: BorderRadius.circular(AppRadii.pill),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.xs + AppSpacing.xxs,
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.sm,
+          AppSpacing.xs + AppSpacing.xxs,
+          AppSpacing.md,
+          AppSpacing.xs + AppSpacing.xxs,
         ),
-        child: Text(label, style: context.textStyles.label),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.check_rounded, size: 14, color: context.colors.primary),
+            const SizedBox(width: AppSpacing.xs),
+            Flexible(child: Text(label, style: context.textStyles.label)),
+          ],
+        ),
       ),
     );
   }

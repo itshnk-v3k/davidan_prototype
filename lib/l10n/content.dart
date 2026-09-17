@@ -97,6 +97,7 @@ class ContentTranslator {
       : RentalCar(
           id: car.id,
           name: car.name,
+          carClass: car.carClass,
           tagline: text(car.tagline),
           image: car.image,
           year: car.year,

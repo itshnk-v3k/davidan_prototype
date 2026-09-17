@@ -90,10 +90,11 @@ class _MapPickerScreenState extends ConsumerState<MapPickerScreen> {
                     locations: locations,
                     onPointChanged: (point) => setState(() => _point = point),
                   ),
-                  const SizedBox(height: AppSpacing.md),
+                  // The chips' clear margins make up the rest of the gaps.
+                  const SizedBox(height: AppSpacing.md - AppChip.tapMargin),
                   Wrap(
                     spacing: AppSpacing.sm,
-                    runSpacing: AppSpacing.sm,
+                    runSpacing: AppChip.runSpacing,
                     children: [
                       for (final MapEntry(key: sector, value: centre)
                           in sectorCentres.entries)
@@ -104,7 +105,7 @@ class _MapPickerScreenState extends ConsumerState<MapPickerScreen> {
                         ),
                     ],
                   ),
-                  const SizedBox(height: AppSpacing.lg),
+                  const SizedBox(height: AppSpacing.lg - AppChip.tapMargin),
                   DetailRow(
                     icon: Icons.place_rounded,
                     label: context.l10n.chosenPoint,

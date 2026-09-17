@@ -8,6 +8,7 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
+import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/quantity_stepper.dart';
 
@@ -59,6 +60,44 @@ void main() {
           contrast(colors.textPrimary, colors.accentSoft),
           greaterThanOrEqualTo(4.5),
           reason: 'textPrimary on accentSoft',
+        );
+      });
+
+      test('an unticked radio button or checkbox is outlined at 3:1 on its '
+          'tile', () {
+        for (final (surfaceName, surface) in [
+          ('surface', colors.surface),
+          ('surfaceMuted', colors.surfaceMuted),
+        ]) {
+          expect(
+            contrast(colors.textSecondary, surface),
+            greaterThanOrEqualTo(3),
+            reason: 'unticked outline on $surfaceName',
+          );
+        }
+      });
+
+      test('icons on the accent tint (link cards, empty states, photo '
+          'placeholders) are 3:1', () {
+        expect(
+          contrast(colors.primary, colors.accentSoft),
+          greaterThanOrEqualTo(3),
+          reason: 'primary icon on accentSoft',
+        );
+      });
+
+      test('notes and tags on their neutral fill: text 4.5:1, the brand\'s '
+          'icon 3:1', () {
+        final fill = InfoNote.fillOf(colors);
+        expect(
+          contrast(colors.textPrimary, fill),
+          greaterThanOrEqualTo(4.5),
+          reason: 'text on a note',
+        );
+        expect(
+          contrast(colors.primary, fill),
+          greaterThanOrEqualTo(3),
+          reason: 'brand icon on a note',
         );
       });
 

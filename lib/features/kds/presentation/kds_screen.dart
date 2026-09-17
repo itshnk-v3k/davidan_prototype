@@ -7,7 +7,6 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
-import 'package:davidan_prototype/core/widgets/entrance.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/core/widgets/section_title.dart';
 import 'package:davidan_prototype/core/widgets/top_notice.dart';
@@ -179,10 +178,8 @@ class _SideBySide extends StatelessWidget {
                                   itemCount: orders.length,
                                   separatorBuilder: (_, _) =>
                                       const SizedBox(height: AppSpacing.md),
-                                  itemBuilder: (_, index) => Entrance(
-                                    key: ValueKey(orders[index].id),
-                                    child: KdsOrderCard(order: orders[index]),
-                                  ),
+                                  itemBuilder: (_, index) =>
+                                      KdsOrderCard(order: orders[index]),
                                 ),
                         ),
                       ],
@@ -234,7 +231,7 @@ class _Stacked extends StatelessWidget {
                       padding: EdgeInsets.only(
                         top: index == 0 ? 0 : AppSpacing.md,
                       ),
-                      child: Entrance(child: KdsOrderCard(order: order)),
+                      child: KdsOrderCard(order: order),
                     ),
               ],
             ),

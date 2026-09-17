@@ -298,7 +298,7 @@ class _PlaceAndTime extends StatelessWidget {
       children: [
         Wrap(
           spacing: AppSpacing.sm,
-          runSpacing: AppSpacing.sm,
+          runSpacing: AppChip.runSpacing,
           children: [
             for (final place in RentalLocation.values)
               AppChip(
@@ -312,7 +312,8 @@ class _PlaceAndTime extends StatelessWidget {
               ),
           ],
         ),
-        const SizedBox(height: AppSpacing.md),
+        // The chips' clear margin makes up the rest of the gap.
+        const SizedBox(height: AppSpacing.md - AppChip.tapMargin),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -491,7 +492,7 @@ class _ExtraTile extends StatelessWidget {
                   size: 22,
                   color: selected
                       ? context.colors.primary
-                      : context.colors.textDisabled,
+                      : context.colors.textSecondary,
                 ),
                 const SizedBox(width: AppSpacing.md),
                 Expanded(

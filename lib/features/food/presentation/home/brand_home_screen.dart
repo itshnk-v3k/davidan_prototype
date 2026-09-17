@@ -7,7 +7,7 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
-import 'package:davidan_prototype/core/widgets/brand_logo.dart';
+import 'package:davidan_prototype/core/widgets/brand_header_band.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
@@ -45,16 +45,32 @@ class BrandHomeScreen extends ConsumerWidget {
         ),
     ];
 
+    final info = brandInfos[brand];
+
     return Scaffold(
       backgroundColor: context.colors.background,
-      body: SafeArea(
-        bottom: false,
-        child: CustomScrollView(
-          slivers: [
-            // Stays at the top while everything below scrolls beneath it, so
-            // the way back to the hub is always in the same place.
-            PinnedHeaderSliver(child: _BrandHeader(brand: brand)),
-            SliverToBoxAdapter(
+      body: CustomScrollView(
+        slivers: [
+          // Stays at the top while everything below scrolls beneath it, so
+          // the way back to the hub is always in the same place.
+          PinnedHeaderSliver(
+            child: BrandHeaderBand(
+              brand: brand,
+              onBack: () => context.pop(),
+              actions: [
+                if (info != null)
+                  AppIconButton(
+                    icon: Icons.info_outline_rounded,
+                    semanticLabel: context.l10n.openBrandInfo(info.name),
+                    onPressed: () => context.push(Routes.brandInfo(brand)),
+                  ),
+                CartButton(brand: brand),
+              ],
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.only(top: AppSpacing.xl),
               child: PromoBannerCarousel(
                 banners: banners,
                 onBannerTap: (banner) {
@@ -67,97 +83,50 @@ class BrandHomeScreen extends ConsumerWidget {
                 },
               ),
             ),
-            SliverToBoxAdapter(
-              child: _SectionTitle(context.l10n.categoriesTitle),
-            ),
-            SliverToBoxAdapter(
-              child: CategoryStrip(
-                categories: categories,
-                onCategoryTap: (category) => context.push(
-                  Routes.brandMenu(brand, categoryId: category.id),
-                ),
+          ),
+          SliverToBoxAdapter(
+            child: _SectionTitle(context.l10n.categoriesTitle),
+          ),
+          SliverToBoxAdapter(
+            child: CategoryStrip(
+              categories: categories,
+              onCategoryTap: (category) => context.push(
+                Routes.brandMenu(brand, categoryId: category.id),
               ),
             ),
-            SliverToBoxAdapter(
-              child: ProductShelf(
-                id: _popularRowId,
-                // "Produse DaviDan" is davidan.md's own heading; the sushi
-                // site has none, so its row gets a plain one.
-                title: brand == Brand.bakery
-                    ? context.l10n.popularTitle
-                    : context.l10n.popularTitlePlain,
-                products: popular,
-                onSeeAll: () => context.push(Routes.brandMenu(brand)),
-              ),
+          ),
+          SliverToBoxAdapter(
+            child: ProductShelf(
+              id: _popularRowId,
+              // "Produse DaviDan" is davidan.md's own heading; the sushi
+              // site has none, so its row gets a plain one.
+              title: brand == Brand.bakery
+                  ? context.l10n.popularTitle
+                  : context.l10n.popularTitlePlain,
+              products: popular,
+              onSeeAll: () => context.push(Routes.brandMenu(brand)),
             ),
-            // Built as they scroll into view.
-            SliverList.builder(
-              itemCount: categoryRows.length,
-              itemBuilder: (context, index) {
-                final (:category, :products) = categoryRows[index];
-                void openCategory() => context.push(
-                  Routes.brandMenu(brand, categoryId: category.id),
-                );
-                return ProductShelf(
-                  id: category.id,
-                  title: category.name,
-                  description: category.description,
-                  products: products,
-                  onSeeAll: openCategory,
-                  seeAllLabel: context.l10n.seeAllProducts(products.length),
-                );
-              },
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Back to the hub, the brand's logo, its information page (for a brand that
-/// has one) and its cart.
-class _BrandHeader extends StatelessWidget {
-  const _BrandHeader({required this.brand});
-
-  final Brand brand;
-
-  @override
-  Widget build(BuildContext context) {
-    final info = brandInfos[brand];
-
-    // Opaque, so the content scrolling beneath doesn't show through.
-    return ColoredBox(
-      color: context.colors.background,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          AppSpacing.gutter,
-          AppSpacing.md,
-          AppSpacing.gutter,
-          AppSpacing.md,
-        ),
-        child: Row(
-          children: [
-            AppIconButton(
-              icon: Icons.arrow_back_rounded,
-              semanticLabel: context.l10n.backHome,
-              onPressed: () => context.pop(),
-            ),
-            const SizedBox(width: AppSpacing.md),
-            BrandLogo(height: 26, brand: brand),
-            const Spacer(),
-            if (info != null) ...[
-              AppIconButton(
-                icon: Icons.info_outline_rounded,
-                semanticLabel: context.l10n.openBrandInfo(info.name),
-                onPressed: () => context.push(Routes.brandInfo(brand)),
-              ),
-              const SizedBox(width: AppSpacing.sm),
-            ],
-            CartButton(brand: brand),
-          ],
-        ),
+          ),
+          // Built as they scroll into view.
+          SliverList.builder(
+            itemCount: categoryRows.length,
+            itemBuilder: (context, index) {
+              final (:category, :products) = categoryRows[index];
+              void openCategory() => context.push(
+                Routes.brandMenu(brand, categoryId: category.id),
+              );
+              return ProductShelf(
+                id: category.id,
+                title: category.name,
+                description: category.description,
+                products: products,
+                onSeeAll: openCategory,
+                seeAllLabel: context.l10n.seeAllProducts(products.length),
+              );
+            },
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
+        ],
       ),
     );
   }

@@ -6,7 +6,7 @@ import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/widgets/top_notice.dart';
 
 /// Shows the current toast at the top of the phone apps, in the same style as
-/// the store panel's new-order notice. It lets taps through, so it never
+/// the store panel's new-order notice, in the colour of the brand it's about. It lets taps through, so it never
 /// covers a back button or a heart while it's up. PhoneFrame places it above
 /// every screen.
 class ToastHost extends ConsumerWidget {
@@ -35,6 +35,7 @@ class ToastHost extends ConsumerWidget {
                       key: ValueKey(toast.id),
                       icon: Icons.check_circle_rounded,
                       message: toast.message,
+                      brand: toast.brand,
                     ),
             ),
           ),

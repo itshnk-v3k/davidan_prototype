@@ -1,6 +1,6 @@
-// The quantity stepper on cards, cart lines and the product page: its press
-// feedback, its disabled minus, and how it grows out of the add button, in the
-// real app, in Chrome:
+// The quantity stepper on cards, cart lines and the product page: its disabled
+// minus, where its plus lands on a card, and its digits, in the real app, in
+// Chrome:
 //   flutter test --platform chrome
 @TestOn('browser')
 library;
@@ -11,7 +11,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
@@ -35,53 +34,20 @@ void main() {
     matching: find.byIcon(icon),
   );
 
-  double scaleAround(WidgetTester tester, Finder finder) => tester
-      .widget<AnimatedScale>(
-        find.ancestor(of: finder, matching: find.byType(AnimatedScale)).first,
-      )
-      .scale;
-
-  testWidgets('each stepper button shrinks while pressed, more than a card', (
-    tester,
-  ) async {
-    container
-        .read(cartProvider(Brand.bakery).notifier)
-        .add('americano', quantity: 2);
+  testWidgets('at one item the minus is disabled: it doesn\'t open the product '
+      'underneath', (tester) async {
+    container.read(cartProvider(Brand.bakery).notifier).add('americano');
     await pumpApp(tester, container, Routes.brandCart(Brand.bakery));
+    final minus = stepperIcon(Icons.remove_rounded);
 
-    for (final icon in [Icons.add_rounded, Icons.remove_rounded]) {
-      final button = stepperIcon(icon);
-      expect(scaleAround(tester, button), 1);
+    final press = await tester.startGesture(tester.getCenter(minus));
+    await tester.pump(pressed);
+    await press.up();
+    await tester.pumpAndSettle();
 
-      final press = await tester.startGesture(tester.getCenter(button));
-      await tester.pump(pressed);
-      expect(scaleAround(tester, button), AppMotion.pressedScaleButton);
-      expect(AppMotion.pressedScaleButton, lessThan(AppMotion.pressedScale));
-
-      await press.cancel();
-      await tester.pumpAndSettle();
-      expect(scaleAround(tester, button), 1);
-    }
+    expect(find.byType(ProductDetailScreen), findsNothing);
+    expect(container.read(cartCountProvider(Brand.bakery)), 1);
   });
-
-  testWidgets(
-    'at one item the minus is disabled: it neither shrinks nor opens the '
-    'product underneath',
-    (tester) async {
-      container.read(cartProvider(Brand.bakery).notifier).add('americano');
-      await pumpApp(tester, container, Routes.brandCart(Brand.bakery));
-      final minus = stepperIcon(Icons.remove_rounded);
-
-      final press = await tester.startGesture(tester.getCenter(minus));
-      await tester.pump(pressed);
-      expect(scaleAround(tester, minus), 1);
-      await press.up();
-      await tester.pumpAndSettle();
-
-      expect(find.byType(ProductDetailScreen), findsNothing);
-      expect(container.read(cartCountProvider(Brand.bakery)), 1);
-    },
-  );
 
   testWidgets('on a card, the stepper\'s plus lands where the add button was', (
     tester,

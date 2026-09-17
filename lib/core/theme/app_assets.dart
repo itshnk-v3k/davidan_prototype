@@ -17,6 +17,20 @@ abstract final class AppAssets {
   static const sushiLogo =
       'assets/images/brand/logo-davidan-sushi-on-light.png';
 
+  /// Each brand's logo in white, for its colour on the hub's bubbles and its
+  /// header band. Generated from the site logos by
+  /// tools/brand/generate_white_logos_test.dart.
+  static const logoWhite = 'assets/images/brand/logo-davidan-white.png';
+
+  /// The wheat "D" of DaviDan's logo alone, in white.
+  static const markWhite = 'assets/images/brand/logo-davidan-mark-white.png';
+  static const sushiLogoWhite =
+      'assets/images/brand/logo-davidan-sushi-white.png';
+  static const waterLogoWhite =
+      'assets/images/brand/logo-apa-davidan-white.png';
+  static const rentCarLogoWhite =
+      'assets/images/brand/logo-davidan-rent-car-white.png';
+
   /// Splash screen background: DaviDan's glazed croissants. Portrait, so it
   /// fills a phone screen with little cropping.
   static const splashBackground =

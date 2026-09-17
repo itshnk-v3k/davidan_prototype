@@ -27,7 +27,8 @@ class ScreenHeader extends ConsumerWidget {
   final VoidCallback? onBack;
 
   /// Buttons at the far right, such as a brand's cart button. On a top-level
-  /// header they follow the launcher button.
+  /// header they follow the launcher button. They are [AppIconButton]s (or
+  /// built on one), lined up by their circles, not their clear margins.
   final List<Widget> actions;
 
   @override
@@ -36,12 +37,22 @@ class ScreenHeader extends ConsumerWidget {
     // Only the staff build has a launcher to go back to.
     final hasLauncher = ref.watch(extraAppsProvider).isNotEmpty;
 
+    // Buttons take taps in TapTarget.min, beyond their 40 px circles. Their
+    // clear margins take the place of the padding and gaps around them, so the
+    // circles and the title sit where they would without them.
+    const margin = TapTarget.iconButtonMargin;
+    final leadsWithButton = onBack != null;
+    final endsWithButton = hasLauncher || actions.isNotEmpty;
+    final vertical = leadsWithButton || endsWithButton
+        ? AppSpacing.md - margin
+        : AppSpacing.md;
+
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.gutter,
-        AppSpacing.md,
-        AppSpacing.gutter,
-        AppSpacing.md,
+      padding: EdgeInsets.fromLTRB(
+        leadsWithButton ? AppSpacing.gutter - margin : AppSpacing.gutter,
+        vertical,
+        endsWithButton ? AppSpacing.gutter - margin : AppSpacing.gutter,
+        vertical,
       ),
       child: Row(
         children: onBack == null
@@ -57,7 +68,7 @@ class ScreenHeader extends ConsumerWidget {
                   ),
                 for (final (index, action) in actions.indexed) ...[
                   if (hasLauncher || index > 0)
-                    const SizedBox(width: AppSpacing.sm),
+                    const SizedBox(width: AppSpacing.sm - 2 * margin),
                   action,
                 ],
               ]
@@ -67,10 +78,14 @@ class ScreenHeader extends ConsumerWidget {
                   semanticLabel: context.l10n.back,
                   onPressed: onBack,
                 ),
-                const SizedBox(width: AppSpacing.md),
+                const SizedBox(width: AppSpacing.md - margin),
                 Expanded(child: Text(title, style: context.textStyles.title)),
-                for (final action in actions) ...[
-                  const SizedBox(width: AppSpacing.sm),
+                for (final (index, action) in actions.indexed) ...[
+                  SizedBox(
+                    width: index == 0
+                        ? AppSpacing.sm - margin
+                        : AppSpacing.sm - 2 * margin,
+                  ),
                   action,
                 ],
               ],

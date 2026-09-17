@@ -116,6 +116,7 @@
   "ordersEmptyMessage": "Здесь появятся твои заказы с актуальным статусом.",
   "ordersActiveTitle": "Текущие",
   "ordersPastTitle": "Завершённые",
+  "rentalCarClass": "{carClass, select, economy{Эконом} family{Семейные} suv{Внедорожники} premium{Премиум} other{Другие}}",
   "allBrands": "Все",
   "openBrandInfo": "Информация о {brandName}",
   "brandContactsTitle": "Контакты",

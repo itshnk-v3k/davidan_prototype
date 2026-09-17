@@ -4,11 +4,9 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
-import 'package:davidan_prototype/core/widgets/entrance.dart';
 
 /// Centered icon, message and optional button for an empty or not-found
-/// screen. Fills the space it is given. When it appears, the icon grows in and
-/// the text lifts into place.
+/// screen. Fills the space it is given.
 class EmptyState extends StatelessWidget {
   const EmptyState({
     super.key,
@@ -42,45 +40,34 @@ class EmptyState extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Center(
-              child: Entrance(
-                pop: true,
-                child: Container(
-                  width: 72,
-                  height: 72,
-                  decoration: BoxDecoration(
-                    color: context.colors.accentSoft,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(icon, size: 36, color: context.colors.accent),
+              child: Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                  color: context.colors.accentSoft,
+                  shape: BoxShape.circle,
                 ),
+                child: Icon(icon, size: 36, color: context.colors.primary),
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
-            Entrance(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    title,
-                    style: context.textStyles.subtitle,
-                    textAlign: TextAlign.center,
-                  ),
-                  if (message != null) ...[
-                    const SizedBox(height: AppSpacing.xs),
-                    Text(
-                      message,
-                      style: context.textStyles.bodySecondary,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                  if (actionLabel != null && onAction != null) ...[
-                    const SizedBox(height: AppSpacing.xl),
-                    AppButton(label: actionLabel, onPressed: onAction),
-                  ],
-                ],
-              ),
+            Text(
+              title,
+              style: context.textStyles.subtitle,
+              textAlign: TextAlign.center,
             ),
+            if (message != null) ...[
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                message,
+                style: context.textStyles.bodySecondary,
+                textAlign: TextAlign.center,
+              ),
+            ],
+            if (actionLabel != null && onAction != null) ...[
+              const SizedBox(height: AppSpacing.xl),
+              AppButton(label: actionLabel, onPressed: onAction),
+            ],
           ],
         ),
       ),

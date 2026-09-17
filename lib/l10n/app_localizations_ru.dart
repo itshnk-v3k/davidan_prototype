@@ -409,6 +409,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ordersPastTitle => 'Завершённые';
 
   @override
+  String rentalCarClass(String carClass) {
+    String _temp0 = intl.Intl.selectLogic(carClass, {
+      'economy': 'Эконом',
+      'family': 'Семейные',
+      'suv': 'Внедорожники',
+      'premium': 'Премиум',
+      'other': 'Другие',
+    });
+    return '$_temp0';
+  }
+
+  @override
   String get allBrands => 'Все';
 
   @override

@@ -4,6 +4,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/theme/brand_colors.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The hub's frame: the active tab plus the bottom navigation bar. A brand's
@@ -44,41 +46,92 @@ class ClientShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = GoRouter.of(context);
     return Scaffold(
       backgroundColor: context.colors.background,
       body: navigationShell,
-      bottomNavigationBar: _BottomNav(
-        currentIndex: navigationShell.currentIndex,
-        // Tapping the active tab again returns it to its first screen.
-        onTap: (index) => navigationShell.goBranch(
-          index,
-          initialLocation: index == navigationShell.currentIndex,
+      // Inside a brand's pages the bar takes the brand's colour, so it rebuilds
+      // as the open page changes, pushed pages included.
+      bottomNavigationBar: ListenableBuilder(
+        listenable: router.routerDelegate,
+        builder: (context, _) => _BottomNav(
+          currentIndex: navigationShell.currentIndex,
+          brand: _brandAt(router.state.matchedLocation),
+          // Tapping the active tab again returns it to its first screen.
+          onTap: (index) => navigationShell.goBranch(
+            index,
+            initialLocation: index == navigationShell.currentIndex,
+          ),
         ),
       ),
     );
   }
+
+  /// The brand whose pages [location] is in (`.../b/:brand/...`), if any.
+  static Brand? _brandAt(String location) {
+    final segments = Uri.parse(location).pathSegments;
+    final at = segments.indexOf('b');
+    if (at == -1 || at + 1 >= segments.length) return null;
+    return Brand.values.asNameMap()[segments[at + 1]];
+  }
 }
 
 class _BottomNav extends StatelessWidget {
-  const _BottomNav({required this.currentIndex, required this.onTap});
+  const _BottomNav({
+    required this.currentIndex,
+    required this.brand,
+    required this.onTap,
+  });
 
   final int currentIndex;
+
+  /// The brand whose pages are open, whose colour the bar takes; DaviDan's
+  /// own colours elsewhere.
+  final Brand? brand;
   final ValueChanged<int> onTap;
 
   @override
   Widget build(BuildContext context) {
     // Same order as the branches of the StatefulShellRoute in app_router.dart.
+    // The current tab's icon is filled and the others are outlines, as
+    // Material 3 does. The icon font has no rounded outline of the house or
+    // the receipt, so those two use the outlined set.
     final items = [
-      (icon: Icons.home_rounded, label: context.l10n.navHome),
-      (icon: Icons.receipt_long_rounded, label: context.l10n.navOrders),
-      (icon: Icons.favorite_rounded, label: context.l10n.navFavorites),
-      (icon: Icons.person_rounded, label: context.l10n.navProfile),
+      (
+        icon: Icons.home_outlined,
+        selectedIcon: Icons.home_rounded,
+        label: context.l10n.navHome,
+      ),
+      (
+        icon: Icons.receipt_long_outlined,
+        selectedIcon: Icons.receipt_long_rounded,
+        label: context.l10n.navOrders,
+      ),
+      (
+        icon: Icons.favorite_border_rounded,
+        selectedIcon: Icons.favorite_rounded,
+        label: context.l10n.navFavorites,
+      ),
+      (
+        icon: Icons.person_outline_rounded,
+        selectedIcon: Icons.person_rounded,
+        label: context.l10n.navProfile,
+      ),
     ];
+
+    final brand = this.brand;
+    final colors = brand == null
+        ? context.colors
+        : BrandColors.of(brand, Theme.of(context).brightness);
 
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colors.surface,
-        border: Border(top: BorderSide(color: context.colors.border)),
+        border: Border(
+          top: brand == null
+              ? BorderSide(color: context.colors.border)
+              : BorderSide(color: colors.primary, width: 2),
+        ),
       ),
       child: SafeArea(
         top: false,
@@ -89,9 +142,11 @@ class _BottomNav extends StatelessWidget {
               for (final (index, item) in items.indexed)
                 Expanded(
                   child: _NavItem(
-                    icon: item.icon,
+                    icon: index == currentIndex ? item.selectedIcon : item.icon,
                     label: item.label,
                     selected: index == currentIndex,
+                    selectedColor: colors.primary,
+                    indicatorColor: colors.accentSoft,
                     onTap: () => onTap(index),
                   ),
                 ),
@@ -108,19 +163,23 @@ class _NavItem extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.selected,
+    required this.selectedColor,
+    required this.indicatorColor,
     required this.onTap,
   });
 
   final IconData icon;
   final String label;
   final bool selected;
+  final Color selectedColor;
+
+  /// The pill behind the selected tab's icon.
+  final Color indicatorColor;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final color = selected
-        ? context.colors.primary
-        : context.colors.textSecondary;
+    final color = selected ? selectedColor : context.colors.textSecondary;
 
     return Semantics(
       selected: selected,
@@ -129,8 +188,17 @@ class _NavItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 24, color: color),
-            const SizedBox(height: AppSpacing.xs),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: 56,
+              height: 30,
+              decoration: BoxDecoration(
+                color: selected ? indicatorColor : Colors.transparent,
+                borderRadius: BorderRadius.circular(AppRadii.pill),
+              ),
+              child: Icon(icon, size: 24, color: color),
+            ),
+            const SizedBox(height: AppSpacing.xxs),
             Text(
               label,
               style: context.textStyles.label.copyWith(

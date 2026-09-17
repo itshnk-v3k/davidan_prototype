@@ -48,16 +48,30 @@ void main() {
               as AssetImage)
           .assetName;
 
-  testWidgets('the prototype opens in the dark theme, with the cream logo', (
-    tester,
-  ) async {
-    await pumpApp(tester, container, Routes.clientHome);
+  testWidgets(
+    'the prototype follows the phone until a theme is chosen: light on a '
+    'light phone, dark with the cream logo on a dark one',
+    (tester) async {
+      expect(container.read(themeModeProvider), ThemeMode.system);
 
-    expect(container.read(themeModeProvider), ThemeMode.dark);
-    expect(brightnessOf(tester, find.byType(BrandLogo)), Brightness.dark);
-    expect(tester.element(find.byType(BrandLogo)).colors, AppColors.dark);
-    expect(logoAsset(tester), AppAssets.logoOnDark);
-  });
+      for (final (phone, colors, logo) in [
+        (Brightness.light, AppColors.light, AppAssets.logo),
+        (Brightness.dark, AppColors.dark, AppAssets.logoOnDark),
+      ]) {
+        await pumpApp(
+          tester,
+          container,
+          Routes.clientHome,
+          phoneBrightness: phone,
+        );
+
+        final logoFinder = find.byType(BrandLogo);
+        expect(brightnessOf(tester, logoFinder), phone);
+        expect(tester.element(logoFinder).colors, colors, reason: '$phone');
+        expect(logoAsset(tester), logo, reason: '$phone');
+      }
+    },
+  );
 
   testWidgets(
     'choosing the light theme in the profile applies at once, even without '
@@ -175,8 +189,6 @@ void main() {
   testWidgets('"Ca telefonul" follows the phone\'s light or dark setting', (
     tester,
   ) async {
-    addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
-    tester.platformDispatcher.platformBrightnessTestValue = Brightness.light;
     container.read(themeModeProvider.notifier).select(ThemeMode.system);
     await pumpApp(tester, container, Routes.clientProfile);
     expect(brightnessOf(tester, find.byType(ProfileScreen)), Brightness.light);

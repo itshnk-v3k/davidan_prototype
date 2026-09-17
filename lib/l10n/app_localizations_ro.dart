@@ -409,6 +409,18 @@ class AppLocalizationsRo extends AppLocalizations {
   String get ordersPastTitle => 'Finalizate';
 
   @override
+  String rentalCarClass(String carClass) {
+    String _temp0 = intl.Intl.selectLogic(carClass, {
+      'economy': 'Economice',
+      'family': 'Familie',
+      'suv': 'SUV',
+      'premium': 'Premium',
+      'other': 'Altele',
+    });
+    return '$_temp0';
+  }
+
+  @override
   String get allBrands => 'Toate';
 
   @override

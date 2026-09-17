@@ -11,6 +11,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
+import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/account/presentation/profile/profile_screen.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
@@ -62,6 +63,35 @@ void main() {
         reason: label,
       );
     }
+    // The current tab's icon is filled, the others are outlines.
+    IconData? tabIcon(String label) => tester
+        .widget<Icon>(
+          find.descendant(
+            of: find.ancestor(
+              of: find.text(label),
+              matching: find.byType(InkWell),
+            ),
+            matching: find.byType(Icon),
+          ),
+        )
+        .icon;
+    expect(labels.map(tabIcon), [
+      Icons.home_rounded,
+      Icons.receipt_long_outlined,
+      Icons.favorite_border_rounded,
+      Icons.person_outline_rounded,
+    ]);
+    await tester.tap(find.text(ro.navOrders));
+    await tester.pumpAndSettle();
+    expect(labels.map(tabIcon), [
+      Icons.home_outlined,
+      Icons.receipt_long_rounded,
+      Icons.favorite_border_rounded,
+      Icons.person_outline_rounded,
+    ]);
+    await tester.tap(find.text(ro.navHome));
+    await tester.pumpAndSettle();
+
     expect(find.text('Coș'), findsNothing);
     expect(find.text(ro.menuTitle), findsNothing);
     // The only shopping bag is the carts button in Acasă's header: no tab.
@@ -90,8 +120,10 @@ void main() {
 
         final found = inScreenOf(screen, find.byType(button));
         expect(found, findsOneWidget, reason: route);
+        // The circle is 16 px from the edge; its clear tap margin reaches
+        // further.
         expect(
-          tester.getTopRight(found).dx,
+          tester.getTopRight(found).dx - TapTarget.iconButtonMargin,
           closeTo(400 - 16, 1),
           reason: route,
         );

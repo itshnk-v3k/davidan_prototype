@@ -4,7 +4,6 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
-import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
@@ -50,54 +49,50 @@ class CartScreen extends ConsumerWidget {
                   : context.go(Routes.brandHome(brand)),
             ),
             Expanded(
-              // Removing the last line crossfades to the empty state.
-              child: AnimatedSwitcher(
-                duration: AppMotion.of(context, AppMotion.medium),
-                child: lines.isEmpty
-                    ? EmptyState(
-                        key: const ValueKey('empty'),
-                        icon: Icons.shopping_bag_outlined,
-                        title: context.l10n.cartEmptyTitle,
-                        message: hasMenu
-                            ? context.l10n.cartEmptyMessage
-                            : context.l10n.cartEmptyMessageNoMenu,
-                        actionLabel: hasMenu
-                            ? context.l10n.browseMenu
-                            : context.l10n.browseProducts,
-                        // The menu is inside Acasă, so go() rather than
-                        // push (see Routes).
-                        onAction: () => context.go(Routes.brandMenu(brand)),
-                      )
-                    : ListView.separated(
-                        key: const ValueKey('lines'),
-                        padding: const EdgeInsets.fromLTRB(
-                          AppSpacing.gutter,
-                          0,
-                          AppSpacing.gutter,
-                          AppSpacing.lg,
-                        ),
-                        itemCount: lines.length,
-                        separatorBuilder: (_, _) =>
-                            const SizedBox(height: AppSpacing.sm),
-                        itemBuilder: (context, index) {
-                          final (:product, :quantity, priceBani: _) =
-                              lines[index];
-                          return CartLineTile(
-                            product: product,
-                            quantity: quantity,
-                            onOpen: () =>
-                                context.push(Routes.brandProduct(product.key)),
-                            onIncrement: quantity < ProductQuantityNotifier.max
-                                ? () => cart().add(product.id)
-                                : null,
-                            onDecrement: quantity > 1
-                                ? () => cart().removeOne(product.id)
-                                : null,
-                            onRemove: () => cart().remove(product.id),
-                          );
-                        },
+              child: lines.isEmpty
+                  ? EmptyState(
+                      key: const ValueKey('empty'),
+                      icon: Icons.shopping_bag_rounded,
+                      title: context.l10n.cartEmptyTitle,
+                      message: hasMenu
+                          ? context.l10n.cartEmptyMessage
+                          : context.l10n.cartEmptyMessageNoMenu,
+                      actionLabel: hasMenu
+                          ? context.l10n.browseMenu
+                          : context.l10n.browseProducts,
+                      // The menu is inside Acasă, so go() rather than
+                      // push (see Routes).
+                      onAction: () => context.go(Routes.brandMenu(brand)),
+                    )
+                  : ListView.separated(
+                      key: const ValueKey('lines'),
+                      padding: const EdgeInsets.fromLTRB(
+                        AppSpacing.gutter,
+                        0,
+                        AppSpacing.gutter,
+                        AppSpacing.lg,
                       ),
-              ),
+                      itemCount: lines.length,
+                      separatorBuilder: (_, _) =>
+                          const SizedBox(height: AppSpacing.sm),
+                      itemBuilder: (context, index) {
+                        final (:product, :quantity, priceBani: _) =
+                            lines[index];
+                        return CartLineTile(
+                          product: product,
+                          quantity: quantity,
+                          onOpen: () =>
+                              context.push(Routes.brandProduct(product.key)),
+                          onIncrement: quantity < ProductQuantityNotifier.max
+                              ? () => cart().add(product.id)
+                              : null,
+                          onDecrement: quantity > 1
+                              ? () => cart().removeOne(product.id)
+                              : null,
+                          onRemove: () => cart().remove(product.id),
+                        );
+                      },
+                    ),
             ),
           ],
         ),

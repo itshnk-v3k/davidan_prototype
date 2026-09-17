@@ -79,16 +79,22 @@ Future<ProviderContainer> startApp({
 Future<void> flushWrites() => Future<void>.delayed(Duration.zero);
 
 /// Pumps the real app (router, screens, Notifiers) at [location]. The default
-/// viewport is phone-sized, so the app renders without the desktop frame.
+/// viewport is phone-sized, so the app renders without the desktop frame. The
+/// app's theme follows the phone until one is chosen, so the phone is set to
+/// [phoneBrightness]; otherwise tests would take the colours of the browser
+/// running them.
 Future<void> pumpApp(
   WidgetTester tester,
   ProviderContainer container,
   String location, {
   Size size = const Size(400, 900),
+  Brightness phoneBrightness = Brightness.light,
 }) async {
   tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
+  tester.platformDispatcher.platformBrightnessTestValue = phoneBrightness;
+  addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
 
   await tester.pumpWidget(
     UncontrolledProviderScope(container: container, child: const DaviDanApp()),

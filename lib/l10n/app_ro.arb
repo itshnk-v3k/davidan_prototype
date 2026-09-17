@@ -333,6 +333,15 @@
   "@ordersPastTitle": {
     "description": "Comenzi tab section: completed orders."
   },
+  "rentalCarClass": "{carClass, select, economy{Economice} family{Familie} suv{SUV} premium{Premium} other{Altele}}",
+  "@rentalCarClass": {
+    "description": "A group of cars on the Rent Car fleet's filter chips.",
+    "placeholders": {
+      "carClass": {
+        "type": "String"
+      }
+    }
+  },
   "allBrands": "Toate",
   "@allBrands": {
     "description": "Filter chip showing orders from every brand."

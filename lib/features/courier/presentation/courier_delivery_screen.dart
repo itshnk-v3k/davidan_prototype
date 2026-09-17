@@ -4,7 +4,6 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
-import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
@@ -141,8 +140,6 @@ class _ActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final duration = AppMotion.of(context, AppMotion.medium);
-
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colors.surface,
@@ -152,54 +149,47 @@ class _ActionBar extends StatelessWidget {
         top: false,
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.gutter),
-          child: AnimatedSize(
-            duration: duration,
-            curve: AppMotion.standard,
-            child: AnimatedSwitcher(
-              duration: duration,
-              child: KeyedSubtree(
-                key: ValueKey(order.status),
-                child: switch (order.nextStatus) {
-                  final next? when order.nextStepBy == OrderActor.courier =>
-                    AppButton(
-                      label: context.l10n.advanceTo(next),
-                      onPressed: onAdvance,
-                    ),
-                  null => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: KeyedSubtree(
+            key: ValueKey(order.status),
+            child: switch (order.nextStatus) {
+              final next? when order.nextStepBy == OrderActor.courier =>
+                AppButton(
+                  label: context.l10n.advanceTo(next),
+                  onPressed: onAdvance,
+                ),
+              null => Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.check_circle_rounded,
-                            size: 20,
-                            color: context.colors.primary,
-                          ),
-                          const SizedBox(width: AppSpacing.sm),
-                          Text(
-                            context.l10n.deliveryCompleted,
-                            style: context.textStyles.bodyStrong,
-                          ),
-                        ],
+                      Icon(
+                        Icons.check_circle_rounded,
+                        size: 20,
+                        color: context.colors.primary,
                       ),
-                      const SizedBox(height: AppSpacing.md),
-                      AppButton(
-                        label: context.l10n.backToDeliveries,
-                        variant: AppButtonVariant.secondary,
-                        onPressed: onBack,
+                      const SizedBox(width: AppSpacing.sm),
+                      Text(
+                        context.l10n.deliveryCompleted,
+                        style: context.textStyles.bodyStrong,
                       ),
                     ],
                   ),
-                  _ => Text(
-                    context.l10n.courierWaitingForStore,
-                    style: context.textStyles.bodySecondary,
-                    textAlign: TextAlign.center,
+                  const SizedBox(height: AppSpacing.md),
+                  AppButton(
+                    label: context.l10n.backToDeliveries,
+                    variant: AppButtonVariant.secondary,
+                    onPressed: onBack,
                   ),
-                },
+                ],
               ),
-            ),
+              _ => Text(
+                context.l10n.courierWaitingForStore,
+                style: context.textStyles.bodySecondary,
+                textAlign: TextAlign.center,
+              ),
+            },
           ),
         ),
       ),

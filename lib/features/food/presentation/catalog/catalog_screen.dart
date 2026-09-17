@@ -6,6 +6,7 @@ import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/widgets/app_chip.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
@@ -57,7 +58,8 @@ class CatalogScreen extends ConsumerWidget {
                 Routes.brandMenu(brand, categoryId: selected.id),
               ),
             ),
-            const SizedBox(height: AppSpacing.md),
+            // The chips' clear margin makes up the rest of the gap.
+            const SizedBox(height: AppSpacing.md - AppChip.tapMargin),
             Expanded(
               child: products.isEmpty
                   ? const _EmptyCategory()

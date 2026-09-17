@@ -1,30 +1,18 @@
 import 'package:flutter/widgets.dart';
 
-/// Motion tokens: how long animations last and how they ease. Every animation
-/// picks from these, so the whole app moves at one pace.
+/// Motion tokens: how long animations last and how they ease. The app keeps
+/// motion to what the platform expects (page transitions, the photo flying to
+/// its page, toasts) plus a few quiet fades, and changes everything else at
+/// once.
 abstract final class AppMotion {
-  /// Small changes: a number rolling, an icon swapping, a press.
+  /// A colour changing: a selected option.
   static const fast = Duration(milliseconds: 150);
 
-  /// Something changing shape: the add button becoming a stepper, a status
-  /// pill resizing, a notice sliding in.
+  /// Something appearing: a toast sliding in, a photo fading in once decoded.
   static const medium = Duration(milliseconds: 250);
-
-  /// Entrances and pops that are meant to be noticed.
-  static const slow = Duration(milliseconds: 400);
 
   /// Settling into place.
   static const standard = Curves.easeOutCubic;
-
-  /// Pops, with a slight overshoot.
-  static const emphasized = Curves.easeOutBack;
-
-  /// Pressed buttons and cards shrink to this scale.
-  static const pressedScale = 0.98;
-
-  /// Small round buttons (the stepper's plus and minus) shrink further, or
-  /// the press wouldn't show on a 32 px circle.
-  static const pressedScaleButton = 0.88;
 
   /// [duration], or zero when the device is set to remove animations.
   static Duration of(BuildContext context, Duration duration) =>

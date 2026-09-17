@@ -7,7 +7,6 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
-import 'package:davidan_prototype/core/widgets/entrance.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/core/widgets/section_title.dart';
 import 'package:davidan_prototype/data/models/order.dart';
@@ -189,12 +188,7 @@ class _Group extends StatelessWidget {
             Padding(
               key: ValueKey(order.id),
               padding: const EdgeInsets.only(top: AppSpacing.md),
-              child: Entrance(
-                child: CourierOrderCard(
-                  order: order,
-                  onTap: () => onOpen(order),
-                ),
-              ),
+              child: CourierOrderCard(order: order, onTap: () => onOpen(order)),
             ),
         ],
       ),

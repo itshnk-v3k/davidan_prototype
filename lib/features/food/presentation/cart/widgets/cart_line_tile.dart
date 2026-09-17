@@ -4,6 +4,7 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
+import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_image.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/quantity_stepper.dart';
@@ -44,48 +45,60 @@ class CartLineTile extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onOpen,
+        // The bin and the stepper take taps beyond what they show, so the
+        // card's padding gives way to their clear margins, and the rest of the
+        // card sits where it would without them.
         child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.md),
+          padding: EdgeInsets.fromLTRB(
+            AppSpacing.md,
+            AppSpacing.md - _binMargin,
+            AppSpacing.md - _binMargin,
+            AppSpacing.md - _stepperOutset,
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(AppRadii.md),
+              Padding(
+                padding: const EdgeInsets.only(top: _binMargin),
                 child: SizedBox.square(
                   dimension: 72,
                   child: ProductImage(
                     path: product.image,
                     heroTag: ProductImage.heroTagFor(product.key),
+                    borderRadius: BorderRadius.circular(AppRadii.md),
                   ),
                 ),
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      product.name,
-                      style: context.textStyles.bodyStrong,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: AppSpacing.xs),
-                    Text(
-                      context.l10n.formatLei(product.priceBani * quantity),
-                      style: context.textStyles.price,
-                    ),
-                    if (quantity > 1)
+                child: Padding(
+                  padding: const EdgeInsets.only(top: _binMargin),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                        context.l10n.unitPrice(
-                          context.l10n.formatLei(product.priceBani),
-                        ),
-                        style: context.textStyles.caption,
+                        product.name,
+                        style: context.textStyles.bodyStrong,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                  ],
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        context.l10n.formatLei(product.priceBani * quantity),
+                        style: context.textStyles.price,
+                      ),
+                      if (quantity > 1)
+                        Text(
+                          context.l10n.unitPrice(
+                            context.l10n.formatLei(product.priceBani),
+                          ),
+                          style: context.textStyles.caption,
+                        ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(width: AppSpacing.sm),
+              const SizedBox(width: AppSpacing.sm - _stepperOutset),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -93,14 +106,18 @@ class CartLineTile extends StatelessWidget {
                     semanticLabel: context.l10n.removeFromCart(product.name),
                     onTap: onRemove,
                   ),
-                  const SizedBox(height: AppSpacing.sm),
-                  QuantityStepper(
-                    quantity: quantity,
-                    onIncrement: onIncrement,
-                    onDecrement: onDecrement,
-                    incrementLabel: context.l10n.addToCart(product.name),
-                    decrementLabel: context.l10n.removeOneFromCart(
-                      product.name,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      right: _binMargin - _stepperOutset,
+                    ),
+                    child: QuantityStepper(
+                      quantity: quantity,
+                      onIncrement: onIncrement,
+                      onDecrement: onDecrement,
+                      incrementLabel: context.l10n.addToCart(product.name),
+                      decrementLabel: context.l10n.removeOneFromCart(
+                        product.name,
+                      ),
                     ),
                   ),
                 ],
@@ -112,6 +129,13 @@ class CartLineTile extends StatelessWidget {
     );
   }
 }
+
+/// The bin's look, 32 dp, inside its [TapTarget.min] tap area.
+const _binSize = 32.0;
+const _binMargin = (TapTarget.min - _binSize) / 2;
+
+/// How far the stepper's tap area reaches past its pill.
+const _stepperOutset = (TapTarget.min - 32) / 2 - QuantityStepper.inset;
 
 class _RemoveButton extends StatelessWidget {
   const _RemoveButton({required this.semanticLabel, required this.onTap});
@@ -125,13 +149,12 @@ class _RemoveButton extends StatelessWidget {
       button: true,
       label: semanticLabel,
       child: Material(
-        color: Colors.transparent,
-        shape: const CircleBorder(),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
+        type: MaterialType.transparency,
+        child: InkResponse(
           onTap: onTap,
+          radius: _binSize / 2,
           child: SizedBox.square(
-            dimension: 32,
+            dimension: TapTarget.min,
             child: Icon(
               Icons.delete_outline_rounded,
               size: 20,

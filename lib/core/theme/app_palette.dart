@@ -5,57 +5,57 @@ import 'package:flutter/widgets.dart';
 /// the palette directly.
 abstract final class AppPalette {
   // Caramel, from the site's accent (#C3812D)
-  /// Caramel for text and icons on dark surfaces: 7.6:1 on [ink900].
-  static const caramel300 = Color(0xFFD9A15A);
+  /// Honey caramel for text and icons on dark surfaces.
+  static const caramel300 = Color(0xFFF0A951);
 
-  /// The site's caramel. Decoration and large shapes only: 3.2:1 with white.
-  static const caramel500 = Color(0xFFC3812D);
+  /// Bright honey caramel, from the site's accent. Decoration and large shapes
+  /// only.
+  static const caramel500 = Color(0xFFE8962E);
 
-  /// Caramel for text and buttons on light surfaces: 4.85:1 on [snow] and
-  /// 5.1:1 with white text.
-  static const caramel700 = Color(0xFF966322);
+  /// Deep amber caramel for text and buttons on light surfaces: 4.9:1 with
+  /// white text.
+  static const caramel700 = Color(0xFFA0590F);
 
   /// Pale caramel tint behind icons on light surfaces.
-  static const caramel100 = Color(0xFFF3E4D0);
+  static const caramel100 = Color(0xFFFCEBD6);
 
   /// Deep caramel tint behind icons on dark surfaces.
-  static const caramel950 = Color(0xFF3A2C1B);
+  static const caramel950 = Color(0xFF3A2A16);
 
   /// Near-black brown for text on a caramel fill in the dark theme.
   static const espresso = Color(0xFF1F1408);
 
   // Red of DaviDan Sushi and DaviDan Rent Car: both sites use #DD3333 for
   // their buttons, so the two brands share it
-  /// Red for text and icons on dark surfaces: 4.8:1 on [ink850].
-  static const crimson300 = Color(0xFFE66666);
+  /// Coral red for text and icons on dark surfaces.
+  static const crimson300 = Color(0xFFFF6B72);
 
   /// The sites' red. Decoration and large shapes only.
-  static const crimson500 = Color(0xFFDD3333);
+  static const crimson500 = Color(0xFFEF3B45);
 
-  /// Red for text and buttons on light surfaces: 4.8:1 on [mist] and 5.4:1
-  /// with white text.
-  static const crimson700 = Color(0xFFCF2222);
+  /// Clear red for text and buttons on light surfaces: 5.7:1 with white text.
+  static const crimson700 = Color(0xFFC8202C);
 
-  static const crimson100 = Color(0xFFF2DEDE);
-  static const crimson950 = Color(0xFF361C1C);
+  static const crimson100 = Color(0xFFFDE3E4);
+  static const crimson950 = Color(0xFF3A1518);
 
   /// Near-black red for text on a [crimson300] fill.
-  static const crimsonInk = Color(0xFF1F0505);
+  static const crimsonInk = Color(0xFF2A0508);
 
   // Blue of Apa DaviDan: no site has one, so it is the label of the still
   // water bottle in its davidan.md photo (the mean of the label's blue pixels)
-  /// Blue for text and icons on dark surfaces: 4.8:1 on [ink850].
-  static const blue300 = Color(0xFF5B8EE6);
+  /// Sky blue for text and icons on dark surfaces.
+  static const blue300 = Color(0xFF6AA8FF);
 
-  /// The label's blue, for text and buttons on light surfaces: 8.7:1 on
-  /// [mist] and 9.8:1 with white text.
-  static const blue700 = Color(0xFF15408C);
+  /// Vivid azure, from the bottle label, for text and buttons on light
+  /// surfaces: 5.9:1 with white text.
+  static const blue700 = Color(0xFF155FCC);
 
-  static const blue100 = Color(0xFFDEE5F2);
-  static const blue950 = Color(0xFF1B2536);
+  static const blue100 = Color(0xFFE0EDFD);
+  static const blue950 = Color(0xFF13233D);
 
   /// Near-black blue for text on a [blue300] fill.
-  static const blueInk = Color(0xFF050E1F);
+  static const blueInk = Color(0xFF04142E);
 
   // Warm darks, close to the brown backdrops of the product photos
   static const ink950 = Color(0xFF121110);
@@ -69,19 +69,28 @@ abstract final class AppPalette {
   static const stone300 = Color(0xFFADA69C);
   static const stone500 = Color(0xFF6E6860);
 
-  // Light surfaces and the logo's charcoal
-  static const snow = Color(0xFFFCF8F8);
+  // Light surfaces: a clean off-white with white cards, so the brands'
+  // colours and the photos carry the warmth
+  /// The light theme's background.
+  static const linen = Color(0xFFF8F7F5);
   static const white = Color(0xFFFFFFFF);
-  static const mist = Color(0xFFF3F2EE);
-  static const line = Color(0xFFE2E2E2);
+
+  /// Muted surfaces on light.
+  static const oat = Color(0xFFF1EFEC);
+  static const sandLine = Color(0xFFE6E3DE);
   static const sand = Color(0xFFEDE6DC);
 
   /// Logo wordmark colour.
   static const charcoal = Color(0xFF242430);
 
-  /// 4.8:1 on [mist], the lightest surface secondary text sits on.
-  static const grey600 = Color(0xFF6A6A6A);
-  static const grey400 = Color(0xFFABABAB);
+  /// Text on light surfaces.
+  static const graphite = Color(0xFF1A1A1C);
+
+  // Neutral greys for text on light
+  /// Secondary text; also the outline of unticked radio buttons and
+  /// checkboxes.
+  static const taupe600 = Color(0xFF6B6A70);
+  static const taupe400 = Color(0xFFA9A8AD);
 
   // Feedback
   static const red700 = Color(0xFFB3261E);

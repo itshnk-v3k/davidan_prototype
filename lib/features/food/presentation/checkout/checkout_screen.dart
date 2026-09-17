@@ -102,7 +102,7 @@ class CheckoutScreen extends ConsumerWidget {
                     children: [
                       Wrap(
                         spacing: AppSpacing.sm,
-                        runSpacing: AppSpacing.sm,
+                        runSpacing: AppChip.runSpacing,
                         children: [
                           AppChip(
                             label: context.l10n.asSoonAsPossible,
@@ -321,7 +321,7 @@ class _EmptyCheckout extends StatelessWidget {
             ScreenHeader(title: context.l10n.checkoutTitle, onBack: onBack),
             Expanded(
               child: EmptyState(
-                icon: Icons.shopping_bag_outlined,
+                icon: Icons.shopping_bag_rounded,
                 title: context.l10n.cartEmptyTitle,
                 message: context.l10n.cartEmptyMessage,
                 actionLabel: context.l10n.browseMenu,

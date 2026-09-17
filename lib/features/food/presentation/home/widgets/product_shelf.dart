@@ -3,7 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
-import 'package:davidan_prototype/core/widgets/press_scale.dart';
+import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/connected_product_card.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -55,15 +55,18 @@ class ProductShelf extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        // "Vezi mai mult" takes taps in TapTarget.min. The row is that tall, and
+        // the padding above and the blurb below give way to it, so the title,
+        // the blurb and the cards sit where a 32 px row would put them.
         Padding(
           padding: const EdgeInsets.fromLTRB(
             AppSpacing.gutter,
-            AppSpacing.xl,
+            AppSpacing.xl - _titleRowGrowth / 2,
             AppSpacing.sm,
             0,
           ),
           child: SizedBox(
-            height: 32,
+            height: TapTarget.min,
             child: Row(
               children: [
                 Expanded(
@@ -95,14 +98,17 @@ class ProductShelf extends StatelessWidget {
               AppSpacing.gutter,
               0,
             ),
-            child: Text(
-              description,
-              style: context.textStyles.bodySecondary,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+            child: Transform.translate(
+              offset: const Offset(0, -_titleRowGrowth / 2),
+              child: Text(
+                description,
+                style: context.textStyles.bodySecondary,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.md - _titleRowGrowth / 2),
         SizedBox(
           height: cardHeight,
           child: ListView.separated(
@@ -116,7 +122,6 @@ class ProductShelf extends StatelessWidget {
                   ? ConnectedProductCard(
                       product: products[index],
                       heroScope: id,
-                      compact: true,
                       showBrand: showBrand,
                     )
                   : _SeeAllTile(label: seeAllLabel!, onTap: onSeeAll!),
@@ -128,6 +133,9 @@ class ProductShelf extends StatelessWidget {
   }
 }
 
+/// How much taller the title row is than the 32 px it looks.
+const _titleRowGrowth = TapTarget.min - 32;
+
 /// The card-sized tile at the end of a category row.
 class _SeeAllTile extends StatelessWidget {
   const _SeeAllTile({required this.label, required this.onTap});
@@ -137,44 +145,41 @@ class _SeeAllTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PressScale(
-      builder: (onHighlightChanged) => Material(
-        color: context.colors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadii.lg),
-          side: BorderSide(color: context.colors.border),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          onHighlightChanged: onHighlightChanged,
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: context.colors.accentSoft,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.arrow_forward_rounded,
-                    color: context.colors.primary,
-                  ),
+    return Material(
+      color: context.colors.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadii.lg),
+        side: BorderSide(color: context.colors.border),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: context.colors.accentSoft,
+                  shape: BoxShape.circle,
                 ),
-                const SizedBox(height: AppSpacing.md),
-                Text(
-                  label,
-                  style: context.textStyles.bodyStrong,
-                  textAlign: TextAlign.center,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+                child: Icon(
+                  Icons.arrow_forward_rounded,
+                  color: context.colors.primary,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: AppSpacing.md),
+              Text(
+                label,
+                style: context.textStyles.bodyStrong,
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
         ),
       ),
