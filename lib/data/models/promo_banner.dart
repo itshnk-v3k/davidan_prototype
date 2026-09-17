@@ -9,6 +9,7 @@ class PromoBanner {
     this.title,
     this.subtitle,
     this.categoryId,
+    this.focusX = 0,
   });
 
   final String id;
@@ -22,4 +23,8 @@ class PromoBanner {
 
   /// Category opened when the banner is tapped, if any.
   final String? categoryId;
+
+  /// Where across the photo its subject sits, from -1 (the left edge) to 1
+  /// (the right), so a slide narrower than a wide photo crops around it.
+  final double focusX;
 }

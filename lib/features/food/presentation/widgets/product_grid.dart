@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
@@ -141,6 +142,83 @@ class ProductLayoutToggle extends ConsumerWidget {
           : context.l10n.showAsGrid,
       size: size,
       onPressed: () => ref.read(productLayoutProvider.notifier).toggle(),
+    );
+  }
+}
+
+/// Cards or rows, side by side as two small segments with the current one
+/// lit: where a toggle stands on its own above a list, rather than beside a
+/// heading. The same saved [ProductLayout] as [ProductLayoutToggle].
+class ProductLayoutSwitch extends ConsumerWidget {
+  const ProductLayoutSwitch({super.key});
+
+  static const _height = 36.0;
+  static const _segmentWidth = 44.0;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final layout = ref.watch(productLayoutProvider);
+    final colors = context.colors;
+    const inset = AppSpacing.xxs + 1;
+    final outer = BorderRadius.circular(AppRadii.pill);
+
+    Widget segment(ProductLayout value, IconData icon, String label) {
+      final selected = layout == value;
+      return Semantics(
+        button: true,
+        selected: selected,
+        label: label,
+        excludeSemantics: true,
+        child: Material(
+          color: selected ? colors.surface : Colors.transparent,
+          borderRadius: outer,
+          elevation: 0,
+          child: InkWell(
+            borderRadius: outer,
+            onTap: selected
+                ? null
+                : () => ref.read(productLayoutProvider.notifier).toggle(),
+            child: SizedBox(
+              width: _segmentWidth,
+              height: _height - 2 * inset,
+              child: Icon(
+                icon,
+                size: 18,
+                color: selected ? colors.primary : colors.textSecondary,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    // The segments are 30 px tall; the taps reach TapTarget.min around them.
+    return SizedBox(
+      height: TapTarget.min,
+      child: Center(
+        child: Container(
+          padding: const EdgeInsets.all(inset),
+          decoration: BoxDecoration(
+            color: colors.surfaceMuted,
+            borderRadius: outer,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              segment(
+                ProductLayout.grid,
+                PhosphorIconsRegular.squaresFour,
+                context.l10n.showAsGrid,
+              ),
+              segment(
+                ProductLayout.list,
+                PhosphorIconsRegular.rows,
+                context.l10n.showAsList,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

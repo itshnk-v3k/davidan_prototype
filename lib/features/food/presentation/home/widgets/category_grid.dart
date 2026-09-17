@@ -8,21 +8,23 @@ import 'package:davidan_prototype/core/widgets/app_card.dart';
 import 'package:davidan_prototype/data/models/menu_category.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// A brand's categories as square photo tiles, each lifted by a soft shadow
-/// with its name underneath.
+/// A brand's categories as square photo tiles, three to a row, each with its
+/// name on the photo over a dark fade at the bottom, the way delivery apps
+/// show them: the photo and the name share the whole tile, so both read at a
+/// glance and a two-line name has room.
 ///
-/// With [onMore] (a brand's home) they fit one row: every category when there
-/// are up to [maxInRow], otherwise the first ones and a "Mai multe" tile that
-/// opens them all. Without it (the categories page, the search filter) they
-/// wrap, [perRow] to a row. A [selectedId] tile is outlined in the brand's
-/// colour.
+/// With [onMore] (a brand's home) they fill at most two rows: every category
+/// when there are up to [maxOnHome], otherwise the first ones and a "Mai
+/// multe" tile that opens them all. Without it (the categories page, the
+/// search filter) they all wrap, [perRow] to a row. A [selectedId] tile is
+/// outlined in the brand's colour.
 class CategoryGrid extends StatelessWidget {
   const CategoryGrid({
     super.key,
     required this.categories,
     required this.onCategoryTap,
     this.onMore,
-    this.perRow = 4,
+    this.perRow = 3,
     this.selectedId,
   });
 
@@ -32,47 +34,36 @@ class CategoryGrid extends StatelessWidget {
   final int perRow;
   final String? selectedId;
 
-  /// The most tiles a brand home's single row holds.
-  static const maxInRow = 5;
+  /// The most tiles a brand home's two rows hold.
+  static const maxOnHome = 6;
 
   static const _gap = AppSpacing.md;
 
   @override
   Widget build(BuildContext context) {
     final onMore = this.onMore;
-    final List<Widget> tiles;
-    final int columns;
-    if (onMore == null) {
-      tiles = [for (final category in categories) _tileFor(category)];
-      columns = perRow;
-    } else {
-      final overflows = categories.length > maxInRow;
-      tiles = [
-        for (final category in categories.take(
-          overflows ? maxInRow - 1 : maxInRow,
-        ))
-          _tileFor(category),
-        if (overflows)
-          CategoryTile(
-            label: context.l10n.moreCategories,
-            icon: PhosphorIconsBold.dotsThree,
-            onTap: onMore,
-          ),
-      ];
-      // A short row keeps the tiles the size they'd have four to a row.
-      columns = tiles.length < 4 ? 4 : tiles.length;
-    }
+    final overflows = onMore != null && categories.length > maxOnHome;
+    final tiles = [
+      for (final category
+          in overflows ? categories.take(maxOnHome - 1) : categories)
+        _tileFor(category),
+      if (overflows)
+        CategoryTile(
+          label: context.l10n.moreCategories,
+          icon: PhosphorIconsBold.dotsThree,
+          onTap: onMore,
+        ),
+    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        for (var start = 0; start < tiles.length; start += columns)
+        for (var start = 0; start < tiles.length; start += perRow)
           Padding(
-            padding: EdgeInsets.only(top: start == 0 ? 0 : AppSpacing.lg),
+            padding: EdgeInsets.only(top: start == 0 ? 0 : _gap),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                for (var index = start; index < start + columns; index++) ...[
+                for (var index = start; index < start + perRow; index++) ...[
                   if (index > start) const SizedBox(width: _gap),
                   Expanded(
                     child: index < tiles.length
@@ -95,8 +86,9 @@ class CategoryGrid extends StatelessWidget {
   );
 }
 
-/// One square tile with its name underneath: a category's photo, or an
-/// [icon] on the brand's tint (the "Mai multe" tile).
+/// One square tile with its name in its lower left corner: a category's
+/// photo under a dark fade, or an [icon] on the brand's tint (the "Mai multe"
+/// tile).
 class CategoryTile extends StatelessWidget {
   const CategoryTile({
     super.key,
@@ -117,47 +109,70 @@ class CategoryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final image = this.image;
+    final onPhoto = image != null;
+    final scrim = colors.scrim;
 
     return Semantics(
       button: true,
       selected: selected,
       label: label,
       excludeSemantics: true,
-      child: GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: Column(
-          children: [
-            AspectRatio(
-              aspectRatio: 1,
-              child: DecoratedBox(
-                position: DecorationPosition.foreground,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppRadii.card),
-                  border: selected
-                      ? Border.all(color: colors.primary, width: 2.5)
-                      : null,
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: DecoratedBox(
+          position: DecorationPosition.foreground,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppRadii.card),
+            border: selected
+                ? Border.all(color: colors.primary, width: 2.5)
+                : null,
+          ),
+          child: AppCard(
+            onTap: onTap,
+            color: onPhoto ? null : colors.accentSoft,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                if (onPhoto) ...[
+                  Image.asset(image, fit: BoxFit.cover),
+                  // Dark under the name, clear over the upper half.
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          scrim.withValues(alpha: scrim.a * 1.25),
+                          scrim.withValues(alpha: scrim.a * 0.6),
+                          scrim.withValues(alpha: 0),
+                        ],
+                        stops: const [0, 0.35, 0.7],
+                      ),
+                    ),
+                  ),
+                ] else
+                  Align(
+                    alignment: const Alignment(0, -0.3),
+                    child: Icon(icon, size: 28, color: colors.primary),
+                  ),
+                Positioned(
+                  left: AppSpacing.sm + AppSpacing.xxs,
+                  right: AppSpacing.sm,
+                  bottom: AppSpacing.sm,
+                  child: Text(
+                    label,
+                    style: context.textStyles.bodyStrong.copyWith(
+                      fontSize: 13,
+                      height: 1.2,
+                      color: onPhoto ? colors.onImage : colors.primary,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-                child: AppCard(
-                  onTap: onTap,
-                  color: image == null ? colors.accentSoft : null,
-                  child: image == null
-                      ? Icon(icon, size: 26, color: colors.primary)
-                      : Image.asset(image, fit: BoxFit.cover),
-                ),
-              ),
+              ],
             ),
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              label,
-              style: context.textStyles.label.copyWith(
-                color: selected ? colors.primary : null,
-              ),
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+          ),
         ),
       ),
     );

@@ -5,14 +5,15 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_card.dart';
+import 'package:davidan_prototype/core/widgets/card_carousel.dart';
 import 'package:davidan_prototype/data/mock/demo_promos.dart';
 import 'package:davidan_prototype/data/models/menu_category.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// A brand's promo cards, one under the other and each the full width, so
-/// every card shows whole: each a discount on one category, with the
-/// category's photo, opening that category. Demo content (see
-/// demo_promos.dart).
+/// A brand's promo cards as big photo cards in a row swiped sideways, like
+/// the banners above them (see [CardCarousel]): each a discount on one
+/// category, over the category's photo, opening that category. Demo content
+/// (see demo_promos.dart).
 class PromoCards extends StatelessWidget {
   const PromoCards({super.key, required this.promos, required this.onOpen});
 
@@ -20,32 +21,33 @@ class PromoCards extends StatelessWidget {
   final List<(DemoPromo, MenuCategory)> promos;
   final ValueChanged<MenuCategory> onOpen;
 
-  static const _height = 112.0;
+  /// A card's width to its height: wide, with the category's photo whole
+  /// enough to recognise.
+  static const aspectRatio = 2.0;
+
+  /// The least room the badge, the line and the link need.
+  static const minHeight = 150.0;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          for (final (index, (promo, category)) in promos.indexed) ...[
-            if (index > 0) const SizedBox(height: AppSpacing.md),
-            SizedBox(
-              height: _height,
-              child: _PromoCard(
-                promo: promo,
-                category: category,
-                onTap: () => onOpen(category),
-              ),
-            ),
-          ],
-        ],
-      ),
+    return CardCarousel(
+      itemCount: promos.length,
+      aspectRatio: aspectRatio,
+      minHeight: minHeight,
+      itemBuilder: (context, index) {
+        final (promo, category) = promos[index];
+        return _PromoCard(
+          promo: promo,
+          category: category,
+          onTap: () => onOpen(category),
+        );
+      },
     );
   }
 }
 
+/// The category's photo across the whole card, darkened from the left where
+/// the discount, "Reducere specială" and the category's link sit.
 class _PromoCard extends StatelessWidget {
   const _PromoCard({
     required this.promo,
@@ -60,22 +62,35 @@ class _PromoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final scrim = colors.scrim;
 
     return AppCard(
-      radius: AppRadii.card,
-      color: colors.accentSoft,
       onTap: onTap,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Stack(
+        fit: StackFit.expand,
         children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.lg,
-                AppSpacing.md,
-                AppSpacing.sm,
-                AppSpacing.md,
+          Image.asset(
+            category.image,
+            fit: BoxFit.cover,
+            alignment: const Alignment(0.4, 0),
+          ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  scrim.withValues(alpha: scrim.a * 1.2),
+                  scrim.withValues(alpha: scrim.a * 0.7),
+                  scrim.withValues(alpha: 0),
+                ],
+                stops: const [0, 0.45, 0.85],
               ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            child: FractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              widthFactor: 0.62,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -99,8 +114,12 @@ class _PromoCard extends StatelessWidget {
                   const SizedBox(height: AppSpacing.sm),
                   Text(
                     context.l10n.specialDiscount,
-                    style: context.textStyles.bodyStrong,
-                    maxLines: 1,
+                    style: context.textStyles.subtitle.copyWith(
+                      color: colors.onImage,
+                      fontWeight: FontWeight.w700,
+                      height: 1.2,
+                    ),
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const Spacer(),
@@ -109,9 +128,8 @@ class _PromoCard extends StatelessWidget {
                       Flexible(
                         child: Text(
                           category.name,
-                          style: context.textStyles.caption.copyWith(
-                            color: colors.primary,
-                            fontWeight: FontWeight.w700,
+                          style: context.textStyles.bodyStrong.copyWith(
+                            color: colors.onImage,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -120,25 +138,13 @@ class _PromoCard extends StatelessWidget {
                       const SizedBox(width: AppSpacing.xs),
                       Icon(
                         PhosphorIconsBold.arrowRight,
-                        size: 14,
-                        color: colors.primary,
+                        size: 16,
+                        color: colors.onImage,
                       ),
                     ],
                   ),
                 ],
               ),
-            ),
-          ),
-          // The category's photo, fading into the card on its left edge.
-          SizedBox(
-            width: 120,
-            child: ShaderMask(
-              blendMode: BlendMode.dstIn,
-              shaderCallback: (bounds) => const LinearGradient(
-                colors: [Color(0x00FFFFFF), Color(0xFFFFFFFF)],
-                stops: [0, 0.35],
-              ).createShader(bounds),
-              child: Image.asset(category.image, fit: BoxFit.cover),
             ),
           ),
         ],

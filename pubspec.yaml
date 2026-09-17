@@ -77,9 +77,25 @@ flutter:
     - assets/images/banners/
     - assets/images/brand/
 
-  # Bundled so the web build never loads Roboto from Google's CDN. The family
-  # must be named exactly "Roboto" for Flutter web to skip that download.
+  # The app's one font is Rubik (AppTextStyles.fontFamily): Google Fonts'
+  # Rubik[wght].ttf v2.300 (OFL, no reserved name) cut into static files at
+  # 400, 500, 600 and 700 with `fonttools varLib.instancer Rubik[wght].ttf
+  # wght=N --update-name-table`, so no weight depends on variable-font support.
+  # Checked with fontTools for Romanian's comma-below ș/ț and ă/î/â, the full
+  # Russian alphabet and every character in lib/.
   fonts:
+    - family: Rubik
+      fonts:
+        - asset: assets/fonts/rubik/Rubik-Regular.ttf
+        - asset: assets/fonts/rubik/Rubik-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/rubik/Rubik-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/rubik/Rubik-Bold.ttf
+          weight: 700
+    # Only the fallback, never shown: bundled so the web build never loads
+    # Roboto from Google's CDN. The family must be named exactly "Roboto" for
+    # Flutter web to skip that download.
     - family: Roboto
       fonts:
         - asset: assets/fonts/roboto/Roboto-Regular.ttf

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:material_ui/material_ui.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
@@ -7,13 +5,14 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_card.dart';
+import 'package:davidan_prototype/core/widgets/card_carousel.dart';
 import 'package:davidan_prototype/data/models/promo_banner.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Banner slides that advance on their own every few seconds and can still be
-/// swiped. A swipe restarts the wait. With reduced motion on, they only move
-/// by hand.
-class PromoBannerCarousel extends StatefulWidget {
+/// swiped (see [CardCarousel]). Every brand's slides keep the same
+/// proportions, whatever the size of the photo behind them.
+class PromoBannerCarousel extends StatelessWidget {
   const PromoBannerCarousel({
     super.key,
     required this.banners,
@@ -23,84 +22,23 @@ class PromoBannerCarousel extends StatefulWidget {
   final List<PromoBanner> banners;
   final ValueChanged<PromoBanner> onBannerTap;
 
-  /// Room for a two-line headline, the site's line and the button.
-  static const height = 204.0;
+  /// A slide's width to its height: 16:10, near the site's own 16:9 slides,
+  /// with room for a two-line headline, the site's line and the button.
+  static const aspectRatio = 1.6;
 
-  @override
-  State<PromoBannerCarousel> createState() => _PromoBannerCarouselState();
-}
-
-class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
-  static const _interval = Duration(seconds: 4);
-
-  final _controller = PageController(viewportFraction: 0.92);
-  Timer? _timer;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _restartTimer();
-  }
-
-  @override
-  void didUpdateWidget(PromoBannerCarousel oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.banners.length != widget.banners.length) _restartTimer();
-  }
-
-  void _restartTimer() {
-    _timer?.cancel();
-    if (widget.banners.length < 2 || MediaQuery.disableAnimationsOf(context)) {
-      return;
-    }
-    _timer = Timer.periodic(_interval, (_) {
-      if (!_controller.hasClients) return;
-      final page = (_controller.page ?? 0).round();
-      _controller.animateToPage(
-        (page + 1) % widget.banners.length,
-        duration: const Duration(milliseconds: 450),
-        curve: Curves.easeInOut,
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    _controller.dispose();
-    super.dispose();
-  }
+  /// The least room that text needs.
+  static const minHeight = 204.0;
 
   @override
   Widget build(BuildContext context) {
-    final banners = widget.banners;
-
-    return SizedBox(
-      // Room under the slides for their shadows.
-      height: PromoBannerCarousel.height + AppCard.shadowReach,
-      // A swipe by hand restarts the wait before the next slide.
-      child: NotificationListener<ScrollStartNotification>(
-        onNotification: (notification) {
-          if (notification.dragDetails != null) _restartTimer();
-          return false;
-        },
-        child: PageView.builder(
-          controller: _controller,
-          // The slides' shadows reach past the row.
-          clipBehavior: Clip.none,
-          itemCount: banners.length,
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.only(
-              left: AppSpacing.xs,
-              right: AppSpacing.xs,
-              bottom: AppCard.shadowReach,
-            ),
-            child: _BannerSlide(
-              banner: banners[index],
-              onTap: () => widget.onBannerTap(banners[index]),
-            ),
-          ),
-        ),
+    return CardCarousel(
+      itemCount: banners.length,
+      aspectRatio: aspectRatio,
+      minHeight: minHeight,
+      autoAdvance: true,
+      itemBuilder: (context, index) => _BannerSlide(
+        banner: banners[index],
+        onTap: () => onBannerTap(banners[index]),
       ),
     );
   }
@@ -127,7 +65,11 @@ class _BannerSlide extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(banner.image, fit: BoxFit.cover),
+          Image.asset(
+            banner.image,
+            fit: BoxFit.cover,
+            alignment: Alignment(banner.focusX, 0),
+          ),
           if (title != null) ...[
             // Dark under the text from below and from the left, clear towards
             // the top right, where the photo shows as it is.
@@ -170,7 +112,8 @@ class _BannerSlide extends StatelessWidget {
                       letterSpacing: -0.2,
                       color: colors.onImage,
                     ),
-                    maxLines: 2,
+                    // The site's longer lines take three in the heading font.
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
                   if (subtitle != null) ...[

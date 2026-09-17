@@ -6,8 +6,9 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 /// each theme's set only differs by the colours it is built from. Widgets read
 /// the active set with `context.textStyles`.
 ///
-/// Roboto is bundled in assets/fonts/ so the web demo works without internet;
-/// replace [fontFamily] when the client provides brand fonts.
+/// One font for every piece of text in the app, bundled so the web demo works
+/// without internet: Rubik ([fontFamily]), from headings to captions, prices,
+/// labels and buttons. Replace it when the client provides brand fonts.
 @immutable
 class AppTextStyles extends ThemeExtension<AppTextStyles> {
   const AppTextStyles({
@@ -28,6 +29,8 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
 
   factory AppTextStyles.from(AppColors colors) => AppTextStyles(
     display: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: const [fallbackFontFamily],
       fontSize: 28,
       height: 1.2,
       fontWeight: FontWeight.w700,
@@ -35,6 +38,8 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
       color: colors.textPrimary,
     ),
     headline: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: const [fallbackFontFamily],
       fontSize: 24,
       height: 1.2,
       fontWeight: FontWeight.w700,
@@ -42,66 +47,88 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
       color: colors.textPrimary,
     ),
     title: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: const [fallbackFontFamily],
       fontSize: 20,
       height: 1.25,
       fontWeight: FontWeight.w700,
       color: colors.textPrimary,
     ),
     subtitle: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: const [fallbackFontFamily],
       fontSize: 16,
       height: 1.3,
       fontWeight: FontWeight.w600,
       color: colors.textPrimary,
     ),
     body: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: const [fallbackFontFamily],
       fontSize: 14,
       height: 1.4,
       fontWeight: FontWeight.w400,
       color: colors.textPrimary,
     ),
     bodyStrong: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: const [fallbackFontFamily],
       fontSize: 14,
       height: 1.35,
       fontWeight: FontWeight.w600,
       color: colors.textPrimary,
     ),
     bodySecondary: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: const [fallbackFontFamily],
       fontSize: 14,
       height: 1.4,
       fontWeight: FontWeight.w400,
       color: colors.textSecondary,
     ),
     label: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: const [fallbackFontFamily],
       fontSize: 12,
       height: 1.2,
       fontWeight: FontWeight.w600,
       color: colors.textPrimary,
     ),
     caption: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: const [fallbackFontFamily],
       fontSize: 12,
       height: 1.3,
       fontWeight: FontWeight.w400,
       color: colors.textSecondary,
     ),
     price: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: const [fallbackFontFamily],
       fontSize: 15,
       height: 1.2,
       fontWeight: FontWeight.w700,
       color: colors.textPrimary,
     ),
     priceLarge: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: const [fallbackFontFamily],
       fontSize: 20,
       height: 1.2,
       fontWeight: FontWeight.w700,
       color: colors.primary,
     ),
     button: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: const [fallbackFontFamily],
       fontSize: 15,
       height: 1.2,
       fontWeight: FontWeight.w600,
       color: colors.onPrimary,
     ),
     badge: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: const [fallbackFontFamily],
       fontSize: 11,
       height: 1,
       fontWeight: FontWeight.w700,
@@ -112,10 +139,15 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
   static final dark = AppTextStyles.from(AppColors.dark);
   static final light = AppTextStyles.from(AppColors.light);
 
-  /// Applied app-wide through AppTheme. If a brand font replaces it, keep
-  /// Roboto bundled too: Flutter web otherwise downloads Roboto from
-  /// fonts.gstatic.com as its fallback font.
-  static const fontFamily = 'Roboto';
+  /// Applied app-wide, here and through AppTheme: Rubik at 400, 500, 600 and
+  /// 700 (assets/fonts/rubik), checked with fontTools to hold Romanian's
+  /// comma-below ș/ț and ă/â/î, the whole Russian alphabet and every character
+  /// the app's text uses.
+  static const fontFamily = 'Rubik';
+
+  /// Bundled only as the fallback, never picked for text: Flutter web
+  /// otherwise downloads Roboto from fonts.gstatic.com as its fallback font.
+  static const fallbackFontFamily = 'Roboto';
 
   final TextStyle display;
   final TextStyle headline;

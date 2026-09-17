@@ -52,6 +52,7 @@ abstract final class AppTheme {
 
     return ThemeData(
       fontFamily: AppTextStyles.fontFamily,
+      fontFamilyFallback: const [AppTextStyles.fallbackFontFamily],
       colorScheme: colorScheme,
       extensions: [colors, textStyles],
       scaffoldBackgroundColor: colors.background,

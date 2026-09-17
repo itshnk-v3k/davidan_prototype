@@ -74,65 +74,74 @@ class ProductDetailScreen extends ConsumerWidget {
         value: Theme.of(context).brightness == Brightness.dark
             ? SystemUiOverlayStyle.light
             : SystemUiOverlayStyle.dark,
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              // Light status bar icons on the photo's dark top fade.
-              child: AnnotatedRegion<SystemUiOverlayStyle>(
-                value: SystemUiOverlayStyle.light,
-                child: Stack(
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: ProductImage(
-                        path: product.image,
-                        heroTag: ProductImage.heroTagFor(
-                          productKey,
-                          scope: heroScope,
+        child: Stack(
+          children: [
+            CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  // Light status bar icons on the photo's dark top fade.
+                  child: AnnotatedRegion<SystemUiOverlayStyle>(
+                    value: SystemUiOverlayStyle.light,
+                    child: Stack(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: ProductImage(
+                            path: product.image,
+                            heroTag: ProductImage.heroTagFor(
+                              productKey,
+                              scope: heroScope,
+                            ),
+                          ),
                         ),
-                      ),
+                        // Keeps the status bar readable over a light photo.
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          height: TopScrim.heightOf(context),
+                          child: const TopScrim(),
+                        ),
+                      ],
                     ),
-                    // Keeps the status bar readable over a light photo.
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: TopScrim.heightOf(context),
-                      child: const TopScrim(),
-                    ),
-                    Positioned(
-                      top: buttonsTop,
-                      left: AppSpacing.gutter - margin,
-                      child: AppIconButton(
-                        icon: PhosphorIconsRegular.arrowLeft,
-                        semanticLabel: context.l10n.back,
-                        onPressed: goBack,
-                      ),
-                    ),
-                    Positioned(
-                      top: buttonsTop,
-                      right: AppSpacing.gutter - margin,
-                      child: FavoriteToggle(
-                        productName: product.name,
-                        favorite: favorite,
-                        onToggle: () => ref
-                            .read(favoritesProvider.notifier)
-                            .toggle(productKey),
-                      ),
-                    ),
-                  ],
+                  ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.gutter,
+                    AppSpacing.xl,
+                    AppSpacing.gutter,
+                    AppSpacing.xxl,
+                  ),
+                  sliver: SliverToBoxAdapter(
+                    child: _ProductInfo(product: product, inCartCount: inCart),
+                  ),
+                ),
+              ],
+            ),
+            // Pinned: the way back and the heart stay where they are while the
+            // page scrolls under them, on glass that blurs it.
+            Positioned(
+              top: buttonsTop,
+              left: AppSpacing.gutter - margin,
+              child: AppIconButtonStyle.glass(
+                blur: true,
+                child: AppIconButton(
+                  icon: PhosphorIconsRegular.arrowLeft,
+                  semanticLabel: context.l10n.back,
+                  onPressed: goBack,
                 ),
               ),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.gutter,
-                AppSpacing.xl,
-                AppSpacing.gutter,
-                AppSpacing.xxl,
-              ),
-              sliver: SliverToBoxAdapter(
-                child: _ProductInfo(product: product, inCartCount: inCart),
+            Positioned(
+              top: buttonsTop,
+              right: AppSpacing.gutter - margin,
+              child: FavoriteToggle(
+                productName: product.name,
+                favorite: favorite,
+                blur: true,
+                onToggle: () =>
+                    ref.read(favoritesProvider.notifier).toggle(productKey),
               ),
             ),
           ],

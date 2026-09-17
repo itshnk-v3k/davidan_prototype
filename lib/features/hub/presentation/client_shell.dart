@@ -1,5 +1,3 @@
-import 'dart:ui' show ImageFilter;
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -12,6 +10,7 @@ import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/theme/app_theme.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/widgets/count_badge.dart';
+import 'package:davidan_prototype/core/widgets/glass_surface.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/favorites_notifier.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -202,63 +201,46 @@ class _BottomNav extends ConsumerWidget {
     final colors = brand == null
         ? context.colors
         : BrandColors.of(brand, Theme.of(context).brightness);
-    const radius = BorderRadius.all(Radius.circular(_radius));
+    final radius = BorderRadius.circular(_radius);
 
-    // Floats above the content, inset from the sides and above the phone's own
-    // gesture area, on a frosted, translucent surface.
+    // Floats above the content as a slim bar of liquid glass, as wide as the
+    // page's cards (the same gutters) and above the phone's own gesture area.
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        AppSpacing.lg,
+        AppSpacing.gutter,
         0,
-        AppSpacing.lg,
-        AppSpacing.md + MediaQuery.paddingOf(context).bottom,
+        AppSpacing.gutter,
+        AppSpacing.sm + MediaQuery.paddingOf(context).bottom,
       ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: radius,
-          boxShadow: [
-            BoxShadow(
-              color: context.colors.cardShadow,
-              blurRadius: 28,
-              spreadRadius: -4,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: radius,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: context.colors.surface.withValues(alpha: 0.82),
-                borderRadius: radius,
-                border: Border.all(
-                  color: context.colors.border.withValues(alpha: 0.6),
-                ),
-              ),
-              child: SizedBox(
-                height: 64,
-                child: Row(
-                  children: [
-                    for (final (index, item) in items.indexed)
-                      Expanded(
-                        child: _NavItem(
-                          icon: index == currentIndex
-                              ? item.selectedIcon
-                              : item.icon,
-                          label: item.label,
-                          badgeCount: index == _favoritesIndex
-                              ? favoriteCount
-                              : 0,
-                          selected: index == currentIndex,
-                          selectedColor: colors.primary,
-                          indicatorColor: colors.accentSoft,
-                          onTap: () => onTap(index),
-                        ),
+      child: GlassSurface(
+        borderRadius: radius,
+        shadow: true,
+        // Its own Material, so the selected tab's fill and the ripples paint on
+        // the glass rather than under it.
+        child: Material(
+          type: MaterialType.transparency,
+          child: SizedBox(
+            height: _height,
+            child: Padding(
+              padding: const EdgeInsets.all(_inset),
+              child: Row(
+                children: [
+                  for (final (index, item) in items.indexed)
+                    Expanded(
+                      child: _NavItem(
+                        icon: index == currentIndex
+                            ? item.selectedIcon
+                            : item.icon,
+                        label: item.label,
+                        badgeCount: index == _favoritesIndex
+                            ? favoriteCount
+                            : 0,
+                        selected: index == currentIndex,
+                        selectedColor: colors.primary,
+                        onTap: () => onTap(index),
                       ),
-                  ],
-                ),
+                    ),
+                ],
               ),
             ),
           ),
@@ -267,7 +249,16 @@ class _BottomNav extends ConsumerWidget {
     );
   }
 
-  static const _radius = AppRadii.card;
+  static const _height = 58.0;
+
+  /// The bar's own corners, rounder than a card's.
+  static const _radius = 14.0;
+
+  /// The selected tab's corners, following the bar's across the [_inset].
+  static const innerRadius = _radius - _inset;
+
+  /// Between the bar's edge and the selected tab's own lighter fill.
+  static const _inset = 4.0;
 }
 
 class _NavItem extends StatelessWidget {
@@ -276,7 +267,6 @@ class _NavItem extends StatelessWidget {
     required this.label,
     required this.selected,
     required this.selectedColor,
-    required this.indicatorColor,
     required this.onTap,
     this.badgeCount = 0,
   });
@@ -288,14 +278,12 @@ class _NavItem extends StatelessWidget {
   final int badgeCount;
   final bool selected;
   final Color selectedColor;
-
-  /// The pill behind the selected tab's icon.
-  final Color indicatorColor;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final color = selected ? selectedColor : context.colors.textSecondary;
+    final shape = BorderRadius.circular(_BottomNav.innerRadius);
 
     return Semantics(
       selected: selected,
@@ -303,45 +291,51 @@ class _NavItem extends StatelessWidget {
       value: badgeCount > 0 ? '$badgeCount' : null,
       child: InkWell(
         onTap: onTap,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  width: 56,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    color: selected ? indicatorColor : Colors.transparent,
-                    borderRadius: BorderRadius.circular(AppRadii.pill),
-                  ),
-                  child: Icon(icon, size: 24, color: color),
-                ),
-                // On the icon's top right corner.
-                if (badgeCount > 0)
-                  Positioned(
-                    top: -AppSpacing.xs,
-                    left: 28 + AppSpacing.xs,
-                    child: ExcludeSemantics(
-                      child: CountBadge(
-                        count: badgeCount,
-                        color: selectedColor,
+        borderRadius: shape,
+        // The selected tab sits in a lighter rounded fill of its own, tinted with
+        // the brand's colour, the way iOS marks it on glass.
+        child: Ink(
+          decoration: BoxDecoration(
+            color: selected
+                ? selectedColor.withValues(alpha: 0.14)
+                : Colors.transparent,
+            borderRadius: shape,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Icon(icon, size: 22, color: color),
+                  // On the icon's top right corner.
+                  if (badgeCount > 0)
+                    Positioned(
+                      top: -AppSpacing.xs,
+                      left: 22 - AppSpacing.xs,
+                      child: ExcludeSemantics(
+                        child: CountBadge(
+                          count: badgeCount,
+                          color: selectedColor,
+                        ),
                       ),
                     ),
-                  ),
-              ],
-            ),
-            const SizedBox(height: AppSpacing.xxs),
-            Text(
-              label,
-              style: context.textStyles.label.copyWith(
-                color: color,
-                fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: AppSpacing.xxs),
+              Text(
+                label,
+                style: context.textStyles.label.copyWith(
+                  color: color,
+                  fontSize: 10.5,
+                  height: 1.1,
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
       ),
     );

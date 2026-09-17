@@ -5,14 +5,13 @@ import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
-import 'package:davidan_prototype/core/widgets/app_card.dart';
+import 'package:davidan_prototype/core/widgets/glass_surface.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 
-/// A short message on a soft card that floats at the top of the screen: the
-/// store panel's new-order notice and the phone apps' confirmations. The card
-/// is the theme's surface, like every other card, with the icon on a tint of
-/// [brand]'s colour (DaviDan's caramel without one). Screen readers announce
-/// it when it appears.
+/// A short message on frosted glass that floats at the top of the screen: the
+/// store panel's new-order notice and the phone apps' confirmations, with the
+/// icon on a tint of [brand]'s colour (DaviDan's caramel without one). Screen
+/// readers announce it when it appears.
 class TopNotice extends StatelessWidget {
   const TopNotice({
     super.key,
@@ -45,23 +44,12 @@ class TopNotice extends StatelessWidget {
         type: MaterialType.transparency,
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 420),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: colors.surface,
-              borderRadius: BorderRadius.circular(radius),
-              border: colors.cardOutline.a == 0
-                  ? null
-                  : Border.all(color: colors.cardOutline),
-              boxShadow: [
-                ...AppCard.shadowsOf(colors),
-                // A notice floats above the page, a little higher than a card.
-                BoxShadow(
-                  color: colors.cardShadow,
-                  blurRadius: 32,
-                  offset: const Offset(0, 12),
-                ),
-              ],
-            ),
+          // Frosted glass, like the tab bar, with more of the surface behind
+          // the text.
+          child: GlassSurface(
+            borderRadius: BorderRadius.circular(radius),
+            tintOpacity: 0.78,
+            shadow: true,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppSpacing.md,

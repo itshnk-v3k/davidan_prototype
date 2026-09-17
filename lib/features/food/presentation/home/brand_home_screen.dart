@@ -26,10 +26,10 @@ import 'package:davidan_prototype/features/search/presentation/widgets/category_
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// A brand's home, inside Acasă: a header pinned at the top with the way back
-/// to the hub and the brand's cart, then the banners, the search field and
-/// the category tiles, then a row of the brand's popular
-/// products and one row per category, each scrolling sideways with a link to
-/// the whole category. The layout of a shop page in Glovo or Yandex Eda: the
+/// to the hub and the brand's cart, then the banners, the search field, the
+/// category tiles and the offers, then the brand's popular products, with the
+/// switch between cards and rows under their heading, and one row per
+/// category, each with a link to the whole category. The layout of a shop page in Glovo or Yandex Eda: the
 /// menu can be browsed without leaving home, and the menu page holds every
 /// product.
 class BrandHomeScreen extends ConsumerWidget {
@@ -129,13 +129,8 @@ class BrandHomeScreen extends ConsumerWidget {
               ),
             ),
           ),
-          // The button beside "Categorii" switches every product row below,
-          // and every product list in the app, between cards and wide rows.
           SliverToBoxAdapter(
-            child: _SectionTitle(
-              context.l10n.categoriesTitle,
-              trailing: const ProductLayoutToggle(),
-            ),
+            child: _SectionTitle(context.l10n.categoriesTitle),
           ),
           SliverToBoxAdapter(
             child: Padding(
@@ -169,6 +164,9 @@ class BrandHomeScreen extends ConsumerWidget {
               products: popular,
               onSeeAll: () => context.push(Routes.brandMenu(brand)),
               featured: true,
+              // Right under the first product heading: cards or rows, for
+              // this row, every row below and every product list in the app.
+              control: const ProductLayoutSwitch(),
             ),
           ),
           // Built as they scroll into view.
@@ -202,36 +200,24 @@ class BrandHomeScreen extends ConsumerWidget {
 }
 
 class _SectionTitle extends StatelessWidget {
-  const _SectionTitle(this.title, {this.trailing});
+  const _SectionTitle(this.title);
 
   final String title;
 
-  /// A button at the far right, lined up by its circle.
-  final Widget? trailing;
-
   @override
   Widget build(BuildContext context) {
-    final trailing = this.trailing;
-    // A trailing button takes taps in TapTarget.min. The row grows to that,
-    // and the padding gives way, so the title sits where a 32 px row would put
-    // it and the button's circle lines up with the content's right edge.
-    final growth = trailing == null ? 0.0 : (TapTarget.min - 32) / 2;
-    final margin = TapTarget.marginFor(ProductLayoutToggle.size);
-
     return Padding(
-      padding: EdgeInsets.fromLTRB(
+      padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
-        AppSpacing.xl - growth,
-        trailing == null ? AppSpacing.gutter : AppSpacing.gutter - margin,
-        AppSpacing.md - growth,
+        AppSpacing.xl,
+        AppSpacing.gutter,
+        AppSpacing.md,
       ),
       child: SizedBox(
-        height: 32 + 2 * growth,
-        child: Row(
-          children: [
-            Expanded(child: Text(title, style: context.textStyles.title)),
-            ?trailing,
-          ],
+        height: 32,
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(title, style: context.textStyles.title),
         ),
       ),
     );

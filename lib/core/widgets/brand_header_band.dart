@@ -6,19 +6,19 @@ import 'package:davidan_prototype/core/theme/app_assets.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
-import 'package:davidan_prototype/core/widgets/brand_texture.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The top of a brand's page, as a pinned sliver for its CustomScrollView:
-/// the brand's colours from the very top of the phone (behind the status bar)
-/// to just under the button row, with the way back, the brand's logo in
-/// white, an optional [title] and the brand's buttons.
+/// the brand's colour from the very top of the phone (behind the status bar)
+/// through the button row, with the way back, the brand's logo in white, an
+/// optional [title] and the brand's buttons.
 ///
-/// It is one piece: a gentle dark shade behind the status bar, the brand's
-/// colour, and a soft edge where the colour fades out to nothing. The page
-/// starts below that edge, and as it scrolls up it melts away under the soft
-/// edge instead of being cut off by a line.
+/// Below the buttons the colour eases out to fully transparent, so the header
+/// ends in a long, gentle gradient rather than an edge or a shadow: at the top
+/// of the page it melts into the background, and content scrolling up shows
+/// through the fade, fainter the higher it goes, with no band at any scroll
+/// position.
 class BrandHeaderBand extends StatelessWidget {
   const BrandHeaderBand({
     super.key,
@@ -40,9 +40,8 @@ class BrandHeaderBand extends StatelessWidget {
   /// The button row's height under the status bar.
   static const rowHeight = TapTarget.min + 2 * AppSpacing.sm;
 
-  /// How far below the button row the colour fades out: a short, soft edge
-  /// that stays within the header, not a shadow cast on the page.
-  static const fadeHeight = AppSpacing.sm + AppSpacing.xxs;
+  /// How far below the button row the colour takes to fade out.
+  static const fadeHeight = AppSpacing.xxl;
 
   /// The white logo each brand shows on its colour.
   static String logoOf(Brand brand) => switch (brand) {
@@ -53,73 +52,71 @@ class BrandHeaderBand extends StatelessWidget {
     Brand.carRental => AppAssets.rentCarLogoWhite,
   };
 
+  /// The header's colour: a deep, quiet tone of the brand's own, so the
+  /// page's photos stay the brightest things on it. White reads on each at
+  /// 4.5:1 or more.
+  static Color colorOf(Brand brand) => switch (brand) {
+    Brand.bakery => const Color(0xFFA8651F),
+    Brand.restaurant => const Color(0xFF4A3426),
+    Brand.sushi => const Color(0xFFBF4128),
+    Brand.water => const Color(0xFF1D5DB0),
+    Brand.carRental => const Color(0xFF0F7651),
+  };
+
   @override
   Widget build(BuildContext context) {
     final top = MediaQuery.paddingOf(context).top;
-    final solid = top + rowHeight;
-    final height = solid + fadeHeight;
+    final height = top + rowHeight + fadeHeight;
+    final color = colorOf(brand);
+    final clear = color.withValues(alpha: 0);
+    // Solid behind the logo and the buttons, then eased out to nothing, with
+    // no slope at either end of the fade, so neither end shows as a line. The
+    // clear end keeps the colour's own hue, so the fade never greys.
+    final fadeStart = (top + rowHeight * 0.72) / height;
+    const steps = 8;
 
     return PinnedHeaderSliver(
       child: AnnotatedRegion<SystemUiOverlayStyle>(
-        // Light status bar icons on the brand's deep colour.
+        // Light status bar icons on the brand's colour.
         value: SystemUiOverlayStyle.light,
         child: SizedBox(
           height: height,
-          child: Stack(
-            children: [
-              Positioned.fill(
-                // The colour and the shade fade out together over the soft
-                // edge, so the header ends as one layer.
-                child: ShaderMask(
-                  blendMode: BlendMode.dstIn,
-                  shaderCallback: (bounds) => LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: const [
-                      Color(0xFFFFFFFF),
-                      Color(0xFFFFFFFF),
-                      Color(0x00FFFFFF),
-                    ],
-                    stops: [0, solid / height, 1],
-                  ).createShader(bounds),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      BrandSurface(brand: brand, texture: false),
-                      // A gentle shade behind the status bar, gone before the
-                      // buttons.
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: top + rowHeight / 2,
-                        child: const DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [Color(0x1F000000), Color(0x00000000)],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  color,
+                  for (var i = 0; i <= steps; i++)
+                    Color.lerp(
+                      color,
+                      clear,
+                      Curves.easeInOut.transform(i / steps),
+                    )!,
+                ],
+                stops: [
+                  0,
+                  for (var i = 0; i <= steps; i++)
+                    fadeStart + (1 - fadeStart) * i / steps,
+                ],
+              ),
+            ),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: EdgeInsets.only(top: top),
+                child: SizedBox(
+                  height: rowHeight,
+                  child: _ButtonRow(
+                    brand: brand,
+                    onBack: onBack,
+                    title: title,
+                    actions: actions,
                   ),
                 ),
               ),
-              Positioned(
-                top: top,
-                left: 0,
-                right: 0,
-                height: rowHeight,
-                child: _ButtonRow(
-                  brand: brand,
-                  onBack: onBack,
-                  title: title,
-                  actions: actions,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -166,9 +163,11 @@ class _ButtonRow extends StatelessWidget {
               height: square ? 34 : 26,
               excludeFromSemantics: true,
             ),
+            // The title takes all the room up to the buttons: beside a Spacer
+            // it would only get half of it.
             if (title != null) ...[
               const SizedBox(width: AppSpacing.sm),
-              Flexible(
+              Expanded(
                 child: Text(
                   title,
                   style: context.textStyles.title.copyWith(color: Colors.white),
@@ -176,8 +175,8 @@ class _ButtonRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-            ],
-            const Spacer(),
+            ] else
+              const Spacer(),
             for (final (index, action) in actions.indexed) ...[
               if (index > 0) const SizedBox(width: AppSpacing.sm - 2 * margin),
               action,

@@ -22,7 +22,7 @@ import 'package:davidan_prototype/l10n/l10n.dart';
 /// (which is what tells people the row scrolls), ending in a tile that opens
 /// the whole list when there's a [seeAllLabel]; as a list, the first
 /// [listPreview] products as wide rows, then that same link. A [featured] row
-/// always shows the bigger cards, sideways, floating gently.
+/// shows bigger cards, floating gently, or its first rows the same way.
 class ProductShelf extends ConsumerWidget {
   const ProductShelf({
     super.key,
@@ -34,6 +34,7 @@ class ProductShelf extends ConsumerWidget {
     this.seeAllLabel,
     this.showBrand = false,
     this.featured = false,
+    this.control,
   }) : assert(
          seeAllLabel == null || onSeeAll != null,
          'The end tile needs onSeeAll',
@@ -56,6 +57,10 @@ class ProductShelf extends ConsumerWidget {
   /// The popular row: bigger cards with the photo first.
   final bool featured;
 
+  /// Shown right under the heading, over the products: the switch between
+  /// cards and rows on the first row of a page.
+  final Widget? control;
+
   /// How many products a row shows as a list.
   static const listPreview = 3;
 
@@ -72,6 +77,7 @@ class ProductShelf extends ConsumerWidget {
     final description = this.description;
     final seeAllLabel = this.seeAllLabel;
     final onSeeAll = this.onSeeAll;
+    final control = this.control;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -132,8 +138,17 @@ class ProductShelf extends ConsumerWidget {
               ),
             ),
           ),
-        const SizedBox(height: AppSpacing.md - _titleRowGrowth / 2),
-        if (!featured && layout == ProductLayout.list)
+        if (control != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
+            child: Align(alignment: Alignment.centerLeft, child: control),
+          ),
+        SizedBox(
+          height: control != null
+              ? AppSpacing.xs
+              : AppSpacing.md - _titleRowGrowth / 2,
+        ),
+        if (layout == ProductLayout.list)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
             child: Column(

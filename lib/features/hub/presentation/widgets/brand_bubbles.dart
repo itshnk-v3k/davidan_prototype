@@ -11,23 +11,29 @@ import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/brand_intro.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// The service selector: the brands as a grid of tiles, two to a row in the
-/// client's order ([Brand]'s), the last one full width when the count is odd.
-/// Each tile is the brand's own surface (colours and texture) with its logo
-/// in white and its name, and opens the brand. A brand that isn't open in the
-/// app yet says so on its tile.
+/// The service selector: the brands as square tiles, two to a row in the
+/// client's order ([Brand]'s), all the same size, the last one centred on its
+/// own row when the count is odd. Each tile is the brand's own bright surface
+/// (colours and texture) with its logo in white and its name, and opens the
+/// brand. A brand that isn't open in the app yet says so on its tile.
 class BrandBubbles extends StatelessWidget {
   const BrandBubbles({super.key, required this.onOpen});
 
   final ValueChanged<Brand> onOpen;
 
+  static const _columns = 2;
+  static const _gap = AppSpacing.lg;
+
   @override
   Widget build(BuildContext context) {
     const brands = Brand.values;
-    Widget tile(Brand brand) => _BrandTile(
-      brand: brand,
-      intro: context.content.introOf(brand),
-      onTap: () => onOpen(brand),
+    Widget tile(Brand brand) => AspectRatio(
+      aspectRatio: 1,
+      child: _BrandTile(
+        brand: brand,
+        intro: context.content.introOf(brand),
+        onTap: () => onOpen(brand),
+      ),
     );
 
     return Padding(
@@ -37,22 +43,31 @@ class BrandBubbles extends StatelessWidget {
         AppSpacing.gutter,
         AppSpacing.xl,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          for (var index = 0; index < brands.length; index += 2) ...[
-            if (index > 0) const SizedBox(height: AppSpacing.lg),
-            Row(
-              children: [
-                Expanded(child: tile(brands[index])),
-                if (index + 1 < brands.length) ...[
-                  const SizedBox(width: AppSpacing.lg),
-                  Expanded(child: tile(brands[index + 1])),
-                ],
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final size = (constraints.maxWidth - _gap) / _columns;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (var row = 0; row < brands.length; row += _columns) ...[
+                if (row > 0) const SizedBox(height: _gap),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (
+                      var index = row;
+                      index < row + _columns && index < brands.length;
+                      index++
+                    ) ...[
+                      if (index > row) const SizedBox(width: _gap),
+                      SizedBox(width: size, child: tile(brands[index])),
+                    ],
+                  ],
+                ),
               ],
-            ),
-          ],
-        ],
+            ],
+          );
+        },
       ),
     );
   }
@@ -69,7 +84,6 @@ class _BrandTile extends StatelessWidget {
   final BrandIntro intro;
   final VoidCallback onTap;
 
-  static const _height = 136.0;
   static const _radius = AppRadii.card;
 
   /// Every logo sits in a slot this tall, so the names line up tile to tile.
@@ -79,9 +93,9 @@ class _BrandTile extends StatelessWidget {
   /// wide wordmarks by width, the compact marks by height. A tile narrower
   /// than a wordmark shrinks it to fit.
   static Size _logoSize(Brand brand) => switch (brand) {
-    Brand.restaurant || Brand.bakery => const Size(120, 22),
-    Brand.sushi => const Size(112, 29),
-    Brand.water => const Size(62, 36),
+    Brand.restaurant || Brand.bakery => const Size(124, 23),
+    Brand.sushi => const Size(118, 31),
+    Brand.water => const Size(66, 38),
     Brand.carRental => const Size(40, 40),
   };
 
@@ -90,6 +104,7 @@ class _BrandTile extends StatelessWidget {
     final colors = context.colors;
     final logo = _logoSize(brand);
     final shape = BorderRadius.circular(_radius);
+    final shade = BrandSurface.shadeOf(brand);
 
     return Semantics(
       button: true,
@@ -110,65 +125,67 @@ class _BrandTile extends StatelessWidget {
             position: DecorationPosition.foreground,
             decoration: BoxDecoration(
               borderRadius: shape,
-              border: Border.all(color: const Color(0x2EFFFFFF)),
+              border: Border.all(color: const Color(0x33FFFFFF)),
             ),
-            child: SizedBox(
-              height: _height,
-              child: BrandSurface(
-                brand: brand,
-                scrim: true,
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: InkWell(
-                    onTap: onTap,
-                    child: Padding(
-                      padding: const EdgeInsets.all(AppSpacing.lg),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: _logoSlot,
-                            child: Align(
+            child: BrandSurface(
+              brand: brand,
+              scrim: true,
+              child: Material(
+                type: MaterialType.transparency,
+                child: InkWell(
+                  onTap: onTap,
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpacing.lg),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: _logoSlot,
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Image.asset(
+                              BrandHeaderBand.logoOf(brand),
+                              width: logo.width,
+                              height: logo.height,
+                              fit: BoxFit.contain,
                               alignment: Alignment.bottomLeft,
-                              child: Image.asset(
-                                BrandHeaderBand.logoOf(brand),
-                                width: logo.width,
-                                height: logo.height,
-                                fit: BoxFit.contain,
-                                alignment: Alignment.bottomLeft,
-                                excludeFromSemantics: true,
-                              ),
+                              excludeFromSemantics: true,
                             ),
                           ),
-                          const Spacer(),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  intro.name,
-                                  style: context.textStyles.subtitle.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 0.2,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                        ),
+                        const Spacer(),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                intro.name,
+                                style: context.textStyles.subtitle.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2,
+                                  shadows: [
+                                    Shadow(
+                                      color: shade.withValues(alpha: 0.5),
+                                      blurRadius: 6,
+                                    ),
+                                  ],
                                 ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              if (!intro.comingSoon) ...[
-                                const SizedBox(width: AppSpacing.sm),
-                                const _OpenArrow(),
-                              ],
-                            ],
-                          ),
-                          if (intro.comingSoon) ...[
-                            const SizedBox(height: AppSpacing.xs),
-                            _ComingSoonPill(
-                              label: context.l10n.comingSoonTitle,
                             ),
+                            if (!intro.comingSoon) ...[
+                              const SizedBox(width: AppSpacing.sm),
+                              const _OpenArrow(),
+                            ],
                           ],
+                        ),
+                        if (intro.comingSoon) ...[
+                          const SizedBox(height: AppSpacing.xs),
+                          _ComingSoonPill(label: context.l10n.comingSoonTitle),
                         ],
-                      ),
+                      ],
                     ),
                   ),
                 ),
@@ -180,10 +197,6 @@ class _BrandTile extends StatelessWidget {
     );
   }
 }
-
-/// The frosted look the arrow and the "În curând" pill share.
-const _frostFill = Color(0x26FFFFFF);
-const _frostBorder = Color(0x4DFFFFFF);
 
 /// A frosted circle with an arrow: the tile opens the brand.
 class _OpenArrow extends StatelessWidget {
@@ -208,6 +221,10 @@ class _OpenArrow extends StatelessWidget {
   }
 }
 
+/// The frosted look the arrow and the "În curând" pill share.
+const _frostFill = Color(0x26FFFFFF);
+const _frostBorder = Color(0x4DFFFFFF);
+
 /// "În curând" on a brand's tile, under its name.
 class _ComingSoonPill extends StatelessWidget {
   const _ComingSoonPill({required this.label});
@@ -218,21 +235,24 @@ class _ComingSoonPill extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 24,
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       decoration: BoxDecoration(
         color: _frostFill,
         borderRadius: BorderRadius.circular(AppRadii.pill),
         border: Border.all(color: _frostBorder),
       ),
-      child: Text(
-        label,
-        style: context.textStyles.label.copyWith(
-          color: Colors.white,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 0.4,
+      // As wide as the label, not the tile.
+      child: Center(
+        widthFactor: 1,
+        child: Text(
+          label,
+          style: context.textStyles.label.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.4,
+          ),
+          maxLines: 1,
         ),
-        maxLines: 1,
       ),
     );
   }

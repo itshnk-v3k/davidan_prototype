@@ -10,5 +10,8 @@ const sushiBanners = <PromoBanner>[
     image: 'assets/images/banners/banner-sushi-dulciuri-nipone.webp',
     title: 'Dulciuri Nipone',
     categoryId: SushiCategoryIds.deserturi,
+    // A wide web slide (about 3:1): the plate is on its right half, and the
+    // dark left half is where the site sets its text.
+    focusX: 0.5,
   ),
 ];
