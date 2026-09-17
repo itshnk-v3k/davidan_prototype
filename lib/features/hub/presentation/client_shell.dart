@@ -251,10 +251,9 @@ class _BottomNav extends ConsumerWidget {
     );
   }
 
-  static const _height = 58.0;
-
-  /// The bar's own corners, rounder than a card's.
-  static const _radius = 16.0;
+  /// The height and corners a brand's floating header shares.
+  static const _height = GlassSurface.barHeight;
+  static const _radius = GlassSurface.barRadius;
 
   /// The selected tab's corners, following the bar's across the [_inset].
   static const innerRadius = _radius - _inset;

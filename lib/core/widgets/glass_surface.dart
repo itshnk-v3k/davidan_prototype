@@ -50,6 +50,13 @@ class GlassSurface extends StatelessWidget {
 
   static const sigma = 30.0;
 
+  /// The height the floating glass bars share, the tab bar and a brand's
+  /// header, so the two read as a pair.
+  static const barHeight = 58.0;
+
+  /// The floating bars' corners.
+  static const barRadius = 16.0;
+
   /// How much more colourful the blurred content turns, which makes the glass
   /// look lit rather than grey.
   static const _saturation = 1.9;
@@ -86,8 +93,8 @@ class GlassSurface extends StatelessWidget {
     // Glass tinted with a deep colour catches light like the dark theme's.
     final dark = custom != null || darkTheme;
     final base = custom ?? colors.surface;
-    final opacity =
-        tintOpacity ?? (custom != null ? 0.6 : (darkTheme ? 0.5 : 0.55));
+    // Tinted glass is as clear as the theme's: only its colour differs.
+    final opacity = tintOpacity ?? (darkTheme ? 0.5 : 0.55);
     // Without a blur behind it, the tint alone has to hide the content.
     final fill = base.withValues(
       alpha: blur ? opacity : (opacity + 0.25).clamp(0, 1),

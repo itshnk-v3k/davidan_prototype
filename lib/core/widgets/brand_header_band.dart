@@ -13,13 +13,13 @@ import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The top of a brand's page, as a pinned sliver for its CustomScrollView: a
 /// floating bar of liquid glass in the brand's colour, detached from the
-/// screen's edges like the tab bar (the same gutters and corners), with the
-/// way back, the brand's logo in white, an optional [title] and the brand's
-/// buttons.
+/// screen's edges like the tab bar and matching it (the same height, gutters,
+/// corners and clarity), with the way back, the brand's logo in white, an
+/// optional [title] and the brand's buttons.
 ///
-/// It is [GlassSurface] tinted with the brand's deep tone: whatever scrolls
-/// under it is strongly blurred and dimmed, so it shows through as soft colour
-/// while the white icons and the cart's count stay clear. Behind the status
+/// It is [GlassSurface] thinly tinted with the brand's colour: whatever
+/// scrolls under it is strongly blurred and dimmed, so it shows through as
+/// soft colour while the white icons and the cart's count stay clear. Behind the status
 /// bar, the page's own background fades in over the content, so the status
 /// bar's icons read over whatever passes under them.
 class BrandHeaderBand extends StatelessWidget {
@@ -40,11 +40,9 @@ class BrandHeaderBand extends StatelessWidget {
   /// [AppIconButton]s (or built on one), lined up by their circles.
   final List<Widget> actions;
 
-  /// The bar's height: a button's tap area and a little glass round it.
-  static const barHeight = TapTarget.min + AppSpacing.sm;
-
-  /// The bar's corners, the tab bar's.
-  static const radius = 16.0;
+  /// The bar's height and corners: the tab bar's, so the two match.
+  static const barHeight = GlassSurface.barHeight;
+  static const radius = GlassSurface.barRadius;
 
   /// The white logo each brand shows on its colour.
   static String logoOf(Brand brand) => switch (brand) {
@@ -55,14 +53,16 @@ class BrandHeaderBand extends StatelessWidget {
     Brand.carRental => AppAssets.rentCarLogoWhite,
   };
 
-  /// The glass's tint: a deep, saturated tone of the brand's own. White reads
-  /// on each at 4.5:1 or more.
+  /// The glass's tint: a vivid tone of the brand's own, laid on as thinly as
+  /// the tab bar's glass, so the header is as clear as the tab bar but in the
+  /// brand's colour. With the backdrop dimmed under it, white icons keep 3:1
+  /// or more even over a white card, and far more over the dark theme.
   static Color colorOf(Brand brand) => switch (brand) {
-    Brand.bakery => const Color(0xFFAE5C00),
-    Brand.restaurant => const Color(0xFF4E2E18),
-    Brand.sushi => const Color(0xFFC4331A),
-    Brand.water => const Color(0xFF1052BE),
-    Brand.carRental => const Color(0xFF00754B),
+    Brand.bakery => const Color(0xFFD97200),
+    Brand.restaurant => const Color(0xFF6E4020),
+    Brand.sushi => const Color(0xFFE0381A),
+    Brand.water => const Color(0xFF1767DD),
+    Brand.carRental => const Color(0xFF009A62),
   };
 
   @override
@@ -171,7 +171,7 @@ class _ButtonRow extends StatelessWidget {
             const SizedBox(width: AppSpacing.sm - margin),
             Image.asset(
               BrandHeaderBand.logoOf(brand),
-              height: square ? 34 : 26,
+              height: square ? 30 : 24,
               excludeFromSemantics: true,
             ),
             // The title takes all the room up to the buttons: beside a Spacer

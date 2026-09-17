@@ -40,12 +40,31 @@ class BrandSurface extends StatelessWidget {
   final Widget? child;
 
   /// Where a brand's photo sits, as fractions of the surface (left, top,
-  /// width, height): a landscape spot right of centre, or a taller one for
-  /// the water bottle standing upright. It may run past the trailing edge.
+  /// width, height): a wide spot right of centre, or a taller one for the
+  /// water bottle standing upright. It may run past the surface's edges.
   static Rect photoSpotOf(Brand brand) => switch (brand) {
-    Brand.water => const Rect.fromLTWH(0.4, 0.04, 0.66, 0.96),
-    _ => const Rect.fromLTWH(0.26, 0.14, 0.9, 0.76),
+    Brand.water => const Rect.fromLTWH(0.34, -0.02, 0.8, 1.08),
+    _ => const Rect.fromLTWH(0.16, 0.1, 1.04, 0.94),
   };
+
+  /// How much of a [photo] shows from its spot's centre (0) out to its edge
+  /// (1): whole in the middle, then easing out with no slope at the edge, so
+  /// no outline of the photo shows anywhere.
+  static final _photoFade = (
+    colors: [
+      const Color(0xFFFFFFFF),
+      for (var i = 0; i <= _fadeSteps; i++)
+        Color.fromRGBO(255, 255, 255, 1 - _smoothstep(i / _fadeSteps)),
+    ],
+    stops: [
+      0.0,
+      for (var i = 0; i <= _fadeSteps; i++)
+        _fadeFrom + (1 - _fadeFrom) * i / _fadeSteps,
+    ],
+  );
+  static const _fadeFrom = 0.2;
+  static const _fadeSteps = 10;
+  static double _smoothstep(double x) => x * x * (3 - 2 * x);
 
   /// The gradient's two ends, light to deep: saturated and rich, never
   /// pastel, the restaurant a warm bronze rather than near-black.
@@ -100,14 +119,13 @@ class BrandSurface extends StatelessWidget {
                     // photo has no edge of its own anywhere on the card.
                     child: ShaderMask(
                       blendMode: BlendMode.dstIn,
-                      shaderCallback: (bounds) => const RadialGradient(
-                        radius: 0.62,
-                        colors: [
-                          Color(0xFFFFFFFF),
-                          Color(0xB3FFFFFF),
-                          Color(0x00FFFFFF),
-                        ],
-                        stops: [0, 0.55, 1],
+                      // An oval filling the spot, so the photo is gone at
+                      // every edge of it alike.
+                      shaderCallback: (bounds) => RadialGradient(
+                        radius: 0.5,
+                        transform: const _FitEllipse(),
+                        colors: _photoFade.colors,
+                        stops: _photoFade.stops,
                       ).createShader(bounds),
                       child: Image.asset(
                         photo,
@@ -166,6 +184,22 @@ class BrandSurface extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+/// Stretches a radial gradient, drawn round the shorter side, into an oval
+/// that fills its bounds.
+class _FitEllipse extends GradientTransform {
+  const _FitEllipse();
+
+  @override
+  Matrix4 transform(Rect bounds, {TextDirection? textDirection}) {
+    final side = bounds.shortestSide;
+    final centre = bounds.center;
+    return Matrix4.identity()
+      ..translateByDouble(centre.dx, centre.dy, 0, 1)
+      ..scaleByDouble(bounds.width / side, bounds.height / side, 1, 1)
+      ..translateByDouble(-centre.dx, -centre.dy, 0, 1);
   }
 }
 
