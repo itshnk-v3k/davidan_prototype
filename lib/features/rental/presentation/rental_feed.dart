@@ -8,6 +8,7 @@ import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/app_chip.dart';
+import 'package:davidan_prototype/core/widgets/chip_row.dart';
 import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/data/mock/rental/rental_cars.dart';
 import 'package:davidan_prototype/data/models/rental_car.dart';
@@ -37,7 +38,9 @@ class _RentalFeedState extends ConsumerState<RentalFeed> {
       for (final car in fleet)
         if (_carClass == null || car.carClass == _carClass) car,
     ];
-    final classes = [
+    // The chips: the whole fleet, then the classes it holds.
+    final filters = <RentalCarClass?>[
+      null,
       for (final carClass in RentalCarClass.values)
         if (fleet.any((car) => car.carClass == carClass)) carClass,
     ];
@@ -63,23 +66,24 @@ class _RentalFeedState extends ConsumerState<RentalFeed> {
             ),
           ),
           const SizedBox(height: AppSpacing.md),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            clipBehavior: Clip.none,
-            child: Row(
-              children: [
-                for (final (index, carClass) in [null, ...classes].indexed) ...[
-                  if (index > 0) const SizedBox(width: AppSpacing.sm),
-                  AppChip(
-                    label: carClass == null
-                        ? context.l10n.allBrands
-                        : context.l10n.rentalCarClass(carClass.name),
-                    selected: carClass == _carClass,
-                    onTap: () => setState(() => _carClass = carClass),
-                  ),
-                ],
-              ],
-            ),
+          // "Toate" first, then every class the fleet has. The row scrolls
+          // the chosen chip into the middle of itself, so a class at the far
+          // end (SUV, Premium) doesn't stay off-screen once it is picked.
+          ChipRow(
+            itemCount: filters.length,
+            selectedIndex: filters.indexOf(_carClass),
+            // The sliver's own gutter already insets the row.
+            padding: EdgeInsets.zero,
+            itemBuilder: (context, index) {
+              final carClass = filters[index];
+              return AppChip(
+                label: carClass == null
+                    ? context.l10n.allBrands
+                    : context.l10n.rentalCarClass(carClass.name),
+                selected: carClass == _carClass,
+                onTap: () => setState(() => _carClass = carClass),
+              );
+            },
           ),
           const SizedBox(height: AppSpacing.lg),
           RentalCarGrid(

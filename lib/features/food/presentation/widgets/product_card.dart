@@ -98,19 +98,20 @@ class ProductCard extends StatelessWidget {
 
   final ProductTileData data;
 
-  /// The photo's width to its height.
-  static const photoAspectRatio = 1.2;
+  /// The photo's width to its height: wide rather than tall, so a card takes
+  /// less of the screen and more of a row or a grid shows at once.
+  static const photoAspectRatio = 1.45;
 
   static const _textPadding = EdgeInsets.only(
     left: AppSpacing.md,
-    top: AppSpacing.sm,
+    top: AppSpacing.xs,
   );
 
   /// The most lines a name takes; past that it ends in an ellipsis.
   static const maxNameLines = 4;
 
   /// The room right of the name, clear of the card's edge.
-  static const _nameEndPadding = AppSpacing.md;
+  static const _nameEndPadding = AppSpacing.sm;
 
   /// How tall a card [width] wide has to be at the phone's text size: the
   /// photo, as many lines of name as the longest of [names] takes (two at
@@ -406,8 +407,16 @@ class FeaturedProductCard extends StatelessWidget {
 
   final ProductTileData data;
 
-  static const width = 264.0;
-  static const photoAspectRatio = 4 / 3;
+  static const width = 228.0;
+  static const photoAspectRatio = 1.5;
+
+  /// Its text block's insets, as [ProductCard._textPadding] is the small
+  /// card's.
+  static const _textPadding = EdgeInsets.only(
+    left: AppSpacing.md,
+    top: AppSpacing.sm,
+  );
+  static const _nameEndPadding = AppSpacing.md;
 
   /// The most lines a name takes; past that it ends in an ellipsis.
   static const maxNameLines = 3;
@@ -426,12 +435,12 @@ class FeaturedProductCard extends StatelessWidget {
       context,
       names,
       style: _nameStyle(styles),
-      width: width - 2 * AppSpacing.lg,
+      width: width - _textPadding.left - _nameEndPadding,
       min: 1,
       max: maxNameLines,
     );
     return width / photoAspectRatio +
-        AppSpacing.md +
+        _textPadding.vertical +
         nameLines * line(_nameStyle(styles)) +
         AppSpacing.xxs +
         line(styles.caption) +
@@ -445,8 +454,8 @@ class FeaturedProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = data.product;
-    const heartSize = 36.0;
-    const heartOffset = AppSpacing.md - (TapTarget.min - heartSize) / 2;
+    const heartSize = 32.0;
+    const heartOffset = AppSpacing.sm - (TapTarget.min - heartSize) / 2;
 
     return AppCard(
       radius: AppRadii.card,
@@ -484,10 +493,7 @@ class FeaturedProductCard extends StatelessWidget {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(
-                left: AppSpacing.lg,
-                top: AppSpacing.md,
-              ),
+              padding: _textPadding,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -496,7 +502,7 @@ class FeaturedProductCard extends StatelessWidget {
                       data: data,
                       style: _nameStyle(context.textStyles),
                       maxLines: maxNameLines,
-                      endPadding: AppSpacing.lg,
+                      endPadding: _nameEndPadding,
                     ),
                   ),
                   Padding(
@@ -586,7 +592,7 @@ class ProductListTile extends StatelessWidget {
 
   final ProductTileData data;
 
-  static const _photoSize = 116.0;
+  static const _photoSize = 96.0;
 
   @override
   Widget build(BuildContext context) {
@@ -638,7 +644,7 @@ class ProductListTile extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(
                   left: AppSpacing.xs,
-                  top: AppSpacing.md,
+                  top: AppSpacing.sm,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

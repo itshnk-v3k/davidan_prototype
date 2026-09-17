@@ -21,12 +21,16 @@ import 'package:davidan_prototype/features/search/presentation/widgets/category_
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// A brand with a menu (the patisserie, the sushi), inside Acasă's shell: the
-/// site's banners and the demo offers, the search field, the category tiles,
-/// the brand's popular products as big cards, and then one row per category,
-/// each with a link to the whole category, under the switch between cards and
-/// rows that they follow. The layout of a shop page in Glovo or Yandex Eda:
-/// the menu can be browsed without leaving home, and a category page holds
-/// all of it.
+/// site's banners, the search field right under them, the demo offers, the
+/// category tiles, the brand's popular products as big cards, and then one row
+/// per category, each with a link to the whole category, under the switch
+/// between cards and rows that they follow. The layout of a shop page in Glovo
+/// or Yandex Eda: the menu can be browsed without leaving home, and a category
+/// page holds all of it.
+///
+/// Search sits high, straight under the banners rather than down beside the
+/// menu, so it is on screen when the feed opens: it is how someone who knows
+/// what they want gets there.
 class MenuFeed extends ConsumerWidget {
   const MenuFeed({super.key, required this.brand});
 
@@ -64,19 +68,6 @@ class MenuFeed extends ConsumerWidget {
               },
             ),
           ),
-        // The offers ride with the banners above the menu itself, so the ads
-        // are one block rather than two apart.
-        if (promos.isNotEmpty) ...[
-          SliverToBoxAdapter(child: SectionTitle(context.l10n.offersTitle)),
-          SliverToBoxAdapter(
-            child: PromoCards(
-              promos: promos,
-              onOpen: (category) => context.push(
-                Routes.brandMenu(brand, categoryId: category.id),
-              ),
-            ),
-          ),
-        ],
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(
@@ -107,6 +98,19 @@ class MenuFeed extends ConsumerWidget {
             ),
           ),
         ),
+        // The offers ride with the banners above the menu itself, so the ads
+        // are one block rather than two apart.
+        if (promos.isNotEmpty) ...[
+          SliverToBoxAdapter(child: SectionTitle(context.l10n.offersTitle)),
+          SliverToBoxAdapter(
+            child: PromoCards(
+              promos: promos,
+              onOpen: (category) => context.push(
+                Routes.brandMenu(brand, categoryId: category.id),
+              ),
+            ),
+          ),
+        ],
         SliverToBoxAdapter(child: SectionTitle(context.l10n.categoriesTitle)),
         SliverToBoxAdapter(
           child: Padding(

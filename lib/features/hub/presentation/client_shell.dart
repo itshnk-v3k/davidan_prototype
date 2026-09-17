@@ -15,10 +15,11 @@ import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/favorites_notifier.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// The hub's frame: the active tab plus the bottom navigation bar. A brand's
-/// browse screens (home, menu, information) open inside Acasă and keep the
-/// bar; its task screens, which have their own bottom button (product, cart,
-/// checkout, car, request), open full screen above it.
+/// The hub's frame: the active tab plus the bottom navigation bar, a bar on
+/// the bottom edge with rounded top corners. A brand's browse screens (home,
+/// menu, information) open inside Acasă and keep the bar; its task screens,
+/// which have their own bottom button (product, cart, checkout, car,
+/// request), open full screen above it.
 ///
 /// The bar and the other tabs (Comenzi, Favorite, Profil) take the colours of
 /// the brand open in Acasă, so moving between tabs keeps the brand the
@@ -132,8 +133,8 @@ class _ClientShellState extends State<ClientShell> {
 
     return Scaffold(
       backgroundColor: context.colors.background,
-      // The screens run behind the floating bar, which blurs them; each leaves
-      // room for it at the end of its content (BottomBarSpace).
+      // The screens run behind the bar, which blurs them; each leaves room
+      // for it at the end of its content (BottomBarSpace).
       extendBody: true,
       body: Theme(data: tabsTheme, child: navigationShell),
       bottomNavigationBar: _BottomNav(
@@ -201,49 +202,45 @@ class _BottomNav extends ConsumerWidget {
     final colors = brand == null
         ? context.colors
         : BrandColors.of(brand, Theme.of(context).brightness);
-    final radius = BorderRadius.circular(_radius);
 
-    // Floats above the content as a slim bar of liquid glass, as wide as the
-    // page's cards (the same gutters) and above the phone's own gesture area.
-    return Padding(
-      padding: EdgeInsets.fromLTRB(
-        AppSpacing.gutter,
-        0,
-        AppSpacing.gutter,
-        AppSpacing.sm + MediaQuery.paddingOf(context).bottom,
-      ),
-      child: GlassSurface(
-        borderRadius: radius,
-        shadow: true,
-        // No outline: the glass alone shapes the bar.
-        rim: false,
-        // Its own Material, so the selected tab's fill and the ripples paint on
-        // the glass rather than under it.
-        child: Material(
-          type: MaterialType.transparency,
+    // Sits on the bottom edge, corner to corner, with only its top corners
+    // rounded: the shape the delivery apps the client picked out use, a bar
+    // the page ends against rather than a pill floating over it.
+    //
+    // Those apps draw it as an opaque white strip, which on this app's dark
+    // pages would be a slab of light at the bottom of every screen. It keeps
+    // the app's glass instead: the same treatment of the reference's bar —
+    // one quiet surface, the open tab in the brand's colour and everything
+    // else grey — tuned for a dark background.
+    return GlassSurface(
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(_radius)),
+      // It keeps the rim: now that the bar touches the content instead of
+      // floating clear of it, the glass alone no longer marks its top edge.
+      // Its own Material, so the ripples paint on the glass, not under it.
+      child: Material(
+        type: MaterialType.transparency,
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.paddingOf(context).bottom,
+          ),
           child: SizedBox(
             height: _height,
-            child: Padding(
-              padding: const EdgeInsets.all(_inset),
-              child: Row(
-                children: [
-                  for (final (index, item) in items.indexed)
-                    Expanded(
-                      child: _NavItem(
-                        icon: index == currentIndex
-                            ? item.selectedIcon
-                            : item.icon,
-                        label: item.label,
-                        badgeCount: index == _favoritesIndex
-                            ? favoriteCount
-                            : 0,
-                        selected: index == currentIndex,
-                        selectedColor: colors.primary,
-                        onTap: () => onTap(index),
-                      ),
+            child: Row(
+              children: [
+                for (final (index, item) in items.indexed)
+                  Expanded(
+                    child: _NavItem(
+                      icon: index == currentIndex
+                          ? item.selectedIcon
+                          : item.icon,
+                      label: item.label,
+                      badgeCount: index == _favoritesIndex ? favoriteCount : 0,
+                      selected: index == currentIndex,
+                      selectedColor: colors.primary,
+                      onTap: () => onTap(index),
                     ),
-                ],
-              ),
+                  ),
+              ],
             ),
           ),
         ),
@@ -251,15 +248,11 @@ class _BottomNav extends ConsumerWidget {
     );
   }
 
-  /// The height and corners a brand's floating header shares.
+  /// The height the tabs themselves take, above the phone's own gesture area.
   static const _height = GlassSurface.barHeight;
+
+  /// Its top corners, the same the brand header's glass carries.
   static const _radius = GlassSurface.barRadius;
-
-  /// The selected tab's corners, following the bar's across the [_inset].
-  static const innerRadius = _radius - _inset;
-
-  /// Between the bar's edge and the selected tab's own lighter fill.
-  static const _inset = 4.0;
 }
 
 class _NavItem extends StatelessWidget {
@@ -281,62 +274,55 @@ class _NavItem extends StatelessWidget {
   final Color selectedColor;
   final VoidCallback onTap;
 
+  /// The icon above its label, as the reference bar draws them.
+  static const _iconSize = 24.0;
+
   @override
   Widget build(BuildContext context) {
     final color = selected ? selectedColor : context.colors.textSecondary;
-    final shape = BorderRadius.circular(_BottomNav.innerRadius);
 
     return Semantics(
       selected: selected,
       // The tab's label, then how many it holds.
       value: badgeCount > 0 ? '$badgeCount' : null,
+      // Nothing behind the open tab: its filled icon, its colour and its
+      // heavier label mark it, the way the reference bar marks its own.
       child: InkWell(
         onTap: onTap,
-        borderRadius: shape,
-        // The selected tab sits in a lighter rounded fill of its own, tinted with
-        // the brand's colour, the way iOS marks it on glass.
-        child: Ink(
-          decoration: BoxDecoration(
-            color: selected
-                ? selectedColor.withValues(alpha: 0.14)
-                : Colors.transparent,
-            borderRadius: shape,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Icon(icon, size: 22, color: color),
-                  // On the icon's top right corner.
-                  if (badgeCount > 0)
-                    Positioned(
-                      top: -AppSpacing.xs,
-                      left: 22 - AppSpacing.xs,
-                      child: ExcludeSemantics(
-                        child: CountBadge(
-                          count: badgeCount,
-                          color: selectedColor,
-                        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Icon(icon, size: _iconSize, color: color),
+                // On the icon's top right corner.
+                if (badgeCount > 0)
+                  Positioned(
+                    top: -AppSpacing.xs,
+                    left: _iconSize - AppSpacing.xs,
+                    child: ExcludeSemantics(
+                      child: CountBadge(
+                        count: badgeCount,
+                        color: selectedColor,
                       ),
                     ),
-                ],
+                  ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              label,
+              style: context.textStyles.label.copyWith(
+                color: color,
+                fontSize: 11,
+                height: 1.1,
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
               ),
-              const SizedBox(height: AppSpacing.xxs),
-              Text(
-                label,
-                style: context.textStyles.label.copyWith(
-                  color: color,
-                  fontSize: 10.5,
-                  height: 1.1,
-                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       ),
     );

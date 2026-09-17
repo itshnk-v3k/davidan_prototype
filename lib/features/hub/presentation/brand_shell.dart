@@ -63,7 +63,10 @@ class BrandShell extends ConsumerWidget {
       AppSpacing.sm +
       barHeight +
       BrandSwitcherRow.heightFor(context) +
-      AppSpacing.md;
+      _fadeHeight;
+
+  /// The fade under the switcher, where the page appears from behind it.
+  static const _fadeHeight = AppSpacing.sm;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -159,7 +162,7 @@ class _Chrome extends ConsumerWidget {
         // hard edge.
         IgnorePointer(
           child: SizedBox(
-            height: AppSpacing.md,
+            height: BrandShell._fadeHeight,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
