@@ -3,24 +3,28 @@ import 'package:flutter/widgets.dart';
 /// Every raw colour in the app, and the only file with hex values. The dark
 /// and light [AppColors] give these names their roles; widgets never read
 /// the palette directly.
+///
+/// Rich rather than pastel: each brand's tones are saturated and deep, the
+/// dark background is near-black so cards stand out, and secondary text keeps
+/// a strong contrast. Every text pairing stays at 4.5:1 or more.
 abstract final class AppPalette {
   // Caramel, from the site's accent (#C3812D)
   /// Honey caramel for text and icons on dark surfaces.
-  static const caramel300 = Color(0xFFF0A951);
+  static const caramel300 = Color(0xFFFFA42E);
 
   /// Bright honey caramel, from the site's accent. Decoration and large shapes
   /// only.
-  static const caramel500 = Color(0xFFE8962E);
+  static const caramel500 = Color(0xFFF58F12);
 
-  /// Deep amber caramel for text and buttons on light surfaces: 4.9:1 with
+  /// Deep amber caramel for text and buttons on light surfaces: 6.0:1 with
   /// white text.
-  static const caramel700 = Color(0xFFA0590F);
+  static const caramel700 = Color(0xFF9A4F00);
 
   /// Pale caramel tint behind icons on light surfaces.
-  static const caramel100 = Color(0xFFFCEBD6);
+  static const caramel100 = Color(0xFFFDE2BF);
 
   /// Deep caramel tint behind icons on dark surfaces.
-  static const caramel950 = Color(0xFF3A2A16);
+  static const caramel950 = Color(0xFF40260A);
 
   /// Near-black brown for text on a caramel fill in the dark theme.
   static const espresso = Color(0xFF1F1408);
@@ -29,17 +33,17 @@ abstract final class AppPalette {
   // read as energetic and far enough from the bakery's caramel (and from Rent
   // Car's green) that the brands never look alike
   /// Coral orange for text and icons on dark surfaces.
-  static const vermilion300 = Color(0xFFFF7D57);
+  static const vermilion300 = Color(0xFFFF673D);
 
   /// Vivid vermilion. Decoration and large shapes only.
-  static const vermilion500 = Color(0xFFF2542D);
+  static const vermilion500 = Color(0xFFF2451C);
 
-  /// Clear vermilion for text and buttons on light surfaces: 5.4:1 with white
+  /// Deep vermilion for text and buttons on light surfaces: 5.9:1 with white
   /// text.
-  static const vermilion700 = Color(0xFFC92E12);
+  static const vermilion700 = Color(0xFFBF2A0A);
 
-  static const vermilion100 = Color(0xFFFFE6DE);
-  static const vermilion950 = Color(0xFF3D1810);
+  static const vermilion100 = Color(0xFFFFD9CC);
+  static const vermilion950 = Color(0xFF48160A);
 
   /// Near-black red for text on a [vermilion300] fill.
   static const vermilionInk = Color(0xFF2B0A03);
@@ -47,17 +51,17 @@ abstract final class AppPalette {
   // Emerald of DaviDan Rent Car: its site shares Sushi's red, so the app gives
   // it a colour of its own, a fresh green no other brand comes near
   /// Mint green for text and icons on dark surfaces.
-  static const emerald300 = Color(0xFF3DD68C);
+  static const emerald300 = Color(0xFF20D37F);
 
   /// Vivid emerald. Decoration and large shapes only.
-  static const emerald500 = Color(0xFF10B981);
+  static const emerald500 = Color(0xFF00B878);
 
-  /// Deep emerald for text and buttons on light surfaces: 5.4:1 with white
+  /// Deep emerald for text and buttons on light surfaces: 6.1:1 with white
   /// text.
-  static const emerald700 = Color(0xFF047A4C);
+  static const emerald700 = Color(0xFF00704A);
 
-  static const emerald100 = Color(0xFFDAF5E9);
-  static const emerald950 = Color(0xFF0E2F22);
+  static const emerald100 = Color(0xFFCBF1DE);
+  static const emerald950 = Color(0xFF06341F);
 
   /// Near-black green for text on an [emerald300] fill.
   static const emeraldInk = Color(0xFF03261A);
@@ -65,20 +69,20 @@ abstract final class AppPalette {
   // Blue of Apa DaviDan: no site has one, so it is the label of the still
   // water bottle in its davidan.md photo (the mean of the label's blue pixels)
   /// Sky blue for text and icons on dark surfaces.
-  static const blue300 = Color(0xFF6AA8FF);
+  static const blue300 = Color(0xFF529AFF);
 
   /// Vivid azure, from the bottle label, for text and buttons on light
-  /// surfaces: 5.9:1 with white text.
-  static const blue700 = Color(0xFF155FCC);
+  /// surfaces: 7.0:1 with white text.
+  static const blue700 = Color(0xFF0D52C0);
 
-  static const blue100 = Color(0xFFE0EDFD);
-  static const blue950 = Color(0xFF13233D);
+  static const blue100 = Color(0xFFD3E4FF);
+  static const blue950 = Color(0xFF0B2549);
 
   /// Near-black blue for text on a [blue300] fill.
   static const blueInk = Color(0xFF04142E);
 
   // Warm darks, close to the brown backdrops of the product photos
-  static const ink950 = Color(0xFF121110);
+  static const ink950 = Color(0xFF0C0B0A);
   static const ink900 = Color(0xFF1C1A17);
   static const ink850 = Color(0xFF262320);
   static const ink800 = Color(0xFF3A3530);
@@ -86,7 +90,7 @@ abstract final class AppPalette {
 
   // Warm lights for text on dark
   static const cream = Color(0xFFF3EEE7);
-  static const stone300 = Color(0xFFADA69C);
+  static const stone300 = Color(0xFFB9B2A7);
   static const stone500 = Color(0xFF6E6860);
 
   // Light surfaces: a clean off-white with white cards, so the brands'
@@ -109,7 +113,7 @@ abstract final class AppPalette {
   // Neutral greys for text on light
   /// Secondary text; also the outline of unticked radio buttons and
   /// checkboxes.
-  static const taupe600 = Color(0xFF6B6A70);
+  static const taupe600 = Color(0xFF5C5B61);
   static const taupe400 = Color(0xFFA9A8AD);
 
   // Feedback
@@ -139,8 +143,8 @@ abstract final class AppPalette {
   static const white06 = Color(0x0FFFFFFF);
 
   /// The star beside a rating.
-  static const gold400 = Color(0xFFF5B63D);
-  static const gold500 = Color(0xFFEFA31A);
+  static const gold400 = Color(0xFFFFB321);
+  static const gold500 = Color(0xFFF29D00);
 
   /// The top edge of a brand's header, behind the status bar and buttons.
   static const black45 = Color(0x73000000);

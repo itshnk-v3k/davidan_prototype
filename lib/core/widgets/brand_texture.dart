@@ -30,14 +30,14 @@ class BrandSurface extends StatelessWidget {
   final bool texture;
   final Widget? child;
 
-  /// The gradient's two ends, light to deep: bright and vivid, the
-  /// restaurant a warm bronze rather than near-black.
+  /// The gradient's two ends, light to deep: saturated and rich, never
+  /// pastel, the restaurant a warm bronze rather than near-black.
   static (Color, Color) colorsOf(Brand brand) => switch (brand) {
-    Brand.bakery => (const Color(0xFFFFB547), const Color(0xFFE8820F)),
-    Brand.restaurant => (const Color(0xFF8A5A36), const Color(0xFF4A2B18)),
-    Brand.sushi => (const Color(0xFFFF7445), const Color(0xFFF04A22)),
-    Brand.water => (const Color(0xFF5AB6FF), const Color(0xFF1E72E6)),
-    Brand.carRental => (const Color(0xFF2BCB85), const Color(0xFF0CA36A)),
+    Brand.bakery => (const Color(0xFFFFA726), const Color(0xFFD26500)),
+    Brand.restaurant => (const Color(0xFF8C5025), const Color(0xFF3B1D0A)),
+    Brand.sushi => (const Color(0xFFFF5A2B), const Color(0xFFCF2E0E)),
+    Brand.water => (const Color(0xFF38A3FF), const Color(0xFF0B55D0)),
+    Brand.carRental => (const Color(0xFF10C277), const Color(0xFF008354)),
   };
 
   /// The darkest tone of the brand's own hue, for [scrim]. Darkening with it

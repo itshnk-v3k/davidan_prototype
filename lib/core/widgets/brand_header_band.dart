@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_assets.dart';
+import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
@@ -10,15 +11,17 @@ import 'package:davidan_prototype/core/widgets/glass_surface.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// The top of a brand's page, as a pinned sliver for its CustomScrollView:
-/// liquid glass in the brand's colour from the very top of the phone (behind
-/// the status bar) through the button row, with the way back, the brand's logo
-/// in white, an optional [title] and the brand's buttons.
+/// The top of a brand's page, as a pinned sliver for its CustomScrollView: a
+/// floating bar of liquid glass in the brand's colour, detached from the
+/// screen's edges like the tab bar (the same gutters and corners), with the
+/// way back, the brand's logo in white, an optional [title] and the brand's
+/// buttons.
 ///
-/// The same glass as the tab bar ([GlassSurface]), tinted with the brand's
-/// deep tone: whatever scrolls under it is blurred and shows through only as
-/// soft colour, so the white icons and the cart's count stay clear over any
-/// photo. A hairline marks its lower edge.
+/// It is [GlassSurface] tinted with the brand's deep tone: whatever scrolls
+/// under it is strongly blurred and dimmed, so it shows through as soft colour
+/// while the white icons and the cart's count stay clear. Behind the status
+/// bar, the page's own background fades in over the content, so the status
+/// bar's icons read over whatever passes under them.
 class BrandHeaderBand extends StatelessWidget {
   const BrandHeaderBand({
     super.key,
@@ -37,8 +40,11 @@ class BrandHeaderBand extends StatelessWidget {
   /// [AppIconButton]s (or built on one), lined up by their circles.
   final List<Widget> actions;
 
-  /// The button row's height under the status bar.
-  static const rowHeight = TapTarget.min + 2 * AppSpacing.sm;
+  /// The bar's height: a button's tap area and a little glass round it.
+  static const barHeight = TapTarget.min + AppSpacing.sm;
+
+  /// The bar's corners, the tab bar's.
+  static const radius = 14.0;
 
   /// The white logo each brand shows on its colour.
   static String logoOf(Brand brand) => switch (brand) {
@@ -49,43 +55,75 @@ class BrandHeaderBand extends StatelessWidget {
     Brand.carRental => AppAssets.rentCarLogoWhite,
   };
 
-  /// The header's colour: a deep, quiet tone of the brand's own, so the
-  /// page's photos stay the brightest things on it. White reads on each at
-  /// 4.5:1 or more.
+  /// The glass's tint: a deep, saturated tone of the brand's own. White reads
+  /// on each at 4.5:1 or more.
   static Color colorOf(Brand brand) => switch (brand) {
-    Brand.bakery => const Color(0xFFA8651F),
-    Brand.restaurant => const Color(0xFF4A3426),
-    Brand.sushi => const Color(0xFFBF4128),
-    Brand.water => const Color(0xFF1D5DB0),
-    Brand.carRental => const Color(0xFF0F7651),
+    Brand.bakery => const Color(0xFFAE5C00),
+    Brand.restaurant => const Color(0xFF4E2E18),
+    Brand.sushi => const Color(0xFFC4331A),
+    Brand.water => const Color(0xFF1052BE),
+    Brand.carRental => const Color(0xFF00754B),
   };
 
   @override
   Widget build(BuildContext context) {
     final top = MediaQuery.paddingOf(context).top;
+    final background = context.colors.background;
+    final dark = Theme.of(context).brightness == Brightness.dark;
 
     return PinnedHeaderSliver(
       child: AnnotatedRegion<SystemUiOverlayStyle>(
-        // Light status bar icons on the brand's colour.
-        value: SystemUiOverlayStyle.light,
-        child: GlassSurface(
-          borderRadius: BorderRadius.zero,
-          tint: colorOf(brand),
-          border: const Border(
-            bottom: BorderSide(color: Color(0x2EFFFFFF), width: 0.8),
-          ),
-          child: Padding(
-            padding: EdgeInsets.only(top: top),
-            child: SizedBox(
-              height: rowHeight,
-              child: _ButtonRow(
-                brand: brand,
-                onBack: onBack,
-                title: title,
-                actions: actions,
+        // The status bar sits over the page now, not over the brand's colour.
+        value: dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+        child: Stack(
+          children: [
+            // The page's background behind the status bar, fading out by the
+            // middle of the bar.
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              height: top + AppSpacing.sm + barHeight / 2,
+              child: IgnorePointer(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        background.withValues(alpha: 0.92),
+                        background.withValues(alpha: 0.6),
+                        background.withValues(alpha: 0),
+                      ],
+                      stops: const [0, 0.55, 1],
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.gutter,
+                top + AppSpacing.sm,
+                AppSpacing.gutter,
+                AppSpacing.sm,
+              ),
+              child: GlassSurface(
+                borderRadius: BorderRadius.circular(radius),
+                tint: colorOf(brand),
+                shadow: true,
+                child: SizedBox(
+                  height: barHeight,
+                  child: _ButtonRow(
+                    brand: brand,
+                    onBack: onBack,
+                    title: title,
+                    actions: actions,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -116,7 +154,10 @@ class _ButtonRow extends StatelessWidget {
     return AppIconButtonStyle.overlay(
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.gutter - margin,
+          // The circles sit as far from the glass's sides as from its top.
+          horizontal:
+              (BrandHeaderBand.barHeight - AppIconButton.defaultSize) / 2 -
+              margin,
         ),
         child: Row(
           children: [
