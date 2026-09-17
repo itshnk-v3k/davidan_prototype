@@ -32,12 +32,12 @@ class AppIconButtonStyle extends InheritedWidget {
   }) : glass = false,
        blur = false;
 
-  /// White icons on a clear glass circle with a bright rim, over a brand's
+  /// White icons on a soft, clear circle with no outline, over a brand's
   /// colour.
   const AppIconButtonStyle.overlay({super.key, required super.child})
-    : fill = const Color(0x29FFFFFF),
+    : fill = const Color(0x1FFFFFFF),
       icon = const Color(0xFFFFFFFF),
-      border = const Color(0x40FFFFFF),
+      border = null,
       glass = false,
       blur = false;
 

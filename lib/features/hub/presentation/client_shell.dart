@@ -215,6 +215,8 @@ class _BottomNav extends ConsumerWidget {
       child: GlassSurface(
         borderRadius: radius,
         shadow: true,
+        // No outline: the glass alone shapes the bar.
+        rim: false,
         // Its own Material, so the selected tab's fill and the ripples paint on
         // the glass rather than under it.
         child: Material(
@@ -252,7 +254,7 @@ class _BottomNav extends ConsumerWidget {
   static const _height = 58.0;
 
   /// The bar's own corners, rounder than a card's.
-  static const _radius = 14.0;
+  static const _radius = 16.0;
 
   /// The selected tab's corners, following the bar's across the [_inset].
   static const innerRadius = _radius - _inset;

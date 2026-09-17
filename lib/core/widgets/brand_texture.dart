@@ -7,18 +7,24 @@ import 'package:davidan_prototype/data/models/brand.dart';
 /// A brand's own surface: a bright gradient in its colours with a drawn
 /// texture (wheat for the bakery, gold lattice for the restaurant, waves for
 /// sushi, ripples for water, racing stripes for Rent Car), for the hub's brand
-/// tiles. Drawn, not photographed, so it never passes for a product photo.
+/// tiles.
 ///
-/// With [scrim] (the hub's tiles, where a logo and a name sit on it) a light
-/// shade of the brand's own colour settles along the leading side and the
-/// bottom, under the logo and the name, while the colour and the pattern
-/// stay bright everywhere else.
+/// With a [photo], one of the brand's real products shows as a soft spot on
+/// the trailing side, fading out into the colour and the pattern, which stay
+/// the card's main look at the top and the leading side.
+///
+/// With [scrim] (the hub's tiles, where a logo and a name sit on it) a shade
+/// of the brand's own colour settles along the leading side, the top and the
+/// bottom, under the logo and the name, while the colour and the pattern stay bright
+/// everywhere else. Over a photo the bottom shade is deeper, so white keeps
+/// its contrast over a bright plate or a white car.
 class BrandSurface extends StatelessWidget {
   const BrandSurface({
     super.key,
     required this.brand,
     this.scrim = false,
     this.texture = true,
+    this.photo,
     this.child,
   });
 
@@ -28,7 +34,18 @@ class BrandSurface extends StatelessWidget {
   /// False for the plain gradient, where a pattern would crowd small content
   /// like a header's logo and buttons.
   final bool texture;
+
+  /// An asset path: a product photo blended into the surface.
+  final String? photo;
   final Widget? child;
+
+  /// Where a brand's photo sits, as fractions of the surface (left, top,
+  /// width, height): a landscape spot right of centre, or a taller one for
+  /// the water bottle standing upright. It may run past the trailing edge.
+  static Rect photoSpotOf(Brand brand) => switch (brand) {
+    Brand.water => const Rect.fromLTWH(0.4, 0.04, 0.66, 0.96),
+    _ => const Rect.fromLTWH(0.26, 0.14, 0.9, 0.76),
+  };
 
   /// The gradient's two ends, light to deep: saturated and rich, never
   /// pastel, the restaurant a warm bronze rather than near-black.
@@ -54,7 +71,9 @@ class BrandSurface extends StatelessWidget {
   Widget build(BuildContext context) {
     final (light, deep) = colorsOf(brand);
     final child = this.child;
+    final photo = this.photo;
     final shade = shadeOf(brand);
+    final spot = photoSpotOf(brand);
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -68,6 +87,38 @@ class BrandSurface extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           if (texture) CustomPaint(painter: _TexturePainter(brand)),
+          if (photo != null)
+            LayoutBuilder(
+              builder: (context, box) => Stack(
+                children: [
+                  Positioned(
+                    left: box.maxWidth * spot.left,
+                    top: box.maxHeight * spot.top,
+                    width: box.maxWidth * spot.width,
+                    height: box.maxHeight * spot.height,
+                    // Whole in the middle, gone by the spot's edges, so the
+                    // photo has no edge of its own anywhere on the card.
+                    child: ShaderMask(
+                      blendMode: BlendMode.dstIn,
+                      shaderCallback: (bounds) => const RadialGradient(
+                        radius: 0.62,
+                        colors: [
+                          Color(0xFFFFFFFF),
+                          Color(0xB3FFFFFF),
+                          Color(0x00FFFFFF),
+                        ],
+                        stops: [0, 0.55, 1],
+                      ).createShader(bounds),
+                      child: Image.asset(
+                        photo,
+                        fit: BoxFit.cover,
+                        excludeFromSemantics: true,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           if (scrim) ...[
             // A light shade on the leading side, under the logo, gone by the
             // trailing edge.
@@ -81,6 +132,20 @@ class BrandSurface extends StatelessWidget {
                 ),
               ),
             ),
+            // A little along the top, under the logo.
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    shade.withValues(alpha: 0.4),
+                    shade.withValues(alpha: 0),
+                  ],
+                  stops: const [0, 0.5],
+                ),
+              ),
+            ),
             // More along the bottom, under the name.
             DecoratedBox(
               decoration: BoxDecoration(
@@ -88,10 +153,11 @@ class BrandSurface extends StatelessWidget {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [
-                    shade.withValues(alpha: 0.5),
+                    shade.withValues(alpha: photo != null ? 0.8 : 0.5),
+                    shade.withValues(alpha: photo != null ? 0.45 : 0.25),
                     shade.withValues(alpha: 0),
                   ],
-                  stops: const [0, 0.6],
+                  stops: const [0, 0.3, 0.6],
                 ),
               ),
             ),

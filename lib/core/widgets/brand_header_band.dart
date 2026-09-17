@@ -44,7 +44,7 @@ class BrandHeaderBand extends StatelessWidget {
   static const barHeight = TapTarget.min + AppSpacing.sm;
 
   /// The bar's corners, the tab bar's.
-  static const radius = 14.0;
+  static const radius = 16.0;
 
   /// The white logo each brand shows on its colour.
   static String logoOf(Brand brand) => switch (brand) {
@@ -112,6 +112,8 @@ class BrandHeaderBand extends StatelessWidget {
                 borderRadius: BorderRadius.circular(radius),
                 tint: colorOf(brand),
                 shadow: true,
+                // No outline: the glass alone shapes the bar.
+                rim: false,
                 child: SizedBox(
                   height: barHeight,
                   child: _ButtonRow(

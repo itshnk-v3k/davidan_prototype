@@ -6,10 +6,11 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 
 /// Liquid glass, the frosted material iOS floats its bars and buttons on: what
 /// is behind it strongly blurred and its colours lifted, a thin tint of the
-/// theme's surface (or of a brand's colour, [tint]), light pooling along the
-/// top and a rim that catches it, bright at the upper left and fading round
-/// the edge. For the app's floating pieces (the tab bar, a brand's header, a
-/// notice, the buttons pinned over a photo).
+/// theme's surface (or of a brand's colour, [tint]) and a little light
+/// pooling along the top. Small pieces (a notice, the buttons pinned over a
+/// photo) add a faint [rim] to hold their shape; the large floating bars (the
+/// tab bar, a brand's header) leave it off, so the glass alone defines their
+/// edges.
 ///
 /// Tinted glass carries white icons, so it also dims what's behind it: the
 /// content still reads through as blurred colour, but white stays clear over a
@@ -26,6 +27,7 @@ class GlassSurface extends StatelessWidget {
     this.tint,
     this.tintOpacity,
     this.shadow = false,
+    this.rim = true,
   });
 
   final BorderRadius borderRadius;
@@ -42,6 +44,9 @@ class GlassSurface extends StatelessWidget {
 
   /// A soft shadow under it, for a piece floating well above the page.
   final bool shadow;
+
+  /// A faint rim of light round the edge.
+  final bool rim;
 
   static const sigma = 30.0;
 
@@ -89,7 +94,9 @@ class GlassSurface extends StatelessWidget {
     );
 
     Widget glass = CustomPaint(
-      foregroundPainter: _RimPainter(borderRadius: borderRadius, dark: dark),
+      foregroundPainter: rim
+          ? _RimPainter(borderRadius: borderRadius, dark: dark)
+          : null,
       child: DecoratedBox(
         decoration: BoxDecoration(color: fill, borderRadius: borderRadius),
         child: DecoratedBox(
@@ -100,8 +107,8 @@ class GlassSurface extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.white.withValues(alpha: dark ? 0.2 : 0.45),
-                Colors.white.withValues(alpha: dark ? 0.04 : 0.08),
+                Colors.white.withValues(alpha: dark ? 0.08 : 0.28),
+                Colors.white.withValues(alpha: dark ? 0.02 : 0.05),
                 Colors.white.withValues(alpha: 0),
               ],
               stops: const [0, 0.45, 1],
@@ -140,9 +147,8 @@ class GlassSurface extends StatelessWidget {
   }
 }
 
-/// The glass's rim: brightest at the upper left, where the light falls,
-/// almost gone along the middle and catching a little again at the lower
-/// right.
+/// The glass's rim: a quiet catch of light at the upper left, gone along the
+/// middle and barely there at the lower right.
 class _RimPainter extends CustomPainter {
   const _RimPainter({required this.borderRadius, required this.dark});
 
@@ -159,9 +165,9 @@ class _RimPainter extends CustomPainter {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Colors.white.withValues(alpha: dark ? 0.55 : 0.95),
-          Colors.white.withValues(alpha: dark ? 0.08 : 0.35),
-          Colors.white.withValues(alpha: dark ? 0.24 : 0.7),
+          Colors.white.withValues(alpha: dark ? 0.22 : 0.6),
+          Colors.white.withValues(alpha: dark ? 0.03 : 0.12),
+          Colors.white.withValues(alpha: dark ? 0.08 : 0.3),
         ],
         stops: const [0, 0.5, 1],
       ).createShader(rect);

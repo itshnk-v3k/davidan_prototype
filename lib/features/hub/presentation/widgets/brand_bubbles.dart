@@ -130,6 +130,8 @@ class _BrandTile extends StatelessWidget {
             child: BrandSurface(
               brand: brand,
               scrim: true,
+              // A real product blended in; a brand not open yet has none.
+              photo: intro.comingSoon ? null : intro.image,
               child: Material(
                 type: MaterialType.transparency,
                 child: InkWell(
