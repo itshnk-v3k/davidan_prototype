@@ -6,19 +6,19 @@ import 'package:davidan_prototype/core/theme/app_assets.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/core/widgets/glass_surface.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The top of a brand's page, as a pinned sliver for its CustomScrollView:
-/// the brand's colour from the very top of the phone (behind the status bar)
-/// through the button row, with the way back, the brand's logo in white, an
-/// optional [title] and the brand's buttons.
+/// liquid glass in the brand's colour from the very top of the phone (behind
+/// the status bar) through the button row, with the way back, the brand's logo
+/// in white, an optional [title] and the brand's buttons.
 ///
-/// Below the buttons the colour eases out to fully transparent, so the header
-/// ends in a long, gentle gradient rather than an edge or a shadow: at the top
-/// of the page it melts into the background, and content scrolling up shows
-/// through the fade, fainter the higher it goes, with no band at any scroll
-/// position.
+/// The same glass as the tab bar ([GlassSurface]), tinted with the brand's
+/// deep tone: whatever scrolls under it is blurred and shows through only as
+/// soft colour, so the white icons and the cart's count stay clear over any
+/// photo. A hairline marks its lower edge.
 class BrandHeaderBand extends StatelessWidget {
   const BrandHeaderBand({
     super.key,
@@ -39,9 +39,6 @@ class BrandHeaderBand extends StatelessWidget {
 
   /// The button row's height under the status bar.
   static const rowHeight = TapTarget.min + 2 * AppSpacing.sm;
-
-  /// How far below the button row the colour takes to fade out.
-  static const fadeHeight = AppSpacing.xxl;
 
   /// The white logo each brand shows on its colour.
   static String logoOf(Brand brand) => switch (brand) {
@@ -66,55 +63,26 @@ class BrandHeaderBand extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final top = MediaQuery.paddingOf(context).top;
-    final height = top + rowHeight + fadeHeight;
-    final color = colorOf(brand);
-    final clear = color.withValues(alpha: 0);
-    // Solid behind the logo and the buttons, then eased out to nothing, with
-    // no slope at either end of the fade, so neither end shows as a line. The
-    // clear end keeps the colour's own hue, so the fade never greys.
-    final fadeStart = (top + rowHeight * 0.72) / height;
-    const steps = 8;
 
     return PinnedHeaderSliver(
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         // Light status bar icons on the brand's colour.
         value: SystemUiOverlayStyle.light,
-        child: SizedBox(
-          height: height,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  color,
-                  for (var i = 0; i <= steps; i++)
-                    Color.lerp(
-                      color,
-                      clear,
-                      Curves.easeInOut.transform(i / steps),
-                    )!,
-                ],
-                stops: [
-                  0,
-                  for (var i = 0; i <= steps; i++)
-                    fadeStart + (1 - fadeStart) * i / steps,
-                ],
-              ),
-            ),
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: EdgeInsets.only(top: top),
-                child: SizedBox(
-                  height: rowHeight,
-                  child: _ButtonRow(
-                    brand: brand,
-                    onBack: onBack,
-                    title: title,
-                    actions: actions,
-                  ),
-                ),
+        child: GlassSurface(
+          borderRadius: BorderRadius.zero,
+          tint: colorOf(brand),
+          border: const Border(
+            bottom: BorderSide(color: Color(0x2EFFFFFF), width: 0.8),
+          ),
+          child: Padding(
+            padding: EdgeInsets.only(top: top),
+            child: SizedBox(
+              height: rowHeight,
+              child: _ButtonRow(
+                brand: brand,
+                onBack: onBack,
+                title: title,
+                actions: actions,
               ),
             ),
           ),

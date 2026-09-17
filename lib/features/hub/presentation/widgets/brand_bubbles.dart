@@ -141,47 +141,46 @@ class _BrandTile extends StatelessWidget {
                       children: [
                         SizedBox(
                           height: _logoSlot,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Image.asset(
-                                    BrandHeaderBand.logoOf(brand),
-                                    width: logo.width,
-                                    height: logo.height,
-                                    fit: BoxFit.contain,
-                                    alignment: Alignment.bottomLeft,
-                                    excludeFromSemantics: true,
-                                  ),
-                                ),
-                              ),
-                              // In the corner, so the name below has the
-                              // tile's whole width.
-                              if (!intro.comingSoon) ...[
-                                const SizedBox(width: AppSpacing.sm),
-                                const _OpenArrow(),
-                              ],
-                            ],
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Image.asset(
+                              BrandHeaderBand.logoOf(brand),
+                              width: logo.width,
+                              height: logo.height,
+                              fit: BoxFit.contain,
+                              alignment: Alignment.bottomLeft,
+                              excludeFromSemantics: true,
+                            ),
                           ),
                         ),
                         const Spacer(),
-                        Text(
-                          intro.name,
-                          style: context.textStyles.subtitle.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            height: 1.2,
-                            shadows: [
-                              Shadow(
-                                color: shade.withValues(alpha: 0.5),
-                                blurRadius: 6,
+                        // The arrow sits beside the name, on its last line.
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                intro.name,
+                                style: context.textStyles.subtitle.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2,
+                                  shadows: [
+                                    Shadow(
+                                      color: shade.withValues(alpha: 0.5),
+                                      blurRadius: 6,
+                                    ),
+                                  ],
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
+                            ),
+                            if (!intro.comingSoon) ...[
+                              const SizedBox(width: AppSpacing.sm - 2),
+                              const _OpenArrow(),
                             ],
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                          ],
                         ),
                         if (intro.comingSoon) ...[
                           const SizedBox(height: AppSpacing.xs),
@@ -206,9 +205,11 @@ class _OpenArrow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Small enough to leave a two-word name like "Apă naturală" its room at
+    // a large text size on a small phone.
     return Container(
-      width: 28,
-      height: 28,
+      width: 26,
+      height: 26,
       decoration: BoxDecoration(
         color: _frostFill,
         shape: BoxShape.circle,

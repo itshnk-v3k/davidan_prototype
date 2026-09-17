@@ -27,9 +27,9 @@ import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// A brand's home, inside Acasă: a header pinned at the top with the way back
 /// to the hub and the brand's cart, then the banners, the search field, the
-/// category tiles and the offers, then the brand's popular products, with the
-/// switch between cards and rows under their heading, and one row per
-/// category, each with a link to the whole category. The layout of a shop page in Glovo or Yandex Eda: the
+/// category tiles and the offers, then the brand's popular products as big
+/// cards, and one row per category, each with a link to the whole category,
+/// under the switch between cards and rows that they follow. The layout of a shop page in Glovo or Yandex Eda: the
 /// menu can be browsed without leaving home, and the menu page holds every
 /// product.
 class BrandHomeScreen extends ConsumerWidget {
@@ -164,9 +164,6 @@ class BrandHomeScreen extends ConsumerWidget {
               products: popular,
               onSeeAll: () => context.push(Routes.brandMenu(brand)),
               featured: true,
-              // Right under the first product heading: cards or rows, for
-              // this row, every row below and every product list in the app.
-              control: const ProductLayoutSwitch(),
             ),
           ),
           // Built as they scroll into view.
@@ -177,13 +174,37 @@ class BrandHomeScreen extends ConsumerWidget {
               void openCategory() => context.push(
                 Routes.brandMenu(brand, categoryId: category.id),
               );
-              return ProductShelf(
+              final shelf = ProductShelf(
                 id: category.id,
                 title: category.name,
                 description: category.description,
                 products: products,
                 onSeeAll: openCategory,
                 seeAllLabel: context.l10n.seeAllProducts(products.length),
+                // Close under the switch above the first row.
+                topPadding: index == 0 ? AppSpacing.sm : AppSpacing.xl,
+              );
+              if (index > 0) return shelf;
+              // Once, above the category rows: cards or wide rows, for these
+              // rows and every product list in the app. The popular row above
+              // always keeps its big cards.
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      AppSpacing.gutter,
+                      AppSpacing.xl,
+                      AppSpacing.gutter,
+                      0,
+                    ),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: ProductLayoutSwitch(),
+                    ),
+                  ),
+                  shelf,
+                ],
               );
             },
           ),
