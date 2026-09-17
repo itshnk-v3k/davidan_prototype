@@ -61,7 +61,11 @@ class ProductGrid extends ConsumerWidget {
                     mainAxisSpacing: _gap,
                     crossAxisSpacing: _gap,
                     // As tall as the text needs at the phone's text size.
-                    mainAxisExtent: ProductCard.heightFor(context, cardWidth),
+                    mainAxisExtent: ProductCard.heightFor(
+                      context,
+                      cardWidth,
+                      names: [for (final product in products) product.name],
+                    ),
                   ),
                   itemCount: products.length,
                   itemBuilder: (context, index) => ConnectedProductCard(
@@ -195,7 +199,9 @@ class ProductLayoutSwitch extends ConsumerWidget {
     // The segments are 30 px tall; the taps reach TapTarget.min around them.
     return SizedBox(
       height: TapTarget.min,
+      // As wide as the segments, so it lines up where it's placed.
       child: Center(
+        widthFactor: 1,
         child: Container(
           padding: const EdgeInsets.all(inset),
           decoration: BoxDecoration(

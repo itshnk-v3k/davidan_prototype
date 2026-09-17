@@ -113,10 +113,13 @@ class _Segment extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.xxs),
+                // A long label ("Как в телефоне" at a large text size) wraps
+                // rather than being cut off.
                 Text(
                   label,
                   style: context.textStyles.label.copyWith(color: foreground),
-                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],

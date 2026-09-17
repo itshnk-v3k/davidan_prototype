@@ -168,11 +168,20 @@ class _ButtonRow extends StatelessWidget {
             if (title != null) ...[
               const SizedBox(width: AppSpacing.sm),
               Expanded(
-                child: Text(
-                  title,
-                  style: context.textStyles.title.copyWith(color: Colors.white),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                // Shrinks a little rather than lose its end, at a large text
+                // size on a small phone.
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    title,
+                    // A size down from a screen title, beside the logo.
+                    style: context.textStyles.title.copyWith(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                    maxLines: 1,
+                  ),
                 ),
               ),
             ] else

@@ -112,8 +112,10 @@ class _BannerSlide extends StatelessWidget {
                       letterSpacing: -0.2,
                       color: colors.onImage,
                     ),
-                    // The site's longer lines take three in the heading font.
-                    maxLines: 3,
+                    // The site's longer lines take three in the app's font,
+                    // and four at a large text size on a slide with no line
+                    // under its headline.
+                    maxLines: subtitle == null ? 4 : 3,
                     overflow: TextOverflow.ellipsis,
                   ),
                   if (subtitle != null) ...[

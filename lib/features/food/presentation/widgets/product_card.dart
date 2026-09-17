@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:material_ui/material_ui.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
@@ -61,6 +63,36 @@ class ProductTileData {
 /// product is in the cart. Tapping anywhere else opens the product; the photo
 /// flies to the product page. Shown outside its brand (the hub, favourites),
 /// the card names its brand on the photo, since "+" adds to that brand's cart.
+/// How many lines the longest of [names] takes in [style] at [width] and the
+/// phone's text size, from [min] to [max]: a row or grid of cards makes room
+/// for its longest name, so no name is cut off and short names keep cards
+/// compact.
+int nameLinesFor(
+  BuildContext context,
+  Iterable<String> names, {
+  required TextStyle style,
+  required double width,
+  required int min,
+  required int max,
+}) {
+  var lines = min;
+  final scaler = MediaQuery.textScalerOf(context);
+  // As the Text will draw it, over the inherited style.
+  final inherited = DefaultTextStyle.of(context).style;
+  for (final name in names) {
+    if (lines >= max) break;
+    final painter = TextPainter(
+      text: TextSpan(text: name, style: inherited.merge(style)),
+      textDirection: Directionality.of(context),
+      textScaler: scaler,
+      maxLines: max,
+    )..layout(maxWidth: width);
+    lines = math.max(lines, painter.computeLineMetrics().length);
+    painter.dispose();
+  }
+  return math.min(lines, max);
+}
+
 class ProductCard extends StatelessWidget {
   const ProductCard({super.key, required this.data});
 
@@ -74,19 +106,38 @@ class ProductCard extends StatelessWidget {
     top: AppSpacing.sm,
   );
 
+  /// The most lines a name takes; past that it ends in an ellipsis.
+  static const maxNameLines = 4;
+
+  /// The room right of the name, clear of the card's edge.
+  static const _nameEndPadding = AppSpacing.md;
+
   /// How tall a card [width] wide has to be at the phone's text size: the
-  /// photo, two lines of name, the rating and portion line, and the price row
-  /// as tall as its buttons' tap area. Rows and grids size their cards with
-  /// it, so a long name (a Russian one especially) or large text never pushes
-  /// the price out of the card.
-  static double heightFor(BuildContext context, double width) {
+  /// photo, as many lines of name as the longest of [names] takes (two at
+  /// least), the rating and portion line, and the price row as tall as its
+  /// buttons' tap area. Rows and grids size their cards with it, passing
+  /// their products' names, so a long name (a Russian one especially) or
+  /// large text is never cut off and never pushes the price out of the card.
+  static double heightFor(
+    BuildContext context,
+    double width, {
+    Iterable<String> names = const [],
+  }) {
     final scaler = MediaQuery.textScalerOf(context);
     final styles = context.textStyles;
     double line(TextStyle style) =>
         scaler.scale(style.fontSize!) * style.height!;
+    final nameLines = nameLinesFor(
+      context,
+      names,
+      style: styles.bodyStrong,
+      width: width - _textPadding.left - _nameEndPadding,
+      min: 2,
+      max: maxNameLines,
+    );
     return width / photoAspectRatio +
         _textPadding.vertical +
-        2 * line(styles.bodyStrong) +
+        nameLines * line(styles.bodyStrong) +
         AppSpacing.xxs +
         line(styles.caption) +
         TapTarget.min +
@@ -157,8 +208,8 @@ class ProductCard extends StatelessWidget {
                     child: _NameAndMeta(
                       data: data,
                       style: context.textStyles.bodyStrong,
-                      maxLines: 2,
-                      endPadding: AppSpacing.md,
+                      maxLines: maxNameLines,
+                      endPadding: _nameEndPadding,
                     ),
                   ),
                   ProductPriceRow(data: data),
@@ -280,12 +331,13 @@ class ProductMetaLine extends StatelessWidget {
     final rating = placeholderRating;
     final calories = placeholderNutrition?.placeholderCalories;
     final base = style ?? context.textStyles.caption;
-    final facts = [
-      if (withFacts) ...[
-        ?weightOf(context, product, placeholderNutrition),
-        if (calories != null) context.l10n.calories(calories),
-      ],
-    ].join(' · ');
+    final weight = withFacts
+        ? weightOf(context, product, placeholderNutrition)
+        : null;
+    final energy = withFacts && calories != null
+        ? context.l10n.calories(calories)
+        : null;
+    final facts = [?weight, ?energy].join(' · ');
 
     return ExcludeSemantics(
       child: Row(
@@ -308,11 +360,37 @@ class ProductMetaLine extends StatelessWidget {
           ],
           if (facts.isNotEmpty)
             Flexible(
-              child: Text(
-                facts,
-                style: base,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              // The whole line when it fits; otherwise the weight alone
+              // rather than a line cut off in the middle. One line tall
+              // whatever it shows, which also answers the list row's
+              // IntrinsicHeight without laying the text out.
+              child: SizedBox(
+                height:
+                    MediaQuery.textScalerOf(context)
+                        .scale(base.fontSize ?? 12) *
+                    (base.height ?? 1.3),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final painter = TextPainter(
+                      // As the Text will draw it, over the inherited style.
+                      text: TextSpan(
+                        text: facts,
+                        style: DefaultTextStyle.of(context).style.merge(base),
+                      ),
+                      textDirection: Directionality.of(context),
+                      textScaler: MediaQuery.textScalerOf(context),
+                      maxLines: 1,
+                    )..layout();
+                    final fits = painter.width <= constraints.maxWidth;
+                    painter.dispose();
+                    return Text(
+                      fits || weight == null ? facts : weight,
+                      style: base,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    );
+                  },
+                ),
               ),
             ),
         ],
@@ -331,16 +409,30 @@ class FeaturedProductCard extends StatelessWidget {
   static const width = 264.0;
   static const photoAspectRatio = 4 / 3;
 
-  /// How tall the card is at the phone's text size; see
-  /// [ProductCard.heightFor].
-  static double heightFor(BuildContext context) {
+  /// The most lines a name takes; past that it ends in an ellipsis.
+  static const maxNameLines = 3;
+
+  /// How tall the card is at the phone's text size, with room for the
+  /// longest of [names] (one line at least); see [ProductCard.heightFor].
+  static double heightFor(
+    BuildContext context, {
+    Iterable<String> names = const [],
+  }) {
     final scaler = MediaQuery.textScalerOf(context);
     final styles = context.textStyles;
     double line(TextStyle style) =>
         scaler.scale(style.fontSize!) * style.height!;
+    final nameLines = nameLinesFor(
+      context,
+      names,
+      style: _nameStyle(styles),
+      width: width - 2 * AppSpacing.lg,
+      min: 1,
+      max: maxNameLines,
+    );
     return width / photoAspectRatio +
         AppSpacing.md +
-        line(_nameStyle(styles)) +
+        nameLines * line(_nameStyle(styles)) +
         AppSpacing.xxs +
         line(styles.caption) +
         TapTarget.min +
@@ -403,7 +495,7 @@ class FeaturedProductCard extends StatelessWidget {
                     child: _NameAndMeta(
                       data: data,
                       style: _nameStyle(context.textStyles),
-                      maxLines: 1,
+                      maxLines: maxNameLines,
                       endPadding: AppSpacing.lg,
                     ),
                   ),
@@ -566,7 +658,8 @@ class ProductListTile extends StatelessWidget {
                       child: Text(
                         product.name,
                         style: context.textStyles.bodyStrong,
-                        maxLines: 2,
+                        // The row grows to fit a third line.
+                        maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

@@ -49,6 +49,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
     title: TextStyle(
       fontFamily: fontFamily,
       fontFamilyFallback: const [fallbackFontFamily],
+      letterSpacing: 0,
       fontSize: 20,
       height: 1.25,
       fontWeight: FontWeight.w700,
@@ -57,6 +58,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
     subtitle: TextStyle(
       fontFamily: fontFamily,
       fontFamilyFallback: const [fallbackFontFamily],
+      letterSpacing: 0,
       fontSize: 16,
       height: 1.3,
       fontWeight: FontWeight.w600,
@@ -65,6 +67,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
     body: TextStyle(
       fontFamily: fontFamily,
       fontFamilyFallback: const [fallbackFontFamily],
+      letterSpacing: 0,
       fontSize: 14,
       height: 1.4,
       fontWeight: FontWeight.w400,
@@ -73,6 +76,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
     bodyStrong: TextStyle(
       fontFamily: fontFamily,
       fontFamilyFallback: const [fallbackFontFamily],
+      letterSpacing: 0,
       fontSize: 14,
       height: 1.35,
       fontWeight: FontWeight.w600,
@@ -81,6 +85,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
     bodySecondary: TextStyle(
       fontFamily: fontFamily,
       fontFamilyFallback: const [fallbackFontFamily],
+      letterSpacing: 0,
       fontSize: 14,
       height: 1.4,
       fontWeight: FontWeight.w400,
@@ -89,6 +94,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
     label: TextStyle(
       fontFamily: fontFamily,
       fontFamilyFallback: const [fallbackFontFamily],
+      letterSpacing: 0,
       fontSize: 12,
       height: 1.2,
       fontWeight: FontWeight.w600,
@@ -97,6 +103,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
     caption: TextStyle(
       fontFamily: fontFamily,
       fontFamilyFallback: const [fallbackFontFamily],
+      letterSpacing: 0,
       fontSize: 12,
       height: 1.3,
       fontWeight: FontWeight.w400,
@@ -105,6 +112,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
     price: TextStyle(
       fontFamily: fontFamily,
       fontFamilyFallback: const [fallbackFontFamily],
+      letterSpacing: 0,
       fontSize: 15,
       height: 1.2,
       fontWeight: FontWeight.w700,
@@ -113,6 +121,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
     priceLarge: TextStyle(
       fontFamily: fontFamily,
       fontFamilyFallback: const [fallbackFontFamily],
+      letterSpacing: 0,
       fontSize: 20,
       height: 1.2,
       fontWeight: FontWeight.w700,
@@ -121,6 +130,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
     button: TextStyle(
       fontFamily: fontFamily,
       fontFamilyFallback: const [fallbackFontFamily],
+      letterSpacing: 0,
       fontSize: 15,
       height: 1.2,
       fontWeight: FontWeight.w600,
@@ -129,6 +139,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
     badge: TextStyle(
       fontFamily: fontFamily,
       fontFamilyFallback: const [fallbackFontFamily],
+      letterSpacing: 0,
       fontSize: 11,
       height: 1,
       fontWeight: FontWeight.w700,
@@ -143,6 +154,10 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
   /// 700 (assets/fonts/rubik), checked with fontTools to hold Romanian's
   /// comma-below ș/ț and ă/â/î, the whole Russian alphabet and every character
   /// the app's text uses.
+  ///
+  /// Every style sets its letter spacing, 0 unless a heading tightens it:
+  /// Material's own values (up to +0.5) are tuned for Roboto and would
+  /// otherwise be inherited, spreading Rubik's wider letters further.
   static const fontFamily = 'Rubik';
 
   /// Bundled only as the fallback, never picked for text: Flutter web

@@ -37,7 +37,7 @@ class SearchBarButton extends StatelessWidget {
 
   /// The hint's look, shared with the search page's field.
   static TextStyle hintStyleOf(BuildContext context) =>
-      context.textStyles.bodySecondary.copyWith(fontSize: 15, height: 1.3);
+      context.textStyles.bodySecondary.copyWith(fontSize: 14, height: 1.3);
 
   @override
   Widget build(BuildContext context) {

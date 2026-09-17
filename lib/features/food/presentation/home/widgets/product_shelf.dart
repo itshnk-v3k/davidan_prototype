@@ -78,6 +78,7 @@ class ProductShelf extends ConsumerWidget {
     final seeAllLabel = this.seeAllLabel;
     final onSeeAll = this.onSeeAll;
     final control = this.control;
+    final names = [for (final product in products) product.name];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -184,8 +185,8 @@ class ProductShelf extends ConsumerWidget {
           SizedBox(
             height:
                 (featured
-                    ? FeaturedProductCard.heightFor(context)
-                    : ProductCard.heightFor(context, cardWidth)) +
+                    ? FeaturedProductCard.heightFor(context, names: names)
+                    : ProductCard.heightFor(context, cardWidth, names: names)) +
                 _shadowRoom,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,

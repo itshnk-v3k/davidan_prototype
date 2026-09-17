@@ -141,45 +141,47 @@ class _BrandTile extends StatelessWidget {
                       children: [
                         SizedBox(
                           height: _logoSlot,
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Image.asset(
-                              BrandHeaderBand.logoOf(brand),
-                              width: logo.width,
-                              height: logo.height,
-                              fit: BoxFit.contain,
-                              alignment: Alignment.bottomLeft,
-                              excludeFromSemantics: true,
-                            ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Image.asset(
+                                    BrandHeaderBand.logoOf(brand),
+                                    width: logo.width,
+                                    height: logo.height,
+                                    fit: BoxFit.contain,
+                                    alignment: Alignment.bottomLeft,
+                                    excludeFromSemantics: true,
+                                  ),
+                                ),
+                              ),
+                              // In the corner, so the name below has the
+                              // tile's whole width.
+                              if (!intro.comingSoon) ...[
+                                const SizedBox(width: AppSpacing.sm),
+                                const _OpenArrow(),
+                              ],
+                            ],
                           ),
                         ),
                         const Spacer(),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                intro.name,
-                                style: context.textStyles.subtitle.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.2,
-                                  shadows: [
-                                    Shadow(
-                                      color: shade.withValues(alpha: 0.5),
-                                      blurRadius: 6,
-                                    ),
-                                  ],
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
+                        Text(
+                          intro.name,
+                          style: context.textStyles.subtitle.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            height: 1.2,
+                            shadows: [
+                              Shadow(
+                                color: shade.withValues(alpha: 0.5),
+                                blurRadius: 6,
                               ),
-                            ),
-                            if (!intro.comingSoon) ...[
-                              const SizedBox(width: AppSpacing.sm),
-                              const _OpenArrow(),
                             ],
-                          ],
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         if (intro.comingSoon) ...[
                           const SizedBox(height: AppSpacing.xs),

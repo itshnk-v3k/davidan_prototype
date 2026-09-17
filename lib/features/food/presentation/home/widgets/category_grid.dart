@@ -166,7 +166,8 @@ class CategoryTile extends StatelessWidget {
                       height: 1.2,
                       color: onPhoto ? colors.onImage : colors.primary,
                     ),
-                    maxLines: 2,
+                    // Three at a large text size on a small phone.
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
