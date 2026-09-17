@@ -3,11 +3,11 @@ import 'package:material_ui/material_ui.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 
-/// A raised card: the surface colour lifted off the background by a soft
-/// shadow in the light theme, and set apart by its lighter tone and an outline
-/// in the dark one, where a shadow wouldn't show (Material 3 does the same).
-/// With [onTap] the whole card is one button. Its content is clipped to its
-/// corners.
+/// A raised card, soft rather than sharp: the surface colour lifted off the
+/// background by a wide, faint shadow. In the dark theme the card's lighter
+/// tone does most of the work, with a deeper shadow and a faint hairline
+/// softening its edge. With [onTap] the whole card is one button. Its content
+/// is clipped to its corners.
 ///
 /// A scroll view holding cards side by side keeps `clipBehavior: Clip.none`,
 /// or it cuts the shadows off under the cards.
@@ -27,22 +27,24 @@ class AppCard extends StatelessWidget {
   /// The theme's surface when null.
   final Color? color;
 
-  /// A wide, faint shadow a little below the card and a tight one along its
-  /// edge, together under 20% dark: the card lifts off the page without a
-  /// visible outline.
+  /// A wide shadow well below the card, pulled in at the sides so it only
+  /// shows underneath, and a faint one along its edge.
   static List<BoxShadow> shadowsOf(AppColors colors) => [
     BoxShadow(
       color: colors.cardShadowContact,
-      blurRadius: 3,
+      blurRadius: 2,
       offset: const Offset(0, 1),
     ),
     BoxShadow(
       color: colors.cardShadow,
-      blurRadius: 16,
-      spreadRadius: -2,
-      offset: const Offset(0, 6),
+      blurRadius: 24,
+      spreadRadius: -6,
+      offset: const Offset(0, 8),
     ),
   ];
+
+  /// How far below a card its shadow reaches, for rows that leave room.
+  static const shadowReach = 18.0;
 
   @override
   Widget build(BuildContext context) {

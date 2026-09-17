@@ -67,7 +67,7 @@ class _RentalHomeScreenState extends ConsumerState<RentalHomeScreen> {
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.gutter,
-              AppSpacing.lg,
+              0,
               AppSpacing.gutter,
               AppSpacing.xl,
             ),

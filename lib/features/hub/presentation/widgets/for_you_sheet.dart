@@ -1,8 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/theme/app_spacing.dart';
-import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/features/account/application/account_notifier.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_grid.dart';
@@ -23,28 +21,14 @@ class ForYouSheet extends ConsumerWidget {
     }
     final account = ref.watch(accountProvider);
 
-    return SliverMainAxisGroup(
-      slivers: [
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.gutter,
-              AppSpacing.xl,
-              AppSpacing.gutter,
-              AppSpacing.md,
+    return ProductGrid(
+      products: products,
+      title: account == null
+          ? context.l10n.forYouTitleSignedOut
+          : context.l10n.forYouTitle(
+              account.name.trim().split(RegExp(r'\s+')).first,
             ),
-            child: Text(
-              account == null
-                  ? context.l10n.forYouTitleSignedOut
-                  : context.l10n.forYouTitle(
-                      account.name.trim().split(RegExp(r'\s+')).first,
-                    ),
-              style: context.textStyles.title,
-            ),
-          ),
-        ),
-        ProductGrid(products: products, showBrand: true),
-      ],
+      showBrand: true,
     );
   }
 }

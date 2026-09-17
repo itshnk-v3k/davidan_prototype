@@ -1188,7 +1188,7 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String searchProductsTitle(int count) {
+  String productCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -1223,4 +1223,10 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get notificationsEmptyMessage =>
       'Aici apar noutățile despre comenzile și cererile tale.';
+
+  @override
+  String get showAsList => 'Arată ca listă';
+
+  @override
+  String get showAsGrid => 'Arată ca grilă';
 }

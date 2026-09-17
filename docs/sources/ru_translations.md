@@ -330,12 +330,14 @@ Collected and written 2026-09-16.
 | searchPromptMenu | Scrie numele unui produs sau un ingredient. | Напиши название товара или ингредиент. |
 | searchNoResultsTitle | Nimic găsit | Ничего не найдено |
 | searchNoResultsMessage | Nu am găsit nimic pentru „{query}”. Încearcă alt cuvânt. | По запросу «{query}» ничего не нашлось. Попробуй другое слово. |
-| searchProductsTitle | {count, plural, one{{count} produs} few{{count} produse} other{{count} de produse}} | {count, plural, one{{count} товар} few{{count} товара} many{{count} товаров} other{{count} товара}} |
+| productCount | {count, plural, one{{count} produs} few{{count} produse} other{{count} de produse}} | {count, plural, one{{count} товар} few{{count} товара} many{{count} товаров} other{{count} товара}} |
 | searchCarsTitle | {count, plural, one{{count} mașină} few{{count} mașini} other{{count} de mașini}} | {count, plural, one{{count} автомобиль} few{{count} автомобиля} many{{count} автомобилей} other{{count} автомобиля}} |
 | openNotifications | Deschide notificările | Открыть уведомления |
 | notificationsTitle | Notificări | Уведомления |
 | notificationsEmptyTitle | Nicio notificare | Уведомлений пока нет |
 | notificationsEmptyMessage | Aici apar noutățile despre comenzile și cererile tale. | Здесь появятся новости о твоих заказах и заявках. |
+| showAsList | Arată ca listă | Показать списком |
+| showAsGrid | Arată ca grilă | Показать плиткой |
 
 ## Brands, pages and shops: lib/data/mock/ru/brands_ru.dart
 

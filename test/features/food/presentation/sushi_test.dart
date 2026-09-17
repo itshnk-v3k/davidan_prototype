@@ -24,7 +24,7 @@ import 'package:davidan_prototype/features/food/application/shop_providers.dart'
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/widgets/category_strip.dart';
+import 'package:davidan_prototype/features/food/presentation/home/widgets/category_grid.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/product_shelf.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
@@ -91,7 +91,7 @@ void main() {
       expect([
         for (final category
             in tester
-                .widget<CategoryStrip>(find.byType(CategoryStrip))
+                .widget<CategoryGrid>(find.byType(CategoryGrid))
                 .categories)
           category.name,
       ], siteCategories);

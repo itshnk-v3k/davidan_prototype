@@ -314,10 +314,12 @@
   "searchPromptMenu": "Напиши название товара или ингредиент.",
   "searchNoResultsTitle": "Ничего не найдено",
   "searchNoResultsMessage": "По запросу «{query}» ничего не нашлось. Попробуй другое слово.",
-  "searchProductsTitle": "{count, plural, one{{count} товар} few{{count} товара} many{{count} товаров} other{{count} товара}}",
+  "productCount": "{count, plural, one{{count} товар} few{{count} товара} many{{count} товаров} other{{count} товара}}",
   "searchCarsTitle": "{count, plural, one{{count} автомобиль} few{{count} автомобиля} many{{count} автомобилей} other{{count} автомобиля}}",
   "openNotifications": "Открыть уведомления",
   "notificationsTitle": "Уведомления",
   "notificationsEmptyTitle": "Уведомлений пока нет",
-  "notificationsEmptyMessage": "Здесь появятся новости о твоих заказах и заявках."
+  "notificationsEmptyMessage": "Здесь появятся новости о твоих заказах и заявках.",
+  "showAsList": "Показать списком",
+  "showAsGrid": "Показать плиткой"
 }

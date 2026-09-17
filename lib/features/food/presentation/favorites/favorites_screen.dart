@@ -44,7 +44,11 @@ class FavoritesScreen extends ConsumerWidget {
                     )
                   : CustomScrollView(
                       slivers: [
-                        ProductGrid(products: products, showBrand: true),
+                        ProductGrid(
+                          products: products,
+                          title: context.l10n.productCount(products.length),
+                          showBrand: true,
+                        ),
                       ],
                     ),
             ),

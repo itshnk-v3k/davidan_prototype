@@ -6,8 +6,10 @@ import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/widgets/app_card.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
+import 'package:davidan_prototype/core/widgets/search_bar_button.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_grid.dart';
 import 'package:davidan_prototype/features/rental/presentation/widgets/rental_car_grid.dart';
@@ -52,8 +54,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     );
     const margin = TapTarget.iconButtonMargin;
     OutlineInputBorder border(Color color, double width) => OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppRadii.pill),
-      borderSide: BorderSide(color: color, width: width),
+      borderRadius: BorderRadius.circular(SearchBarButton.radius),
+      borderSide: color.a == 0
+          ? BorderSide.none
+          : BorderSide(color: color, width: width),
     );
 
     final Widget results;
@@ -76,8 +80,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         slivers: [
           if (products.isNotEmpty) ...[
-            _SectionTitle(context.l10n.searchProductsTitle(products.length)),
-            ProductGrid(products: products, showBrand: brand == null),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.md)),
+            ProductGrid(
+              products: products,
+              title: context.l10n.productCount(products.length),
+              showBrand: brand == null,
+            ),
           ],
           if (cars.isNotEmpty) ...[
             _SectionTitle(context.l10n.searchCarsTitle(cars.length)),
@@ -123,27 +131,55 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   ),
                   const SizedBox(width: AppSpacing.sm - margin),
                   Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      autofocus: true,
-                      textInputAction: TextInputAction.search,
-                      style: context.textStyles.body,
-                      onChanged: (text) => setState(() => _text = text),
-                      decoration: InputDecoration(
-                        hintText: brand == null
-                            ? context.l10n.searchHubHint
-                            : context.l10n.searchMenuHint,
-                        prefixIcon: const Icon(Icons.search_rounded),
-                        suffixIcon: _text.isEmpty
-                            ? null
-                            : IconButton(
-                                icon: const Icon(Icons.close_rounded),
-                                tooltip: context.l10n.searchClear,
-                                onPressed: _clear,
-                              ),
-                        border: border(colors.border, 1),
-                        enabledBorder: border(colors.border, 1),
-                        focusedBorder: border(colors.primary, 2),
+                    // The same soft card as the field that opened this page.
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          SearchBarButton.radius,
+                        ),
+                        boxShadow: AppCard.shadowsOf(colors),
+                      ),
+                      child: TextField(
+                        controller: _controller,
+                        autofocus: true,
+                        textInputAction: TextInputAction.search,
+                        style: context.textStyles.body.copyWith(fontSize: 15),
+                        cursorColor: colors.primary,
+                        onChanged: (text) => setState(() => _text = text),
+                        decoration: InputDecoration(
+                          hintText: brand == null
+                              ? context.l10n.searchHubHint
+                              : context.l10n.searchMenuHint,
+                          hintStyle: SearchBarButton.hintStyleOf(context),
+                          filled: true,
+                          fillColor: colors.surface,
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: AppSpacing.md + AppSpacing.xxs,
+                          ),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.only(
+                              left: AppSpacing.lg,
+                              right: AppSpacing.md,
+                            ),
+                            child: Icon(
+                              Icons.search_rounded,
+                              size: 22,
+                              color: colors.primary,
+                            ),
+                          ),
+                          prefixIconConstraints: const BoxConstraints(),
+                          suffixIcon: _text.isEmpty
+                              ? null
+                              : IconButton(
+                                  icon: const Icon(Icons.close_rounded),
+                                  color: colors.textSecondary,
+                                  tooltip: context.l10n.searchClear,
+                                  onPressed: _clear,
+                                ),
+                          border: border(colors.cardOutline, 1),
+                          enabledBorder: border(colors.cardOutline, 1),
+                          focusedBorder: border(colors.primary, 1.5),
+                        ),
                       ),
                     ),
                   ),

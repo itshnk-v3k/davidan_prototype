@@ -48,10 +48,10 @@ class AppIconButtonStyle extends InheritedWidget {
       fill != old.fill || icon != old.icon || border != old.border;
 }
 
-/// Round icon button on a white surface, used in screen headers and over
-/// photos, or in an [AppIconButtonStyle]'s look. It looks [size] big and takes
-/// taps in [TapTarget.min], so a layout that lines it up with something else
-/// offsets it by [TapTarget.marginFor].
+/// Round icon button on a soft tonal circle with no outline, used in screen
+/// headers and over photos, or in an [AppIconButtonStyle]'s look. It looks
+/// [size] big and takes taps in [TapTarget.min], so a layout that lines it up
+/// with something else offsets it by [TapTarget.marginFor].
 class AppIconButton extends StatelessWidget {
   const AppIconButton({
     super.key,
@@ -75,7 +75,7 @@ class AppIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = AppIconButtonStyle.maybeOf(context);
-    final border = style == null ? context.colors.border : style.border;
+    final border = style?.border;
     return Semantics(
       button: true,
       label: semanticLabel,
@@ -93,7 +93,7 @@ class AppIconButton extends StatelessWidget {
                 width: size,
                 height: size,
                 decoration: ShapeDecoration(
-                  color: style?.fill ?? context.colors.surface,
+                  color: style?.fill ?? context.colors.surfaceMuted,
                   shape: CircleBorder(
                     side: border == null
                         ? BorderSide.none

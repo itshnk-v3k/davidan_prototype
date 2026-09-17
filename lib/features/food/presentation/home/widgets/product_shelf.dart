@@ -44,11 +44,12 @@ class ProductShelf extends StatelessWidget {
   /// For a row mixing brands: see [ConnectedProductCard.showBrand].
   final bool showBrand;
 
-  /// Two cards and a peek of the third on a 400 px phone.
-  static const cardWidth = 152.0;
+  /// Two cards and a peek of the third on a 400 px phone, wide enough for the
+  /// price beside the stepper.
+  static const cardWidth = 168.0;
 
   /// Below the cards, for their shadows.
-  static const _shadowRoom = AppSpacing.md;
+  static const _shadowRoom = AppCard.shadowReach;
 
   @override
   Widget build(BuildContext context) {

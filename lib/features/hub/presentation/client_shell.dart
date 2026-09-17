@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -5,7 +6,9 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
+import 'package:davidan_prototype/core/widgets/count_badge.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
+import 'package:davidan_prototype/features/food/application/favorites_notifier.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The hub's frame: the active tab plus the bottom navigation bar. A brand's
@@ -76,7 +79,7 @@ class ClientShell extends StatelessWidget {
   }
 }
 
-class _BottomNav extends StatelessWidget {
+class _BottomNav extends ConsumerWidget {
   const _BottomNav({
     required this.currentIndex,
     required this.brand,
@@ -90,8 +93,14 @@ class _BottomNav extends StatelessWidget {
   final Brand? brand;
   final ValueChanged<int> onTap;
 
+  /// The Favorite tab's place in [items].
+  static const _favoritesIndex = 2;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favoriteCount = ref.watch(
+      favoriteKeysProvider.select((keys) => keys.length),
+    );
     // Same order as the branches of the StatefulShellRoute in app_router.dart.
     // The current tab's icon is filled and the others are outlines, as
     // Material 3 does. The icon font has no rounded outline of the house or
@@ -144,6 +153,7 @@ class _BottomNav extends StatelessWidget {
                   child: _NavItem(
                     icon: index == currentIndex ? item.selectedIcon : item.icon,
                     label: item.label,
+                    badgeCount: index == _favoritesIndex ? favoriteCount : 0,
                     selected: index == currentIndex,
                     selectedColor: colors.primary,
                     indicatorColor: colors.accentSoft,
@@ -166,10 +176,14 @@ class _NavItem extends StatelessWidget {
     required this.selectedColor,
     required this.indicatorColor,
     required this.onTap,
+    this.badgeCount = 0,
   });
 
   final IconData icon;
   final String label;
+
+  /// Shown on the icon's corner when above 0, like the carts button's count.
+  final int badgeCount;
   final bool selected;
   final Color selectedColor;
 
@@ -183,20 +197,39 @@ class _NavItem extends StatelessWidget {
 
     return Semantics(
       selected: selected,
+      // The tab's label, then how many it holds.
+      value: badgeCount > 0 ? '$badgeCount' : null,
       child: InkWell(
         onTap: onTap,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: 56,
-              height: 30,
-              decoration: BoxDecoration(
-                color: selected ? indicatorColor : Colors.transparent,
-                borderRadius: BorderRadius.circular(AppRadii.pill),
-              ),
-              child: Icon(icon, size: 24, color: color),
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  width: 56,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    color: selected ? indicatorColor : Colors.transparent,
+                    borderRadius: BorderRadius.circular(AppRadii.pill),
+                  ),
+                  child: Icon(icon, size: 24, color: color),
+                ),
+                // On the icon's top right corner.
+                if (badgeCount > 0)
+                  Positioned(
+                    top: -AppSpacing.xs,
+                    left: 28 + AppSpacing.xs,
+                    child: ExcludeSemantics(
+                      child: CountBadge(
+                        count: badgeCount,
+                        color: selectedColor,
+                      ),
+                    ),
+                  ),
+              ],
             ),
             const SizedBox(height: AppSpacing.xxs),
             Text(

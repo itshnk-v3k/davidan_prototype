@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -8,20 +6,18 @@ import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/brand_texture.dart';
-import 'package:davidan_prototype/core/widgets/top_scrim.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// The top of a brand's page, as a sliver for its CustomScrollView: the brand's
-/// colours from the very top of the phone (behind the status bar) down, under
-/// a dark fade that keeps the status bar and the white buttons readable, with
-/// the way back, the brand's logo in white, an optional [title] and the
-/// brand's buttons. An [overlap] (the banners, a photo) sits across the
-/// colour's lower edge, so the header runs into the page instead of ending in
-/// a line.
+/// The top of a brand's page, as a pinned sliver for its CustomScrollView:
+/// the brand's colours from the very top of the phone (behind the status bar)
+/// to just under the button row, with the way back, the brand's logo in
+/// white, an optional [title] and the brand's buttons.
 ///
-/// On scroll the overlap slides up under the button row, which stays pinned
-/// at the top on the brand's colour.
+/// It is one piece: a gentle dark shade behind the status bar, the brand's
+/// colour, and a soft edge where the colour fades out to nothing. The page
+/// starts below that edge, and as it scrolls up it melts away under the soft
+/// edge instead of being cut off by a line.
 class BrandHeaderBand extends StatelessWidget {
   const BrandHeaderBand({
     super.key,
@@ -29,12 +25,7 @@ class BrandHeaderBand extends StatelessWidget {
     required this.onBack,
     this.title,
     this.actions = const [],
-    this.overlap,
-    this.overlapHeight = 0,
-  }) : assert(
-         overlap == null || overlapHeight > 0,
-         'An overlap needs its height',
-       );
+  });
 
   final Brand brand;
   final VoidCallback onBack;
@@ -45,13 +36,11 @@ class BrandHeaderBand extends StatelessWidget {
   /// [AppIconButton]s (or built on one), lined up by their circles.
   final List<Widget> actions;
 
-  /// Drawn [overlapHeight] tall across the colour's lower edge, padded to the
-  /// screen's gutters by itself.
-  final Widget? overlap;
-  final double overlapHeight;
-
   /// The button row's height under the status bar.
   static const rowHeight = TapTarget.min + 2 * AppSpacing.sm;
+
+  /// How far below the button row the colour fades out.
+  static const fadeHeight = AppSpacing.xl;
 
   /// The white logo each brand shows on its colour.
   static String logoOf(Brand brand) => switch (brand) {
@@ -64,129 +53,76 @@ class BrandHeaderBand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverPersistentHeader(
-      pinned: true,
-      delegate: _HeaderDelegate(
-        topPadding: MediaQuery.paddingOf(context).top,
-        brand: brand,
-        row: _ButtonRow(
-          brand: brand,
-          onBack: onBack,
-          title: title,
-          actions: actions,
-        ),
-        overlap: overlap,
-        overlapHeight: overlapHeight,
-      ),
-    );
-  }
-}
+    final top = MediaQuery.paddingOf(context).top;
+    final solid = top + rowHeight;
+    final height = solid + fadeHeight;
 
-class _HeaderDelegate extends SliverPersistentHeaderDelegate {
-  _HeaderDelegate({
-    required this.topPadding,
-    required this.brand,
-    required this.row,
-    required this.overlap,
-    required this.overlapHeight,
-  });
-
-  final double topPadding;
-  final Brand brand;
-  final Widget row;
-  final Widget? overlap;
-  final double overlapHeight;
-
-  double get _barHeight => topPadding + BrandHeaderBand.rowHeight;
-
-  /// Where the overlap starts, a little under the button row.
-  double get _overlapTop => _barHeight + AppSpacing.xs;
-
-  /// Where the brand's colour ends: halfway down the overlap, or a short way
-  /// under the row without one.
-  double get _colourBottom => overlap == null
-      ? _barHeight + AppSpacing.sm
-      : _overlapTop + overlapHeight / 2;
-
-  @override
-  double get minExtent => _barHeight;
-
-  @override
-  double get maxExtent => overlap == null
-      ? _colourBottom
-      // Room under the overlap for its shadow.
-      : _overlapTop + overlapHeight + AppSpacing.md;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlaps) {
-    final colourHeight = math.max(_barHeight, _colourBottom - shrinkOffset);
-    final overlap = this.overlap;
-
-    // The colour and its fade, the same size wherever they're drawn, so the
-    // copy over the button row matches the one under the overlap exactly.
-    final backdrop = SizedBox(
-      height: colourHeight,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          BrandSurface(brand: brand, texture: false),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: math.min(colourHeight, topPadding + TopScrim.reach),
-            child: const TopScrim(),
-          ),
-        ],
-      ),
-    );
-
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      // Light status bar icons on the dark fade.
-      value: SystemUiOverlayStyle.light,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Positioned(top: 0, left: 0, right: 0, child: backdrop),
-          if (overlap != null) ...[
-            Positioned(
-              top: _overlapTop - shrinkOffset,
-              left: 0,
-              right: 0,
-              height: overlapHeight,
-              child: overlap,
-            ),
-            // The row's own strip of colour, over the overlap as it slides
-            // up underneath.
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              height: _barHeight,
-              child: ClipRect(
-                child: OverflowBox(
-                  alignment: Alignment.topCenter,
-                  minHeight: colourHeight,
-                  maxHeight: colourHeight,
-                  child: backdrop,
+    return PinnedHeaderSliver(
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        // Light status bar icons on the brand's deep colour.
+        value: SystemUiOverlayStyle.light,
+        child: SizedBox(
+          height: height,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                // The colour and the shade fade out together over the soft
+                // edge, so the header ends as one layer.
+                child: ShaderMask(
+                  blendMode: BlendMode.dstIn,
+                  shaderCallback: (bounds) => LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: const [
+                      Color(0xFFFFFFFF),
+                      Color(0xFFFFFFFF),
+                      Color(0x00FFFFFF),
+                    ],
+                    stops: [0, solid / height, 1],
+                  ).createShader(bounds),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      BrandSurface(brand: brand, texture: false),
+                      // A gentle shade behind the status bar, gone before the
+                      // buttons.
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: top + rowHeight / 2,
+                        child: const DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [Color(0x40000000), Color(0x00000000)],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-          Positioned(
-            top: topPadding,
-            left: 0,
-            right: 0,
-            height: BrandHeaderBand.rowHeight,
-            child: row,
+              Positioned(
+                top: top,
+                left: 0,
+                right: 0,
+                height: rowHeight,
+                child: _ButtonRow(
+                  brand: brand,
+                  onBack: onBack,
+                  title: title,
+                  actions: actions,
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
-
-  @override
-  bool shouldRebuild(_HeaderDelegate old) => true;
 }
 
 class _ButtonRow extends StatelessWidget {
@@ -225,7 +161,7 @@ class _ButtonRow extends StatelessWidget {
             const SizedBox(width: AppSpacing.sm - margin),
             Image.asset(
               BrandHeaderBand.logoOf(brand),
-              height: square ? 36 : 28,
+              height: square ? 34 : 26,
               excludeFromSemantics: true,
             ),
             if (title != null) ...[

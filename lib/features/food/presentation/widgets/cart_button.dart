@@ -3,10 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
-import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
-import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/core/widgets/count_badge.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -81,35 +80,10 @@ class _BagButton extends StatelessWidget {
             top: TapTarget.iconButtonMargin - AppSpacing.xs,
             right: TapTarget.iconButtonMargin - AppSpacing.xs,
             child: IgnorePointer(
-              child: ExcludeSemantics(child: _Badge(count: count)),
+              child: ExcludeSemantics(child: CountBadge(count: count)),
             ),
           ),
       ],
-    );
-  }
-}
-
-class _Badge extends StatelessWidget {
-  const _Badge({required this.count});
-
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 18,
-      constraints: const BoxConstraints(minWidth: 18),
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: context.colors.primary,
-        borderRadius: BorderRadius.circular(AppRadii.pill),
-        border: Border.all(color: context.colors.background, width: 1.5),
-      ),
-      child: Text(
-        count > 99 ? '99+' : '$count',
-        style: context.textStyles.badge,
-      ),
     );
   }
 }

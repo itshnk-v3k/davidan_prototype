@@ -23,7 +23,7 @@ class PromoBannerCarousel extends StatefulWidget {
   final ValueChanged<PromoBanner> onBannerTap;
 
   /// Room for a two-line headline, the site's line and the button.
-  static const height = 212.0;
+  static const height = 204.0;
 
   @override
   State<PromoBannerCarousel> createState() => _PromoBannerCarouselState();
@@ -75,7 +75,8 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
     final banners = widget.banners;
 
     return SizedBox(
-      height: PromoBannerCarousel.height,
+      // Room under the slides for their shadows.
+      height: PromoBannerCarousel.height + AppCard.shadowReach,
       // A swipe by hand restarts the wait before the next slide.
       child: NotificationListener<ScrollStartNotification>(
         onNotification: (notification) {
@@ -88,7 +89,11 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
           clipBehavior: Clip.none,
           itemCount: banners.length,
           itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+            padding: const EdgeInsets.only(
+              left: AppSpacing.xs,
+              right: AppSpacing.xs,
+              bottom: AppCard.shadowReach,
+            ),
             child: _BannerSlide(
               banner: banners[index],
               onTap: () => widget.onBannerTap(banners[index]),
@@ -130,8 +135,11 @@ class _BannerSlide extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
-                  colors: [colors.scrim, colors.scrim.withValues(alpha: 0)],
-                  stops: const [0, 0.85],
+                  colors: [
+                    colors.scrim.withValues(alpha: colors.scrim.a * 0.9),
+                    colors.scrim.withValues(alpha: 0),
+                  ],
+                  stops: const [0, 0.9],
                 ),
               ),
             ),
@@ -139,10 +147,10 @@ class _BannerSlide extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    colors.scrim.withValues(alpha: colors.scrim.a * 0.7),
+                    colors.scrim.withValues(alpha: colors.scrim.a * 0.5),
                     colors.scrim.withValues(alpha: 0),
                   ],
-                  stops: const [0, 0.75],
+                  stops: const [0, 0.7],
                 ),
               ),
             ),

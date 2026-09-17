@@ -104,11 +104,23 @@ abstract final class AppPalette {
   static const charcoal16 = Color(0x29242430);
   static const black40 = Color(0x66000000);
 
-  /// A card's wide soft shadow on light surfaces.
-  static const charcoal12 = Color(0x1F242430);
+  /// A card's wide, soft shadow on light surfaces.
+  static const charcoal08 = Color(0x14242430);
 
-  /// A card's tight contact shadow on light surfaces.
-  static const charcoal06 = Color(0x0F242430);
+  /// A card's faint contact shadow along its edge on light surfaces.
+  static const charcoal04 = Color(0x0A242430);
+
+  /// A card's wide shadow on dark surfaces: only black this deep shows on the
+  /// near-black background.
+  static const black50 = Color(0x80000000);
+  static const black30 = Color(0x4D000000);
+
+  /// A card's hairline edge on dark surfaces, a touch lighter than the card.
+  static const white06 = Color(0x0FFFFFFF);
+
+  /// The star beside a rating.
+  static const gold400 = Color(0xFFF5B63D);
+  static const gold500 = Color(0xFFEFA31A);
 
   /// The top edge of a brand's header, behind the status bar and buttons.
   static const black45 = Color(0x73000000);

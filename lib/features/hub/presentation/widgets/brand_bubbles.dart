@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/widgets/app_card.dart';
 import 'package:davidan_prototype/core/widgets/brand_header_band.dart';
 import 'package:davidan_prototype/core/widgets/brand_texture.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
@@ -39,12 +40,12 @@ class BrandBubbles extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           for (var index = 0; index < brands.length; index += 2) ...[
-            if (index > 0) const SizedBox(height: AppSpacing.md),
+            if (index > 0) const SizedBox(height: AppSpacing.lg),
             Row(
               children: [
                 Expanded(child: tile(brands[index])),
                 if (index + 1 < brands.length) ...[
-                  const SizedBox(width: AppSpacing.md),
+                  const SizedBox(width: AppSpacing.lg),
                   Expanded(child: tile(brands[index + 1])),
                 ],
               ],
@@ -98,13 +99,7 @@ class _BrandTile extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: shape,
-          boxShadow: [
-            BoxShadow(
-              color: colors.shadow,
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
+          boxShadow: AppCard.shadowsOf(colors),
         ),
         child: ClipRRect(
           borderRadius: shape,

@@ -40,23 +40,22 @@ class WaterHomeScreen extends ConsumerWidget {
       backgroundColor: context.colors.background,
       body: CustomScrollView(
         slivers: [
-          // The photo of both bottles sits across the header's lower edge.
           BrandHeaderBand(
             brand: Brand.water,
             onBack: () => context.pop(),
             actions: const [CartButton(brand: Brand.water)],
-            overlap: const _BottlesPhoto(),
-            overlapHeight: _BottlesPhoto.height,
           ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.gutter,
-              AppSpacing.sm,
+              0,
               AppSpacing.gutter,
               AppSpacing.md,
             ),
             sliver: SliverList.list(
               children: [
+                const _BottlesPhoto(),
+                const SizedBox(height: AppSpacing.lg),
                 Text(
                   context.content.text(WaterPage.line),
                   style: context.textStyles.body,
@@ -77,15 +76,11 @@ class WaterHomeScreen extends ConsumerWidget {
                       context.push(Routes.brandCart(Brand.water));
                     },
                   ),
-                const SizedBox(height: AppSpacing.xl),
-                Text(
-                  context.l10n.itemsTitle,
-                  style: context.textStyles.subtitle,
-                ),
+                const SizedBox(height: AppSpacing.md),
               ],
             ),
           ),
-          ProductGrid(products: products),
+          ProductGrid(products: products, title: context.l10n.itemsTitle),
         ],
       ),
     );
@@ -101,8 +96,8 @@ class _BottlesPhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
+    return SizedBox(
+      height: height,
       child: AppCard(
         color: Colors.white,
         child: Image.asset(WaterPage.photo, fit: BoxFit.contain),

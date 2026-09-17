@@ -89,9 +89,21 @@ class _TexturePainter extends CustomPainter {
     ..strokeWidth = width
     ..strokeCap = StrokeCap.round;
 
+  /// How strongly the pattern shows: a quiet texture under the logo and
+  /// name, not a pattern competing with them.
+  static const _strength = 0.5;
+
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.clipRect(Offset.zero & size);
+    final bounds = Offset.zero & size;
+    canvas
+      ..clipRect(bounds)
+      ..saveLayer(bounds, Paint()..color = Color.fromRGBO(0, 0, 0, _strength));
+    _paintPattern(canvas, size);
+    canvas.restore();
+  }
+
+  void _paintPattern(Canvas canvas, Size size) {
     switch (brand) {
       case Brand.bakery:
         _wheat(canvas, size);

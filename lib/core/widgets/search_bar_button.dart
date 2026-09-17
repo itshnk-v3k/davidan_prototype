@@ -7,7 +7,8 @@ import 'package:davidan_prototype/core/widgets/app_card.dart';
 
 /// A search field at the top of a screen that opens the search page, where
 /// the real field takes the typing: the way Glovo and Wolt open search, so the
-/// keyboard never covers the screen it was opened from.
+/// keyboard never covers the screen it was opened from. A soft raised card,
+/// the magnifier in the brand's colour and a quiet hint, with no outline.
 class SearchBarButton extends StatelessWidget {
   const SearchBarButton({super.key, required this.hint, required this.onTap});
 
@@ -15,7 +16,15 @@ class SearchBarButton extends StatelessWidget {
   final String hint;
   final VoidCallback onTap;
 
-  static const height = 48.0;
+  static const height = 52.0;
+
+  /// The corners the search page's field shares, so the one opens into the
+  /// other.
+  static const radius = 14.0;
+
+  /// The hint's look, shared with the search page's field.
+  static TextStyle hintStyleOf(BuildContext context) =>
+      context.textStyles.bodySecondary.copyWith(fontSize: 15, height: 1.3);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +33,7 @@ class SearchBarButton extends StatelessWidget {
       label: hint,
       excludeSemantics: true,
       child: AppCard(
-        radius: AppRadii.pill,
+        radius: radius,
         onTap: onTap,
         child: SizedBox(
           height: height,
@@ -34,13 +43,13 @@ class SearchBarButton extends StatelessWidget {
               Icon(
                 Icons.search_rounded,
                 size: 22,
-                color: context.colors.textSecondary,
+                color: context.colors.primary,
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Text(
                   hint,
-                  style: context.textStyles.bodySecondary,
+                  style: hintStyleOf(context),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

@@ -82,7 +82,10 @@ class CatalogScreen extends ConsumerWidget {
                               ),
                             ),
                           ),
-                        ProductGrid(products: products),
+                        ProductGrid(
+                          products: products,
+                          title: context.l10n.productCount(products.length),
+                        ),
                       ],
                     ),
             ),

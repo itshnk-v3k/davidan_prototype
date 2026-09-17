@@ -12,15 +12,15 @@ import 'package:davidan_prototype/core/widgets/search_bar_button.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
-import 'package:davidan_prototype/features/food/presentation/home/widgets/category_strip.dart';
+import 'package:davidan_prototype/features/food/presentation/home/widgets/category_grid.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/product_shelf.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/promo_banner_carousel.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// A brand's home, inside Acasă: a header pinned at the top with the way back
-/// to the hub and the brand's cart, the banners across its lower edge, the
-/// search field and category tiles, then a row of the brand's popular
+/// to the hub and the brand's cart, then the banners, the search field and
+/// the category tiles, then a row of the brand's popular
 /// products and one row per category, each scrolling sideways with a link to
 /// the whole category. The layout of a shop page in Glovo or Yandex Eda: the
 /// menu can be browsed without leaving home, and the menu page holds every
@@ -54,8 +54,7 @@ class BrandHomeScreen extends ConsumerWidget {
       body: CustomScrollView(
         slivers: [
           // Pinned at the top while everything below scrolls beneath it, so
-          // the way back to the hub is always in the same place. The banners
-          // sit across its lower edge.
+          // the way back to the hub is always in the same place.
           BrandHeaderBand(
             brand: brand,
             onBack: () => context.pop(),
@@ -68,26 +67,26 @@ class BrandHomeScreen extends ConsumerWidget {
                 ),
               CartButton(brand: brand),
             ],
-            overlap: banners.isEmpty
-                ? null
-                : PromoBannerCarousel(
-                    banners: banners,
-                    onBannerTap: (banner) {
-                      final categoryId = banner.categoryId;
-                      if (categoryId != null) {
-                        context.push(
-                          Routes.brandMenu(brand, categoryId: categoryId),
-                        );
-                      }
-                    },
-                  ),
-            overlapHeight: PromoBannerCarousel.height,
           ),
+          if (banners.isNotEmpty)
+            SliverToBoxAdapter(
+              child: PromoBannerCarousel(
+                banners: banners,
+                onBannerTap: (banner) {
+                  final categoryId = banner.categoryId;
+                  if (categoryId != null) {
+                    context.push(
+                      Routes.brandMenu(brand, categoryId: categoryId),
+                    );
+                  }
+                },
+              ),
+            ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppSpacing.gutter,
-                AppSpacing.md,
+                AppSpacing.xl,
                 AppSpacing.gutter,
                 0,
               ),
@@ -101,7 +100,7 @@ class BrandHomeScreen extends ConsumerWidget {
             child: _SectionTitle(context.l10n.categoriesTitle),
           ),
           SliverToBoxAdapter(
-            child: CategoryStrip(
+            child: CategoryGrid(
               categories: categories,
               onCategoryTap: (category) => context.push(
                 Routes.brandMenu(brand, categoryId: category.id),

@@ -1982,11 +1982,11 @@ abstract class AppLocalizations {
   /// **'Nu am găsit nimic pentru „{query}”. Încearcă alt cuvânt.'**
   String searchNoResultsMessage(String query);
 
-  /// The heading over the products search found.
+  /// How many products a list holds, over the list: the menu, favourites, search.
   ///
   /// In ro, this message translates to:
   /// **'{count, plural, one{{count} produs} few{{count} produse} other{{count} de produse}}'**
-  String searchProductsTitle(int count);
+  String productCount(int count);
 
   /// The heading over the rental cars search found.
   ///
@@ -2017,6 +2017,18 @@ abstract class AppLocalizations {
   /// In ro, this message translates to:
   /// **'Aici apar noutățile despre comenzile și cererile tale.'**
   String get notificationsEmptyMessage;
+
+  /// The button over a product list that switches it to one column of wide rows.
+  ///
+  /// In ro, this message translates to:
+  /// **'Arată ca listă'**
+  String get showAsList;
+
+  /// The button over a product list that switches it to two columns of cards.
+  ///
+  /// In ro, this message translates to:
+  /// **'Arată ca grilă'**
+  String get showAsGrid;
 }
 
 class _AppLocalizationsDelegate

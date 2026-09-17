@@ -29,32 +29,29 @@ class BrandIntroScreen extends StatelessWidget {
       backgroundColor: context.colors.background,
       body: CustomScrollView(
         slivers: [
-          // The brand's photo sits across the header's lower edge.
           BrandHeaderBand(
             brand: brand,
             title: intro.name,
             onBack: () => context.pop(),
-            overlap: image == null
-                ? null
-                : Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.gutter,
-                    ),
-                    child: AppCard(
-                      child: Image.asset(image, fit: BoxFit.cover),
-                    ),
-                  ),
-            overlapHeight: _photoHeight,
           ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.gutter,
-              AppSpacing.lg,
+              0,
               AppSpacing.gutter,
               AppSpacing.xl,
             ),
             sliver: SliverList.list(
               children: [
+                if (image != null) ...[
+                  SizedBox(
+                    height: _photoHeight,
+                    child: AppCard(
+                      child: Image.asset(image, fit: BoxFit.cover),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                ],
                 Text(
                   context.l10n.comingSoonTitle,
                   style: context.textStyles.headline,

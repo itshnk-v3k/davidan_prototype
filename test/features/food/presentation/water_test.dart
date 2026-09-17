@@ -100,7 +100,7 @@ void main() {
           for (final card in tester.widgetList<ProductCard>(
             inPage(find.byType(ProductCard)),
           ))
-            (card.product.name, card.product.priceBani),
+            (card.data.product.name, card.data.product.priceBani),
         ],
         [('Apa DaviDan naturală', 1500), ('Apa DaviDan gazată', 1500)],
       );

@@ -1,51 +1,143 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
+import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/data/models/product.dart';
+import 'package:davidan_prototype/features/food/application/product_layout_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/connected_product_card.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// Two-column product grid (a sliver), shared by the menu and favourites
-/// screens. Home shows its products in rows instead (ProductShelf).
-class ProductGrid extends StatelessWidget {
+/// A list of products (a sliver), shared by the menu, the favourites, the
+/// water page and search: a [title] with the button that switches between two
+/// columns of cards and one column of wide rows, then the products that way.
+/// The choice is saved and the same in every list. Home shows its products in
+/// sideways rows instead (ProductShelf).
+class ProductGrid extends ConsumerWidget {
   const ProductGrid({
     super.key,
     required this.products,
+    required this.title,
     this.showBrand = false,
   });
 
   final List<Product> products;
 
-  /// For a grid mixing brands: see [ConnectedProductCard.showBrand].
+  /// The heading beside the layout button, such as how many products there
+  /// are.
+  final String title;
+
+  /// For a list mixing brands: see [ConnectedProductCard.showBrand].
   final bool showBrand;
+
+  /// Between cards, and between rows.
+  static const _gap = AppSpacing.lg;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final layout = ref.watch(productLayoutProvider);
+
+    return SliverMainAxisGroup(
+      slivers: [
+        SliverToBoxAdapter(
+          child: _Heading(
+            title: title,
+            layout: layout,
+            onToggle: () => ref.read(productLayoutProvider.notifier).toggle(),
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.gutter,
+            0,
+            AppSpacing.gutter,
+            AppSpacing.xl,
+          ),
+          sliver: switch (layout) {
+            ProductLayout.grid => SliverLayoutBuilder(
+              builder: (context, constraints) {
+                final cardWidth = (constraints.crossAxisExtent - _gap) / 2;
+                return SliverGrid.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: _gap,
+                    crossAxisSpacing: _gap,
+                    // As tall as the text needs at the phone's text size.
+                    mainAxisExtent: ProductCard.heightFor(context, cardWidth),
+                  ),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) => ConnectedProductCard(
+                    product: products[index],
+                    showBrand: showBrand,
+                  ),
+                );
+              },
+            ),
+            ProductLayout.list => SliverList.separated(
+              itemCount: products.length,
+              separatorBuilder: (_, _) => const SizedBox(height: _gap),
+              itemBuilder: (context, index) => ConnectedProductCard(
+                product: products[index],
+                showBrand: showBrand,
+                listTile: true,
+              ),
+            ),
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _Heading extends StatelessWidget {
+  const _Heading({
+    required this.title,
+    required this.layout,
+    required this.onToggle,
+  });
+
+  final String title;
+  final ProductLayout layout;
+  final VoidCallback onToggle;
 
   @override
   Widget build(BuildContext context) {
-    return SliverPadding(
-      padding: const EdgeInsets.fromLTRB(
+    // The button's clear margin takes the place of the padding beside it, so
+    // its circle lines up with the cards' right edge.
+    const buttonSize = 36.0;
+    final margin = TapTarget.marginFor(buttonSize);
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
         AppSpacing.gutter,
         0,
-        AppSpacing.gutter,
-        AppSpacing.xl,
+        AppSpacing.gutter - margin,
+        AppSpacing.md - margin,
       ),
-      sliver: SliverLayoutBuilder(
-        builder: (context, constraints) {
-          final cardWidth = (constraints.crossAxisExtent - AppSpacing.md) / 2;
-          return SliverGrid.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: AppSpacing.md,
-              crossAxisSpacing: AppSpacing.md,
-              // As tall as the text needs at the phone's text size.
-              mainAxisExtent: ProductCard.heightFor(context, cardWidth),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              title,
+              style: context.textStyles.subtitle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-            itemCount: products.length,
-            itemBuilder: (context, index) => ConnectedProductCard(
-              product: products[index],
-              showBrand: showBrand,
-            ),
-          );
-        },
+          ),
+          // Shows the layout a tap switches to.
+          AppIconButton(
+            icon: layout == ProductLayout.grid
+                ? Icons.view_agenda_rounded
+                : Icons.grid_view_rounded,
+            semanticLabel: layout == ProductLayout.grid
+                ? context.l10n.showAsList
+                : context.l10n.showAsGrid,
+            size: buttonSize,
+            onPressed: onToggle,
+          ),
+        ],
       ),
     );
   }

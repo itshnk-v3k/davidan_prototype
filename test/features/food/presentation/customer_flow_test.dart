@@ -15,7 +15,7 @@ import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/home/widgets/category_strip.dart';
+import 'package:davidan_prototype/features/food/presentation/home/widgets/category_grid.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 
 import '../../../helpers/test_app.dart';
@@ -33,7 +33,7 @@ void main() {
     await tapVisible(
       tester,
       find.descendant(
-        of: find.byType(CategoryStrip),
+        of: find.byType(CategoryGrid),
         matching: find.text('Patiserie'),
       ),
     );

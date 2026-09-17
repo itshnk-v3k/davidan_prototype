@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/toast/toast_notifier.dart';
+import 'package:davidan_prototype/data/mock/placeholder_ratings.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/favorites_notifier.dart';
@@ -11,25 +12,29 @@ import 'package:davidan_prototype/features/food/presentation/widgets/product_car
 import 'package:davidan_prototype/l10n/app_language.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// A [ProductCard] wired to the cart and favourites, the same way in the
-/// menu, the favourites and home's rows: it opens its product, adds to and
-/// removes from the cart, and saves or unsaves the product. It watches only
-/// its own product, so adding one product rebuilds one card. With
-/// [showBrand], for rows that mix brands, the card names its brand and adding
-/// says which brand's cart the product went to.
+/// A [ProductCard], or with [listTile] a [ProductListTile], wired to the cart
+/// and favourites, the same way in the menu, the favourites, search and home's
+/// rows: it opens its product, adds to and removes from the cart, and saves or
+/// unsaves the product. It watches only its own product, so adding one
+/// product rebuilds one card. With [showBrand], for lists that mix brands, it
+/// names its brand and adding says which brand's cart the product went to.
 class ConnectedProductCard extends ConsumerWidget {
   const ConnectedProductCard({
     super.key,
     required this.product,
     this.heroScope,
     this.showBrand = false,
+    this.listTile = false,
   });
 
   final Product product;
 
-  /// See [ProductCard.heroScope]; also sent to the product page.
+  /// See [ProductTileData.heroScope]; also sent to the product page.
   final String? heroScope;
   final bool showBrand;
+
+  /// A wide row instead of a card.
+  final bool listTile;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,12 +47,14 @@ class ConnectedProductCard extends ConsumerWidget {
     );
     CartNotifier cart() => ref.read(cartProvider(brand).notifier);
 
-    return ProductCard(
+    final data = ProductTileData(
       product: product,
       quantity: quantity,
       favorite: favorite,
       heroScope: heroScope,
       brandName: showBrand ? context.content.introOf(brand).name : null,
+      // PLACEHOLDER, NOT REAL DATA: no reviews exist yet (see the file).
+      placeholderRating: placeholderRatingFor(product.key),
       onTap: () =>
           context.push(Routes.brandProduct(product.key, heroScope: heroScope)),
       onAdd: () {
@@ -69,5 +76,7 @@ class ConnectedProductCard extends ConsumerWidget {
       onToggleFavorite: () =>
           ref.read(favoritesProvider.notifier).toggle(product.key),
     );
+
+    return listTile ? ProductListTile(data: data) : ProductCard(data: data);
   }
 }

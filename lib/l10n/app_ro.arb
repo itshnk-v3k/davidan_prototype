@@ -1208,9 +1208,9 @@
       }
     }
   },
-  "searchProductsTitle": "{count, plural, one{{count} produs} few{{count} produse} other{{count} de produse}}",
-  "@searchProductsTitle": {
-    "description": "The heading over the products search found.",
+  "productCount": "{count, plural, one{{count} produs} few{{count} produse} other{{count} de produse}}",
+  "@productCount": {
+    "description": "How many products a list holds, over the list: the menu, favourites, search.",
     "placeholders": {
       "count": {
         "type": "int"
@@ -1241,5 +1241,13 @@
   "notificationsEmptyMessage": "Aici apar noutățile despre comenzile și cererile tale.",
   "@notificationsEmptyMessage": {
     "description": "The bell's page before any order or request."
+  },
+  "showAsList": "Arată ca listă",
+  "@showAsList": {
+    "description": "The button over a product list that switches it to one column of wide rows."
+  },
+  "showAsGrid": "Arată ca grilă",
+  "@showAsGrid": {
+    "description": "The button over a product list that switches it to two columns of cards."
   }
 }

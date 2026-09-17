@@ -34,6 +34,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.cardShadow,
     required this.cardShadowContact,
     required this.edgeScrim,
+    required this.star,
   });
 
   static const dark = AppColors(
@@ -58,12 +59,13 @@ class AppColors extends ThemeExtension<AppColors> {
     scrim: AppPalette.charcoal70,
     desktopBackdrop: AppPalette.ink700,
     shadow: AppPalette.black40,
-    // A shadow doesn't show on a dark background: cards stand apart by their
-    // lighter tone and an outline, as Material 3 does.
-    cardOutline: AppPalette.ink800,
-    cardShadow: AppPalette.clear,
-    cardShadowContact: AppPalette.clear,
+    // On the near-black background a card stands apart mostly by its lighter
+    // tone; a deep, wide shadow and a faint hairline soften its edge.
+    cardOutline: AppPalette.white06,
+    cardShadow: AppPalette.black50,
+    cardShadowContact: AppPalette.black30,
     edgeScrim: AppPalette.black45,
+    star: AppPalette.gold400,
   );
 
   static const light = AppColors(
@@ -89,9 +91,10 @@ class AppColors extends ThemeExtension<AppColors> {
     desktopBackdrop: AppPalette.sand,
     shadow: AppPalette.charcoal16,
     cardOutline: AppPalette.clear,
-    cardShadow: AppPalette.charcoal12,
-    cardShadowContact: AppPalette.charcoal06,
+    cardShadow: AppPalette.charcoal08,
+    cardShadowContact: AppPalette.charcoal04,
     edgeScrim: AppPalette.black45,
+    star: AppPalette.gold500,
   );
 
   // Brand
@@ -152,16 +155,21 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color shadow;
 
   // Cards (AppCard)
-  /// A card's edge: none on light, where its shadow lifts it.
+  /// A card's edge: none on light, where its shadow lifts it; a faint
+  /// hairline on dark.
   final Color cardOutline;
 
-  /// A card's wide soft shadow and its tight contact shadow; clear on dark.
+  /// A card's wide soft shadow and its faint contact shadow.
   final Color cardShadow;
   final Color cardShadowContact;
 
   /// The dark fade at the top of a brand's header, behind the status bar and
   /// the buttons (TopScrim), the same in both themes.
   final Color edgeScrim;
+
+  /// The star beside a product's rating. Decoration: the number beside it
+  /// carries the rating.
+  final Color star;
 
   @override
   AppColors copyWith({
@@ -190,6 +198,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? cardShadow,
     Color? cardShadowContact,
     Color? edgeScrim,
+    Color? star,
   }) => AppColors(
     primary: primary ?? this.primary,
     onPrimary: onPrimary ?? this.onPrimary,
@@ -216,6 +225,7 @@ class AppColors extends ThemeExtension<AppColors> {
     cardShadow: cardShadow ?? this.cardShadow,
     cardShadowContact: cardShadowContact ?? this.cardShadowContact,
     edgeScrim: edgeScrim ?? this.edgeScrim,
+    star: star ?? this.star,
   );
 
   /// Blends the two sets while MaterialApp animates a theme change.
@@ -249,6 +259,7 @@ class AppColors extends ThemeExtension<AppColors> {
       cardShadow: mix(cardShadow, other.cardShadow),
       cardShadowContact: mix(cardShadowContact, other.cardShadowContact),
       edgeScrim: mix(edgeScrim, other.edgeScrim),
+      star: mix(star, other.star),
     );
   }
 }
