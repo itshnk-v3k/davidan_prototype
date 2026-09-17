@@ -6,8 +6,10 @@ import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// The hub's frame: the active tab plus the bottom navigation bar. Brands open
-/// full screen above it, so a brand's pages never show this bar.
+/// The hub's frame: the active tab plus the bottom navigation bar. A brand's
+/// browse screens (home, menu, information) open inside Acasă and keep the
+/// bar; its task screens, which have their own bottom button (product, cart,
+/// checkout, car, request), open full screen above it.
 class ClientShell extends StatelessWidget {
   const ClientShell({super.key, required this.navigationShell});
 

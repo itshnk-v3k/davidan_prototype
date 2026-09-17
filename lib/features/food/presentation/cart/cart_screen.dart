@@ -64,8 +64,9 @@ class CartScreen extends ConsumerWidget {
                         actionLabel: hasMenu
                             ? context.l10n.browseMenu
                             : context.l10n.browseProducts,
-                        onAction: () =>
-                            context.pushReplacement(Routes.brandMenu(brand)),
+                        // The menu is inside Acasă, so go() rather than
+                        // push (see Routes).
+                        onAction: () => context.go(Routes.brandMenu(brand)),
                       )
                     : ListView.separated(
                         key: const ValueKey('lines'),

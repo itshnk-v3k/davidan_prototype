@@ -1,35 +1,35 @@
 {
-    "name": "DaviDan Delivery",
-    "short_name": "DaviDan Delivery",
-    "start_url": ".",
-    "display": "standalone",
-    "background_color": "#FCF8F8",
-    "theme_color": "#A26B25",
-    "description": "DaviDan Delivery: prototipul aplicației de livrare DaviDan.",
-    "orientation": "portrait-primary",
-    "prefer_related_applications": false,
-    "icons": [
-        {
-            "src": "icons/Icon-192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/Icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/Icon-maskable-192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "maskable"
-        },
-        {
-            "src": "icons/Icon-maskable-512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable"
-        }
-    ]
+  "name": "DaviDan",
+  "short_name": "DaviDan",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#FCF8F8",
+  "theme_color": "#A26B25",
+  "description": "DaviDan: prototipul aplicației de livrare DaviDan.",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icons/Icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/Icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/Icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/Icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
 }

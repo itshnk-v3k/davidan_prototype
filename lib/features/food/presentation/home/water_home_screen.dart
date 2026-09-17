@@ -44,9 +44,7 @@ class WaterHomeScreen extends ConsumerWidget {
           children: [
             ScreenHeader(
               title: context.content.text(WaterPage.title),
-              onBack: () => context.canPop()
-                  ? context.pop()
-                  : context.go(Routes.clientHome),
+              onBack: () => context.pop(),
               actions: const [CartButton(brand: Brand.water)],
             ),
             Expanded(

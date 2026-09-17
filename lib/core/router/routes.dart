@@ -41,10 +41,16 @@ abstract final class Routes {
   /// Every brand's cart that has something in it, full screen above the tabs.
   static const openCarts = '/client/carts';
 
-  // A brand, full screen above the hub: its home, menu, product, cart and
-  // checkout. Every brand has its own cart.
+  // A brand. Its browse screens (home, menu, information) open inside Acasă,
+  // above the hub and under the bottom bar. Its task screens, the ones with
+  // their own bottom button (product, cart, checkout, car, request), open
+  // full screen above the tabs. Every brand has its own cart.
+  //
+  // A task screen reaches a browse screen with go(), never push(): pushed
+  // from above the tabs, a route inside them builds the tabs a second time
+  // (test/core/router/go_router_tabs_test.dart).
   static const brandParam = 'brand';
-  static String brandHome(Brand brand) => '/b/${brand.name}';
+  static String brandHome(Brand brand) => '$clientHome/b/${brand.name}';
 
   /// The brand's menu at [categoryId], or at its first category.
   static String brandMenu(Brand brand, {String? categoryId}) => Uri(
@@ -64,15 +70,20 @@ abstract final class Routes {
 
   /// A car of the rental fleet, and its request form.
   static String rentalCar(String carId) =>
-      '${brandHome(Brand.carRental)}/car/$carId';
+      '/b/${Brand.carRental.name}/car/$carId';
   static String rentalRequest(String carId) => '${rentalCar(carId)}/request';
 
-  /// The brand's contacts and legal pages, for a brand that has them.
-  static String brandInfo(Brand brand) => '/b/${brand.name}/info';
+  /// The brand's contacts and legal pages, for a brand that has them, inside
+  /// the [tab] they're opened from: Acasă (the brand's home) or Profil.
+  static String brandInfo(Brand brand, {String tab = clientHome}) =>
+      '$tab/b/${brand.name}/info';
 
   /// One of the brand's legal pages, by its slug on the brand's site.
-  static String brandLegal(Brand brand, String documentId) =>
-      '${brandInfo(brand)}/$documentId';
+  static String brandLegal(
+    Brand brand,
+    String documentId, {
+    String tab = clientHome,
+  }) => '${brandInfo(brand, tab: tab)}/$documentId';
 
   // Demo sign-in (no real SMS): phone, code, details, then a welcome
   static const signIn = '/client/sign-in';

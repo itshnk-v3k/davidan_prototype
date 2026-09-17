@@ -142,9 +142,7 @@ class _BrandHeader extends StatelessWidget {
             AppIconButton(
               icon: Icons.arrow_back_rounded,
               semanticLabel: context.l10n.backHome,
-              onPressed: () => context.canPop()
-                  ? context.pop()
-                  : context.go(Routes.clientHome),
+              onPressed: () => context.pop(),
             ),
             const SizedBox(width: AppSpacing.md),
             BrandLogo(height: 26, brand: brand),

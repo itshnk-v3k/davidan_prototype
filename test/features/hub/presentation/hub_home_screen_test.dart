@@ -1,5 +1,5 @@
 // The hub (/client/home): the pinned location bar, the brand bubbles, and the
-// brands they open full screen, in the real app, in Chrome:
+// brands they open inside Acasă, in the real app, in Chrome:
 //   flutter test --platform chrome
 @TestOn('browser')
 library;
@@ -357,7 +357,7 @@ void main() {
   );
 
   testWidgets(
-    'Sushi, Patiserie and Apă naturală open their pages full screen, without '
+    'Sushi, Patiserie and Apă naturală open their pages inside Acasă, under '
     'the bottom bar, and back returns to the hub',
     (tester) async {
       await pumpApp(tester, container, Routes.clientHome);
@@ -373,7 +373,7 @@ void main() {
             brand,
           );
         }
-        expect(find.text(ro.navOrders), findsNothing, reason: '$brand');
+        expect(find.text(ro.navOrders), findsOneWidget, reason: '$brand');
         await tester.tap(find.byIcon(Icons.arrow_back_rounded).first);
         await tester.pumpAndSettle();
         expect(find.byType(HubHomeScreen), findsOneWidget, reason: '$brand');
@@ -392,7 +392,7 @@ void main() {
 
       final page = find.byType(BrandIntroScreen);
       expect(page, findsOneWidget);
-      expect(find.text(ro.navOrders), findsNothing);
+      expect(find.text(ro.navOrders), findsOneWidget);
       expect(
         inScreen<BrandIntroScreen>(find.text(ro.comingSoonTitle)),
         findsOneWidget,
@@ -436,7 +436,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(HubHomeScreen), findsOneWidget);
 
-      await pumpApp(tester, container, '/b/pizzeria');
+      await pumpApp(tester, container, '${Routes.clientHome}/b/pizzeria');
       expect(find.byType(HubHomeScreen), findsOneWidget);
 
       await pumpApp(tester, container, Routes.brandMenu(Brand.restaurant));

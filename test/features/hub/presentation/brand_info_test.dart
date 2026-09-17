@@ -1,5 +1,5 @@
-// A brand's information page and legal pages (/b/:brand/info/...), in the
-// real app, in Chrome:
+// A brand's information page and legal pages (Routes.brandInfo, inside Acasă
+// or Profil), in the real app, in Chrome:
 //   flutter test --platform chrome
 @TestOn('browser')
 library;

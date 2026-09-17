@@ -12,13 +12,17 @@ import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/brand_info.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// A brand's information page, full screen above its home, which opens it:
+/// A brand's information page, opened from its home in Acasă or from Profil:
 /// its contacts as its site gives them, and its legal pages, each opening in
 /// full. The router only opens it for a brand in brandInfos.
 class BrandInfoScreen extends StatelessWidget {
-  const BrandInfoScreen({super.key, required this.brand});
+  const BrandInfoScreen({super.key, required this.brand, required this.tab});
 
   final Brand brand;
+
+  /// The tab it's open in (Routes.clientHome or Routes.clientProfile), where
+  /// its legal pages open too.
+  final String tab;
 
   static IconData _iconOf(BrandInfoKind kind) => switch (kind) {
     BrandInfoKind.deliveryArea => Icons.delivery_dining_rounded,
@@ -41,13 +45,7 @@ class BrandInfoScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ScreenHeader(
-              title: info.name,
-              // Opened straight from a link, there's nothing to go back to.
-              onBack: () => context.canPop()
-                  ? context.pop()
-                  : context.go(Routes.brandHome(brand)),
-            ),
+            ScreenHeader(title: info.name, onBack: () => context.pop()),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(
@@ -102,7 +100,7 @@ class BrandInfoScreen extends StatelessWidget {
                           title: document.title,
                           hint: context.l10n.legalDocumentHint(info.website),
                           onTap: () => context.push(
-                            Routes.brandLegal(brand, document.id),
+                            Routes.brandLegal(brand, document.id, tab: tab),
                           ),
                         ),
                       ),

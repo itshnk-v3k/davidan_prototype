@@ -47,9 +47,7 @@ class CatalogScreen extends ConsumerWidget {
           children: [
             ScreenHeader(
               title: context.l10n.menuTitle,
-              onBack: () => context.canPop()
-                  ? context.pop()
-                  : context.go(Routes.brandHome(brand)),
+              onBack: () => context.pop(),
               actions: [CartButton(brand: brand)],
             ),
             CategoryChips(

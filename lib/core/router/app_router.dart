@@ -124,6 +124,57 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: Routes.clientHome,
                     builder: (_, _) => const HubHomeScreen(),
+                    routes: [
+                      // A brand's browse screens, above the hub and under the
+                      // bottom bar, pushed from its bubble on the hub. Its
+                      // screens push the ones below, so back returns to the
+                      // screen they were opened from; opened straight from a
+                      // link, the brand's home and the hub are underneath.
+                      // Each names its brand (Routes.brandHome and the
+                      // others); an unknown brand goes to the hub.
+                      GoRoute(
+                        path: 'b/:${Routes.brandParam}',
+                        redirect: _unknownBrandGoesHome,
+                        builder: (_, state) =>
+                            _branded(state, switch (_brandIn(state)!) {
+                              final brand && (Brand.bakery || Brand.sushi) =>
+                                BrandHomeScreen(brand: brand),
+                              Brand.water => const WaterHomeScreen(),
+                              // The client has no restaurant menu yet: its
+                              // intro stays.
+                              Brand.restaurant => const BrandIntroScreen(
+                                brand: Brand.restaurant,
+                              ),
+                              Brand.carRental => const RentalHomeScreen(),
+                            }),
+                        routes: [
+                          GoRoute(
+                            path: 'menu',
+                            // A brand without a menu shows its home instead.
+                            redirect: (_, state) =>
+                                ref
+                                    .read(categoriesProvider(_brandIn(state)!))
+                                    .isEmpty
+                                ? Routes.brandHome(_brandIn(state)!)
+                                : null,
+                            // The category is a query parameter
+                            // (Routes.brandMenu). Switching category replaces
+                            // this page, keeping its key, so there is no
+                            // transition and CatalogScreen just rebuilds.
+                            builder: (_, state) => _branded(
+                              state,
+                              CatalogScreen(
+                                brand: _brandIn(state)!,
+                                categoryId:
+                                    state.uri.queryParameters['category'],
+                              ),
+                            ),
+                          ),
+                          // Pushed by the brand home's info button.
+                          _brandInfoRoute('info', tab: Routes.clientHome),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -152,50 +203,23 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: Routes.clientProfile,
                     builder: (_, _) => const ProfileScreen(),
+                    routes: [
+                      // Pushed from the brand list, so they open inside
+                      // Profil rather than Acasă.
+                      _brandInfoRoute(
+                        'b/:${Routes.brandParam}/info',
+                        tab: Routes.clientProfile,
+                      ),
+                    ],
                   ),
                 ],
               ),
             ],
           ),
-          // A brand, full screen above the tabs (no bottom bar), pushed from
-          // its bubble on the hub. Its screens push the ones below, so back
-          // returns to the screen they were opened from. Each names its brand
-          // (Routes.brandHome and the others); an unknown brand goes to the
-          // hub.
-          GoRoute(
-            path: '/b/:${Routes.brandParam}',
-            redirect: _unknownBrandGoesHome,
-            builder: (_, state) => _branded(state, switch (_brandIn(state)!) {
-              final brand && (Brand.bakery || Brand.sushi) => BrandHomeScreen(
-                brand: brand,
-              ),
-              Brand.water => const WaterHomeScreen(),
-              // The client has no restaurant menu yet: its intro stays.
-              Brand.restaurant => const BrandIntroScreen(
-                brand: Brand.restaurant,
-              ),
-              Brand.carRental => const RentalHomeScreen(),
-            }),
-          ),
-          GoRoute(
-            path: '/b/:${Routes.brandParam}/menu',
-            // A brand without a menu shows its home instead.
-            redirect: (context, state) =>
-                _unknownBrandGoesHome(context, state) ??
-                (ref.read(categoriesProvider(_brandIn(state)!)).isEmpty
-                    ? Routes.brandHome(_brandIn(state)!)
-                    : null),
-            // The category is a query parameter (Routes.brandMenu). Switching
-            // category replaces this page, keeping its key, so there is no
-            // transition and CatalogScreen just rebuilds.
-            builder: (_, state) => _branded(
-              state,
-              CatalogScreen(
-                brand: _brandIn(state)!,
-                categoryId: state.uri.queryParameters['category'],
-              ),
-            ),
-          ),
+          // A brand's task screens, full screen above the tabs: each has its
+          // own bottom button. They reach the brand's browse screens inside
+          // Acasă with go() (see Routes).
+          //
           // Pushed by the brand's cart button.
           GoRoute(
             path: '/b/:${Routes.brandParam}/cart',
@@ -222,42 +246,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             redirect: _unknownBrandGoesHome,
             builder: (_, state) =>
                 _branded(state, CheckoutScreen(brand: _brandIn(state)!)),
-          ),
-          // Pushed by the brand home's info button, for a brand that has an
-          // information page; any other brand shows its home instead. A legal
-          // page the brand doesn't have shows the information page.
-          GoRoute(
-            path: '/b/:${Routes.brandParam}/info',
-            redirect: (context, state) =>
-                _unknownBrandGoesHome(context, state) ??
-                (brandInfos[_brandIn(state)!] == null
-                    ? Routes.brandHome(_brandIn(state)!)
-                    : null),
-            builder: (_, state) =>
-                _branded(state, BrandInfoScreen(brand: _brandIn(state)!)),
-            routes: [
-              GoRoute(
-                path: ':documentId',
-                redirect: (_, state) {
-                  final brand = _brandIn(state);
-                  final documentId = state.pathParameters['documentId'];
-                  final documents = brandInfos[brand]?.documents ?? const [];
-                  if (documents.any((document) => document.id == documentId)) {
-                    return null;
-                  }
-                  return brand == null
-                      ? Routes.clientHome
-                      : Routes.brandInfo(brand);
-                },
-                builder: (_, state) => _branded(
-                  state,
-                  LegalDocumentScreen(
-                    brand: _brandIn(state)!,
-                    documentId: state.pathParameters['documentId']!,
-                  ),
-                ),
-              ),
-            ],
           ),
           // A car of the rental fleet, pushed from its card, and its request
           // form, pushed from the car. Only Rent Car has cars: any other
@@ -325,6 +313,41 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   ref.onDispose(router.dispose);
   return router;
 });
+
+/// A brand's information page and its legal pages at [path], inside [tab]
+/// (Routes.clientHome or Routes.clientProfile), for a brand that has an
+/// information page; any other brand shows its home instead. A legal page the
+/// brand doesn't have shows the information page.
+GoRoute _brandInfoRoute(String path, {required String tab}) => GoRoute(
+  path: path,
+  redirect: (context, state) =>
+      _unknownBrandGoesHome(context, state) ??
+      (brandInfos[_brandIn(state)!] == null
+          ? Routes.brandHome(_brandIn(state)!)
+          : null),
+  builder: (_, state) =>
+      _branded(state, BrandInfoScreen(brand: _brandIn(state)!, tab: tab)),
+  routes: [
+    GoRoute(
+      path: ':documentId',
+      redirect: (_, state) {
+        final brand = _brandIn(state)!;
+        final documentId = state.pathParameters['documentId'];
+        final documents = brandInfos[brand]!.documents;
+        return documents.any((document) => document.id == documentId)
+            ? null
+            : Routes.brandInfo(brand, tab: tab);
+      },
+      builder: (_, state) => _branded(
+        state,
+        LegalDocumentScreen(
+          brand: _brandIn(state)!,
+          documentId: state.pathParameters['documentId']!,
+        ),
+      ),
+    ),
+  ],
+);
 
 /// The brand a `/b/:brand/...` URL names, or null when it names none.
 Brand? _brandIn(GoRouterState state) =>

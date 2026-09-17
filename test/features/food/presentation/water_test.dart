@@ -78,7 +78,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(WaterHomeScreen), findsOneWidget);
-      expect(find.text(ro.navOrders), findsNothing);
+      expect(find.text(ro.navOrders), findsOneWidget);
       expect(inPage(find.text('Apa DaviDan')), findsOneWidget);
       expect(
         inPage(

@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// App name; the browser tab title.
   ///
   /// In ro, this message translates to:
-  /// **'DaviDan Delivery'**
+  /// **'DaviDan'**
   String get appTitle;
 
   /// A price in Moldovan lei. amount is already formatted, e.g. "19" or "19,50".

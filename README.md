@@ -88,7 +88,7 @@ The widget tests use a fake location service (`test/helpers/fake_location_servic
    ```
 
 3. Tap **Folosește locația mea curentă** and allow location. The home bar should show **Zona Botanica**.
-4. For the fallback, open **Settings → Apps → DaviDan Delivery → Permissions → Location → Don't allow** and tap it again. The map picker opens and says why.
+4. For the fallback, open **Settings → Apps → DaviDan → Permissions → Location → Don't allow** and tap it again. The map picker opens and says why.
 
 ## Android APK (for the client's phone)
 
@@ -124,7 +124,7 @@ An update keeps the demo data on the phone, as long as the new APK is signed wit
 
 ### App name and icon
 
-The app is called **DaviDan Delivery** on the phone's home screen (`android:label` in `android/app/src/main/AndroidManifest.xml`) and in the browser tab (`web/index.html`, `web/manifest.json`, `appTitle` in `lib/l10n/app_ro.arb`).
+The app is called **DaviDan** on the phone's home screen (`android:label` in `android/app/src/main/AndroidManifest.xml`) and in the browser tab (`web/index.html`, `web/manifest.json`, `appTitle` in `lib/l10n/app_ro.arb`).
 
 The icon is the logo's wheat "D" in white on the site's caramel, for Android and for the web favicon and PWA icons. It is generated from `assets/images/brand/logo-davidan.webp`, with nothing downloaded:
 
@@ -151,7 +151,7 @@ First-time install, in the order the phone asks:
 2. **Open it on the phone.** Tap the file in the chat, or find it in **Files → Downloads**.
 3. **Allow the source.** Android says the app that opened the file (Telegram, Chrome, Files…) isn't allowed to install apps. Tap **Settings**, turn on **Allow from this source**, then go back. The permission is per app, so it's asked again if an APK is later opened from somewhere else.
 4. **Install.** Tap **Install**. Google Play Protect may say it doesn't recognise the app and offer to scan it. Scanning is fine and takes a few seconds. Location isn't one of the permissions Play Protect blocks for sideloaded apps; if a warning appears anyway, tap **More details → Install anyway**.
-5. **Open DaviDan Delivery** from the app list. **Allow from this source** can be turned off again afterwards.
+5. **Open DaviDan** from the app list. **Allow from this source** can be turned off again afterwards.
 6. **Location, later.** The first time they tap **Folosește locația mea**, Android asks for location. **While using the app** or **Only this time** both work. **Don't allow** is fine too: the app falls back to the sector or the map.
 
 If it won't install:

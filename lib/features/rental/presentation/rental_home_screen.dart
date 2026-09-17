@@ -39,9 +39,7 @@ class RentalHomeScreen extends ConsumerWidget {
           children: [
             ScreenHeader(
               title: RentalPage.title,
-              onBack: () => context.canPop()
-                  ? context.pop()
-                  : context.go(Routes.clientHome),
+              onBack: () => context.pop(),
               actions: [
                 AppIconButton(
                   icon: Icons.info_outline_rounded,

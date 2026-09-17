@@ -1,6 +1,6 @@
 {
   "@@locale": "ro",
-  "appTitle": "DaviDan Delivery",
+  "appTitle": "DaviDan",
   "@appTitle": {
     "description": "App name; the browser tab title."
   },

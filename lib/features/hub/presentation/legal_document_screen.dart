@@ -1,7 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
-import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
@@ -40,13 +39,7 @@ class LegalDocumentScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ScreenHeader(
-              title: document.title,
-              // Opened straight from a link, there's nothing to go back to.
-              onBack: () => context.canPop()
-                  ? context.pop()
-                  : context.go(Routes.brandInfo(brand)),
-            ),
+            ScreenHeader(title: document.title, onBack: () => context.pop()),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(

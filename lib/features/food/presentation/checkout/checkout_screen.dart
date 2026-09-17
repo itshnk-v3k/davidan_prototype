@@ -54,7 +54,8 @@ class CheckoutScreen extends ConsumerWidget {
     if (lines.isEmpty) {
       return _EmptyCheckout(
         onBack: goBack,
-        onBrowseMenu: () => context.pushReplacement(Routes.brandMenu(brand)),
+        // The menu is inside Acasă, so go() rather than push (see Routes).
+        onBrowseMenu: () => context.go(Routes.brandMenu(brand)),
       );
     }
 

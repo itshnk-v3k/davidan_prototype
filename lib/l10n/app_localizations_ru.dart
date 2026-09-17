@@ -10,7 +10,7 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get appTitle => 'DaviDan Delivery';
+  String get appTitle => 'DaviDan';
 
   @override
   String priceLei(String amount) {

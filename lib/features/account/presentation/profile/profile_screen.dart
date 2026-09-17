@@ -147,7 +147,9 @@ class _ProfileSections extends ConsumerWidget {
             icon: Icons.info_outline_rounded,
             title: context.content.introOf(brand).name,
             hint: context.l10n.profileBrandInfoHint,
-            onTap: () => context.push(Routes.brandInfo(brand)),
+            onTap: () => context.push(
+              Routes.brandInfo(brand, tab: Routes.clientProfile),
+            ),
           ),
           const SizedBox(height: AppSpacing.sm),
         ],
