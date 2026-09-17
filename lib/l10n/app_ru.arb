@@ -321,5 +321,15 @@
   "notificationsEmptyTitle": "Уведомлений пока нет",
   "notificationsEmptyMessage": "Здесь появятся новости о твоих заказах и заявках.",
   "showAsList": "Показать списком",
-  "showAsGrid": "Показать плиткой"
+  "showAsGrid": "Показать плиткой",
+  "moreCategories": "Ещё",
+  "allCategoriesTitle": "Все категории",
+  "filterByCategory": "Фильтр по категории",
+  "clearCategoryFilter": "Сбросить фильтр «{category}»",
+  "placeholderGrams": "{amount}г",
+  "placeholderMillilitres": "{amount}мл",
+  "calories": "{amount} ккал",
+  "offersTitle": "Акции",
+  "specialDiscount": "Специальная скидка",
+  "discountPercent": "-{percent}%"
 }

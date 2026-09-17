@@ -5,11 +5,13 @@ import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
+import 'package:davidan_prototype/core/widgets/app_card.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 
-/// A short message in a pill that floats at the top of the screen: the store
-/// panel's new-order notice and the phone apps' confirmations. It's in
-/// [brand]'s colour, or DaviDan's caramel without one. Screen readers announce
+/// A short message on a soft card that floats at the top of the screen: the
+/// store panel's new-order notice and the phone apps' confirmations. The card
+/// is the theme's surface, like every other card, with the icon on a tint of
+/// [brand]'s colour (DaviDan's caramel without one). Screen readers announce
 /// it when it appears.
 class TopNotice extends StatelessWidget {
   const TopNotice({
@@ -23,6 +25,9 @@ class TopNotice extends StatelessWidget {
   final String message;
   final Brand? brand;
 
+  /// Rounder than a card's corners, far from a pill.
+  static const radius = 18.0;
+
   @override
   Widget build(BuildContext context) {
     final brand = this.brand;
@@ -32,42 +37,56 @@ class TopNotice extends StatelessWidget {
         child: TopNotice(icon: icon, message: message),
       );
     }
+    final colors = context.colors;
     return Semantics(
       liveRegion: true,
       // Keeps text styles clean when shown above a screen's Scaffold.
       child: Material(
         type: MaterialType.transparency,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: context.colors.primary,
-            borderRadius: BorderRadius.circular(AppRadii.pill),
-            boxShadow: [
-              BoxShadow(
-                color: context.colors.shadow,
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.lg,
-              vertical: AppSpacing.sm,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(icon, size: 18, color: context.colors.onPrimary),
-                const SizedBox(width: AppSpacing.sm),
-                Flexible(
-                  child: Text(
-                    message,
-                    style: context.textStyles.bodyStrong.copyWith(
-                      color: context.colors.onPrimary,
-                    ),
-                  ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: colors.surface,
+              borderRadius: BorderRadius.circular(radius),
+              border: colors.cardOutline.a == 0
+                  ? null
+                  : Border.all(color: colors.cardOutline),
+              boxShadow: [
+                ...AppCard.shadowsOf(colors),
+                // A notice floats above the page, a little higher than a card.
+                BoxShadow(
+                  color: colors.cardShadow,
+                  blurRadius: 32,
+                  offset: const Offset(0, 12),
                 ),
               ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                AppSpacing.md,
+                AppSpacing.lg,
+                AppSpacing.md,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: colors.accentSoft,
+                      borderRadius: BorderRadius.circular(AppRadii.sm + 2),
+                    ),
+                    child: Icon(icon, size: 20, color: colors.primary),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Flexible(
+                    child: Text(message, style: context.textStyles.bodyStrong),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -77,14 +96,19 @@ class TopNotice extends StatelessWidget {
 }
 
 /// Drops [notice] in from the top edge, and lifts it away when it becomes
-/// null or is replaced by a notice with a different key.
+/// null or is replaced by a notice with a different key. With [onDismiss], a
+/// swipe up takes it away at once: it follows the finger up, and springs back
+/// if let go too early.
 class TopNoticeSwitcher extends StatelessWidget {
-  const TopNoticeSwitcher({super.key, required this.notice});
+  const TopNoticeSwitcher({super.key, required this.notice, this.onDismiss});
 
   final TopNotice? notice;
+  final VoidCallback? onDismiss;
 
   @override
   Widget build(BuildContext context) {
+    final notice = this.notice;
+    final onDismiss = this.onDismiss;
     return AnimatedSwitcher(
       duration: AppMotion.of(context, AppMotion.medium),
       switchInCurve: AppMotion.standard,
@@ -99,7 +123,65 @@ class TopNoticeSwitcher extends StatelessWidget {
           child: child,
         ),
       ),
-      child: notice ?? const SizedBox.shrink(),
+      child: notice == null
+          ? const SizedBox.shrink()
+          : onDismiss == null
+          ? notice
+          : _SwipeUpToDismiss(
+              key: notice.key,
+              onDismiss: onDismiss,
+              child: notice,
+            ),
+    );
+  }
+}
+
+class _SwipeUpToDismiss extends StatefulWidget {
+  const _SwipeUpToDismiss({
+    super.key,
+    required this.onDismiss,
+    required this.child,
+  });
+
+  final VoidCallback onDismiss;
+  final Widget child;
+
+  @override
+  State<_SwipeUpToDismiss> createState() => _SwipeUpToDismissState();
+}
+
+class _SwipeUpToDismissState extends State<_SwipeUpToDismiss> {
+  /// How far the notice has been dragged up, as a negative offset.
+  double _dragged = 0;
+
+  /// Dragged this far, or flung up this fast, it goes.
+  static const _distance = 24.0;
+  static const _speed = 300.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onVerticalDragUpdate: (details) => setState(
+        // Up only: a pull down doesn't move it.
+        () => _dragged = (_dragged + details.delta.dy).clamp(
+          double.negativeInfinity,
+          0,
+        ),
+      ),
+      onVerticalDragEnd: (details) {
+        final flungUp = (details.primaryVelocity ?? 0) < -_speed;
+        if (flungUp || _dragged < -_distance) {
+          widget.onDismiss();
+        } else {
+          setState(() => _dragged = 0);
+        }
+      },
+      onVerticalDragCancel: () => setState(() => _dragged = 0),
+      child: Transform.translate(
+        offset: Offset(0, _dragged),
+        child: widget.child,
+      ),
     );
   }
 }

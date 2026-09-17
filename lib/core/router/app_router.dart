@@ -20,6 +20,7 @@ import 'package:davidan_prototype/features/food/application/catalog_providers.da
 import 'package:davidan_prototype/features/food/presentation/cart/cart_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/cart/open_carts_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/categories/categories_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/favorites/favorites_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/brand_home_screen.dart';
@@ -130,7 +131,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                       // Pushed by the hub's search field and its bell.
                       GoRoute(
                         path: 'search',
-                        builder: (_, _) => const SearchScreen(),
+                        // A category filter is in the query (Routes.clientSearchIn).
+                        builder: (_, state) => SearchScreen(
+                          initialCategory: switch ((
+                            _brandNamed(state.uri.queryParameters['brand']),
+                            state.uri.queryParameters['category'],
+                          )) {
+                            (final brand?, final categoryId?) => (
+                              brand: brand,
+                              categoryId: categoryId,
+                            ),
+                            _ => null,
+                          },
+                        ),
                       ),
                       GoRoute(
                         path: 'notifications',
@@ -188,7 +201,26 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                             path: 'search',
                             builder: (_, state) => _branded(
                               state,
-                              SearchScreen(brand: _brandIn(state)),
+                              SearchScreen(
+                                brand: _brandIn(state),
+                                initialCategory: switch (state
+                                    .uri
+                                    .queryParameters['category']) {
+                                  final categoryId? => (
+                                    brand: _brandIn(state)!,
+                                    categoryId: categoryId,
+                                  ),
+                                  null => null,
+                                },
+                              ),
+                            ),
+                          ),
+                          // Pushed by the home's "Mai multe" category tile.
+                          GoRoute(
+                            path: 'categories',
+                            builder: (_, state) => _branded(
+                              state,
+                              CategoriesScreen(brand: _brandIn(state)!),
                             ),
                           ),
                         ],

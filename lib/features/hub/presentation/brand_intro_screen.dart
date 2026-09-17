@@ -5,6 +5,7 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_card.dart';
+import 'package:davidan_prototype/core/widgets/bottom_bar_space.dart';
 import 'package:davidan_prototype/core/widgets/brand_header_band.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -37,7 +38,7 @@ class BrandIntroScreen extends StatelessWidget {
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.gutter,
-              0,
+              AppSpacing.sm,
               AppSpacing.gutter,
               AppSpacing.xl,
             ),
@@ -63,6 +64,7 @@ class BrandIntroScreen extends StatelessWidget {
               ],
             ),
           ),
+          const SliverBottomBarSpace(),
         ],
       ),
     );

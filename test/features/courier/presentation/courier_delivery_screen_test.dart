@@ -6,6 +6,7 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/app_router.dart';
@@ -85,7 +86,7 @@ void main() {
     await pumpApp(tester, container, Routes.courierDelivery(order.id));
     expect(find.byType(CourierDeliveryScreen), findsOneWidget);
 
-    await tapAndSettle(tester, find.byIcon(Icons.arrow_back_rounded));
+    await tapAndSettle(tester, find.byIcon(PhosphorIconsRegular.arrowLeft));
 
     expect(find.byType(CourierDeliveryScreen), findsNothing);
     expect(find.byType(CourierOrdersScreen), findsOneWidget);

@@ -6,6 +6,7 @@ import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/widgets/bottom_bar_space.dart';
 import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/core/widgets/link_card.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
@@ -49,11 +50,12 @@ class BrandInfoScreen extends StatelessWidget {
             ScreenHeader(title: info.name, onBack: () => context.pop()),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.fromLTRB(
+                padding: EdgeInsets.fromLTRB(
                   AppSpacing.gutter,
                   0,
                   AppSpacing.gutter,
-                  AppSpacing.xl,
+                  // Clear of the floating tab bar.
+                  AppSpacing.xl + BottomBarSpace.of(context),
                 ),
                 children: [
                   Text(

@@ -11,6 +11,7 @@ import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/app_chip.dart';
+import 'package:davidan_prototype/core/widgets/bottom_bar_space.dart';
 import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
@@ -104,11 +105,12 @@ class OrdersScreen extends ConsumerWidget {
                   onAction: () => context.go(Routes.clientHome),
                 ),
                 _ => ListView(
-                  padding: const EdgeInsets.fromLTRB(
+                  padding: EdgeInsets.fromLTRB(
                     AppSpacing.gutter,
                     0,
                     AppSpacing.gutter,
-                    AppSpacing.xl,
+                    // Clear of the floating tab bar.
+                    AppSpacing.xl + BottomBarSpace.of(context),
                   ),
                   children: [
                     for (final section in sections)

@@ -34,6 +34,12 @@ abstract final class Routes {
   /// Search across every brand, and the latest news of the customer's orders
   /// and requests: browse screens inside Acasă.
   static const clientSearch = '$clientHome/search';
+
+  /// Search across every brand, narrowed to one brand's [categoryId].
+  static String clientSearchIn(Brand brand, String categoryId) => Uri(
+    path: clientSearch,
+    queryParameters: {'brand': brand.name, 'category': categoryId},
+  ).toString();
   static const clientNotifications = '$clientHome/notifications';
 
   static const clientFavorites = '/client/favorites';
@@ -58,8 +64,15 @@ abstract final class Routes {
   static const brandParam = 'brand';
   static String brandHome(Brand brand) => '$clientHome/b/${brand.name}';
 
-  /// Search in the brand's menu.
-  static String brandSearch(Brand brand) => '${brandHome(brand)}/search';
+  /// Search in the brand's menu, narrowed to [categoryId] when given.
+  static String brandSearch(Brand brand, {String? categoryId}) => Uri(
+    path: '${brandHome(brand)}/search',
+    queryParameters: {'category': ?categoryId},
+  ).toString();
+
+  /// Every category of the brand, from its home's "Mai multe" tile.
+  static String brandCategories(Brand brand) =>
+      '${brandHome(brand)}/categories';
 
   /// The brand's menu at [categoryId], or at its first category.
   static String brandMenu(Brand brand, {String? categoryId}) => Uri(

@@ -11,6 +11,7 @@ import 'package:davidan_prototype/core/theme/theme_mode_notifier.dart';
 import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/utils/phone.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
+import 'package:davidan_prototype/core/widgets/bottom_bar_space.dart';
 import 'package:davidan_prototype/core/widgets/confirm_dialog.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/language_selector.dart';
@@ -67,14 +68,14 @@ class ProfileScreen extends ConsumerWidget {
                                   onAction: () => context.push(Routes.signIn),
                                 ),
                               ),
-                              const Padding(
+                              Padding(
                                 padding: EdgeInsets.fromLTRB(
                                   AppSpacing.gutter,
                                   0,
                                   AppSpacing.gutter,
-                                  AppSpacing.xl,
+                                  AppSpacing.xl + BottomBarSpace.of(context),
                                 ),
-                                child: _ProfileSections(),
+                                child: const _ProfileSections(),
                               ),
                             ],
                           ),
@@ -82,11 +83,12 @@ class ProfileScreen extends ConsumerWidget {
                       ],
                     )
                   : ListView(
-                      padding: const EdgeInsets.fromLTRB(
+                      padding: EdgeInsets.fromLTRB(
                         AppSpacing.gutter,
                         0,
                         AppSpacing.gutter,
-                        AppSpacing.xl,
+                        // Clear of the floating tab bar.
+                        AppSpacing.xl + BottomBarSpace.of(context),
                       ),
                       children: [
                         _AccountCard(account: account),

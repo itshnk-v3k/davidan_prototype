@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
@@ -7,16 +8,21 @@ import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_card.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/data/models/product.dart';
+import 'package:davidan_prototype/features/food/application/product_layout_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/connected_product_card.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// One row of products: a heading with "Vezi mai mult" (when there is a list
-/// to open), the site's blurb when there is one, and the products side by
-/// side, scrolling sideways. Cards are narrow enough that the next one peeks
-/// in at the edge, which is what tells people the row scrolls. With
-/// [seeAllLabel] the row ends in a tile that opens the whole list too.
-class ProductShelf extends StatelessWidget {
+/// to open), the site's blurb when there is one, and the products.
+///
+/// They follow the saved [ProductLayout]: with cards, side by side and
+/// scrolling sideways, narrow enough that the next one peeks in at the edge
+/// (which is what tells people the row scrolls), ending in a tile that opens
+/// the whole list when there's a [seeAllLabel]; as a list, the first
+/// [listPreview] products as wide rows, then that same link. A [featured] row
+/// always shows the bigger cards, sideways.
+class ProductShelf extends ConsumerWidget {
   const ProductShelf({
     super.key,
     required this.id,
@@ -26,6 +32,7 @@ class ProductShelf extends StatelessWidget {
     this.description,
     this.seeAllLabel,
     this.showBrand = false,
+    this.featured = false,
   }) : assert(
          seeAllLabel == null || onSeeAll != null,
          'The end tile needs onSeeAll',
@@ -45,6 +52,12 @@ class ProductShelf extends StatelessWidget {
   /// For a row mixing brands: see [ConnectedProductCard.showBrand].
   final bool showBrand;
 
+  /// The popular row: bigger cards with the photo first.
+  final bool featured;
+
+  /// How many products a row shows as a list.
+  static const listPreview = 3;
+
   /// Two cards and a peek of the third on a 400 px phone, wide enough for the
   /// price beside the stepper.
   static const cardWidth = 168.0;
@@ -53,7 +66,8 @@ class ProductShelf extends StatelessWidget {
   static const _shadowRoom = AppCard.shadowReach;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final layout = ref.watch(productLayoutProvider);
     final description = this.description;
     final seeAllLabel = this.seeAllLabel;
     final onSeeAll = this.onSeeAll;
@@ -115,32 +129,74 @@ class ProductShelf extends StatelessWidget {
             ),
           ),
         const SizedBox(height: AppSpacing.md - _titleRowGrowth / 2),
-        SizedBox(
-          height: ProductCard.heightFor(context, cardWidth) + _shadowRoom,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            // The cards' shadows reach past the row's ends.
-            clipBehavior: Clip.none,
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.gutter,
-              0,
-              AppSpacing.gutter,
-              _shadowRoom,
+        if (!featured && layout == ProductLayout.list)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                for (final (index, product)
+                    in products.take(listPreview).indexed) ...[
+                  if (index > 0) const SizedBox(height: AppSpacing.md),
+                  ConnectedProductCard(
+                    product: product,
+                    heroScope: id,
+                    showBrand: showBrand,
+                    style: ProductTileStyle.listTile,
+                  ),
+                ],
+                if (seeAllLabel != null && products.length > listPreview)
+                  Padding(
+                    padding: const EdgeInsets.only(top: AppSpacing.xs),
+                    child: TextButton(
+                      onPressed: onSeeAll,
+                      style: TextButton.styleFrom(
+                        foregroundColor: context.colors.primary,
+                        textStyle: context.textStyles.bodyStrong,
+                        minimumSize: const Size.fromHeight(TapTarget.min),
+                      ),
+                      child: Text(seeAllLabel),
+                    ),
+                  ),
+              ],
             ),
-            itemCount: products.length + (seeAllLabel == null ? 0 : 1),
-            separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.md),
-            itemBuilder: (context, index) => SizedBox(
-              width: cardWidth,
-              child: index < products.length
-                  ? ConnectedProductCard(
-                      product: products[index],
-                      heroScope: id,
-                      showBrand: showBrand,
-                    )
-                  : _SeeAllTile(label: seeAllLabel!, onTap: onSeeAll!),
+          )
+        else
+          SizedBox(
+            height:
+                (featured
+                    ? FeaturedProductCard.heightFor(context)
+                    : ProductCard.heightFor(context, cardWidth)) +
+                _shadowRoom,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              // The cards' shadows reach past the row's ends.
+              clipBehavior: Clip.none,
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.gutter,
+                0,
+                AppSpacing.gutter,
+                _shadowRoom,
+              ),
+              itemCount:
+                  products.length + (seeAllLabel == null || featured ? 0 : 1),
+              separatorBuilder: (_, _) =>
+                  SizedBox(width: featured ? AppSpacing.lg : AppSpacing.md),
+              itemBuilder: (context, index) => SizedBox(
+                width: featured ? FeaturedProductCard.width : cardWidth,
+                child: index < products.length
+                    ? ConnectedProductCard(
+                        product: products[index],
+                        heroScope: id,
+                        showBrand: showBrand,
+                        style: featured
+                            ? ProductTileStyle.featured
+                            : ProductTileStyle.card,
+                      )
+                    : _SeeAllTile(label: seeAllLabel!, onTap: onSeeAll!),
+              ),
             ),
           ),
-        ),
       ],
     );
   }

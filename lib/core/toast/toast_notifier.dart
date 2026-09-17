@@ -43,4 +43,10 @@ class ToastNotifier extends Notifier<Toast?> {
     state = Toast(id: _shown++, message: message, brand: brand);
     _timer = Timer(duration, () => state = null);
   }
+
+  /// Takes the toast away before its time, when it's swiped up.
+  void dismiss() {
+    _timer?.cancel();
+    state = null;
+  }
 }

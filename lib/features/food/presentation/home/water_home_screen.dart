@@ -11,6 +11,7 @@ import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/app_card.dart';
+import 'package:davidan_prototype/core/widgets/bottom_bar_space.dart';
 import 'package:davidan_prototype/core/widgets/brand_header_band.dart';
 import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/data/mock/water/water_catalog.dart';
@@ -49,7 +50,7 @@ class WaterHomeScreen extends ConsumerWidget {
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.gutter,
-              0,
+              AppSpacing.sm,
               AppSpacing.gutter,
               AppSpacing.md,
             ),
@@ -82,6 +83,7 @@ class WaterHomeScreen extends ConsumerWidget {
             ),
           ),
           ProductGrid(products: products, title: context.l10n.itemsTitle),
+          const SliverBottomBarSpace(),
         ],
       ),
     );

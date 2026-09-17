@@ -1229,4 +1229,44 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get showAsGrid => 'Arată ca grilă';
+
+  @override
+  String get moreCategories => 'Mai multe';
+
+  @override
+  String get allCategoriesTitle => 'Toate categoriile';
+
+  @override
+  String get filterByCategory => 'Filtrează după categorie';
+
+  @override
+  String clearCategoryFilter(String category) {
+    return 'Șterge filtrul $category';
+  }
+
+  @override
+  String placeholderGrams(int amount) {
+    return '${amount}g';
+  }
+
+  @override
+  String placeholderMillilitres(int amount) {
+    return '${amount}ml';
+  }
+
+  @override
+  String calories(int amount) {
+    return '$amount kcal';
+  }
+
+  @override
+  String get offersTitle => 'Oferte';
+
+  @override
+  String get specialDiscount => 'Reducere specială';
+
+  @override
+  String discountPercent(int percent) {
+    return '-$percent%';
+  }
 }

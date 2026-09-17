@@ -42,13 +42,7 @@ class ProductGrid extends ConsumerWidget {
 
     return SliverMainAxisGroup(
       slivers: [
-        SliverToBoxAdapter(
-          child: _Heading(
-            title: title,
-            layout: layout,
-            onToggle: () => ref.read(productLayoutProvider.notifier).toggle(),
-          ),
-        ),
+        SliverToBoxAdapter(child: _Heading(title: title)),
         SliverPadding(
           padding: const EdgeInsets.fromLTRB(
             AppSpacing.gutter,
@@ -82,7 +76,7 @@ class ProductGrid extends ConsumerWidget {
               itemBuilder: (context, index) => ConnectedProductCard(
                 product: products[index],
                 showBrand: showBrand,
-                listTile: true,
+                style: ProductTileStyle.listTile,
               ),
             ),
           },
@@ -93,22 +87,15 @@ class ProductGrid extends ConsumerWidget {
 }
 
 class _Heading extends StatelessWidget {
-  const _Heading({
-    required this.title,
-    required this.layout,
-    required this.onToggle,
-  });
+  const _Heading({required this.title});
 
   final String title;
-  final ProductLayout layout;
-  final VoidCallback onToggle;
 
   @override
   Widget build(BuildContext context) {
     // The button's clear margin takes the place of the padding beside it, so
     // its circle lines up with the cards' right edge.
-    const buttonSize = 36.0;
-    final margin = TapTarget.marginFor(buttonSize);
+    final margin = TapTarget.marginFor(ProductLayoutToggle.size);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
@@ -127,19 +114,33 @@ class _Heading extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          // Shows the layout a tap switches to.
-          AppIconButton(
-            icon: layout == ProductLayout.grid
-                ? PhosphorIconsRegular.rows
-                : PhosphorIconsRegular.squaresFour,
-            semanticLabel: layout == ProductLayout.grid
-                ? context.l10n.showAsList
-                : context.l10n.showAsGrid,
-            size: buttonSize,
-            onPressed: onToggle,
-          ),
+          const ProductLayoutToggle(),
         ],
       ),
+    );
+  }
+}
+
+/// The button that switches every product list between cards and wide rows:
+/// the one saved [ProductLayout], wherever it's tapped. It shows the layout a
+/// tap switches to.
+class ProductLayoutToggle extends ConsumerWidget {
+  const ProductLayoutToggle({super.key});
+
+  static const size = 36.0;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final layout = ref.watch(productLayoutProvider);
+    return AppIconButton(
+      icon: layout == ProductLayout.grid
+          ? PhosphorIconsRegular.rows
+          : PhosphorIconsRegular.squaresFour,
+      semanticLabel: layout == ProductLayout.grid
+          ? context.l10n.showAsList
+          : context.l10n.showAsGrid,
+      size: size,
+      onPressed: () => ref.read(productLayoutProvider.notifier).toggle(),
     );
   }
 }

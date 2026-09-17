@@ -7,6 +7,7 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
@@ -41,10 +42,10 @@ void main() {
     ),
   );
   Offset courier(WidgetTester tester) =>
-      centerOf(tester, Icons.delivery_dining_rounded);
+      centerOf(tester, PhosphorIconsFill.moped);
   Offset shop(WidgetTester tester) =>
-      centerOf(tester, Icons.storefront_rounded);
-  Offset customer(WidgetTester tester) => centerOf(tester, Icons.home_rounded);
+      centerOf(tester, PhosphorIconsFill.storefront);
+  Offset customer(WidgetTester tester) => centerOf(tester, PhosphorIconsFill.house);
 
   /// Moves the clock on, lets the map's once-a-second tick notice, and waits
   /// for the courier to finish gliding.

@@ -6,31 +6,46 @@ import 'package:davidan_prototype/data/models/rental_car.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/rental/application/rental_providers.dart';
 
-/// What was typed, and where: one brand's pages, or every brand (null) from
-/// the hub.
-typedef SearchQuery = ({Brand? brand, String text});
+/// One brand's category, chosen in search's filter.
+typedef CategoryFilter = ({Brand brand, String categoryId});
+
+/// What was typed, where (one brand's pages, or every brand (null) from the
+/// hub) and the [category] it's narrowed to, if any.
+typedef SearchQuery = ({Brand? brand, String text, CategoryFilter? category});
 
 /// The products and cars a [SearchQuery] finds, best matches first.
 typedef SearchResults = ({List<Product> products, List<RentalCar> cars});
 
 /// Searches the menus (and, from the hub or Rent Car, the fleet) in the app's
 /// language. Every word typed has to be found; a product whose name has them
-/// all comes before one found by its category or ingredients. Case and the
+/// all comes before one found by its category or ingredients. With a
+/// category, only its products, and all of them while nothing is typed. Case and the
 /// Romanian letters' marks don't matter, so "placinta" finds "Plăcintă".
 final searchResultsProvider = Provider.autoDispose
     .family<SearchResults, SearchQuery>((ref, query) {
       final words = searchWords(query.text);
-      if (words.isEmpty) return (products: const [], cars: const []);
+      final category = query.category;
+      if (words.isEmpty && category == null) {
+        return (products: const [], cars: const []);
+      }
       bool allIn(String text) => words.every(text.contains);
 
       final byName = <Product>[];
       final byOther = <Product>[];
-      for (final brand in query.brand == null ? Brand.values : [query.brand!]) {
+      final brands = category != null
+          ? [category.brand]
+          : query.brand == null
+          ? Brand.values
+          : [query.brand!];
+      for (final brand in brands) {
         final categoryNames = {
           for (final category in ref.watch(categoriesProvider(brand)))
             category.id: category.name,
         };
         for (final product in ref.watch(productsProvider(brand))) {
+          if (category != null && product.categoryId != category.categoryId) {
+            continue;
+          }
           if (allIn(searchable(product.name))) {
             byName.add(product);
           } else if (allIn(
@@ -44,7 +59,11 @@ final searchResultsProvider = Provider.autoDispose
         }
       }
 
-      final withCars = query.brand == null || query.brand == Brand.carRental;
+      // A category is a menu's, so the fleet only shows unfiltered.
+      final withCars =
+          category == null &&
+          words.isNotEmpty &&
+          (query.brand == null || query.brand == Brand.carRental);
       return (
         products: [...byName, ...byOther],
         cars: [

@@ -10,6 +10,7 @@ import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/app_card.dart';
+import 'package:davidan_prototype/core/widgets/bottom_bar_space.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/features/orders/application/customer_requests_provider.dart';
@@ -50,11 +51,12 @@ class NotificationsScreen extends ConsumerWidget {
                       message: context.l10n.notificationsEmptyMessage,
                     )
                   : ListView.separated(
-                      padding: const EdgeInsets.fromLTRB(
+                      padding: EdgeInsets.fromLTRB(
                         AppSpacing.gutter,
                         AppSpacing.xs,
                         AppSpacing.gutter,
-                        AppSpacing.xl,
+                        // Clear of the floating tab bar.
+                        AppSpacing.xl + BottomBarSpace.of(context),
                       ),
                       itemCount: updates.length,
                       separatorBuilder: (_, _) =>

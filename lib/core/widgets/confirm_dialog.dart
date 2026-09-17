@@ -19,7 +19,7 @@ Future<bool> showConfirmDialog(
 }) async {
   final theme = Theme.of(context);
   final confirmed = await showDialog<bool>(
-    context: _phoneNavigator(context).context,
+    context: phoneNavigatorOf(context).context,
     useRootNavigator: false,
     builder: (_) => Theme(
       data: theme,
@@ -35,9 +35,9 @@ Future<bool> showConfirmDialog(
 }
 
 /// The navigator right under the root one: PhoneFrame's. The tabs' own
-/// navigators sit below it, so a dialog opened on theirs would leave the tab
-/// bar uncovered.
-NavigatorState _phoneNavigator(BuildContext context) {
+/// navigators sit below it, so a dialog or sheet opened on theirs would leave
+/// the tab bar uncovered.
+NavigatorState phoneNavigatorOf(BuildContext context) {
   final root = Navigator.of(context, rootNavigator: true);
   var navigator = Navigator.of(context);
   while (true) {

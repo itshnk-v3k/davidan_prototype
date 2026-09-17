@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -9,8 +11,10 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/core/widgets/bottom_bar_space.dart';
 import 'package:davidan_prototype/core/widgets/search_bar_button.dart';
 import 'package:davidan_prototype/data/mock/mock_sectors.dart';
+import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/account/application/current_location_notifier.dart';
 import 'package:davidan_prototype/features/account/application/fulfilment_choice_notifier.dart';
@@ -20,6 +24,7 @@ import 'package:davidan_prototype/features/hub/presentation/widgets/active_order
 import 'package:davidan_prototype/features/hub/presentation/widgets/brand_bubbles.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/notifications_button.dart';
 import 'package:davidan_prototype/features/orders/application/customer_requests_provider.dart';
+import 'package:davidan_prototype/features/search/presentation/widgets/category_filter_sheet.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The Acasă tab: where orders go, the notifications and the way into every
@@ -97,6 +102,25 @@ class HubHomeScreen extends ConsumerWidget {
                 child: SearchBarButton(
                   hint: context.l10n.searchHubHint,
                   onTap: () => context.push(Routes.clientSearch),
+                  filterLabel: context.l10n.filterByCategory,
+                  onFilter: () async {
+                    final choice = await showCategoryFilterSheet(
+                      context,
+                      brands: Brand.values,
+                    );
+                    if (choice == null || !context.mounted) return;
+                    final category = choice.category;
+                    unawaited(
+                      context.push(
+                        category == null
+                            ? Routes.clientSearch
+                            : Routes.clientSearchIn(
+                                category.brand,
+                                category.categoryId,
+                              ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -116,6 +140,7 @@ class HubHomeScreen extends ConsumerWidget {
                 onOpen: (brand) => context.push(Routes.brandHome(brand)),
               ),
             ),
+            const SliverBottomBarSpace(),
           ],
         ),
       ),

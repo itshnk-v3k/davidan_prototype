@@ -2029,6 +2029,66 @@ abstract class AppLocalizations {
   /// In ro, this message translates to:
   /// **'Arată ca grilă'**
   String get showAsGrid;
+
+  /// The last tile of a brand home's category row, opening every category.
+  ///
+  /// In ro, this message translates to:
+  /// **'Mai multe'**
+  String get moreCategories;
+
+  /// The page with every category of a brand, and the filter's no-category choice.
+  ///
+  /// In ro, this message translates to:
+  /// **'Toate categoriile'**
+  String get allCategoriesTitle;
+
+  /// The filter button beside the search field.
+  ///
+  /// In ro, this message translates to:
+  /// **'Filtrează după categorie'**
+  String get filterByCategory;
+
+  /// The chip showing the chosen category in search, which clears it.
+  ///
+  /// In ro, this message translates to:
+  /// **'Șterge filtrul {category}'**
+  String clearCategoryFilter(String category);
+
+  /// An approximate weight on a product (placeholder data).
+  ///
+  /// In ro, this message translates to:
+  /// **'{amount}g'**
+  String placeholderGrams(int amount);
+
+  /// An approximate volume on a drink (placeholder data).
+  ///
+  /// In ro, this message translates to:
+  /// **'{amount}ml'**
+  String placeholderMillilitres(int amount);
+
+  /// Approximate calories on a product (placeholder data).
+  ///
+  /// In ro, this message translates to:
+  /// **'{amount} kcal'**
+  String calories(int amount);
+
+  /// The heading over a brand home's promo cards.
+  ///
+  /// In ro, this message translates to:
+  /// **'Oferte'**
+  String get offersTitle;
+
+  /// The line under a promo card's discount (demo content).
+  ///
+  /// In ro, this message translates to:
+  /// **'Reducere specială'**
+  String get specialDiscount;
+
+  /// A promo card's discount (demo content).
+  ///
+  /// In ro, this message translates to:
+  /// **'-{percent}%'**
+  String discountPercent(int percent);
 }
 
 class _AppLocalizationsDelegate

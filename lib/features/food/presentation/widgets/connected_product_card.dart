@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/toast/toast_notifier.dart';
+import 'package:davidan_prototype/data/mock/placeholder_nutrition.dart';
 import 'package:davidan_prototype/data/mock/placeholder_ratings.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
@@ -12,7 +13,7 @@ import 'package:davidan_prototype/features/food/presentation/widgets/product_car
 import 'package:davidan_prototype/l10n/app_language.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// A [ProductCard], or with [listTile] a [ProductListTile], wired to the cart
+/// A [ProductCard], [ProductListTile] or [FeaturedProductCard] ([style]), wired to the cart
 /// and favourites, the same way in the menu, the favourites, search and home's
 /// rows: it opens its product, adds to and removes from the cart, and saves or
 /// unsaves the product. It watches only its own product, so adding one
@@ -24,7 +25,7 @@ class ConnectedProductCard extends ConsumerWidget {
     required this.product,
     this.heroScope,
     this.showBrand = false,
-    this.listTile = false,
+    this.style = ProductTileStyle.card,
   });
 
   final Product product;
@@ -33,8 +34,7 @@ class ConnectedProductCard extends ConsumerWidget {
   final String? heroScope;
   final bool showBrand;
 
-  /// A wide row instead of a card.
-  final bool listTile;
+  final ProductTileStyle style;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -53,8 +53,10 @@ class ConnectedProductCard extends ConsumerWidget {
       favorite: favorite,
       heroScope: heroScope,
       brandName: showBrand ? context.content.introOf(brand).name : null,
-      // PLACEHOLDER, NOT REAL DATA: no reviews exist yet (see the file).
+      // PLACEHOLDERS, NOT REAL DATA: no reviews or nutrition facts exist yet
+      // (see both files).
       placeholderRating: placeholderRatingFor(product.key),
+      placeholderNutrition: placeholderNutritionFor(product),
       onTap: () =>
           context.push(Routes.brandProduct(product.key, heroScope: heroScope)),
       onAdd: () {
@@ -77,6 +79,14 @@ class ConnectedProductCard extends ConsumerWidget {
           ref.read(favoritesProvider.notifier).toggle(product.key),
     );
 
-    return listTile ? ProductListTile(data: data) : ProductCard(data: data);
+    return switch (style) {
+      ProductTileStyle.card => ProductCard(data: data),
+      ProductTileStyle.listTile => ProductListTile(data: data),
+      ProductTileStyle.featured => FeaturedProductCard(data: data),
+    };
   }
 }
+
+/// How a product is drawn: a card in a grid or row, a wide row in a list, or
+/// the popular row's big card.
+enum ProductTileStyle { card, listTile, featured }

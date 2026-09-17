@@ -14,12 +14,15 @@ import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/core/widgets/top_scrim.dart';
+import 'package:davidan_prototype/data/mock/placeholder_nutrition.dart';
+import 'package:davidan_prototype/data/mock/placeholder_ratings.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/food/application/favorites_notifier.dart';
 import 'package:davidan_prototype/features/food/application/product_quantity_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/favorite_toggle.dart';
+import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_image.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/quantity_stepper.dart';
 import 'package:davidan_prototype/l10n/app_language.dart';
@@ -183,22 +186,26 @@ class _ProductInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final description = product.description;
     final pieces = product.pieces;
-    final weight = product.weight;
-    final size = [
-      if (pieces != null) context.l10n.productPieces(pieces),
-      if (weight != null)
-        _isVolume(weight)
-            ? context.l10n.productVolume(weight)
-            : context.l10n.productWeight(weight),
-    ];
+    final size = [if (pieces != null) context.l10n.productPieces(pieces)];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(product.name, style: context.textStyles.headline),
         const SizedBox(height: AppSpacing.sm),
-        // The price, then how much is in the cart and the portion's size,
-        // wrapping under the price when they don't fit beside it.
+        // The same line as the product's card: rating, weight and calories.
+        // The rating and calories are PLACEHOLDERS, NOT REAL DATA (see
+        // placeholder_ratings.dart and placeholder_nutrition.dart), and so is
+        // the weight where the site gives none; the line isn't announced.
+        ProductMetaLine(
+          product: product,
+          placeholderRating: placeholderRatingFor(product.key),
+          placeholderNutrition: placeholderNutritionFor(product),
+          style: context.textStyles.bodySecondary,
+        ),
+        const SizedBox(height: AppSpacing.md),
+        // The price, then how much is in the cart and the pieces, wrapping
+        // under the price when they don't fit beside it.
         Wrap(
           spacing: AppSpacing.sm,
           runSpacing: AppSpacing.sm,
@@ -239,11 +246,6 @@ class _ProductInfo extends StatelessWidget {
     );
   }
 }
-
-/// Whether a product's size is a volume ("0,5L", "330ml", "330мл"), which
-/// reads "Volum", not "Masa".
-bool _isVolume(String size) =>
-    RegExp(r'(ml|l|мл|л)$', caseSensitive: false).hasMatch(size.trim());
 
 /// A small fact about the product next to its price, with an [icon] in the
 /// brand's colour when it has one.

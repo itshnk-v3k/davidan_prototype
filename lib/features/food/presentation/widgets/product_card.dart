@@ -8,6 +8,7 @@ import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/app_card.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/data/mock/placeholder_nutrition.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/favorite_toggle.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_image.dart';
@@ -27,6 +28,7 @@ class ProductTileData {
     this.heroScope,
     this.brandName,
     this.placeholderRating,
+    this.placeholderNutrition,
   });
 
   final Product product;
@@ -46,6 +48,10 @@ class ProductTileData {
   /// PLACEHOLDER, NOT A REAL RATING: see data/mock/placeholder_ratings.dart.
   /// Replace with the product's real average once reviews exist.
   final double? placeholderRating;
+
+  /// PLACEHOLDER, NOT REAL NUTRITION: approximate calories, and a weight for
+  /// products whose site gives none. See data/mock/placeholder_nutrition.dart.
+  final PlaceholderNutrition? placeholderNutrition;
 }
 
 /// Product card, lifted off the page by a soft shadow: photo with a favourite
@@ -163,7 +169,7 @@ class ProductCard extends StatelessWidget {
                   const SizedBox(height: AppSpacing.xxs),
                   Padding(
                     padding: const EdgeInsets.only(right: AppSpacing.md),
-                    child: ProductMetaLine(data: data),
+                    child: ProductMetaLine.of(data),
                   ),
                   const Spacer(),
                   ProductPriceRow(data: data),
@@ -177,56 +183,207 @@ class ProductCard extends StatelessWidget {
   }
 }
 
-/// The rating (a placeholder for now) and the portion, on one quiet line.
-/// Nothing at all when there is neither.
+/// The rating, the weight and the calories, on one quiet line: "★ 4,6 ·
+/// 250g · 320 kcal". The rating and calories are placeholders for now, and so
+/// is the weight where the brand's site gives none; the site's own weight is
+/// shown as it is. None of it is announced, so a screen reader never reads a
+/// placeholder as a fact.
 class ProductMetaLine extends StatelessWidget {
-  const ProductMetaLine({super.key, required this.data});
+  const ProductMetaLine({
+    super.key,
+    required this.product,
+    this.placeholderRating,
+    this.placeholderNutrition,
+    this.style,
+  });
+
+  /// The line for a card's or row's [data].
+  ProductMetaLine.of(ProductTileData data, {Key? key})
+    : this(
+        key: key,
+        product: data.product,
+        placeholderRating: data.placeholderRating,
+        placeholderNutrition: data.placeholderNutrition,
+      );
+
+  final Product product;
+
+  /// PLACEHOLDER, NOT A REAL RATING: see [ProductTileData.placeholderRating].
+  final double? placeholderRating;
+
+  /// PLACEHOLDER, NOT REAL NUTRITION: see
+  /// [ProductTileData.placeholderNutrition].
+  final PlaceholderNutrition? placeholderNutrition;
+
+  /// The caption style when null; the product page's is larger.
+  final TextStyle? style;
+
+  /// The weight to show: the site's own, else the placeholder's.
+  String? _weight(BuildContext context) {
+    final real = product.weight;
+    if (real != null) return real;
+    final nutrition = placeholderNutrition;
+    if (nutrition == null) return null;
+    return switch (nutrition.placeholderWeightUnit) {
+      PlaceholderWeightUnit.grams => context.l10n.placeholderGrams(
+        nutrition.placeholderWeight,
+      ),
+      PlaceholderWeightUnit.millilitres => context.l10n.placeholderMillilitres(
+        nutrition.placeholderWeight,
+      ),
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final rating = placeholderRating;
+    final calories = placeholderNutrition?.placeholderCalories;
+    final base = style ?? context.textStyles.caption;
+    final facts = [
+      ?_weight(context),
+      if (calories != null) context.l10n.calories(calories),
+    ].join(' · ');
+
+    return ExcludeSemantics(
+      child: Row(
+        children: [
+          if (rating != null) ...[
+            Icon(
+              PhosphorIconsFill.star,
+              size: (base.fontSize ?? 12) + 3,
+              color: context.colors.star,
+            ),
+            const SizedBox(width: AppSpacing.xxs),
+            Text(
+              rating.toStringAsFixed(1).replaceAll('.', ','),
+              style: base.copyWith(
+                color: context.colors.textPrimary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            if (facts.isNotEmpty) Text(' · ', style: base),
+          ],
+          if (facts.isNotEmpty)
+            Flexible(
+              child: Text(
+                facts,
+                style: base,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// The popular row's card: bigger, with the photo as the main thing, then the
+/// name, the rating line and the price with the add button.
+class FeaturedProductCard extends StatelessWidget {
+  const FeaturedProductCard({super.key, required this.data});
 
   final ProductTileData data;
+
+  static const width = 264.0;
+  static const photoAspectRatio = 4 / 3;
+
+  /// How tall the card is at the phone's text size; see
+  /// [ProductCard.heightFor].
+  static double heightFor(BuildContext context) {
+    final scaler = MediaQuery.textScalerOf(context);
+    final styles = context.textStyles;
+    double line(TextStyle style) =>
+        scaler.scale(style.fontSize!) * style.height!;
+    return width / photoAspectRatio +
+        AppSpacing.md +
+        line(_nameStyle(styles)) +
+        AppSpacing.xxs +
+        line(styles.caption) +
+        TapTarget.min +
+        AppSpacing.sm;
+  }
+
+  static TextStyle _nameStyle(AppTextStyles styles) =>
+      styles.subtitle.copyWith(fontWeight: FontWeight.w700);
 
   @override
   Widget build(BuildContext context) {
     final product = data.product;
-    final portion = [product.pieces, product.weight].nonNulls.join(' · ');
-    final rating = data.placeholderRating;
-    final caption = context.textStyles.caption;
+    const heartSize = 36.0;
+    const heartOffset = AppSpacing.md - (TapTarget.min - heartSize) / 2;
 
-    return Row(
-      children: [
-        if (rating != null) ...[
-          // Not announced: the number is a placeholder, not a real rating.
-          ExcludeSemantics(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+    return AppCard(
+      radius: AppRadii.xl,
+      onTap: data.onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AspectRatio(
+            aspectRatio: photoAspectRatio,
+            child: Stack(
+              fit: StackFit.expand,
               children: [
-                Icon(
-                  PhosphorIconsFill.star,
-                  size: 15,
-                  color: context.colors.star,
+                ProductImage(
+                  path: product.image,
+                  heroTag: ProductImage.heroTagFor(
+                    product.key,
+                    scope: data.heroScope,
+                  ),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(AppRadii.xl),
+                  ),
                 ),
-                const SizedBox(width: AppSpacing.xxs),
-                Text(
-                  rating.toStringAsFixed(1).replaceAll('.', ','),
-                  style: caption.copyWith(
-                    color: context.colors.textPrimary,
-                    fontWeight: FontWeight.w600,
+                Positioned(
+                  top: heartOffset,
+                  right: heartOffset,
+                  child: FavoriteToggle(
+                    productName: product.name,
+                    favorite: data.favorite,
+                    onToggle: data.onToggleFavorite,
+                    size: heartSize,
                   ),
                 ),
               ],
             ),
           ),
-          if (portion.isNotEmpty) Text('  ·  ', style: caption),
-        ],
-        if (portion.isNotEmpty)
-          Flexible(
-            child: Text(
-              portion,
-              style: caption,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: AppSpacing.lg,
+                top: AppSpacing.md,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: AppSpacing.lg),
+                      child: Text(
+                        product.name,
+                        style: _nameStyle(context.textStyles),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.xxs),
+                  Padding(
+                    padding: const EdgeInsets.only(right: AppSpacing.lg),
+                    child: ProductMetaLine.of(data),
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: AppSpacing.xs),
+                    child: ProductPriceRow(data: data),
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                ],
+              ),
             ),
           ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -382,7 +539,7 @@ class ProductListTile extends StatelessWidget {
                     const SizedBox(height: AppSpacing.xxs),
                     Padding(
                       padding: const EdgeInsets.only(right: AppSpacing.md),
-                      child: ProductMetaLine(data: data),
+                      child: ProductMetaLine.of(data),
                     ),
                     if (description != null) ...[
                       const SizedBox(height: AppSpacing.xs),

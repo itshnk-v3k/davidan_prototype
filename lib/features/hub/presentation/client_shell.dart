@@ -1,3 +1,5 @@
+import 'dart:ui' show ImageFilter;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -53,6 +55,9 @@ class ClientShell extends StatelessWidget {
     final router = GoRouter.of(context);
     return Scaffold(
       backgroundColor: context.colors.background,
+      // The screens run behind the floating bar, which blurs them; each leaves
+      // room for it at the end of its content (BottomBarSpace).
+      extendBody: true,
       body: navigationShell,
       // Inside a brand's pages the bar takes the brand's colour, so it rebuilds
       // as the open page changes, pushed pages included.
@@ -132,40 +137,72 @@ class _BottomNav extends ConsumerWidget {
     final colors = brand == null
         ? context.colors
         : BrandColors.of(brand, Theme.of(context).brightness);
+    const radius = BorderRadius.all(Radius.circular(_radius));
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: context.colors.surface,
-        border: Border(
-          top: brand == null
-              ? BorderSide(color: context.colors.border)
-              : BorderSide(color: colors.primary, width: 2),
-        ),
+    // Floats above the content, inset from the sides and above the phone's own
+    // gesture area, on a frosted, translucent surface.
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        0,
+        AppSpacing.lg,
+        AppSpacing.md + MediaQuery.paddingOf(context).bottom,
       ),
-      child: SafeArea(
-        top: false,
-        child: SizedBox(
-          height: 64,
-          child: Row(
-            children: [
-              for (final (index, item) in items.indexed)
-                Expanded(
-                  child: _NavItem(
-                    icon: index == currentIndex ? item.selectedIcon : item.icon,
-                    label: item.label,
-                    badgeCount: index == _favoritesIndex ? favoriteCount : 0,
-                    selected: index == currentIndex,
-                    selectedColor: colors.primary,
-                    indicatorColor: colors.accentSoft,
-                    onTap: () => onTap(index),
-                  ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: radius,
+          boxShadow: [
+            BoxShadow(
+              color: context.colors.cardShadow,
+              blurRadius: 28,
+              spreadRadius: -4,
+              offset: const Offset(0, 10),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: radius,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: context.colors.surface.withValues(alpha: 0.82),
+                borderRadius: radius,
+                border: Border.all(
+                  color: context.colors.border.withValues(alpha: 0.6),
                 ),
-            ],
+              ),
+              child: SizedBox(
+                height: 64,
+                child: Row(
+                  children: [
+                    for (final (index, item) in items.indexed)
+                      Expanded(
+                        child: _NavItem(
+                          icon: index == currentIndex
+                              ? item.selectedIcon
+                              : item.icon,
+                          label: item.label,
+                          badgeCount: index == _favoritesIndex
+                              ? favoriteCount
+                              : 0,
+                          selected: index == currentIndex,
+                          selectedColor: colors.primary,
+                          indicatorColor: colors.accentSoft,
+                          onTap: () => onTap(index),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ),
     );
   }
+
+  static const _radius = 24.0;
 }
 
 class _NavItem extends StatelessWidget {

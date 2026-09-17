@@ -1249,5 +1249,70 @@
   "showAsGrid": "Arată ca grilă",
   "@showAsGrid": {
     "description": "The button over a product list that switches it to two columns of cards."
+  },
+  "moreCategories": "Mai multe",
+  "@moreCategories": {
+    "description": "The last tile of a brand home's category row, opening every category."
+  },
+  "allCategoriesTitle": "Toate categoriile",
+  "@allCategoriesTitle": {
+    "description": "The page with every category of a brand, and the filter's no-category choice."
+  },
+  "filterByCategory": "Filtrează după categorie",
+  "@filterByCategory": {
+    "description": "The filter button beside the search field."
+  },
+  "clearCategoryFilter": "Șterge filtrul {category}",
+  "@clearCategoryFilter": {
+    "description": "The chip showing the chosen category in search, which clears it.",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "placeholderGrams": "{amount}g",
+  "@placeholderGrams": {
+    "description": "An approximate weight on a product (placeholder data).",
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+  "placeholderMillilitres": "{amount}ml",
+  "@placeholderMillilitres": {
+    "description": "An approximate volume on a drink (placeholder data).",
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+  "calories": "{amount} kcal",
+  "@calories": {
+    "description": "Approximate calories on a product (placeholder data).",
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+  "offersTitle": "Oferte",
+  "@offersTitle": {
+    "description": "The heading over a brand home's promo cards."
+  },
+  "specialDiscount": "Reducere specială",
+  "@specialDiscount": {
+    "description": "The line under a promo card's discount (demo content)."
+  },
+  "discountPercent": "-{percent}%",
+  "@discountPercent": {
+    "description": "A promo card's discount (demo content).",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
   }
 }

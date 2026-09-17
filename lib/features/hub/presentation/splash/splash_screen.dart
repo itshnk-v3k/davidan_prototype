@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui' show ImageFilter;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -16,8 +17,8 @@ import 'package:davidan_prototype/features/account/application/account_notifier.
 import 'package:davidan_prototype/features/account/application/fulfilment_choice_notifier.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// Branded screen the customer app opens on: the logo and tagline on a card
-/// over a photo of DaviDan pastries. After [holdDuration] it moves on:
+/// Branded screen the customer app opens on: the logo and tagline on a soft
+/// card over a gently blurred, lightly dimmed photo of DaviDan pastries. After [holdDuration] it moves on:
 /// to the demo sign-in until the customer signs in or skips it, then to the
 /// location screen while nothing is chosen, otherwise home.
 class SplashScreen extends ConsumerStatefulWidget {
@@ -59,6 +60,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return Scaffold(
       // Dark like the photo in either theme, so it doesn't flash while the
       // photo decodes.
@@ -66,61 +68,105 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            AppAssets.splashBackground,
-            fit: BoxFit.cover,
-            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) =>
-                wasSynchronouslyLoaded
-                ? child
-                : AnimatedOpacity(
-                    opacity: frame == null ? 0 : 1,
-                    duration: AppMotion.of(context, AppMotion.medium),
-                    curve: AppMotion.standard,
-                    child: child,
-                  ),
+          // Softly out of focus, so the pastries set the mood without
+          // competing with the card.
+          ImageFiltered(
+            imageFilter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+            child: Transform.scale(
+              // Keeps the blur's soft edge off the screen.
+              scale: 1.06,
+              child: Image.asset(
+                AppAssets.splashBackground,
+                fit: BoxFit.cover,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) =>
+                    wasSynchronouslyLoaded
+                    ? child
+                    : AnimatedOpacity(
+                        opacity: frame == null ? 0 : 1,
+                        duration: AppMotion.of(context, AppMotion.medium),
+                        curve: AppMotion.standard,
+                        child: child,
+                      ),
+              ),
+            ),
           ),
-          // Tones the busy photo down so the card reads as the focus.
-          DecoratedBox(
+          // A light, even dim with a little more at the bottom: the photo
+          // stays bright and warm, and the card still reads first.
+          const DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  context.colors.scrim.withValues(alpha: 0.35),
-                  context.colors.scrim,
+                  Color(0x26000000),
+                  Color(0x33000000),
+                  Color(0x66000000),
                 ],
+                stops: [0, 0.55, 1],
               ),
             ),
           ),
           SafeArea(
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.xl),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: context.colors.surface,
-                    borderRadius: BorderRadius.circular(AppRadii.xl),
-                    boxShadow: [
-                      BoxShadow(
-                        color: context.colors.shadow,
-                        blurRadius: 24,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppSpacing.xl),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const BrandLogo(height: 48),
-                        const SizedBox(height: AppSpacing.lg),
-                        Text(
-                          context.content.text(BrandFacts.tagline),
-                          style: context.textStyles.bodySecondary,
-                          textAlign: TextAlign.center,
+                padding: const EdgeInsets.all(AppSpacing.xxl),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 320),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: colors.surface,
+                      borderRadius: BorderRadius.circular(28),
+                      border: colors.cardOutline.a == 0
+                          ? null
+                          : Border.all(color: colors.cardOutline),
+                      boxShadow: const [
+                        // Soft and wide: the card rests on the photo.
+                        BoxShadow(
+                          color: Color(0x33000000),
+                          blurRadius: 48,
+                          spreadRadius: -8,
+                          offset: Offset(0, 20),
+                        ),
+                        BoxShadow(
+                          color: Color(0x14000000),
+                          blurRadius: 4,
+                          offset: Offset(0, 1),
                         ),
                       ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                        AppSpacing.xl + AppSpacing.xs,
+                        AppSpacing.xxl + AppSpacing.xs,
+                        AppSpacing.xl + AppSpacing.xs,
+                        AppSpacing.xl + AppSpacing.xs,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const BrandLogo(height: 44),
+                          const SizedBox(height: AppSpacing.lg),
+                          Container(
+                            width: 32,
+                            height: 3,
+                            decoration: BoxDecoration(
+                              color: colors.accent,
+                              borderRadius: BorderRadius.circular(
+                                AppRadii.pill,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.lg),
+                          Text(
+                            context.content.text(BrandFacts.tagline),
+                            style: context.textStyles.bodySecondary.copyWith(
+                              fontSize: 15,
+                              height: 1.45,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

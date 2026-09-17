@@ -5,6 +5,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
+import 'package:davidan_prototype/core/widgets/bottom_bar_space.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/features/food/application/favorites_notifier.dart';
@@ -50,6 +51,7 @@ class FavoritesScreen extends ConsumerWidget {
                           title: context.l10n.productCount(products.length),
                           showBrand: true,
                         ),
+                        const SliverBottomBarSpace(),
                       ],
                     ),
             ),

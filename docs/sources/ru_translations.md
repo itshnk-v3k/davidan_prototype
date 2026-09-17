@@ -338,6 +338,16 @@ Collected and written 2026-09-16.
 | notificationsEmptyMessage | Aici apar noutățile despre comenzile și cererile tale. | Здесь появятся новости о твоих заказах и заявках. |
 | showAsList | Arată ca listă | Показать списком |
 | showAsGrid | Arată ca grilă | Показать плиткой |
+| moreCategories | Mai multe | Ещё |
+| allCategoriesTitle | Toate categoriile | Все категории |
+| filterByCategory | Filtrează după categorie | Фильтр по категории |
+| clearCategoryFilter | Șterge filtrul {category} | Сбросить фильтр «{category}» |
+| placeholderGrams | {amount}g | {amount}г |
+| placeholderMillilitres | {amount}ml | {amount}мл |
+| calories | {amount} kcal | {amount} ккал |
+| offersTitle | Oferte | Акции |
+| specialDiscount | Reducere specială | Специальная скидка |
+| discountPercent | -{percent}% | -{percent}% |
 
 ## Brands, pages and shops: lib/data/mock/ru/brands_ru.dart
 

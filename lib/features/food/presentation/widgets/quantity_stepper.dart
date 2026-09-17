@@ -5,13 +5,12 @@ import 'package:material_ui/material_ui.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
-import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 
-/// Round icon button: solid caramel when [filled] ("add"), a caramel tint
-/// otherwise ("remove"). It ticks on phones that support haptics. A null
-/// [onTap] renders it disabled. It looks [size] big
+/// Add/remove button, a softly rounded square: solid caramel when [filled]
+/// ("add"), a caramel tint otherwise ("remove"). It ticks on phones that
+/// support haptics. A null [onTap] renders it disabled. It looks [size] big
 /// and takes taps in [TapTarget.min].
 class RoundIconButton extends StatelessWidget {
   const RoundIconButton({
@@ -28,6 +27,9 @@ class RoundIconButton extends StatelessWidget {
   final VoidCallback? onTap;
   final bool filled;
   final double size;
+
+  /// Moderately rounded: soft, but clearly a square.
+  static double cornerRadiusFor(double size) => size * 0.3;
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +64,11 @@ class RoundIconButton extends StatelessWidget {
                     HapticFeedback.selectionClick();
                     onTap();
                   },
-            // The ripple fills the visible circle only.
+            // The ripple fills the visible square only.
             radius: size / 2,
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(cornerRadiusFor(size)),
+            ),
             child: SizedBox.square(
               dimension: math.max(size, TapTarget.min),
               child: Center(
@@ -73,7 +78,11 @@ class RoundIconButton extends StatelessWidget {
                   height: size,
                   decoration: ShapeDecoration(
                     color: background,
-                    shape: const CircleBorder(),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        cornerRadiusFor(size),
+                      ),
+                    ),
                     shadows: filled && enabled
                         ? [
                             BoxShadow(
@@ -95,7 +104,7 @@ class RoundIconButton extends StatelessWidget {
   }
 }
 
-/// "− quantity +" in one pill: both buttons sit inset in a muted track, the
+/// "− quantity +" in one rounded track: both buttons sit inset in it, the
 /// minus on a caramel tint and the plus in solid caramel. A null
 /// [onDecrement] disables the minus button.
 class QuantityStepper extends StatelessWidget {
@@ -175,7 +184,10 @@ class QuantityStepper extends StatelessWidget {
             height: buttonSize + 2 * inset,
             decoration: BoxDecoration(
               color: paletteFor(context.colors).track,
-              borderRadius: BorderRadius.circular(AppRadii.pill),
+              // The buttons' corners, plus the inset around them.
+              borderRadius: BorderRadius.circular(
+                RoundIconButton.cornerRadiusFor(buttonSize) + inset,
+              ),
               boxShadow: raised
                   ? [
                       BoxShadow(

@@ -10,6 +10,7 @@ import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/app_chip.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/core/widgets/bottom_bar_space.dart';
 import 'package:davidan_prototype/core/widgets/brand_header_band.dart';
 import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
@@ -68,7 +69,7 @@ class _RentalHomeScreenState extends ConsumerState<RentalHomeScreen> {
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.gutter,
-              0,
+              AppSpacing.sm,
               AppSpacing.gutter,
               AppSpacing.xl,
             ),
@@ -115,6 +116,7 @@ class _RentalHomeScreenState extends ConsumerState<RentalHomeScreen> {
               ],
             ),
           ),
+          const SliverBottomBarSpace(),
         ],
       ),
     );

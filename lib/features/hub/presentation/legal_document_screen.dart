@@ -4,6 +4,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
+import 'package:davidan_prototype/core/widgets/bottom_bar_space.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/legal_text.dart';
@@ -43,11 +44,12 @@ class LegalDocumentScreen extends StatelessWidget {
             ScreenHeader(title: document.title, onBack: () => context.pop()),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.fromLTRB(
+                padding: EdgeInsets.fromLTRB(
                   AppSpacing.gutter,
                   0,
                   AppSpacing.gutter,
-                  AppSpacing.xl,
+                  // Clear of the floating tab bar.
+                  AppSpacing.xl + BottomBarSpace.of(context),
                 ),
                 children: [
                   // The sites' legal pages exist only in Romanian.

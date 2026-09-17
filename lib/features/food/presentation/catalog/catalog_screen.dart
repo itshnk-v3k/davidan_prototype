@@ -7,6 +7,7 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_chip.dart';
+import 'package:davidan_prototype/core/widgets/bottom_bar_space.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
@@ -86,6 +87,7 @@ class CatalogScreen extends ConsumerWidget {
                           products: products,
                           title: context.l10n.productCount(products.length),
                         ),
+                        const SliverBottomBarSpace(),
                       ],
                     ),
             ),

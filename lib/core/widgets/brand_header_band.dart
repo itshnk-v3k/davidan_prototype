@@ -40,8 +40,9 @@ class BrandHeaderBand extends StatelessWidget {
   /// The button row's height under the status bar.
   static const rowHeight = TapTarget.min + 2 * AppSpacing.sm;
 
-  /// How far below the button row the colour fades out.
-  static const fadeHeight = AppSpacing.xl;
+  /// How far below the button row the colour fades out: a short, soft edge
+  /// that stays within the header, not a shadow cast on the page.
+  static const fadeHeight = AppSpacing.sm + AppSpacing.xxs;
 
   /// The white logo each brand shows on its colour.
   static String logoOf(Brand brand) => switch (brand) {
@@ -97,7 +98,7 @@ class BrandHeaderBand extends StatelessWidget {
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
-                              colors: [Color(0x40000000), Color(0x00000000)],
+                              colors: [Color(0x1F000000), Color(0x00000000)],
                             ),
                           ),
                         ),

@@ -1239,4 +1239,44 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get showAsGrid => 'Показать плиткой';
+
+  @override
+  String get moreCategories => 'Ещё';
+
+  @override
+  String get allCategoriesTitle => 'Все категории';
+
+  @override
+  String get filterByCategory => 'Фильтр по категории';
+
+  @override
+  String clearCategoryFilter(String category) {
+    return 'Сбросить фильтр «$category»';
+  }
+
+  @override
+  String placeholderGrams(int amount) {
+    return '$amountг';
+  }
+
+  @override
+  String placeholderMillilitres(int amount) {
+    return '$amountмл';
+  }
+
+  @override
+  String calories(int amount) {
+    return '$amount ккал';
+  }
+
+  @override
+  String get offersTitle => 'Акции';
+
+  @override
+  String get specialDiscount => 'Специальная скидка';
+
+  @override
+  String discountPercent(int percent) {
+    return '-$percent%';
+  }
 }
