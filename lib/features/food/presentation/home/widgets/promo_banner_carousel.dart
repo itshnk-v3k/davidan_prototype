@@ -5,7 +5,9 @@ import 'package:material_ui/material_ui.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/widgets/app_card.dart';
 import 'package:davidan_prototype/data/models/promo_banner.dart';
+import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Banner slides that advance on their own every few seconds and can still be
 /// swiped. A swipe restarts the wait. With reduced motion on, they only move
@@ -19,6 +21,9 @@ class PromoBannerCarousel extends StatefulWidget {
 
   final List<PromoBanner> banners;
   final ValueChanged<PromoBanner> onBannerTap;
+
+  /// Room for a two-line headline, the site's line and the button.
+  static const height = 212.0;
 
   @override
   State<PromoBannerCarousel> createState() => _PromoBannerCarouselState();
@@ -70,7 +75,7 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
     final banners = widget.banners;
 
     return SizedBox(
-      height: 172,
+      height: PromoBannerCarousel.height,
       // A swipe by hand restarts the wait before the next slide.
       child: NotificationListener<ScrollStartNotification>(
         onNotification: (notification) {
@@ -79,6 +84,8 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
         },
         child: PageView.builder(
           controller: _controller,
+          // The slides' shadows reach past the row.
+          clipBehavior: Clip.none,
           itemCount: banners.length,
           itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
@@ -93,6 +100,10 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
   }
 }
 
+/// A slide as an advert: the photo, darkened from the lower left where the
+/// text sits, the headline large and bold, the site's line under it, and a
+/// button-like "Comandă acum" in the brand's colour. The whole slide opens
+/// its category; the button only says so.
 class _BannerSlide extends StatelessWidget {
   const _BannerSlide({required this.banner, required this.onTap});
 
@@ -101,60 +112,111 @@ class _BannerSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     final title = banner.title;
     final subtitle = banner.subtitle;
 
-    return Material(
-      borderRadius: BorderRadius.circular(AppRadii.lg),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Image.asset(banner.image, fit: BoxFit.cover),
-            if (title != null) ...[
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      context.colors.scrim.withValues(alpha: 0),
-                      context.colors.scrim,
-                    ],
-                    stops: const [0.3, 1],
-                  ),
+    return AppCard(
+      onTap: onTap,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(banner.image, fit: BoxFit.cover),
+          if (title != null) ...[
+            // Dark under the text from below and from the left, clear towards
+            // the top right, where the photo shows as it is.
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [colors.scrim, colors.scrim.withValues(alpha: 0)],
+                  stops: const [0, 0.85],
                 ),
               ),
-              Positioned(
-                left: AppSpacing.lg,
-                right: AppSpacing.lg,
-                bottom: AppSpacing.lg,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: context.textStyles.title.copyWith(
-                        color: context.colors.onImage,
-                      ),
-                    ),
-                    if (subtitle != null) ...[
-                      const SizedBox(height: AppSpacing.xxs),
-                      Text(
-                        subtitle,
-                        style: context.textStyles.body.copyWith(
-                          color: context.colors.onImageSecondary,
-                        ),
-                      ),
-                    ],
+            ),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    colors.scrim.withValues(alpha: colors.scrim.a * 0.7),
+                    colors.scrim.withValues(alpha: 0),
                   ],
+                  stops: const [0, 0.75],
                 ),
               ),
-            ],
+            ),
+            Positioned(
+              left: AppSpacing.lg,
+              right: AppSpacing.xl,
+              bottom: AppSpacing.lg,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: context.textStyles.title.copyWith(
+                      fontSize: 22,
+                      height: 1.15,
+                      letterSpacing: -0.2,
+                      color: colors.onImage,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (subtitle != null) ...[
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      subtitle,
+                      style: context.textStyles.caption.copyWith(
+                        fontSize: 13,
+                        color: colors.onImageSecondary,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                  const SizedBox(height: AppSpacing.md),
+                  _CallToAction(label: context.l10n.bannerCta),
+                ],
+              ),
+            ),
           ],
-        ),
+        ],
+      ),
+    );
+  }
+}
+
+/// The slide's button look: a pill in the brand's colour with an arrow.
+class _CallToAction extends StatelessWidget {
+  const _CallToAction({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return Container(
+      height: 36,
+      padding: const EdgeInsets.only(left: AppSpacing.lg, right: AppSpacing.md),
+      decoration: BoxDecoration(
+        color: colors.primary,
+        borderRadius: BorderRadius.circular(AppRadii.pill),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            style: context.textStyles.button.copyWith(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(width: AppSpacing.xs),
+          Icon(Icons.arrow_forward_rounded, size: 18, color: colors.onPrimary),
+        ],
       ),
     );
   }

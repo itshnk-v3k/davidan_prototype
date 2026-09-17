@@ -3,9 +3,11 @@ import 'package:material_ui/material_ui.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/widgets/app_card.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/connected_product_card.dart';
+import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// One row of products: a heading with "Vezi mai mult" (when there is a list
@@ -44,7 +46,9 @@ class ProductShelf extends StatelessWidget {
 
   /// Two cards and a peek of the third on a 400 px phone.
   static const cardWidth = 152.0;
-  static const cardHeight = 256.0;
+
+  /// Below the cards, for their shadows.
+  static const _shadowRoom = AppSpacing.md;
 
   @override
   Widget build(BuildContext context) {
@@ -110,10 +114,17 @@ class ProductShelf extends StatelessWidget {
           ),
         const SizedBox(height: AppSpacing.md - _titleRowGrowth / 2),
         SizedBox(
-          height: cardHeight,
+          height: ProductCard.heightFor(context, cardWidth) + _shadowRoom,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
+            // The cards' shadows reach past the row's ends.
+            clipBehavior: Clip.none,
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.gutter,
+              0,
+              AppSpacing.gutter,
+              _shadowRoom,
+            ),
             itemCount: products.length + (seeAllLabel == null ? 0 : 1),
             separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.md),
             itemBuilder: (context, index) => SizedBox(
@@ -145,42 +156,34 @@ class _SeeAllTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: context.colors.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadii.lg),
-        side: BorderSide(color: context.colors.border),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.lg),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: context.colors.accentSoft,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.arrow_forward_rounded,
-                  color: context.colors.primary,
-                ),
+    return AppCard(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: context.colors.accentSoft,
+                shape: BoxShape.circle,
               ),
-              const SizedBox(height: AppSpacing.md),
-              Text(
-                label,
-                style: context.textStyles.bodyStrong,
-                textAlign: TextAlign.center,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
+              child: Icon(
+                Icons.arrow_forward_rounded,
+                color: context.colors.primary,
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              label,
+              style: context.textStyles.bodyStrong,
+              textAlign: TextAlign.center,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       ),
     );

@@ -9,10 +9,11 @@ import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/brand_intro.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// The service selector: every brand as a full-width card, one under the
-/// other in the client's order ([Brand]'s), each on its own surface (colours
-/// and texture) with its logo in white and its name. Tapping a card opens the
-/// brand. A brand that isn't open in the app yet says so on its card.
+/// The service selector: the brands as a grid of tiles, two to a row in the
+/// client's order ([Brand]'s), the last one full width when the count is odd.
+/// Each tile is the brand's own surface (colours and texture) with its logo
+/// in white and its name, and opens the brand. A brand that isn't open in the
+/// app yet says so on its tile.
 class BrandBubbles extends StatelessWidget {
   const BrandBubbles({super.key, required this.onOpen});
 
@@ -20,22 +21,33 @@ class BrandBubbles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const brands = Brand.values;
+    Widget tile(Brand brand) => _BrandTile(
+      brand: brand,
+      intro: context.content.introOf(brand),
+      onTap: () => onOpen(brand),
+    );
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
-        AppSpacing.xs,
+        0,
         AppSpacing.gutter,
         AppSpacing.xl,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          for (final (index, brand) in Brand.values.indexed) ...[
+          for (var index = 0; index < brands.length; index += 2) ...[
             if (index > 0) const SizedBox(height: AppSpacing.md),
-            _BrandCard(
-              brand: brand,
-              intro: context.content.introOf(brand),
-              onTap: () => onOpen(brand),
+            Row(
+              children: [
+                Expanded(child: tile(brands[index])),
+                if (index + 1 < brands.length) ...[
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(child: tile(brands[index + 1])),
+                ],
+              ],
             ),
           ],
         ],
@@ -44,8 +56,8 @@ class BrandBubbles extends StatelessWidget {
   }
 }
 
-class _BrandCard extends StatelessWidget {
-  const _BrandCard({
+class _BrandTile extends StatelessWidget {
+  const _BrandTile({
     required this.brand,
     required this.intro,
     required this.onTap,
@@ -55,19 +67,20 @@ class _BrandCard extends StatelessWidget {
   final BrandIntro intro;
   final VoidCallback onTap;
 
-  static const _height = 116.0;
-  static const _radius = AppRadii.md;
+  static const _height = 136.0;
+  static const _radius = AppRadii.lg;
 
-  /// Every logo sits in a slot this tall, so the names line up card to card.
-  static const _logoSlot = 44.0;
+  /// Every logo sits in a slot this tall, so the names line up tile to tile.
+  static const _logoSlot = 40.0;
 
   /// Each logo's size, tuned by eye so they carry the same visual weight: the
-  /// wide wordmarks by width, the compact marks by height.
+  /// wide wordmarks by width, the compact marks by height. A tile narrower
+  /// than a wordmark shrinks it to fit.
   static Size _logoSize(Brand brand) => switch (brand) {
-    Brand.restaurant || Brand.bakery => const Size(132, 24),
-    Brand.sushi => const Size(124, 32),
-    Brand.water => const Size(68, 40),
-    Brand.carRental => const Size(44, 44),
+    Brand.restaurant || Brand.bakery => const Size(120, 22),
+    Brand.sushi => const Size(112, 29),
+    Brand.water => const Size(62, 36),
+    Brand.carRental => const Size(40, 40),
   };
 
   @override
@@ -88,17 +101,16 @@ class _BrandCard extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: colors.shadow,
-              blurRadius: 10,
+              blurRadius: 12,
               offset: const Offset(0, 4),
             ),
           ],
         ),
-        // A hairline a shade lighter than the card's own colours defines its
-        // edge.
-        position: DecorationPosition.background,
         child: ClipRRect(
           borderRadius: shape,
           child: DecoratedBox(
+            // A hairline a shade lighter than the tile's own colours defines
+            // its edge.
             position: DecorationPosition.foreground,
             decoration: BoxDecoration(
               borderRadius: shape,
@@ -114,32 +126,29 @@ class _BrandCard extends StatelessWidget {
                   child: InkWell(
                     onTap: onTap,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.lg + AppSpacing.xs,
-                      ),
-                      child: Row(
+                      padding: const EdgeInsets.all(AppSpacing.lg),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: _logoSlot,
-                                  child: Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Image.asset(
-                                      BrandHeaderBand.logoOf(brand),
-                                      width: logo.width,
-                                      height: logo.height,
-                                      fit: BoxFit.contain,
-                                      alignment: Alignment.bottomLeft,
-                                      excludeFromSemantics: true,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: AppSpacing.sm),
-                                Text(
+                          SizedBox(
+                            height: _logoSlot,
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Image.asset(
+                                BrandHeaderBand.logoOf(brand),
+                                width: logo.width,
+                                height: logo.height,
+                                fit: BoxFit.contain,
+                                alignment: Alignment.bottomLeft,
+                                excludeFromSemantics: true,
+                              ),
+                            ),
+                          ),
+                          const Spacer(),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
                                   intro.name,
                                   style: context.textStyles.subtitle.copyWith(
                                     color: Colors.white,
@@ -149,14 +158,19 @@ class _BrandCard extends StatelessWidget {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
+                              ),
+                              if (!intro.comingSoon) ...[
+                                const SizedBox(width: AppSpacing.sm),
+                                const _OpenArrow(),
                               ],
-                            ),
+                            ],
                           ),
-                          const SizedBox(width: AppSpacing.md),
-                          if (intro.comingSoon)
-                            _ComingSoonPill(label: context.l10n.comingSoonTitle)
-                          else
-                            const _OpenArrow(),
+                          if (intro.comingSoon) ...[
+                            const SizedBox(height: AppSpacing.xs),
+                            _ComingSoonPill(
+                              label: context.l10n.comingSoonTitle,
+                            ),
+                          ],
                         ],
                       ),
                     ),
@@ -175,15 +189,15 @@ class _BrandCard extends StatelessWidget {
 const _frostFill = Color(0x26FFFFFF);
 const _frostBorder = Color(0x4DFFFFFF);
 
-/// A frosted circle with an arrow: the card opens the brand.
+/// A frosted circle with an arrow: the tile opens the brand.
 class _OpenArrow extends StatelessWidget {
   const _OpenArrow();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 36,
-      height: 36,
+      width: 28,
+      height: 28,
       decoration: BoxDecoration(
         color: _frostFill,
         shape: BoxShape.circle,
@@ -192,13 +206,13 @@ class _OpenArrow extends StatelessWidget {
       child: const Icon(
         Icons.arrow_forward_rounded,
         color: Colors.white,
-        size: 20,
+        size: 16,
       ),
     );
   }
 }
 
-/// "În curând" on a brand's card, as tall as the arrow on the others.
+/// "În curând" on a brand's tile, under its name.
 class _ComingSoonPill extends StatelessWidget {
   const _ComingSoonPill({required this.label});
 
@@ -207,8 +221,8 @@ class _ComingSoonPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 36,
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      height: 24,
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: _frostFill,

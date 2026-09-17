@@ -1164,4 +1164,73 @@ class AppLocalizationsRu extends AppLocalizations {
   String amountToCollect(String total, String paymentMethod) {
     return '$total · $paymentMethod';
   }
+
+  @override
+  String get bannerCta => 'Заказать';
+
+  @override
+  String get searchHubHint => 'Поиск по DaviDan';
+
+  @override
+  String get searchMenuHint => 'Поиск по меню';
+
+  @override
+  String get searchClear => 'Очистить';
+
+  @override
+  String get searchPromptTitle => 'Что ищешь?';
+
+  @override
+  String get searchPromptHub =>
+      'Напиши название товара, ингредиент или марку автомобиля.';
+
+  @override
+  String get searchPromptMenu => 'Напиши название товара или ингредиент.';
+
+  @override
+  String get searchNoResultsTitle => 'Ничего не найдено';
+
+  @override
+  String searchNoResultsMessage(String query) {
+    return 'По запросу «$query» ничего не нашлось. Попробуй другое слово.';
+  }
+
+  @override
+  String searchProductsTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count товара',
+      many: '$count товаров',
+      few: '$count товара',
+      one: '$count товар',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String searchCarsTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count автомобиля',
+      many: '$count автомобилей',
+      few: '$count автомобиля',
+      one: '$count автомобиль',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get openNotifications => 'Открыть уведомления';
+
+  @override
+  String get notificationsTitle => 'Уведомления';
+
+  @override
+  String get notificationsEmptyTitle => 'Уведомлений пока нет';
+
+  @override
+  String get notificationsEmptyMessage =>
+      'Здесь появятся новости о твоих заказах и заявках.';
 }

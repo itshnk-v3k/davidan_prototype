@@ -1927,6 +1927,96 @@ abstract class AppLocalizations {
   /// In ro, this message translates to:
   /// **'{total} · {paymentMethod}'**
   String amountToCollect(String total, String paymentMethod);
+
+  /// A banner's button: the banner opens its category.
+  ///
+  /// In ro, this message translates to:
+  /// **'Comandă acum'**
+  String get bannerCta;
+
+  /// The search field on the hub: every brand's menu and the Rent Car fleet.
+  ///
+  /// In ro, this message translates to:
+  /// **'Caută în DaviDan'**
+  String get searchHubHint;
+
+  /// The search field on a brand's home: that brand's menu.
+  ///
+  /// In ro, this message translates to:
+  /// **'Caută în meniu'**
+  String get searchMenuHint;
+
+  /// The search field's clear button.
+  ///
+  /// In ro, this message translates to:
+  /// **'Șterge textul'**
+  String get searchClear;
+
+  /// The search page before anything is typed.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ce cauți?'**
+  String get searchPromptTitle;
+
+  /// What the hub's search finds.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scrie numele unui produs, un ingredient sau marca unei mașini.'**
+  String get searchPromptHub;
+
+  /// What a brand's menu search finds.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scrie numele unui produs sau un ingredient.'**
+  String get searchPromptMenu;
+
+  /// The search page when nothing matches.
+  ///
+  /// In ro, this message translates to:
+  /// **'Nimic găsit'**
+  String get searchNoResultsTitle;
+
+  /// The search page when nothing matches what was typed.
+  ///
+  /// In ro, this message translates to:
+  /// **'Nu am găsit nimic pentru „{query}”. Încearcă alt cuvânt.'**
+  String searchNoResultsMessage(String query);
+
+  /// The heading over the products search found.
+  ///
+  /// In ro, this message translates to:
+  /// **'{count, plural, one{{count} produs} few{{count} produse} other{{count} de produse}}'**
+  String searchProductsTitle(int count);
+
+  /// The heading over the rental cars search found.
+  ///
+  /// In ro, this message translates to:
+  /// **'{count, plural, one{{count} mașină} few{{count} mașini} other{{count} de mașini}}'**
+  String searchCarsTitle(int count);
+
+  /// The bell's label for screen readers.
+  ///
+  /// In ro, this message translates to:
+  /// **'Deschide notificările'**
+  String get openNotifications;
+
+  /// The bell's page.
+  ///
+  /// In ro, this message translates to:
+  /// **'Notificări'**
+  String get notificationsTitle;
+
+  /// The bell's page before any order or request.
+  ///
+  /// In ro, this message translates to:
+  /// **'Nicio notificare'**
+  String get notificationsEmptyTitle;
+
+  /// The bell's page before any order or request.
+  ///
+  /// In ro, this message translates to:
+  /// **'Aici apar noutățile despre comenzile și cererile tale.'**
+  String get notificationsEmptyMessage;
 }
 
 class _AppLocalizationsDelegate

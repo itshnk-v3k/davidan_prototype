@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -11,6 +12,7 @@ import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/info_note.dart';
+import 'package:davidan_prototype/core/widgets/top_scrim.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
@@ -63,55 +65,74 @@ class ProductDetailScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: context.colors.background,
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Stack(
-              children: [
-                AspectRatio(
-                  aspectRatio: 1,
-                  child: ProductImage(
-                    path: product.image,
-                    heroTag: ProductImage.heroTagFor(
-                      productKey,
-                      scope: heroScope,
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        // The theme's status bar icons once the photo has scrolled away.
+        value: Theme.of(context).brightness == Brightness.dark
+            ? SystemUiOverlayStyle.light
+            : SystemUiOverlayStyle.dark,
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              // Light status bar icons on the photo's dark top fade.
+              child: AnnotatedRegion<SystemUiOverlayStyle>(
+                value: SystemUiOverlayStyle.light,
+                child: Stack(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 1,
+                      child: ProductImage(
+                        path: product.image,
+                        heroTag: ProductImage.heroTagFor(
+                          productKey,
+                          scope: heroScope,
+                        ),
+                      ),
                     ),
-                  ),
+                    // Keeps the status bar readable over a light photo.
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: TopScrim.heightOf(context),
+                      child: const TopScrim(),
+                    ),
+                    Positioned(
+                      top: buttonsTop,
+                      left: AppSpacing.gutter - margin,
+                      child: AppIconButton(
+                        icon: Icons.arrow_back_rounded,
+                        semanticLabel: context.l10n.back,
+                        onPressed: goBack,
+                      ),
+                    ),
+                    Positioned(
+                      top: buttonsTop,
+                      right: AppSpacing.gutter - margin,
+                      child: FavoriteToggle(
+                        productName: product.name,
+                        favorite: favorite,
+                        onToggle: () => ref
+                            .read(favoritesProvider.notifier)
+                            .toggle(productKey),
+                      ),
+                    ),
+                  ],
                 ),
-                Positioned(
-                  top: buttonsTop,
-                  left: AppSpacing.gutter - margin,
-                  child: AppIconButton(
-                    icon: Icons.arrow_back_rounded,
-                    semanticLabel: context.l10n.back,
-                    onPressed: goBack,
-                  ),
-                ),
-                Positioned(
-                  top: buttonsTop,
-                  right: AppSpacing.gutter - margin,
-                  child: FavoriteToggle(
-                    productName: product.name,
-                    favorite: favorite,
-                    onToggle: () =>
-                        ref.read(favoritesProvider.notifier).toggle(productKey),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.gutter,
-              AppSpacing.xl,
-              AppSpacing.gutter,
-              AppSpacing.xxl,
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.gutter,
+                AppSpacing.xl,
+                AppSpacing.gutter,
+                AppSpacing.xxl,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: _ProductInfo(product: product, inCartCount: inCart),
+              ),
             ),
-            sliver: SliverToBoxAdapter(
-              child: _ProductInfo(product: product, inCartCount: inCart),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: _AddToCartBar(
         quantity: quantity,

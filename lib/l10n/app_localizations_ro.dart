@@ -1156,4 +1156,71 @@ class AppLocalizationsRo extends AppLocalizations {
   String amountToCollect(String total, String paymentMethod) {
     return '$total · $paymentMethod';
   }
+
+  @override
+  String get bannerCta => 'Comandă acum';
+
+  @override
+  String get searchHubHint => 'Caută în DaviDan';
+
+  @override
+  String get searchMenuHint => 'Caută în meniu';
+
+  @override
+  String get searchClear => 'Șterge textul';
+
+  @override
+  String get searchPromptTitle => 'Ce cauți?';
+
+  @override
+  String get searchPromptHub =>
+      'Scrie numele unui produs, un ingredient sau marca unei mașini.';
+
+  @override
+  String get searchPromptMenu => 'Scrie numele unui produs sau un ingredient.';
+
+  @override
+  String get searchNoResultsTitle => 'Nimic găsit';
+
+  @override
+  String searchNoResultsMessage(String query) {
+    return 'Nu am găsit nimic pentru „$query”. Încearcă alt cuvânt.';
+  }
+
+  @override
+  String searchProductsTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de produse',
+      few: '$count produse',
+      one: '$count produs',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String searchCarsTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de mașini',
+      few: '$count mașini',
+      one: '$count mașină',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get openNotifications => 'Deschide notificările';
+
+  @override
+  String get notificationsTitle => 'Notificări';
+
+  @override
+  String get notificationsEmptyTitle => 'Nicio notificare';
+
+  @override
+  String get notificationsEmptyMessage =>
+      'Aici apar noutățile despre comenzile și cererile tale.';
 }

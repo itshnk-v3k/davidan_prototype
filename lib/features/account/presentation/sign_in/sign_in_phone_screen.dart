@@ -77,7 +77,7 @@ class SignInPhoneScreen extends ConsumerWidget {
                       labelText: context.l10n.phoneLabel,
                       hintText: context.l10n.phoneHint,
                       prefixText: '${MoldovanPhone.prefix} ',
-                      prefixIcon: const Icon(Icons.phone_iphone_rounded),
+                      prefixIcon: const Icon(Icons.smartphone_rounded),
                       errorText: draft.showPhoneError && !draft.phoneValid
                           ? context.l10n.phoneInvalid
                           : null,

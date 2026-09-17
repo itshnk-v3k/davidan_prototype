@@ -18,8 +18,8 @@ abstract final class TapTarget {
   static double marginFor(double size) => math.max(0, (min - size) / 2);
 }
 
-/// The look of the [AppIconButton]s below it: a brand-colour header gives its
-/// buttons a frosted white circle and white icons.
+/// The look of the [AppIconButton]s below it: a brand's header gives its
+/// buttons plain white icons over its dark top fade.
 class AppIconButtonStyle extends InheritedWidget {
   const AppIconButtonStyle({
     super.key,
@@ -29,11 +29,12 @@ class AppIconButtonStyle extends InheritedWidget {
     required super.child,
   });
 
-  /// Translucent white on a brand's colour.
-  const AppIconButtonStyle.frosted({super.key, required super.child})
-    : fill = const Color(0x2EFFFFFF),
+  /// White icons with no circle, over a TopScrim: the fade keeps them
+  /// readable, and the ripple still shows the circle when tapped.
+  const AppIconButtonStyle.overlay({super.key, required super.child})
+    : fill = const Color(0x00FFFFFF),
       icon = const Color(0xFFFFFFFF),
-      border = const Color(0x40FFFFFF);
+      border = null;
 
   final Color fill;
   final Color icon;

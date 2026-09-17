@@ -39,6 +39,8 @@ import 'package:davidan_prototype/features/rental/presentation/car_detail_screen
 import 'package:davidan_prototype/features/rental/presentation/rental_booking_screen.dart';
 import 'package:davidan_prototype/features/rental/presentation/rental_home_screen.dart';
 import 'package:davidan_prototype/features/rental/presentation/rental_request_screen.dart';
+import 'package:davidan_prototype/features/orders/presentation/notifications_screen.dart';
+import 'package:davidan_prototype/features/search/presentation/search_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final extraApps = ref.watch(extraAppsProvider);
@@ -125,6 +127,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     path: Routes.clientHome,
                     builder: (_, _) => const HubHomeScreen(),
                     routes: [
+                      // Pushed by the hub's search field and its bell.
+                      GoRoute(
+                        path: 'search',
+                        builder: (_, _) => const SearchScreen(),
+                      ),
+                      GoRoute(
+                        path: 'notifications',
+                        builder: (_, _) => const NotificationsScreen(),
+                      ),
                       // A brand's browse screens, above the hub and under the
                       // bottom bar, pushed from its bubble on the hub. Its
                       // screens push the ones below, so back returns to the
@@ -172,6 +183,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                           ),
                           // Pushed by the brand home's info button.
                           _brandInfoRoute('info', tab: Routes.clientHome),
+                          // Pushed by the brand home's search field.
+                          GoRoute(
+                            path: 'search',
+                            builder: (_, state) => _branded(
+                              state,
+                              SearchScreen(brand: _brandIn(state)),
+                            ),
+                          ),
                         ],
                       ),
                     ],

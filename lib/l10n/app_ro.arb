@@ -1166,5 +1166,80 @@
         "type": "String"
       }
     }
+  },
+  "bannerCta": "Comandă acum",
+  "@bannerCta": {
+    "description": "A banner's button: the banner opens its category."
+  },
+  "searchHubHint": "Caută în DaviDan",
+  "@searchHubHint": {
+    "description": "The search field on the hub: every brand's menu and the Rent Car fleet."
+  },
+  "searchMenuHint": "Caută în meniu",
+  "@searchMenuHint": {
+    "description": "The search field on a brand's home: that brand's menu."
+  },
+  "searchClear": "Șterge textul",
+  "@searchClear": {
+    "description": "The search field's clear button."
+  },
+  "searchPromptTitle": "Ce cauți?",
+  "@searchPromptTitle": {
+    "description": "The search page before anything is typed."
+  },
+  "searchPromptHub": "Scrie numele unui produs, un ingredient sau marca unei mașini.",
+  "@searchPromptHub": {
+    "description": "What the hub's search finds."
+  },
+  "searchPromptMenu": "Scrie numele unui produs sau un ingredient.",
+  "@searchPromptMenu": {
+    "description": "What a brand's menu search finds."
+  },
+  "searchNoResultsTitle": "Nimic găsit",
+  "@searchNoResultsTitle": {
+    "description": "The search page when nothing matches."
+  },
+  "searchNoResultsMessage": "Nu am găsit nimic pentru „{query}”. Încearcă alt cuvânt.",
+  "@searchNoResultsMessage": {
+    "description": "The search page when nothing matches what was typed.",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchProductsTitle": "{count, plural, one{{count} produs} few{{count} produse} other{{count} de produse}}",
+  "@searchProductsTitle": {
+    "description": "The heading over the products search found.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchCarsTitle": "{count, plural, one{{count} mașină} few{{count} mașini} other{{count} de mașini}}",
+  "@searchCarsTitle": {
+    "description": "The heading over the rental cars search found.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "openNotifications": "Deschide notificările",
+  "@openNotifications": {
+    "description": "The bell's label for screen readers."
+  },
+  "notificationsTitle": "Notificări",
+  "@notificationsTitle": {
+    "description": "The bell's page."
+  },
+  "notificationsEmptyTitle": "Nicio notificare",
+  "@notificationsEmptyTitle": {
+    "description": "The bell's page before any order or request."
+  },
+  "notificationsEmptyMessage": "Aici apar noutățile despre comenzile și cererile tale.",
+  "@notificationsEmptyMessage": {
+    "description": "The bell's page before any order or request."
   }
 }

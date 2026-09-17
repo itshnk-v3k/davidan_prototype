@@ -103,4 +103,14 @@ abstract final class AppPalette {
   static const charcoal70 = Color(0xB3242430);
   static const charcoal16 = Color(0x29242430);
   static const black40 = Color(0x66000000);
+
+  /// A card's wide soft shadow on light surfaces.
+  static const charcoal12 = Color(0x1F242430);
+
+  /// A card's tight contact shadow on light surfaces.
+  static const charcoal06 = Color(0x0F242430);
+
+  /// The top edge of a brand's header, behind the status bar and buttons.
+  static const black45 = Color(0x73000000);
+  static const clear = Color(0x00000000);
 }

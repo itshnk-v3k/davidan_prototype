@@ -30,6 +30,10 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.scrim,
     required this.desktopBackdrop,
     required this.shadow,
+    required this.cardOutline,
+    required this.cardShadow,
+    required this.cardShadowContact,
+    required this.edgeScrim,
   });
 
   static const dark = AppColors(
@@ -54,6 +58,12 @@ class AppColors extends ThemeExtension<AppColors> {
     scrim: AppPalette.charcoal70,
     desktopBackdrop: AppPalette.ink700,
     shadow: AppPalette.black40,
+    // A shadow doesn't show on a dark background: cards stand apart by their
+    // lighter tone and an outline, as Material 3 does.
+    cardOutline: AppPalette.ink800,
+    cardShadow: AppPalette.clear,
+    cardShadowContact: AppPalette.clear,
+    edgeScrim: AppPalette.black45,
   );
 
   static const light = AppColors(
@@ -78,6 +88,10 @@ class AppColors extends ThemeExtension<AppColors> {
     scrim: AppPalette.charcoal70,
     desktopBackdrop: AppPalette.sand,
     shadow: AppPalette.charcoal16,
+    cardOutline: AppPalette.clear,
+    cardShadow: AppPalette.charcoal12,
+    cardShadowContact: AppPalette.charcoal06,
+    edgeScrim: AppPalette.black45,
   );
 
   // Brand
@@ -137,6 +151,18 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color desktopBackdrop;
   final Color shadow;
 
+  // Cards (AppCard)
+  /// A card's edge: none on light, where its shadow lifts it.
+  final Color cardOutline;
+
+  /// A card's wide soft shadow and its tight contact shadow; clear on dark.
+  final Color cardShadow;
+  final Color cardShadowContact;
+
+  /// The dark fade at the top of a brand's header, behind the status bar and
+  /// the buttons (TopScrim), the same in both themes.
+  final Color edgeScrim;
+
   @override
   AppColors copyWith({
     Color? primary,
@@ -160,6 +186,10 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? scrim,
     Color? desktopBackdrop,
     Color? shadow,
+    Color? cardOutline,
+    Color? cardShadow,
+    Color? cardShadowContact,
+    Color? edgeScrim,
   }) => AppColors(
     primary: primary ?? this.primary,
     onPrimary: onPrimary ?? this.onPrimary,
@@ -182,6 +212,10 @@ class AppColors extends ThemeExtension<AppColors> {
     scrim: scrim ?? this.scrim,
     desktopBackdrop: desktopBackdrop ?? this.desktopBackdrop,
     shadow: shadow ?? this.shadow,
+    cardOutline: cardOutline ?? this.cardOutline,
+    cardShadow: cardShadow ?? this.cardShadow,
+    cardShadowContact: cardShadowContact ?? this.cardShadowContact,
+    edgeScrim: edgeScrim ?? this.edgeScrim,
   );
 
   /// Blends the two sets while MaterialApp animates a theme change.
@@ -211,6 +245,10 @@ class AppColors extends ThemeExtension<AppColors> {
       scrim: mix(scrim, other.scrim),
       desktopBackdrop: mix(desktopBackdrop, other.desktopBackdrop),
       shadow: mix(shadow, other.shadow),
+      cardOutline: mix(cardOutline, other.cardOutline),
+      cardShadow: mix(cardShadow, other.cardShadow),
+      cardShadowContact: mix(cardShadowContact, other.cardShadowContact),
+      edgeScrim: mix(edgeScrim, other.edgeScrim),
     );
   }
 }

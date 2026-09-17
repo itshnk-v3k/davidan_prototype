@@ -107,7 +107,7 @@ class _MapPickerScreenState extends ConsumerState<MapPickerScreen> {
                   ),
                   const SizedBox(height: AppSpacing.lg - AppChip.tapMargin),
                   DetailRow(
-                    icon: Icons.place_rounded,
+                    icon: Icons.location_on_rounded,
                     label: context.l10n.chosenPoint,
                     value:
                         '${context.l10n.areaName(sectorAt(_point))} · '

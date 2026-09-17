@@ -30,6 +30,12 @@ abstract final class Routes {
     path: clientOrders,
     queryParameters: {'brand': brand.name},
   ).toString();
+
+  /// Search across every brand, and the latest news of the customer's orders
+  /// and requests: browse screens inside Acasă.
+  static const clientSearch = '$clientHome/search';
+  static const clientNotifications = '$clientHome/notifications';
+
   static const clientFavorites = '/client/favorites';
   static const clientProfile = '/client/profile';
   static String clientOrder(String orderId) => '$clientOrders/$orderId';
@@ -51,6 +57,9 @@ abstract final class Routes {
   // (test/core/router/go_router_tabs_test.dart).
   static const brandParam = 'brand';
   static String brandHome(Brand brand) => '$clientHome/b/${brand.name}';
+
+  /// Search in the brand's menu.
+  static String brandSearch(Brand brand) => '${brandHome(brand)}/search';
 
   /// The brand's menu at [categoryId], or at its first category.
   static String brandMenu(Brand brand, {String? categoryId}) => Uri(

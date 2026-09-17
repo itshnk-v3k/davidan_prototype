@@ -5,6 +5,7 @@ import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
+import 'package:davidan_prototype/core/widgets/app_card.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/favorite_toggle.dart';
@@ -12,9 +13,12 @@ import 'package:davidan_prototype/features/food/presentation/widgets/product_ima
 import 'package:davidan_prototype/features/food/presentation/widgets/quantity_stepper.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// Product card: photo with a favourite heart and, in its lower corner, an add
-/// button that turns into a quantity stepper once the product is in the cart;
-/// then the name and the price. Over the photo, the stepper never has to share
+/// Product card, lifted off the page by a soft shadow: photo with a favourite
+/// heart and, in its lower corner, an add button that turns into a quantity
+/// stepper once the product is in the cart; then the name, the portion (pieces
+/// and weight, when the brand's site gives them) and the price. No rating: no
+/// DaviDan site collects any, and a card never shows a number it doesn't have.
+/// Over the photo, the stepper never has to share
 /// the narrow card's width with the price. Tapping anywhere else on the card
 /// opens the product; the photo flies to the product page. Shown outside its
 /// brand (the hub, favourites), the card names its brand on the photo, since
@@ -47,6 +51,38 @@ class ProductCard extends StatelessWidget {
   /// The brand's name, on the photo; null inside the brand's own pages.
   final String? brandName;
 
+  /// The photo's width to its height.
+  static const photoAspectRatio = 1.15;
+
+  static const _textPadding = EdgeInsets.fromLTRB(
+    AppSpacing.md,
+    AppSpacing.sm,
+    AppSpacing.md,
+    AppSpacing.md,
+  );
+  static const _portionGap = AppSpacing.xxs;
+  static const _priceGap = AppSpacing.sm;
+
+  /// How tall a card [width] wide has to be at the phone's text size: the
+  /// photo, two lines of name, the portion and the price. Rows and grids size
+  /// their cards with it, so a long name (a Russian one especially) or large
+  /// text never pushes the price out of the card.
+  static double heightFor(BuildContext context, double width) {
+    final scaler = MediaQuery.textScalerOf(context);
+    final styles = context.textStyles;
+    double line(TextStyle style) =>
+        scaler.scale(style.fontSize!) * style.height!;
+    return width / photoAspectRatio +
+        _textPadding.vertical +
+        2 * line(styles.bodyStrong) +
+        _portionGap +
+        line(styles.caption) +
+        _priceGap +
+        line(styles.price) +
+        // Rounding in the text layout.
+        AppSpacing.xxs;
+  }
+
   @override
   Widget build(BuildContext context) {
     // Both sit at the right edge, so the stepper's plus is exactly where the
@@ -71,97 +107,96 @@ class ProductCard extends StatelessWidget {
     const controlSize = 32.0;
     const controlOffset = photoInset - (TapTarget.min - controlSize) / 2;
 
-    return Material(
-      color: context.colors.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadii.lg),
-        side: BorderSide(color: context.colors.border),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            AspectRatio(
-              aspectRatio: 1.15,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  ProductImage(
-                    path: product.image,
-                    heroTag: ProductImage.heroTagFor(
-                      product.key,
-                      scope: heroScope,
-                    ),
-                    // The card's own top corners.
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(AppRadii.lg),
-                    ),
+    final portion = [product.pieces, product.weight].nonNulls.join(' · ');
+
+    return AppCard(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AspectRatio(
+            aspectRatio: photoAspectRatio,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                ProductImage(
+                  path: product.image,
+                  heroTag: ProductImage.heroTagFor(
+                    product.key,
+                    scope: heroScope,
                   ),
-                  if (brandName case final brandName?)
-                    Positioned(
-                      top: AppSpacing.sm,
-                      left: AppSpacing.sm,
-                      // Leaves room for the heart.
-                      right: photoInset + controlSize + AppSpacing.xs,
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: _BrandTag(
-                          name: brandName,
-                          color: BrandColors.of(
-                            product.key.brand,
-                            Theme.of(context).brightness,
-                          ).primary,
-                        ),
+                  // The card's own top corners.
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(AppRadii.lg),
+                  ),
+                ),
+                if (brandName case final brandName?)
+                  Positioned(
+                    top: AppSpacing.sm,
+                    left: AppSpacing.sm,
+                    // Leaves room for the heart.
+                    right: photoInset + controlSize + AppSpacing.xs,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: _BrandTag(
+                        name: brandName,
+                        color: BrandColors.of(
+                          product.key.brand,
+                          Theme.of(context).brightness,
+                        ).primary,
                       ),
                     ),
-                  Positioned(
-                    top: controlOffset,
-                    right: controlOffset,
-                    child: FavoriteToggle(
-                      productName: product.name,
-                      favorite: favorite,
-                      onToggle: onToggleFavorite,
-                      size: controlSize,
-                    ),
                   ),
-                  Positioned(
-                    right: controlOffset,
-                    bottom: controlOffset,
-                    child: cartControl,
+                Positioned(
+                  top: controlOffset,
+                  right: controlOffset,
+                  child: FavoriteToggle(
+                    productName: product.name,
+                    favorite: favorite,
+                    onToggle: onToggleFavorite,
+                    size: controlSize,
+                  ),
+                ),
+                Positioned(
+                  right: controlOffset,
+                  bottom: controlOffset,
+                  child: cartControl,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: _textPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    product.name,
+                    style: context.textStyles.bodyStrong,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (portion.isNotEmpty) ...[
+                    const SizedBox(height: _portionGap),
+                    Text(
+                      portion,
+                      style: context.textStyles.caption,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                  const Spacer(),
+                  Text(
+                    context.l10n.formatLei(product.priceBani),
+                    style: context.textStyles.price,
+                    maxLines: 1,
                   ),
                 ],
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  AppSpacing.md,
-                  AppSpacing.sm,
-                  AppSpacing.sm,
-                  AppSpacing.sm,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      product.name,
-                      style: context.textStyles.bodyStrong,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const Spacer(),
-                    Text(
-                      context.l10n.formatLei(product.priceBani),
-                      style: context.textStyles.price,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

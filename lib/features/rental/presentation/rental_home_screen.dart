@@ -11,17 +11,16 @@ import 'package:davidan_prototype/core/widgets/app_chip.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/brand_header_band.dart';
 import 'package:davidan_prototype/core/widgets/info_note.dart';
-import 'package:davidan_prototype/core/widgets/photo_hero.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/mock/rental/rental_cars.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/rental_car.dart';
 import 'package:davidan_prototype/features/rental/application/rental_providers.dart';
-import 'package:davidan_prototype/features/rental/presentation/car_detail_screen.dart';
+import 'package:davidan_prototype/features/rental/presentation/widgets/rental_car_grid.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// DaviDan Rent Car, full screen above the hub: its homepage's line, how its
-/// prices work, and every car of the fleet, each opening its page. A rental
+/// DaviDan Rent Car, inside Acasă: its homepage's line, how its prices work,
+/// and every car of the fleet two to a row, each opening its page. A rental
 /// is a request the company confirms by phone, not a cart, so there is no
 /// cart button.
 class RentalHomeScreen extends ConsumerStatefulWidget {
@@ -50,30 +49,29 @@ class _RentalHomeScreenState extends ConsumerState<RentalHomeScreen> {
 
     return Scaffold(
       backgroundColor: context.colors.background,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+      body: CustomScrollView(
+        slivers: [
           BrandHeaderBand(
             brand: Brand.carRental,
             title: RentalPage.title,
             onBack: () => context.pop(),
             actions: [
               AppIconButton(
-                icon: Icons.info_outline_rounded,
+                icon: Icons.info_rounded,
                 semanticLabel: context.l10n.openBrandInfo(info.name),
                 onPressed: () =>
                     context.push(Routes.brandInfo(Brand.carRental)),
               ),
             ],
           ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.gutter,
-                0,
-                AppSpacing.gutter,
-                AppSpacing.xl,
-              ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.gutter,
+              AppSpacing.lg,
+              AppSpacing.gutter,
+              AppSpacing.xl,
+            ),
+            sliver: SliverList.list(
               children: [
                 Text(
                   context.content.text(RentalPage.line),
@@ -108,112 +106,15 @@ class _RentalHomeScreenState extends ConsumerState<RentalHomeScreen> {
                     ],
                   ),
                 ),
-                for (final car in cars)
-                  Padding(
-                    key: ValueKey(car.id),
-                    padding: const EdgeInsets.only(top: AppSpacing.lg),
-                    child: _CarCard(
-                      car: car,
-                      onTap: () => context.push(Routes.rentalCar(car.id)),
-                    ),
-                  ),
+                const SizedBox(height: AppSpacing.lg),
+                RentalCarGrid(
+                  cars: cars,
+                  onOpen: (car) => context.push(Routes.rentalCar(car.id)),
+                ),
               ],
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// A car's photo, name and main specs, its lowest price per day and, so the
-/// listing doesn't only show the cheapest number, its price for 1–3 days.
-class _CarCard extends StatelessWidget {
-  const _CarCard({required this.car, required this.onTap});
-
-  final RentalCar car;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    const shortest = RentalTier.days1to3;
-
-    return Material(
-      color: context.colors.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadii.lg),
-        side: BorderSide(color: context.colors.border),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            AspectRatio(
-              aspectRatio: 3 / 2,
-              // The one square photo keeps the car, low in the frame.
-              child: PhotoHero(
-                tag: CarDetailScreen.heroTagFor(car.id),
-                // The card's own top corners.
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(AppRadii.lg),
-                ),
-                child: Image.asset(
-                  car.image,
-                  fit: BoxFit.cover,
-                  alignment: const Alignment(0, 0.5),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          car.name,
-                          style: context.textStyles.subtitle,
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.md),
-                      Text(
-                        l10n.rentalPriceFrom(
-                          l10n.formatEuro(car.lowestDayRateEur),
-                        ),
-                        style: context.textStyles.price,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: AppSpacing.xxs),
-                  Text(
-                    [
-                      '${car.year}',
-                      car.gearbox,
-                      car.fuel,
-                      l10n.rentalSeats(car.passengers),
-                    ].join(' · '),
-                    style: context.textStyles.caption,
-                  ),
-                  const SizedBox(height: AppSpacing.xxs),
-                  Text(
-                    l10n.rentalPriceForTier(
-                      l10n.formatEuro(car.dayRatesEur[shortest]!),
-                      l10n.rentalTier(shortest),
-                    ),
-                    style: context.textStyles.caption,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

@@ -160,7 +160,7 @@ class RentalRequestScreen extends ConsumerWidget {
                             labelText: l10n.phoneLabel,
                             hintText: l10n.phoneHint,
                             prefixText: '${MoldovanPhone.prefix} ',
-                            prefixIcon: const Icon(Icons.phone_iphone_rounded),
+                            prefixIcon: const Icon(Icons.smartphone_rounded),
                             errorText: draft.showErrors && !draft.phoneValid
                                 ? l10n.phoneInvalid
                                 : null,
