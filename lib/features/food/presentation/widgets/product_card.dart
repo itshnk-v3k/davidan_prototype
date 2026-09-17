@@ -401,14 +401,27 @@ class ProductMetaLine extends StatelessWidget {
 }
 
 /// The popular row's card: bigger, with the photo as the main thing, then the
-/// name, the rating line and the price with the add button.
+/// name, the rating line and the price with the add button. Its photo is a
+/// framed panel rather than a crop bleeding off the card: the shot sits whole
+/// inside it, with a margin all the way round.
 class FeaturedProductCard extends StatelessWidget {
   const FeaturedProductCard({super.key, required this.data});
 
   final ProductTileData data;
 
   static const width = 228.0;
+
+  /// The panel's width to its height, matching the shape almost every product
+  /// photo is shot in, so a photo fills it with no bands to either side.
   static const photoAspectRatio = 1.5;
+
+  /// The margin between the photo panel and the card's left, top and right
+  /// edges. Below it, [_textPadding]'s top leaves the same room before the
+  /// name.
+  static const _photoInset = AppSpacing.sm;
+
+  /// The panel's corners, a little tighter than the card's own.
+  static const _photoRadius = AppRadii.sm;
 
   /// Its text block's insets, as [ProductCard._textPadding] is the small
   /// card's.
@@ -439,7 +452,8 @@ class FeaturedProductCard extends StatelessWidget {
       min: 1,
       max: maxNameLines,
     );
-    return width / photoAspectRatio +
+    return (width - 2 * _photoInset) / photoAspectRatio +
+        _photoInset +
         _textPadding.vertical +
         nameLines * line(_nameStyle(styles)) +
         AppSpacing.xxs +
@@ -463,32 +477,41 @@ class FeaturedProductCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AspectRatio(
-            aspectRatio: photoAspectRatio,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                ProductImage(
-                  path: product.image,
-                  heroTag: ProductImage.heroTagFor(
-                    product.key,
-                    scope: data.heroScope,
+          Padding(
+            padding: const EdgeInsets.only(
+              left: _photoInset,
+              top: _photoInset,
+              right: _photoInset,
+            ),
+            child: AspectRatio(
+              aspectRatio: photoAspectRatio,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  ProductImage(
+                    path: product.image,
+                    heroTag: ProductImage.heroTagFor(
+                      product.key,
+                      scope: data.heroScope,
+                    ),
+                    // The whole shot, whatever shape it was taken in: a
+                    // square pastry or a tall bottle sits inside the panel on
+                    // the tint instead of losing its top and bottom.
+                    fit: BoxFit.contain,
+                    borderRadius: BorderRadius.circular(_photoRadius),
                   ),
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(AppRadii.card),
+                  Positioned(
+                    top: heartOffset,
+                    right: heartOffset,
+                    child: FavoriteToggle(
+                      productName: product.name,
+                      favorite: data.favorite,
+                      onToggle: data.onToggleFavorite,
+                      size: heartSize,
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: heartOffset,
-                  right: heartOffset,
-                  child: FavoriteToggle(
-                    productName: product.name,
-                    favorite: data.favorite,
-                    onToggle: data.onToggleFavorite,
-                    size: heartSize,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Expanded(

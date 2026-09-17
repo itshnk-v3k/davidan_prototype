@@ -6,17 +6,23 @@ import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/widgets/photo_hero.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 
-/// Product photo that fills its box, or a branded tile when there is no photo.
-/// With a [heroTag], the photo flies between the screens that show it.
+/// Product photo in its box, or a branded tile when there is no photo. With a
+/// [heroTag], the photo flies between the screens that show it.
 class ProductImage extends StatelessWidget {
   const ProductImage({
     super.key,
     required this.path,
     this.heroTag,
     this.borderRadius = BorderRadius.zero,
+    this.fit = BoxFit.cover,
   });
 
   final String? path;
+
+  /// How the photo meets its box. [BoxFit.cover] fills the box and crops
+  /// whatever doesn't fit; [BoxFit.contain] keeps the whole shot and leaves
+  /// the tint showing where its shape differs from the box's.
+  final BoxFit fit;
 
   /// The photo's rounded corners, clipped inside the flying photo so they
   /// change smoothly in flight.
@@ -42,7 +48,7 @@ class ProductImage extends StatelessWidget {
             color: context.colors.accentSoft,
             child: Image.asset(
               path,
-              fit: BoxFit.cover,
+              fit: fit,
               errorBuilder: (_, _, _) => const _Placeholder(),
               // A photo already in memory shows at once. One still being
               // decoded (fast scrolling on a phone) fades in over the tint
