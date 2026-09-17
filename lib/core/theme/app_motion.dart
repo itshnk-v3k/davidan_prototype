@@ -16,10 +16,6 @@ abstract final class AppMotion {
   /// anyway, so it adds no wait.
   static const reveal = Duration(milliseconds: 500);
 
-  /// One slow rise and fall of a floating product card: slow enough to read
-  /// as calm, not as something asking to be tapped.
-  static const float = Duration(milliseconds: 3600);
-
   /// Settling into place.
   static const standard = Curves.easeOutCubic;
 

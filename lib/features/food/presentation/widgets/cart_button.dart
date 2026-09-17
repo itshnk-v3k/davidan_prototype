@@ -7,34 +7,17 @@ import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/count_badge.dart';
-import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// The way into [brand]'s cart, at the top right of the brand's pages: a
-/// shopping bag with the number of items in the cart. The receipt icon is the
-/// Comenzi tab's, so the two never look alike. The cart opens over the
-/// screen it was opened from, so back returns there.
-class CartButton extends ConsumerWidget {
-  const CartButton({super.key, required this.brand});
-
-  final Brand brand;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final count = ref.watch(cartCountProvider(brand));
-
-    return _BagButton(
-      count: count,
-      semanticLabel: context.l10n.openCart(count),
-      onPressed: () => context.push(Routes.brandCart(brand)),
-    );
-  }
-}
-
 /// The way into every brand's cart from the hub's tabs, where no one brand is
-/// open: the same shopping bag, counting the items in all the carts, opening
-/// the list of carts that have something in them.
+/// open, and from a brand that sells nothing (Rent Car, the restaurant),
+/// which has no cart bar of its own: a shopping bag counting the items in all
+/// the carts, opening the list of carts that have something in them. The
+/// receipt icon is the Comenzi tab's, so the two never look alike.
+///
+/// Inside a brand that sells, the cart is the [CartBar] at the foot of the
+/// page instead, and the header carries no bag.
 class OpenCartsButton extends ConsumerWidget {
   const OpenCartsButton({super.key});
 

@@ -17,7 +17,9 @@ import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/order.dart';
 import 'package:davidan_prototype/features/account/application/current_location_notifier.dart';
 import 'package:davidan_prototype/features/account/application/fulfilment_choice_notifier.dart';
+import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/shop_providers.dart';
+import 'package:davidan_prototype/features/food/presentation/widgets/cart_bar.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/brand_switcher_row.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/notifications_button.dart';
@@ -36,6 +38,11 @@ import 'package:davidan_prototype/l10n/l10n.dart';
 /// The pages run under the chrome rather than after it, so their content
 /// scrolls beneath the fade at its lower edge. Each starts its own scroll
 /// view with [chromeHeight] of room ([BrandShellSpace]).
+///
+/// At the foot, once the brand's cart holds something, the [CartBar] floats
+/// over the pages, above the tab bar. The pages need know nothing of it: the
+/// shell adds its height to the bottom padding they already leave for the tab
+/// bar, so the room they keep clear grows and shrinks with the bar.
 class BrandShell extends ConsumerWidget {
   const BrandShell({
     super.key,
@@ -81,21 +88,54 @@ class BrandShell extends ConsumerWidget {
         ? theme
         : AppTheme.forBrand(brand, theme.brightness);
 
+    // The bar is only there while the brand's cart holds something, and the
+    // pages only leave room for it then.
+    final showCartBar = ref.watch(cartCountProvider(brand)) > 0;
+
     return Theme(
       data: shellTheme,
       child: Builder(
         builder: (context) => Scaffold(
           backgroundColor: context.colors.background,
-          body: Stack(
-            children: [
-              Positioned.fill(child: child),
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: _Chrome(brand: brand, showBack: showBack),
-              ),
-            ],
+          // Inside the page, where the bottom padding is the tab bar's height
+          // (BottomBarSpace), which is what the cart bar rides above.
+          body: Builder(
+            builder: (context) {
+              final media = MediaQuery.of(context);
+              final bottom = media.padding.bottom;
+
+              return Stack(
+                children: [
+                  // The MediaQuery stays in the tree whether the bar is up or
+                  // not, only its bottom padding changes: taking it in and out
+                  // would rebuild the page under it from scratch, and the feed
+                  // would jump back to the top on the first thing added.
+                  Positioned.fill(
+                    child: MediaQuery(
+                      data: media.copyWith(
+                        padding: media.padding.copyWith(
+                          bottom: bottom + (showCartBar ? CartBar.space : 0),
+                        ),
+                      ),
+                      child: child,
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: _Chrome(brand: brand, showBack: showBack),
+                  ),
+                  if (showCartBar)
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: bottom + AppSpacing.sm,
+                      child: CartBar(brand: brand),
+                    ),
+                ],
+              );
+            },
           ),
         ),
       ),
@@ -183,13 +223,19 @@ class _Chrome extends ConsumerWidget {
 }
 
 /// Where orders go, as a line of text that opens the location screen, the
-/// launcher button (staff build only), the notifications and the cart: the
-/// "Livrare la ▾" and bell header of Glovo, Wolt and Yandex Eda.
+/// launcher button (staff build only), search and the notifications: the
+/// "Livrare la ▾" and bell header of Glovo, Wolt and Yandex Eda, kept to the
+/// two buttons the reference apps carry beside the address.
 ///
-/// The bag is the open brand's own cart, since that is the one being filled;
-/// for a brand with nothing to sell (Rent Car, which is a request by phone,
-/// and the restaurant) it counts every cart instead and opens the list of
-/// them, so no cart is ever out of reach.
+/// Search is here as well as under the banners, since the field under them
+/// scrolls away and a category page never had one: wherever the customer is
+/// in a brand, the magnifier is on screen.
+///
+/// The cart is not: the [CartBar] at the foot carries the open brand's, and a
+/// bag in the header would say the same thing twice. A brand with nothing to
+/// sell (Rent Car, which is a request by phone, and the restaurant) has no
+/// bar to carry it, so it keeps a bag that counts every cart and opens the
+/// list of them, and no cart is ever out of reach.
 class _LocationBar extends ConsumerWidget {
   const _LocationBar({required this.brand, required this.showBack});
 
@@ -329,9 +375,19 @@ class _LocationBar extends ConsumerWidget {
                 onPressed: onLauncherTap,
               ),
             const SizedBox(width: AppSpacing.sm - margin),
+            if (sells) ...[
+              AppIconButton(
+                icon: PhosphorIconsRegular.magnifyingGlass,
+                semanticLabel: context.l10n.searchMenuHint,
+                onPressed: () => context.push(Routes.brandSearch(brand)),
+              ),
+              const SizedBox(width: AppSpacing.sm - 2 * margin),
+            ],
             const NotificationsButton(),
-            const SizedBox(width: AppSpacing.sm - 2 * margin),
-            if (sells) CartButton(brand: brand) else const OpenCartsButton(),
+            if (!sells) ...[
+              const SizedBox(width: AppSpacing.sm - 2 * margin),
+              const OpenCartsButton(),
+            ],
           ],
         ),
       ),

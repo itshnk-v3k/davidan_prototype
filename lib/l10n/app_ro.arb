@@ -788,6 +788,16 @@
       }
     }
   },
+  "cartBarTotal": "Coșul · {total}",
+  "@cartBarTotal": {
+    "description": "The bar at the foot of a brand's browse screens while its cart has something in it; it opens the cart.",
+    "placeholders": {
+      "total": {
+        "type": "String",
+        "example": "138 lei"
+      }
+    }
+  },
   "removeFromCartAction": "Scoate din coș",
   "@removeFromCartAction": {
     "description": "Button on a product's page when its quantity is taken down to 0."

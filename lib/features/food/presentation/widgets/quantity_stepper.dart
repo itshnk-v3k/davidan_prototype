@@ -8,10 +8,15 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 
-/// Add/remove button, a softly rounded square: solid caramel when [filled]
-/// ("add"), a caramel tint otherwise ("remove"). It ticks on phones that
-/// support haptics. A null [onTap] renders it disabled. It looks [size] big
-/// and takes taps in [TapTarget.min].
+/// Add/remove button: solid caramel when [filled] ("add"), a caramel tint
+/// otherwise ("remove"). It ticks on phones that support haptics. A null
+/// [onTap] renders it disabled. It looks [size] big and takes taps in
+/// [TapTarget.min].
+///
+/// A [circle] on its own — the "+" on a card, as the delivery apps the client
+/// picked out draw it — and a softly rounded square inside a
+/// [QuantityStepper]'s pill, where round buttons in a round track would read
+/// as three circles in a row.
 class RoundIconButton extends StatelessWidget {
   const RoundIconButton({
     super.key,
@@ -20,6 +25,7 @@ class RoundIconButton extends StatelessWidget {
     required this.onTap,
     this.filled = true,
     this.size = 32,
+    this.circle = false,
   });
 
   final IconData icon;
@@ -28,8 +34,14 @@ class RoundIconButton extends StatelessWidget {
   final bool filled;
   final double size;
 
+  /// Round rather than a rounded square; see the class doc.
+  final bool circle;
+
   /// Moderately rounded: soft, but clearly a square.
   static double cornerRadiusFor(double size) => size * 0.3;
+
+  /// The corners this button is actually drawn with.
+  double get _radius => circle ? size / 2 : cornerRadiusFor(size);
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +79,7 @@ class RoundIconButton extends StatelessWidget {
             // The ripple fills the visible square only.
             radius: size / 2,
             customBorder: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(cornerRadiusFor(size)),
+              borderRadius: BorderRadius.circular(_radius),
             ),
             child: SizedBox.square(
               dimension: math.max(size, TapTarget.min),
@@ -79,9 +91,7 @@ class RoundIconButton extends StatelessWidget {
                   decoration: ShapeDecoration(
                     color: background,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        cornerRadiusFor(size),
-                      ),
+                      borderRadius: BorderRadius.circular(_radius),
                     ),
                     shadows: filled && enabled
                         ? [

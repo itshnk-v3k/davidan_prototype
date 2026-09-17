@@ -1,5 +1,6 @@
 // The hub's list of every brand's cart (/client/carts) and the carts button
-// on Acasă and Favorite, in the real app, in Chrome:
+// that opens it, on Favorite and on the brands with no cart bar of their own,
+// in the real app, in Chrome:
 //   flutter test --platform chrome
 @TestOn('browser')
 library;
@@ -42,17 +43,19 @@ void main() {
   }
 
   testWidgets(
-    'the carts button on Acasă counts every brand\'s items and opens a card '
-    'per cart, in the hub\'s order; a card opens that cart, and back returns '
-    'to the list',
+    'the carts button counts every brand\'s items and opens a card per cart, '
+    'in the hub\'s order; a card opens that cart, and back returns to the '
+    'list',
     (tester) async {
       container.read(cartProvider(Brand.bakery).notifier).add('americano');
       container
           .read(cartProvider(Brand.sushi).notifier)
           .add('alasca', quantity: 2);
-      await pumpApp(tester, container, Routes.clientHome);
+      // Acasă's brands carry their own cart at the foot of the page; the
+      // button for every cart is on the tabs that belong to no brand.
+      await pumpApp(tester, container, Routes.clientFavorites);
 
-      final button = inScreen<BrandFeedScreen>(find.byType(OpenCartsButton));
+      final button = inScreen<FavoritesScreen>(find.byType(OpenCartsButton));
       expect(
         find.descendant(of: button, matching: find.text('3')),
         findsOneWidget,
@@ -107,7 +110,7 @@ void main() {
       await tapBack(tester, CartScreen);
       expect(list, findsOneWidget);
       await tapBack(tester, OpenCartsScreen);
-      expect(find.byType(BrandFeedScreen), findsOneWidget);
+      expect(find.byType(FavoritesScreen), findsOneWidget);
     },
   );
 

@@ -23,7 +23,7 @@ import 'package:davidan_prototype/features/food/presentation/home/brand_feed_scr
 import 'package:davidan_prototype/features/food/presentation/home/water_feed.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/category_grid.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
-import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
+import 'package:davidan_prototype/features/food/presentation/widgets/cart_bar.dart';
 import 'package:davidan_prototype/features/hub/presentation/brand_info_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/coming_soon_feed.dart';
 import 'package:davidan_prototype/features/hub/presentation/client_shell.dart';
@@ -90,6 +90,9 @@ void main() {
   testWidgets('Patiserie: home and menu keep the bar; a product and the cart '
       'cover it; the empty cart\'s "browse the menu" opens the menu under the '
       'bar, and back steps through the brand to the hub', (tester) async {
+    // The cart bar at the foot of the brand's pages is the way into its cart,
+    // so the cart has to hold something for the test to open it.
+    container.read(cartProvider(Brand.bakery).notifier).add('americano');
     await pumpApp(tester, container, Routes.clientHome);
 
     await openBrand(tester, Brand.bakery);
@@ -112,10 +115,12 @@ void main() {
     await back(tester);
     expectBar(tester, CatalogScreen);
 
-    await tester.tap(inScreen<CatalogScreen>(find.byType(CartButton)));
+    await tester.tap(find.byType(CartBar));
     await tester.pumpAndSettle();
     expectNoBar(CartScreen);
 
+    container.read(cartProvider(Brand.bakery).notifier).clear();
+    await tester.pumpAndSettle();
     await tapVisible(tester, find.text(ro.browseMenu));
     expectBar(tester, CatalogScreen);
     // The feed is Acasă's first screen, so back from a category returns to it
@@ -142,7 +147,7 @@ void main() {
     await back(tester);
     expectBar(tester, BrandFeedScreen);
 
-    await tester.tap(find.byType(CartButton));
+    await tester.tap(find.byType(CartBar));
     await tester.pumpAndSettle();
     expectNoBar(CartScreen);
     await tapVisible(tester, find.text(ro.continueOrder));
@@ -163,6 +168,7 @@ void main() {
   testWidgets('Apă: its home keeps the bar; a product and the cart cover it; '
       'the empty cart\'s "browse the products" returns to the home under the '
       'bar', (tester) async {
+    container.read(cartProvider(Brand.water).notifier).add('apa-davidan-plata');
     await pumpApp(tester, container, Routes.clientHome);
 
     await openBrand(tester, Brand.water);
@@ -176,9 +182,12 @@ void main() {
     await back(tester);
     expectBar(tester, WaterFeed);
 
-    await tester.tap(find.byType(CartButton));
+    await tester.tap(find.byType(CartBar));
     await tester.pumpAndSettle();
     expectNoBar(CartScreen);
+
+    container.read(cartProvider(Brand.water).notifier).clear();
+    await tester.pumpAndSettle();
     await tapVisible(tester, find.text(ro.browseProducts));
     expectBar(tester, WaterFeed);
   });

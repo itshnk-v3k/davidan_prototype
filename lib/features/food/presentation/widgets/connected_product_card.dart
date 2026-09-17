@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/toast/toast_notifier.dart';
+import 'package:davidan_prototype/data/mock/demo_promos.dart';
 import 'package:davidan_prototype/data/mock/placeholder_nutrition.dart';
 import 'package:davidan_prototype/data/mock/placeholder_ratings.dart';
 import 'package:davidan_prototype/data/models/product.dart';
@@ -13,8 +14,8 @@ import 'package:davidan_prototype/features/food/presentation/widgets/product_car
 import 'package:davidan_prototype/l10n/app_language.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// A [ProductCard], [ProductListTile] or [FeaturedProductCard] ([style]), wired to the cart
-/// and favourites, the same way in the menu, the favourites, search and home's
+/// A [ProductCard] or a [ProductListTile] ([style]), wired to the cart and
+/// favourites, the same way in the menu, the favourites, search and home's
 /// rows: it opens its product, adds to and removes from the cart, and saves or
 /// unsaves the product. It watches only its own product, so adding one
 /// product rebuilds one card. With [showBrand], for lists that mix brands, it
@@ -53,6 +54,8 @@ class ConnectedProductCard extends ConsumerWidget {
       favorite: favorite,
       heroScope: heroScope,
       brandName: showBrand ? context.content.introOf(brand).name : null,
+      // DEMO CONTENT: the offer on the product's category, if it has one.
+      discountPercent: demoDiscountFor(product),
       // PLACEHOLDERS, NOT REAL DATA: no reviews or nutrition facts exist yet
       // (see both files).
       placeholderRating: placeholderRatingFor(product.key),
@@ -82,11 +85,10 @@ class ConnectedProductCard extends ConsumerWidget {
     return switch (style) {
       ProductTileStyle.card => ProductCard(data: data),
       ProductTileStyle.listTile => ProductListTile(data: data),
-      ProductTileStyle.featured => FeaturedProductCard(data: data),
     };
   }
 }
 
-/// How a product is drawn: a card in a grid or row, a wide row in a list, or
-/// the popular row's big card.
-enum ProductTileStyle { card, listTile, featured }
+/// How a product is drawn: a card in a grid or a sideways row, or a wide row
+/// in a list.
+enum ProductTileStyle { card, listTile }

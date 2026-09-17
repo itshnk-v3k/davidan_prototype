@@ -311,13 +311,14 @@ void main() {
     },
   );
 
-  testWidgets('the bag at the top is the open brand\'s cart, and every cart '
-      'for a brand that sells nothing', (tester) async {
+  testWidgets('a brand that sells carries no bag at the top, since the bar at '
+      'the foot is its cart; a brand that sells nothing keeps the bag for '
+      'every cart', (tester) async {
     await pumpApp(tester, container, Routes.clientHome);
     expect(
       find.byIcon(PhosphorIconsRegular.handbag),
-      findsOneWidget,
-      reason: 'one bag, for the bakery cart',
+      findsNothing,
+      reason: 'the patisserie sells, so its cart is the bar at the foot',
     );
 
     await switchTo(tester, Brand.carRental);

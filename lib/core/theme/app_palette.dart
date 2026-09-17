@@ -39,8 +39,16 @@ abstract final class AppPalette {
   static const vermilion500 = Color(0xFFF2451C);
 
   /// Deep vermilion for text and buttons on light surfaces: 5.9:1 with white
-  /// text.
+  /// text. The brand's own surfaces (the hub bubble, the header band) are this
+  /// one; its buttons and prices take [vermilion600].
   static const vermilion700 = Color(0xFFBF2A0A);
+
+  /// The light theme's sushi accent: the same vermilion carried a few degrees
+  /// towards orange, where the delivery apps the client picked out sit, so
+  /// prices and buttons read as a warm red rather than maroon. Still 5.3:1
+  /// with white text and 4.6:1 on the muted surface, which [vermilion500]
+  /// (3.7:1) is too bright for.
+  static const vermilion600 = Color(0xFFBE4310);
 
   static const vermilion100 = Color(0xFFFFD9CC);
   static const vermilion950 = Color(0xFF48160A);

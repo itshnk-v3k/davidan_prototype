@@ -784,6 +784,11 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
+  String cartBarTotal(String total) {
+    return 'Coșul · $total';
+  }
+
+  @override
   String get removeFromCartAction => 'Scoate din coș';
 
   @override

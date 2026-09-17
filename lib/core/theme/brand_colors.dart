@@ -38,7 +38,7 @@ abstract final class BrandColors {
                 accentSoft: AppPalette.vermilion950,
               )
             : base.copyWith(
-                primary: AppPalette.vermilion700,
+                primary: AppPalette.vermilion600,
                 onPrimary: AppPalette.white,
                 accent: AppPalette.vermilion500,
                 accentSoft: AppPalette.vermilion100,

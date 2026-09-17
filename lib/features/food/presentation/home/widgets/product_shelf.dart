@@ -7,7 +7,6 @@ import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_card.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
-import 'package:davidan_prototype/core/widgets/floating.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/application/product_layout_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/connected_product_card.dart';
@@ -22,7 +21,8 @@ import 'package:davidan_prototype/l10n/l10n.dart';
 /// (which is what tells people the row scrolls), ending in a tile that opens
 /// the whole list when there's a [seeAllLabel]; as a list, the first
 /// [listPreview] products as wide rows, then that same link. A [featured] row
-/// always shows the bigger cards, sideways, floating gently.
+/// keeps its cards and its sideways scroll whatever the layout, and has no end
+/// tile: it is a handful picked out, not a list to walk through.
 class ProductShelf extends ConsumerWidget {
   const ProductShelf({
     super.key,
@@ -54,7 +54,8 @@ class ProductShelf extends ConsumerWidget {
   /// For a row mixing brands: see [ConnectedProductCard.showBrand].
   final bool showBrand;
 
-  /// The popular row: bigger cards with the photo first.
+  /// The popular row: the same cards as every other row (the "Popular Dishes"
+  /// of the apps the client picked out), but always as cards.
   final bool featured;
 
   /// Above the heading: less for a row right under something that belongs to
@@ -174,9 +175,7 @@ class ProductShelf extends ConsumerWidget {
         else
           SizedBox(
             height:
-                (featured
-                    ? FeaturedProductCard.heightFor(context, names: names)
-                    : ProductCard.heightFor(context, cardWidth, names: names)) +
+                ProductCard.heightFor(context, cardWidth, names: names) +
                 _shadowRoom,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
@@ -190,24 +189,11 @@ class ProductShelf extends ConsumerWidget {
               ),
               itemCount:
                   products.length + (seeAllLabel == null || featured ? 0 : 1),
-              separatorBuilder: (_, _) =>
-                  SizedBox(width: featured ? AppSpacing.lg : AppSpacing.md),
+              separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.md),
               itemBuilder: (context, index) => SizedBox(
-                width: featured ? FeaturedProductCard.width : cardWidth,
+                width: cardWidth,
                 child: index >= products.length
                     ? _SeeAllTile(label: seeAllLabel!, onTap: onSeeAll!)
-                    : featured
-                    // Only the popular row floats, each card a little out
-                    // of step with the one before.
-                    ? Floating(
-                        phase: index * 0.3 % 1,
-                        child: ConnectedProductCard(
-                          product: products[index],
-                          heroScope: id,
-                          showBrand: showBrand,
-                          style: ProductTileStyle.featured,
-                        ),
-                      )
                     : ConnectedProductCard(
                         product: products[index],
                         heroScope: id,

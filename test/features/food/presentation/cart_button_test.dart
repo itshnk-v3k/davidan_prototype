@@ -1,5 +1,7 @@
-// The bottom tabs, and the cart buttons at the top right of Acasă's shell and
-// of the other tabs, which replaced the cart tab, in the real app, in Chrome:
+// The bottom tabs, and the ways into a cart that replaced the cart tab: the
+// bar at the foot of a brand's pages (CartBar) and the bag for every cart in
+// the header of the screens that have no bar of their own. In the real app, in
+// Chrome:
 //   flutter test --platform chrome
 @TestOn('browser')
 library;
@@ -11,7 +13,9 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
+import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/core/widgets/glass_surface.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/account/presentation/profile/profile_screen.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
@@ -19,9 +23,12 @@ import 'package:davidan_prototype/features/food/presentation/cart/cart_screen.da
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/favorites/favorites_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/widgets/cart_bar.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
+import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
 import 'package:davidan_prototype/features/hub/presentation/brand_shell.dart';
 import 'package:davidan_prototype/features/orders/presentation/orders_screen.dart';
+import 'package:davidan_prototype/features/search/presentation/search_screen.dart';
 
 import '../../../helpers/test_app.dart';
 
@@ -34,6 +41,34 @@ void main() {
 
   Finder inScreenOf(Type screen, Finder finder) =>
       find.descendant(of: find.byType(screen), matching: finder);
+
+  Finder inBar(Finder finder) =>
+      find.descendant(of: find.byType(CartBar), matching: finder);
+
+  /// What the brand's cart really holds, worked out from its lines rather than
+  /// from the totals the bar itself reads, so a bar showing anything else is
+  /// caught.
+  ({int count, int totalBani}) cartOf(Brand brand) {
+    final lines = container.read(cartLinesProvider(brand));
+    return (
+      count: lines.fold(0, (sum, line) => sum + line.quantity),
+      totalBani: lines.fold(
+        0,
+        (sum, line) => sum + line.priceBani * line.quantity,
+      ),
+    );
+  }
+
+  /// The bar is showing [brand]'s cart, down to the last leu.
+  void expectBarShows(Brand brand) {
+    final (:count, :totalBani) = cartOf(brand);
+    expect(find.byType(CartBar), findsOneWidget);
+    expect(
+      inBar(find.text(ro.cartBarTotal(ro.formatLei(totalBani)))),
+      findsOneWidget,
+    );
+    expect(inBar(find.text('$count')), findsOneWidget);
+  }
 
   Future<void> goBack(WidgetTester tester) async {
     await tester.tap(
@@ -94,34 +129,58 @@ void main() {
 
     expect(find.text('Coș'), findsNothing);
     expect(find.text(ro.menuTitle), findsNothing);
-    // The only shopping bag is the one in Acasă's bar: no tab. Acasă opens on
-    // the patisserie, so it is that brand's own cart.
-    expect(find.byIcon(PhosphorIconsRegular.handbag), findsOneWidget);
-    expect(
-      find.descendant(
-        of: find.byType(CartButton),
-        matching: find.byIcon(PhosphorIconsRegular.handbag),
-      ),
-      findsOneWidget,
-    );
+    // No cart tab, and no bag in the bar above it either: Acasă opens on the
+    // patisserie, whose cart is empty, and once it holds something the bar at
+    // the foot carries it.
+    expect(find.byIcon(PhosphorIconsRegular.handbag), findsNothing);
+    expect(find.byType(CartBar), findsNothing);
   });
 
   testWidgets(
-    'Acasă\'s bar carries the open brand\'s cart, and every cart for a brand '
-    'that sells nothing; Favorite the button for every cart; Comenzi and '
-    'Profil show neither',
+    'inside a brand that sells, the bar at the top carries search and the '
+    'bell and no bag; a brand that sells nothing keeps the bag for every '
+    'cart, and so does Favorite; Comenzi and Profil show neither',
     (tester) async {
-      for (final (route, screen, button) in [
-        (Routes.brandHome(Brand.bakery), BrandShell, CartButton),
-        (Routes.brandMenu(Brand.sushi), BrandShell, CartButton),
-        (Routes.clientHome, BrandShell, CartButton),
-        // Rent Car is a request by phone, not a cart.
-        (Routes.brandHome(Brand.carRental), BrandShell, OpenCartsButton),
-        (Routes.clientFavorites, FavoritesScreen, OpenCartsButton),
+      // The header's own magnifier, not the search field under the banners.
+      final headerSearch = find.widgetWithIcon(
+        AppIconButton,
+        PhosphorIconsRegular.magnifyingGlass,
+      );
+
+      for (final route in [
+        Routes.brandHome(Brand.bakery),
+        Routes.brandMenu(Brand.sushi),
+        Routes.clientHome,
+      ]) {
+        await pumpApp(tester, container, route);
+        expect(
+          inScreenOf(BrandShell, find.byIcon(PhosphorIconsRegular.handbag)),
+          findsNothing,
+          reason: route,
+        );
+        expect(headerSearch, findsOneWidget, reason: route);
+        expect(tester.getTopLeft(headerSearch).dy, lessThan(80), reason: route);
+      }
+
+      // Search is reachable from a category too, where there is no field.
+      await pumpApp(
+        tester,
+        container,
+        Routes.brandMenu(Brand.bakery, categoryId: 'bauturi'),
+      );
+      expect(headerSearch, findsOneWidget);
+      await tester.tap(headerSearch);
+      await tester.pumpAndSettle();
+      expect(find.byType(SearchScreen), findsOneWidget);
+
+      for (final (route, screen) in [
+        // Rent Car is a request by phone, not a cart, so it never has a bar.
+        (Routes.brandHome(Brand.carRental), BrandShell),
+        (Routes.clientFavorites, FavoritesScreen),
       ]) {
         await pumpApp(tester, container, route);
 
-        final found = inScreenOf(screen, find.byType(button));
+        final found = inScreenOf(screen, find.byType(OpenCartsButton));
         expect(found, findsOneWidget, reason: route);
         // The circle is 16 px from the edge; its clear tap margin reaches
         // further.
@@ -153,24 +212,21 @@ void main() {
   );
 
   testWidgets(
-    'the badge counts the items; the cart opens over the brand\'s home, and '
-    'back returns there',
+    'the bar counts the items and totals them; the cart opens over the '
+    'brand\'s home, and back returns there',
     (tester) async {
       container.read(cartProvider(Brand.bakery).notifier)
         ..add('americano')
         ..add('coca-cola', quantity: 2);
       await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
-      final button = find.byType(CartButton);
-      expect(
-        find.descendant(of: button, matching: find.text('3')),
-        findsOneWidget,
-      );
+      expect(cartOf(Brand.bakery).count, 3);
+      expectBarShows(Brand.bakery);
 
       final semantics = tester.ensureSemantics();
       expect(find.bySemanticsLabel(ro.openCart(3)), findsOneWidget);
       semantics.dispose();
 
-      await tester.tap(button);
+      await tester.tap(find.byType(CartBar));
       await tester.pumpAndSettle();
       expect(find.byType(CartScreen), findsOneWidget);
       expect(find.text(ro.navHome), findsNothing);
@@ -178,8 +234,123 @@ void main() {
       await goBack(tester);
       expect(find.byType(CartScreen), findsNothing);
       expect(find.byType(BrandFeedScreen), findsOneWidget);
+      expectBarShows(Brand.bakery);
     },
   );
+
+  testWidgets(
+    'the bar comes up with the first item and goes away with the last, and '
+    'its count and total never drift from the cart',
+    (tester) async {
+      await pumpApp(
+        tester,
+        container,
+        Routes.brandMenu(Brand.bakery, categoryId: 'bauturi'),
+      );
+      expect(find.byType(CartBar), findsNothing);
+
+      // Added from a card, as a customer would.
+      await tapVisible(
+        tester,
+        find.descendant(
+          of: find.widgetWithText(ProductCard, 'Americano'),
+          matching: find.bySemanticsLabel(ro.addToCart('Americano')),
+        ),
+      );
+      expectBarShows(Brand.bakery);
+
+      for (final change in [
+        () => container
+            .read(cartProvider(Brand.bakery).notifier)
+            .add('americano'),
+        () => container
+            .read(cartProvider(Brand.bakery).notifier)
+            .add('coca-cola', quantity: 4),
+        () => container
+            .read(cartProvider(Brand.bakery).notifier)
+            .removeOne('coca-cola'),
+        () => container
+            .read(cartProvider(Brand.bakery).notifier)
+            .setQuantity('americano', 3),
+        () => container
+            .read(cartProvider(Brand.bakery).notifier)
+            .remove('coca-cola'),
+      ]) {
+        change();
+        await tester.pumpAndSettle();
+        expectBarShows(Brand.bakery);
+      }
+
+      container.read(cartProvider(Brand.bakery).notifier).clear();
+      await tester.pumpAndSettle();
+      expect(find.byType(CartBar), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'the bar is the open brand\'s cart: another brand\'s items are not in it, '
+    'and a brand that sells nothing never shows one',
+    (tester) async {
+      container.read(cartProvider(Brand.bakery).notifier).add('americano');
+      container.read(cartProvider(Brand.sushi).notifier)
+        ..add('alasca')
+        ..add('california-creveti', quantity: 2);
+
+      await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
+      expectBarShows(Brand.bakery);
+
+      await pumpApp(tester, container, Routes.brandHome(Brand.sushi));
+      expectBarShows(Brand.sushi);
+      expect(cartOf(Brand.sushi).count, 3);
+
+      await pumpApp(tester, container, Routes.brandHome(Brand.carRental));
+      expect(find.byType(CartBar), findsNothing);
+      expect(find.byType(OpenCartsButton), findsOneWidget);
+    },
+  );
+
+  testWidgets('the pages leave room for the bar: what they keep clear at the '
+      'foot grows by its height while it is there, and the bar itself sits '
+      'above the tab bar', (tester) async {
+    await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
+    // What a page's last sliver leaves clear (BottomBarSpace).
+    double roomUnderTheFeed() =>
+        MediaQuery.paddingOf(tester.element(find.byType(BrandFeedScreen)))
+            .bottom;
+    final withoutBar = roomUnderTheFeed();
+    expect(withoutBar, greaterThan(0), reason: 'the tab bar\'s own room');
+
+    // Part way down the feed, where the bar coming up must leave the reader.
+    final scroll = inScreen<BrandFeedScreen>(find.byType(Scrollable)).first;
+    await tester.drag(scroll, const Offset(0, -400));
+    await tester.pumpAndSettle();
+    final scrolled = tester.state<ScrollableState>(scroll).position.pixels;
+    expect(scrolled, greaterThan(0));
+
+    container.read(cartProvider(Brand.bakery).notifier).add('americano');
+    await tester.pumpAndSettle();
+    expect(roomUnderTheFeed() - withoutBar, CartBar.space);
+    expect(
+      tester.state<ScrollableState>(scroll).position.pixels,
+      scrolled,
+      reason: 'the first thing added must not send the feed back to the top',
+    );
+
+    final bar = tester.getRect(find.byType(CartBar));
+    expect(bar.height, CartBar.height);
+    // Clear of the tab bar under it, and well below the chrome above.
+    expect(bar.bottom, lessThanOrEqualTo(900 - GlassSurface.barHeight));
+    expect(
+      bar.top,
+      greaterThan(
+        BrandShell.chromeHeight(tester.element(find.byType(BrandFeedScreen))),
+      ),
+    );
+
+    container.read(cartProvider(Brand.bakery).notifier).clear();
+    await tester.pumpAndSettle();
+    expect(roomUnderTheFeed(), withoutBar);
+  });
 
   testWidgets('opened from a menu category, back returns to that category', (
     tester,
@@ -191,7 +362,7 @@ void main() {
       Routes.brandMenu(Brand.bakery, categoryId: 'bauturi'),
     );
 
-    await tester.tap(find.byType(CartButton));
+    await tester.tap(find.byType(CartBar));
     await tester.pumpAndSettle();
     expect(find.byType(CartScreen), findsOneWidget);
 

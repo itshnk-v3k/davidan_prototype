@@ -1346,6 +1346,12 @@ abstract class AppLocalizations {
   /// **'Actualizează coșul · {total}'**
   String updateCartTotal(String total);
 
+  /// The bar at the foot of a brand's browse screens while its cart has something in it; it opens the cart.
+  ///
+  /// In ro, this message translates to:
+  /// **'Coșul · {total}'**
+  String cartBarTotal(String total);
+
   /// Button on a product's page when its quantity is taken down to 0.
   ///
   /// In ro, this message translates to:

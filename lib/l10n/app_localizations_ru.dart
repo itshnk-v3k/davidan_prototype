@@ -788,6 +788,11 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String cartBarTotal(String total) {
+    return 'Корзина · $total';
+  }
+
+  @override
   String get removeFromCartAction => 'Убрать из корзины';
 
   @override

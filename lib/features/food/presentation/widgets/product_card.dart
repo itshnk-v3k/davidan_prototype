@@ -29,6 +29,7 @@ class ProductTileData {
     required this.onToggleFavorite,
     this.heroScope,
     this.brandName,
+    this.discountPercent,
     this.placeholderRating,
     this.placeholderNutrition,
   });
@@ -46,6 +47,11 @@ class ProductTileData {
 
   /// The brand's name; null inside the brand's own pages.
   final String? brandName;
+
+  /// The offer running on the product's category, when there is one (see
+  /// demo_promos.dart): the "-20%" on the photo's corner. Null on a product
+  /// with no offer, which is most of them.
+  final int? discountPercent;
 
   /// PLACEHOLDER, NOT A REAL RATING: see data/mock/placeholder_ratings.dart.
   /// Replace with the product's real average once reviews exist.
@@ -175,15 +181,24 @@ class ProductCard extends StatelessWidget {
                     top: Radius.circular(AppRadii.card),
                   ),
                 ),
-                if (data.brandName case final brandName?)
+                if (data.discountPercent != null || data.brandName != null)
                   Positioned(
                     top: AppSpacing.sm,
                     left: AppSpacing.sm,
                     // Leaves room for the heart.
                     right: AppSpacing.sm + heartSize + AppSpacing.xs,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: _BrandTag(product: product, name: brandName),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (data.discountPercent case final percent?)
+                          DiscountBadge(percent: percent),
+                        if (data.brandName case final brandName?) ...[
+                          if (data.discountPercent != null)
+                            const SizedBox(height: AppSpacing.xs),
+                          _BrandTag(product: product, name: brandName),
+                        ],
+                      ],
                     ),
                   ),
                 Positioned(
@@ -400,149 +415,6 @@ class ProductMetaLine extends StatelessWidget {
   }
 }
 
-/// The popular row's card: bigger, with the photo as the main thing, then the
-/// name, the rating line and the price with the add button. Its photo is a
-/// framed panel rather than a crop bleeding off the card: the shot sits whole
-/// inside it, with a margin all the way round.
-class FeaturedProductCard extends StatelessWidget {
-  const FeaturedProductCard({super.key, required this.data});
-
-  final ProductTileData data;
-
-  static const width = 228.0;
-
-  /// The panel's width to its height, matching the shape almost every product
-  /// photo is shot in, so a photo fills it with no bands to either side.
-  static const photoAspectRatio = 1.5;
-
-  /// The margin between the photo panel and the card's left, top and right
-  /// edges. Below it, [_textPadding]'s top leaves the same room before the
-  /// name.
-  static const _photoInset = AppSpacing.sm;
-
-  /// The panel's corners, a little tighter than the card's own.
-  static const _photoRadius = AppRadii.sm;
-
-  /// Its text block's insets, as [ProductCard._textPadding] is the small
-  /// card's.
-  static const _textPadding = EdgeInsets.only(
-    left: AppSpacing.md,
-    top: AppSpacing.sm,
-  );
-  static const _nameEndPadding = AppSpacing.md;
-
-  /// The most lines a name takes; past that it ends in an ellipsis.
-  static const maxNameLines = 3;
-
-  /// How tall the card is at the phone's text size, with room for the
-  /// longest of [names] (one line at least); see [ProductCard.heightFor].
-  static double heightFor(
-    BuildContext context, {
-    Iterable<String> names = const [],
-  }) {
-    final scaler = MediaQuery.textScalerOf(context);
-    final styles = context.textStyles;
-    double line(TextStyle style) =>
-        scaler.scale(style.fontSize!) * style.height!;
-    final nameLines = nameLinesFor(
-      context,
-      names,
-      style: _nameStyle(styles),
-      width: width - _textPadding.left - _nameEndPadding,
-      min: 1,
-      max: maxNameLines,
-    );
-    return (width - 2 * _photoInset) / photoAspectRatio +
-        _photoInset +
-        _textPadding.vertical +
-        nameLines * line(_nameStyle(styles)) +
-        AppSpacing.xxs +
-        line(styles.caption) +
-        TapTarget.min +
-        AppSpacing.sm;
-  }
-
-  static TextStyle _nameStyle(AppTextStyles styles) =>
-      styles.subtitle.copyWith(fontWeight: FontWeight.w700);
-
-  @override
-  Widget build(BuildContext context) {
-    final product = data.product;
-    const heartSize = 32.0;
-    const heartOffset = AppSpacing.sm - (TapTarget.min - heartSize) / 2;
-
-    return AppCard(
-      radius: AppRadii.card,
-      onTap: data.onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: _photoInset,
-              top: _photoInset,
-              right: _photoInset,
-            ),
-            child: AspectRatio(
-              aspectRatio: photoAspectRatio,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  ProductImage(
-                    path: product.image,
-                    heroTag: ProductImage.heroTagFor(
-                      product.key,
-                      scope: data.heroScope,
-                    ),
-                    // The whole shot, whatever shape it was taken in: a
-                    // square pastry or a tall bottle sits inside the panel on
-                    // the tint instead of losing its top and bottom.
-                    fit: BoxFit.contain,
-                    borderRadius: BorderRadius.circular(_photoRadius),
-                  ),
-                  Positioned(
-                    top: heartOffset,
-                    right: heartOffset,
-                    child: FavoriteToggle(
-                      productName: product.name,
-                      favorite: data.favorite,
-                      onToggle: data.onToggleFavorite,
-                      size: heartSize,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: _textPadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: _NameAndMeta(
-                      data: data,
-                      style: _nameStyle(context.textStyles),
-                      maxLines: maxNameLines,
-                      endPadding: _nameEndPadding,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: AppSpacing.xs),
-                    child: ProductPriceRow(data: data),
-                  ),
-                  const SizedBox(height: AppSpacing.xs),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 /// The price with the add button right beside it: "+" until the product is in
 /// the cart, then a stepper. As tall as the buttons' tap area, and flush with
 /// its container's right edge, where the buttons' clear margins take the
@@ -568,6 +440,7 @@ class ProductPriceRow extends StatelessWidget {
             icon: PhosphorIconsBold.plus,
             semanticLabel: context.l10n.addToCart(product.name),
             onTap: data.onAdd,
+            circle: true,
           )
         : Padding(
             padding: EdgeInsets.only(
@@ -615,7 +488,9 @@ class ProductListTile extends StatelessWidget {
 
   final ProductTileData data;
 
-  static const _photoSize = 96.0;
+  /// The thumbnail, a small square as the delivery apps the client picked out
+  /// draw theirs: the row is the name, the facts and the price, not the photo.
+  static const _photoSize = 80.0;
 
   @override
   Widget build(BuildContext context) {
@@ -658,6 +533,14 @@ class ProductListTile extends StatelessWidget {
                           size: heartSize,
                         ),
                       ),
+                      // Along the bottom edge: the heart already holds the
+                      // top of a thumbnail this small.
+                      if (data.discountPercent case final percent?)
+                        Positioned(
+                          left: AppSpacing.xs,
+                          bottom: AppSpacing.xs,
+                          child: DiscountBadge(percent: percent),
+                        ),
                     ],
                   ),
                 ),
@@ -724,6 +607,39 @@ class ProductListTile extends StatelessWidget {
 
 Color _brandColor(BuildContext context, Product product) =>
     BrandColors.of(product.key.brand, Theme.of(context).brightness).primary;
+
+/// The offer on a product's category, on the corner of its photo: "-20%" in
+/// the brand's colour, the badge the reference delivery apps put on an item
+/// that is on offer. DEMO CONTENT, like the offer itself: only a product whose
+/// category has one in demo_promos.dart carries it, and no price changes.
+class DiscountBadge extends StatelessWidget {
+  const DiscountBadge({super.key, required this.percent});
+
+  final int percent;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.primary,
+        borderRadius: BorderRadius.circular(AppRadii.sm),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.xs + AppSpacing.xxs,
+          vertical: AppSpacing.xxs + 1,
+        ),
+        child: Text(
+          context.l10n.discountPercent(percent),
+          style: context.textStyles.badge.copyWith(color: colors.onPrimary),
+          maxLines: 1,
+        ),
+      ),
+    );
+  }
+}
 
 /// A brand's name in its colour, on a pill that stays readable over any photo.
 class _BrandTag extends StatelessWidget {
