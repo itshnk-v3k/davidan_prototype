@@ -70,7 +70,7 @@ class _BrandTile extends StatelessWidget {
   final VoidCallback onTap;
 
   static const _height = 136.0;
-  static const _radius = AppRadii.lg;
+  static const _radius = AppRadii.card;
 
   /// Every logo sits in a slot this tall, so the names line up tile to tile.
   static const _logoSlot = 40.0;

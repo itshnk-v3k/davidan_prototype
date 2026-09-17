@@ -5,9 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/theme/app_theme.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/widgets/count_badge.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
@@ -18,7 +20,14 @@ import 'package:davidan_prototype/l10n/l10n.dart';
 /// browse screens (home, menu, information) open inside Acasă and keep the
 /// bar; its task screens, which have their own bottom button (product, cart,
 /// checkout, car, request), open full screen above it.
-class ClientShell extends StatelessWidget {
+///
+/// The bar and the other tabs (Comenzi, Favorite, Profil) take the colours of
+/// the brand open in Acasă, so moving between tabs keeps the brand the
+/// customer is shopping in. With Acasă back on the hub, where no brand is
+/// open, they return to DaviDan's own colours. Those tabs mix every brand's
+/// products and orders, so no brand is right for them on its own; the one the
+/// customer came from is the least surprising.
+class ClientShell extends StatefulWidget {
   const ClientShell({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
@@ -50,38 +59,94 @@ class ClientShell extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final router = GoRouter.of(context);
-    return Scaffold(
-      backgroundColor: context.colors.background,
-      // The screens run behind the floating bar, which blurs them; each leaves
-      // room for it at the end of its content (BottomBarSpace).
-      extendBody: true,
-      body: navigationShell,
-      // Inside a brand's pages the bar takes the brand's colour, so it rebuilds
-      // as the open page changes, pushed pages included.
-      bottomNavigationBar: ListenableBuilder(
-        listenable: router.routerDelegate,
-        builder: (context, _) => _BottomNav(
-          currentIndex: navigationShell.currentIndex,
-          brand: _brandAt(router.state.matchedLocation),
-          // Tapping the active tab again returns it to its first screen.
-          onTap: (index) => navigationShell.goBranch(
-            index,
-            initialLocation: index == navigationShell.currentIndex,
-          ),
-        ),
-      ),
-    );
-  }
-
   /// The brand whose pages [location] is in (`.../b/:brand/...`), if any.
   static Brand? _brandAt(String location) {
     final segments = Uri.parse(location).pathSegments;
     final at = segments.indexOf('b');
     if (at == -1 || at + 1 >= segments.length) return null;
     return Brand.values.asNameMap()[segments[at + 1]];
+  }
+
+  @override
+  State<ClientShell> createState() => _ClientShellState();
+}
+
+class _ClientShellState extends State<ClientShell> {
+  GoRouter? _router;
+
+  /// The brand open in Acasă: the brand of the last page shown there.
+  Brand? _homeBrand;
+
+  /// The brand whose colours the bar and the tabs take: the open tab page's
+  /// own brand (a brand's pages in Acasă, its information in Profil), else
+  /// [_homeBrand].
+  Brand? _brand;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final router = GoRouter.of(context);
+    if (router == _router) return;
+    _router?.routerDelegate.removeListener(_onRouteChanged);
+    _router = router..routerDelegate.addListener(_onRouteChanged);
+    _update();
+  }
+
+  @override
+  void dispose() {
+    _router?.routerDelegate.removeListener(_onRouteChanged);
+    super.dispose();
+  }
+
+  void _onRouteChanged() => setState(_update);
+
+  void _update() {
+    final router = _router!;
+    // A task screen above the tabs (a product, a cart, an order) leaves them
+    // as they were, so nothing under it changes colour as it slides in or out.
+    if (router.routerDelegate.currentConfiguration.matches.lastOrNull
+        is! ShellRouteMatch) {
+      return;
+    }
+    final location = router.state.matchedLocation;
+    final pageBrand = ClientShell._brandAt(location);
+    if (location.startsWith(Routes.clientHome)) _homeBrand = pageBrand;
+    _brand = pageBrand ?? _homeBrand;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final navigationShell = widget.navigationShell;
+    final brand = _brand;
+    final theme = Theme.of(context);
+    final brandColors = brand == null
+        ? null
+        : BrandColors.of(brand, theme.brightness);
+    // DaviDan's own colours need no second theme (see BrandTheme). The Theme
+    // stays in the tree either way, so switching doesn't rebuild the tabs.
+    final tabsTheme =
+        brandColors == null ||
+            identical(brandColors, AppColors.dark) ||
+            identical(brandColors, AppColors.light)
+        ? theme
+        : AppTheme.forBrand(brand!, theme.brightness);
+
+    return Scaffold(
+      backgroundColor: context.colors.background,
+      // The screens run behind the floating bar, which blurs them; each leaves
+      // room for it at the end of its content (BottomBarSpace).
+      extendBody: true,
+      body: Theme(data: tabsTheme, child: navigationShell),
+      bottomNavigationBar: _BottomNav(
+        currentIndex: navigationShell.currentIndex,
+        brand: brand,
+        // Tapping the active tab again returns it to its first screen.
+        onTap: (index) => navigationShell.goBranch(
+          index,
+          initialLocation: index == navigationShell.currentIndex,
+        ),
+      ),
+    );
   }
 }
 
@@ -94,8 +159,8 @@ class _BottomNav extends ConsumerWidget {
 
   final int currentIndex;
 
-  /// The brand whose pages are open, whose colour the bar takes; DaviDan's
-  /// own colours elsewhere.
+  /// The brand whose colour the bar takes (see ClientShell); DaviDan's own
+  /// colours when none.
   final Brand? brand;
   final ValueChanged<int> onTap;
 
@@ -202,7 +267,7 @@ class _BottomNav extends ConsumerWidget {
     );
   }
 
-  static const _radius = 24.0;
+  static const _radius = AppRadii.card;
 }
 
 class _NavItem extends StatelessWidget {

@@ -1262,17 +1262,11 @@ abstract class AppLocalizations {
   /// **'Categorii'**
   String get categoriesTitle;
 
-  /// Heading over the home page's featured products, as on davidan.md.
+  /// Heading over a brand home's row of popular products.
   ///
   /// In ro, this message translates to:
-  /// **'Produse DaviDan'**
+  /// **'Produse populare'**
   String get popularTitle;
-
-  /// Heading over a brand home's featured products when the brand's site has no heading of its own (sushi).
-  ///
-  /// In ro, this message translates to:
-  /// **'Populare'**
-  String get popularTitlePlain;
 
   /// Link at the end of a home shelf; davidan.md's wording on its category list.
   ///
@@ -2089,6 +2083,18 @@ abstract class AppLocalizations {
   /// In ro, this message translates to:
   /// **'-{percent}%'**
   String discountPercent(int percent);
+
+  /// The product page's weight line; weight is written as on the product's card (e.g. 250g, 0,5L).
+  ///
+  /// In ro, this message translates to:
+  /// **'Greutate: {weight}'**
+  String productWeightLine(String weight);
+
+  /// The product page's calories line (placeholder data).
+  ///
+  /// In ro, this message translates to:
+  /// **'Valoare energetică: {amount} kcal'**
+  String productEnergyLine(int amount);
 }
 
 class _AppLocalizationsDelegate

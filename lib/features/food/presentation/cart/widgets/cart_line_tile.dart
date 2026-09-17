@@ -40,7 +40,7 @@ class CartLineTile extends StatelessWidget {
     return Material(
       color: context.colors.surface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadii.lg),
+        borderRadius: BorderRadius.circular(AppRadii.card),
         side: BorderSide(color: context.colors.border),
       ),
       clipBehavior: Clip.antiAlias,
@@ -66,7 +66,7 @@ class CartLineTile extends StatelessWidget {
                   child: ProductImage(
                     path: product.image,
                     heroTag: ProductImage.heroTagFor(product.key),
-                    borderRadius: BorderRadius.circular(AppRadii.md),
+                    borderRadius: BorderRadius.circular(AppRadii.sm),
                   ),
                 ),
               ),

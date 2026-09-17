@@ -724,10 +724,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get categoriesTitle => 'Категории';
 
   @override
-  String get popularTitle => 'Продукция DaviDan';
-
-  @override
-  String get popularTitlePlain => 'Популярное';
+  String get popularTitle => 'Популярная продукция';
 
   @override
   String get seeAll => 'Смотреть все';
@@ -1278,5 +1275,15 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String discountPercent(int percent) {
     return '-$percent%';
+  }
+
+  @override
+  String productWeightLine(String weight) {
+    return 'Вес: $weight';
+  }
+
+  @override
+  String productEnergyLine(int amount) {
+    return 'Энергетическая ценность: $amount ккал';
   }
 }

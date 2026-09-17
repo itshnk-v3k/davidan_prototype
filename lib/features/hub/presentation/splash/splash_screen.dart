@@ -18,7 +18,11 @@ import 'package:davidan_prototype/features/account/application/fulfilment_choice
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Branded screen the customer app opens on: the logo and tagline on a soft
-/// card over a gently blurred, lightly dimmed photo of DaviDan pastries. After [holdDuration] it moves on:
+/// card over a gently blurred, lightly dimmed photo of DaviDan pastries. The
+/// card fades in as it settles from a touch smaller, and the tagline follows a
+/// moment later, rising into place ([AppMotion.reveal]); with animations
+/// turned off on the phone everything is simply there. After [holdDuration]
+/// it moves on:
 /// to the demo sign-in until the customer signs in or skips it, then to the
 /// location screen while nothing is chosen, otherwise home.
 class SplashScreen extends ConsumerStatefulWidget {
@@ -33,8 +37,36 @@ class SplashScreen extends ConsumerStatefulWidget {
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends ConsumerState<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late final Timer _hold;
+
+  late final _reveal = AnimationController(
+    vsync: this,
+    duration: AppMotion.reveal,
+  );
+
+  /// The card and its logo: most of the entrance.
+  late final _card = CurvedAnimation(
+    parent: _reveal,
+    curve: const Interval(0, 0.9, curve: AppMotion.standard),
+  );
+
+  /// Settles from a touch smaller: never from nothing, which reads as a pop.
+  late final _cardScale = Tween(begin: 0.95, end: 1.0).animate(_card);
+
+  /// The tagline, [AppMotion.fast] behind the card.
+  late final _tagline = CurvedAnimation(
+    parent: _reveal,
+    curve: Interval(
+      AppMotion.fast.inMilliseconds / AppMotion.reveal.inMilliseconds,
+      1,
+      curve: AppMotion.standard,
+    ),
+  );
+
+  /// How far below its place the tagline starts.
+  static const _taglineRise = 10.0;
 
   @override
   void initState() {
@@ -52,9 +84,23 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_reveal.isAnimating || _reveal.isCompleted) return;
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _reveal.value = 1;
+    } else {
+      _reveal.forward();
+    }
+  }
+
+  @override
   void dispose() {
     // Leaving the splash early (e.g. browser back) must not navigate later.
     _hold.cancel();
+    _card.dispose();
+    _tagline.dispose();
+    _reveal.dispose();
     super.dispose();
   }
 
@@ -70,23 +116,26 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         children: [
           // Softly out of focus, so the pastries set the mood without
           // competing with the card.
-          ImageFiltered(
-            imageFilter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-            child: Transform.scale(
-              // Keeps the blur's soft edge off the screen.
-              scale: 1.06,
-              child: Image.asset(
-                AppAssets.splashBackground,
-                fit: BoxFit.cover,
-                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) =>
-                    wasSynchronouslyLoaded
-                    ? child
-                    : AnimatedOpacity(
-                        opacity: frame == null ? 0 : 1,
-                        duration: AppMotion.of(context, AppMotion.medium),
-                        curve: AppMotion.standard,
-                        child: child,
-                      ),
+          RepaintBoundary(
+            child: ImageFiltered(
+              imageFilter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+              child: Transform.scale(
+                // Keeps the blur's soft edge off the screen.
+                scale: 1.06,
+                child: Image.asset(
+                  AppAssets.splashBackground,
+                  fit: BoxFit.cover,
+                  frameBuilder:
+                      (context, child, frame, wasSynchronouslyLoaded) =>
+                          wasSynchronouslyLoaded
+                          ? child
+                          : AnimatedOpacity(
+                              opacity: frame == null ? 0 : 1,
+                              duration: AppMotion.of(context, AppMotion.medium),
+                              curve: AppMotion.standard,
+                              child: child,
+                            ),
+                ),
               ),
             ),
           ),
@@ -112,60 +161,72 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 padding: const EdgeInsets.all(AppSpacing.xxl),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 320),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: colors.surface,
-                      borderRadius: BorderRadius.circular(28),
-                      border: colors.cardOutline.a == 0
-                          ? null
-                          : Border.all(color: colors.cardOutline),
-                      boxShadow: const [
-                        // Soft and wide: the card rests on the photo.
-                        BoxShadow(
-                          color: Color(0x33000000),
-                          blurRadius: 48,
-                          spreadRadius: -8,
-                          offset: Offset(0, 20),
-                        ),
-                        BoxShadow(
-                          color: Color(0x14000000),
-                          blurRadius: 4,
-                          offset: Offset(0, 1),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                        AppSpacing.xl + AppSpacing.xs,
-                        AppSpacing.xxl + AppSpacing.xs,
-                        AppSpacing.xl + AppSpacing.xs,
-                        AppSpacing.xl + AppSpacing.xs,
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const BrandLogo(height: 44),
-                          const SizedBox(height: AppSpacing.lg),
-                          Container(
-                            width: 32,
-                            height: 3,
-                            decoration: BoxDecoration(
-                              color: colors.accent,
-                              borderRadius: BorderRadius.circular(
-                                AppRadii.pill,
+                  child: FadeTransition(
+                    opacity: _card,
+                    child: ScaleTransition(
+                      scale: _cardScale,
+                      child: RepaintBoundary(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: colors.surface,
+                            borderRadius: BorderRadius.circular(AppRadii.card),
+                            border: colors.cardOutline.a == 0
+                                ? null
+                                : Border.all(color: colors.cardOutline),
+                            boxShadow: const [
+                              // Soft and wide: the card rests on the photo.
+                              BoxShadow(
+                                color: Color(0x33000000),
+                                blurRadius: 48,
+                                spreadRadius: -8,
+                                offset: Offset(0, 20),
                               ),
+                              BoxShadow(
+                                color: Color(0x14000000),
+                                blurRadius: 4,
+                                offset: Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                              AppSpacing.xl + AppSpacing.xs,
+                              AppSpacing.xxl + AppSpacing.xs,
+                              AppSpacing.xl + AppSpacing.xs,
+                              AppSpacing.xl + AppSpacing.xs,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const BrandLogo(height: 44),
+                                const SizedBox(height: AppSpacing.lg),
+                                // The rule and the tagline rise in together,
+                                // after the logo, on their own layer so the
+                                // card under them isn't repainted each frame.
+                                RepaintBoundary(
+                                  child: FadeTransition(
+                                    opacity: _tagline,
+                                    child: AnimatedBuilder(
+                                      animation: _tagline,
+                                      builder: (context, child) =>
+                                          Transform.translate(
+                                            offset: Offset(
+                                              0,
+                                              (1 - _tagline.value) *
+                                                  _taglineRise,
+                                            ),
+                                            child: child,
+                                          ),
+                                      child: const RepaintBoundary(
+                                        child: _Tagline(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(height: AppSpacing.lg),
-                          Text(
-                            context.content.text(BrandFacts.tagline),
-                            style: context.textStyles.bodySecondary.copyWith(
-                              fontSize: 15,
-                              height: 1.45,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -175,6 +236,36 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// The accent rule and DaviDan's tagline under the logo.
+class _Tagline extends StatelessWidget {
+  const _Tagline();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 32,
+          height: 3,
+          decoration: BoxDecoration(
+            color: context.colors.accent,
+            borderRadius: BorderRadius.circular(AppRadii.pill),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        Text(
+          context.content.text(BrandFacts.tagline),
+          style: context.textStyles.bodySecondary.copyWith(
+            fontSize: 15,
+            height: 1.45,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 }

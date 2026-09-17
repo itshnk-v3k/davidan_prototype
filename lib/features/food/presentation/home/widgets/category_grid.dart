@@ -133,7 +133,7 @@ class CategoryTile extends StatelessWidget {
               child: DecoratedBox(
                 position: DecorationPosition.foreground,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppRadii.lg),
+                  borderRadius: BorderRadius.circular(AppRadii.card),
                   border: selected
                       ? Border.all(color: colors.primary, width: 2.5)
                       : null,

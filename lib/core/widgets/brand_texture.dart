@@ -1,16 +1,20 @@
 import 'dart:math' as math;
+import 'dart:ui' show ImageFilter;
 
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/data/models/brand.dart';
 
 /// A brand's own surface: a rich gradient in its colours with a drawn texture
-/// (wheat for the bakery, gold lattice for the restaurant, red waves on
-/// charcoal for sushi, ripples for water, racing stripes on graphite for Rent
-/// Car), for the hub's brand cards and each brand's header band. Drawn, not
-/// photographed, so it never passes for a product photo. White text and
-/// logos read on every one of them; [scrim] darkens the leading side further
-/// for text.
+/// (wheat for the bakery, gold lattice for the restaurant, waves for sushi,
+/// ripples for water, racing stripes for Rent Car), for the hub's brand cards
+/// and each brand's header band. Drawn, not photographed, so it never passes
+/// for a product photo.
+///
+/// With [scrim] (the hub's cards, where a logo and a name sit on it) the
+/// texture is softly blurred into atmosphere and a shade of the brand's own
+/// colour darkens the side the logo and name sit on, so white on it reads at
+/// 4.5:1 or more while the brand's colour still shows.
 class BrandSurface extends StatelessWidget {
   const BrandSurface({
     super.key,
@@ -28,18 +32,39 @@ class BrandSurface extends StatelessWidget {
   final bool texture;
   final Widget? child;
 
-  /// The gradient's two ends, light to deep.
+  /// The gradient's two ends, light to deep: vivid rather than brown or grey.
+  /// A header's white logo sits on the light end, which for Sushi and Rent Car
+  /// keeps 3:1 with white.
   static (Color, Color) colorsOf(Brand brand) => switch (brand) {
-    Brand.bakery => (const Color(0xFFE9A445), const Color(0xFFA85A16)),
+    Brand.bakery => (const Color(0xFFF0A63E), const Color(0xFFC4690F)),
     Brand.restaurant => (const Color(0xFF4A3426), const Color(0xFF1B130F)),
-    Brand.sushi => (const Color(0xFF2A2A2F), const Color(0xFF15090B)),
+    Brand.sushi => (const Color(0xFFFF5E29), const Color(0xFFD63A1C)),
     Brand.water => (const Color(0xFF45A2F7), const Color(0xFF0D52B8)),
-    Brand.carRental => (const Color(0xFF2E3036), const Color(0xFF131417)),
+    Brand.carRental => (const Color(0xFF16A86A), const Color(0xFF06835A)),
   };
+
+  /// The darkest tone of the brand's own hue, for [scrim]. Darkening with it
+  /// keeps a card warm caramel, red or green; black would turn it muddy.
+  static Color shadeOf(Brand brand) => switch (brand) {
+    Brand.bakery => const Color(0xFF4A2200),
+    Brand.restaurant => const Color(0xFF0E0906),
+    Brand.sushi => const Color(0xFF4F0E02),
+    Brand.water => const Color(0xFF03214F),
+    Brand.carRental => const Color(0xFF002A1A),
+  };
+
+  /// How far [scrim] blurs the texture.
+  static const textureBlur = 1.6;
 
   @override
   Widget build(BuildContext context) {
     final (light, deep) = colorsOf(brand);
+    final child = this.child;
+    final shade = shadeOf(brand);
+    final painter = texture
+        ? CustomPaint(painter: _TexturePainter(brand))
+        : null;
+
     return DecoratedBox(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -48,34 +73,54 @@ class BrandSurface extends StatelessWidget {
           colors: [light, deep],
         ),
       ),
-      child: CustomPaint(
-        painter: texture ? _TexturePainter(brand) : null,
-        foregroundPainter: scrim ? const _ScrimPainter() : null,
-        child: child,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          if (painter != null)
+            scrim
+                ? ImageFiltered(
+                    imageFilter: ImageFilter.blur(
+                      sigmaX: textureBlur,
+                      sigmaY: textureBlur,
+                    ),
+                    child: painter,
+                  )
+                : painter,
+          if (scrim) ...[
+            // Strongest behind the logo and the name on the leading side,
+            // thinning out towards the trailing edge, where the colour shows.
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    shade.withValues(alpha: 0.7),
+                    shade.withValues(alpha: 0.42),
+                    shade.withValues(alpha: 0),
+                  ],
+                  stops: const [0, 0.6, 1],
+                ),
+              ),
+            ),
+            // A little more along the bottom, under the name.
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    shade.withValues(alpha: 0.3),
+                    shade.withValues(alpha: 0),
+                  ],
+                  stops: const [0, 0.5],
+                ),
+              ),
+            ),
+          ],
+          ?child,
+        ],
       ),
     );
   }
-}
-
-/// Darkens the leading side, where a card's name sits.
-class _ScrimPainter extends CustomPainter {
-  const _ScrimPainter();
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rect = Offset.zero & size;
-    canvas.drawRect(
-      rect,
-      Paint()
-        ..shader = const LinearGradient(
-          colors: [Color(0x59000000), Color(0x00000000)],
-          stops: [0, 0.7],
-        ).createShader(rect),
-    );
-  }
-
-  @override
-  bool shouldRepaint(_ScrimPainter old) => false;
 }
 
 class _TexturePainter extends CustomPainter {
@@ -170,10 +215,10 @@ class _TexturePainter extends CustomPainter {
     }
   }
 
-  /// Seigaiha in red on charcoal: rows of overlapping half-circle arcs.
+  /// Seigaiha on vermilion: rows of overlapping half-circle arcs.
   void _waves(Canvas canvas, Size size) {
     const radius = 20.0;
-    final red = _stroke(const Color(0x66EF3B45), 1.4);
+    final crest = _stroke(const Color(0x4DFFFFFF), 1.4);
     final faint = _stroke(const Color(0x1FFFFFFF), 1);
     for (var row = 0; row * radius / 2 < size.height + radius; row++) {
       final dy = row * radius / 2;
@@ -193,7 +238,7 @@ class _TexturePainter extends CustomPainter {
             math.pi,
             math.pi,
             false,
-            index == 0 ? red : faint,
+            index == 0 ? crest : faint,
           );
         }
       }
@@ -219,7 +264,7 @@ class _TexturePainter extends CustomPainter {
     }
   }
 
-  /// Racing stripes: two bold red bands and a thin white one, diagonal, on
+  /// Racing stripes: two bold light bands and a thin white one, diagonal, on
   /// the trailing side.
   void _stripes(Canvas canvas, Size size) {
     final start = size.width * 0.58;
@@ -233,9 +278,9 @@ class _TexturePainter extends CustomPainter {
       canvas.drawPath(path, Paint()..color = color);
     }
 
-    band(0, 22, const Color(0xE6EF3B45));
-    band(30, 5, const Color(0xCCFFFFFF));
-    band(43, 22, const Color(0xE6EF3B45));
+    band(0, 22, const Color(0x40FFFFFF));
+    band(30, 5, const Color(0x99FFFFFF));
+    band(43, 22, const Color(0x40FFFFFF));
     final lane = _stroke(const Color(0x14FFFFFF), 1);
     for (var y = 10.0; y < size.height; y += 12) {
       canvas.drawLine(Offset(0, y), Offset(size.width * 0.5, y), lane);

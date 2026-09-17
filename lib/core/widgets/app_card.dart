@@ -16,7 +16,7 @@ class AppCard extends StatelessWidget {
     super.key,
     required this.child,
     this.onTap,
-    this.radius = AppRadii.lg,
+    this.radius = AppRadii.card,
     this.color,
   });
 

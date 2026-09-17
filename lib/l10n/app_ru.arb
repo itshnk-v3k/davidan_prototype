@@ -194,8 +194,7 @@
   "deliverTo": "Доставка по адресу",
   "chooseAddress": "Выбери адрес или заведение",
   "categoriesTitle": "Категории",
-  "popularTitle": "Продукция DaviDan",
-  "popularTitlePlain": "Популярное",
+  "popularTitle": "Популярная продукция",
   "seeAll": "Смотреть все",
   "seeAllProducts": "{count, plural, one{Смотреть {count} товар} few{Смотреть все {count} товара} many{Смотреть все {count} товаров} other{Смотреть все {count} товара}}",
   "categoryEmpty": "В этой категории пока нет товаров.",
@@ -331,5 +330,7 @@
   "calories": "{amount} ккал",
   "offersTitle": "Акции",
   "specialDiscount": "Специальная скидка",
-  "discountPercent": "-{percent}%"
+  "discountPercent": "-{percent}%",
+  "productWeightLine": "Вес: {weight}",
+  "productEnergyLine": "Энергетическая ценность: {amount} ккал"
 }

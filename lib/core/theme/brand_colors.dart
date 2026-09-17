@@ -9,16 +9,18 @@ import 'package:davidan_prototype/data/models/brand.dart';
 /// in the brand roles (primary, onPrimary, accent, accentSoft). Components,
 /// surfaces and text stay the same everywhere; only the accent changes.
 ///
-/// The restaurant and the bakery keep DaviDan's caramel. Sushi and Rent Car
-/// share a red, because both sites use the same one, so they are told apart
-/// by name and photo, never by colour. Water is the blue of its bottle label.
+/// The restaurant and the bakery keep DaviDan's caramel. Sushi is a warm
+/// vermilion and Rent Car an emerald green: their sites share one red, but in
+/// the app they need telling apart at a glance. Water is the blue of its
+/// bottle label.
 abstract final class BrandColors {
   /// The brand's colour as a surface of its own (the hub's bubbles, a brand's
   /// header band), the same in both themes. The deep tones, so white logos
   /// and text on them read at 4.5:1 or more.
   static Color fillOf(Brand brand) => switch (brand) {
     Brand.restaurant || Brand.bakery => AppPalette.caramel700,
-    Brand.sushi || Brand.carRental => AppPalette.crimson700,
+    Brand.sushi => AppPalette.vermilion700,
+    Brand.carRental => AppPalette.emerald700,
     Brand.water => AppPalette.blue700,
   };
 
@@ -27,19 +29,33 @@ abstract final class BrandColors {
     final base = dark ? AppColors.dark : AppColors.light;
     return switch (brand) {
       Brand.restaurant || Brand.bakery => base,
-      Brand.sushi || Brand.carRental =>
+      Brand.sushi =>
         dark
             ? base.copyWith(
-                primary: AppPalette.crimson300,
-                onPrimary: AppPalette.crimsonInk,
-                accent: AppPalette.crimson500,
-                accentSoft: AppPalette.crimson950,
+                primary: AppPalette.vermilion300,
+                onPrimary: AppPalette.vermilionInk,
+                accent: AppPalette.vermilion500,
+                accentSoft: AppPalette.vermilion950,
               )
             : base.copyWith(
-                primary: AppPalette.crimson700,
+                primary: AppPalette.vermilion700,
                 onPrimary: AppPalette.white,
-                accent: AppPalette.crimson500,
-                accentSoft: AppPalette.crimson100,
+                accent: AppPalette.vermilion500,
+                accentSoft: AppPalette.vermilion100,
+              ),
+      Brand.carRental =>
+        dark
+            ? base.copyWith(
+                primary: AppPalette.emerald300,
+                onPrimary: AppPalette.emeraldInk,
+                accent: AppPalette.emerald500,
+                accentSoft: AppPalette.emerald950,
+              )
+            : base.copyWith(
+                primary: AppPalette.emerald700,
+                onPrimary: AppPalette.white,
+                accent: AppPalette.emerald500,
+                accentSoft: AppPalette.emerald100,
               ),
       Brand.water =>
         dark

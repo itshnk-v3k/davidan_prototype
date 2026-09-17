@@ -721,10 +721,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get categoriesTitle => 'Categorii';
 
   @override
-  String get popularTitle => 'Produse DaviDan';
-
-  @override
-  String get popularTitlePlain => 'Populare';
+  String get popularTitle => 'Produse populare';
 
   @override
   String get seeAll => 'Vezi mai mult';
@@ -1268,5 +1265,15 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String discountPercent(int percent) {
     return '-$percent%';
+  }
+
+  @override
+  String productWeightLine(String weight) {
+    return 'Greutate: $weight';
+  }
+
+  @override
+  String productEnergyLine(int amount) {
+    return 'Valoare energetică: $amount kcal';
   }
 }

@@ -210,8 +210,7 @@ Collected and written 2026-09-16.
 | deliverTo                    | Livrare la                                                                                                                                                              | Доставка по адресу                                                                                                                                                      |
 | chooseAddress                | Alege adresa sau localul                                                                                                                                                | Выбери адрес или заведение                                                                                                                                              |
 | categoriesTitle              | Categorii                                                                                                                                                               | Категории                                                                                                                                                               |
-| popularTitle                 | Produse DaviDan                                                                                                                                                         | Продукция DaviDan                                                                                                                                                       |
-| popularTitlePlain            | Populare                                                                                                                                                                | Популярное                                                                                                                                                              |
+| popularTitle | Produse populare | Популярная продукция |
 | seeAll                       | Vezi mai mult                                                                                                                                                           | Смотреть все                                                                                                                                                            |
 | seeAllProducts               | {count, plural, one{Vezi {count} produs} few{Vezi toate cele {count} produse} other{Vezi toate cele {count} de produse}}                                                | {count, plural, one{Смотреть {count} товар} few{Смотреть все {count} товара} many{Смотреть все {count} товаров} other{Смотреть все {count} товара}}                     |
 | categoryEmpty                | Momentan nu sunt produse în această categorie.                                                                                                                          | В этой категории пока нет товаров.                                                                                                                                      |
@@ -348,6 +347,8 @@ Collected and written 2026-09-16.
 | offersTitle | Oferte | Акции |
 | specialDiscount | Reducere specială | Специальная скидка |
 | discountPercent | -{percent}% | -{percent}% |
+| productWeightLine | Greutate: {weight} | Вес: {weight} |
+| productEnergyLine | Valoare energetică: {amount} kcal | Энергетическая ценность: {amount} ккал |
 
 ## Brands, pages and shops: lib/data/mock/ru/brands_ru.dart
 

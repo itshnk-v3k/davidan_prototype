@@ -165,11 +165,7 @@ class BrandHomeScreen extends ConsumerWidget {
           SliverToBoxAdapter(
             child: ProductShelf(
               id: _popularRowId,
-              // "Produse DaviDan" is davidan.md's own heading; the sushi
-              // site has none, so its row gets a plain one.
-              title: brand == Brand.bakery
-                  ? context.l10n.popularTitle
-                  : context.l10n.popularTitlePlain,
+              title: context.l10n.popularTitle,
               products: popular,
               onSeeAll: () => context.push(Routes.brandMenu(brand)),
               featured: true,

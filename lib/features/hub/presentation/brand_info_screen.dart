@@ -66,7 +66,7 @@ class BrandInfoScreen extends StatelessWidget {
                   DecoratedBox(
                     decoration: BoxDecoration(
                       color: context.colors.surface,
-                      borderRadius: BorderRadius.circular(AppRadii.lg),
+                      borderRadius: BorderRadius.circular(AppRadii.card),
                       border: Border.all(color: context.colors.border),
                     ),
                     child: Padding(

@@ -5,6 +5,10 @@ abstract final class AppSpacing {
   static const double sm = 8;
   static const double md = 12;
   static const double lg = 16;
+
+  /// Every card-style block: product cards, category tiles, promo cards and
+  /// banners, the hub's brand cards, and the floating tab bar.
+  static const double card = 10;
   static const double xl = 24;
   static const double xxl = 32;
 
@@ -17,6 +21,10 @@ abstract final class AppRadii {
   static const double sm = 8;
   static const double md = 12;
   static const double lg = 16;
+
+  /// Every card-style block: product cards, category tiles, promo cards and
+  /// banners, the hub's brand cards, and the floating tab bar.
+  static const double card = 10;
   static const double xl = 24;
   static const double pill = 999;
 }

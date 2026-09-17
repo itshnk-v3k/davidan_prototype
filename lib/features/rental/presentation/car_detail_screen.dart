@@ -64,7 +64,7 @@ class CarDetailScreen extends ConsumerWidget {
                     aspectRatio: 3 / 2,
                     child: PhotoHero(
                       tag: CarDetailScreen.heroTagFor(car.id),
-                      borderRadius: BorderRadius.circular(AppRadii.lg),
+                      borderRadius: BorderRadius.circular(AppRadii.card),
                       child: Image.asset(
                         car.image,
                         fit: BoxFit.cover,
@@ -290,7 +290,7 @@ class _Card extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colors.surface,
-        borderRadius: BorderRadius.circular(AppRadii.lg),
+        borderRadius: BorderRadius.circular(AppRadii.card),
         border: Border.all(color: context.colors.border),
       ),
       child: Padding(

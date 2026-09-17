@@ -25,7 +25,7 @@ class LinkCard extends StatelessWidget {
     return Material(
       color: context.colors.surface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadii.lg),
+        borderRadius: BorderRadius.circular(AppRadii.card),
         side: BorderSide(color: context.colors.border),
       ),
       clipBehavior: Clip.antiAlias,

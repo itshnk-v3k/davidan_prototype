@@ -7,6 +7,7 @@ import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_card.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/core/widgets/floating.dart';
 import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/application/product_layout_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/connected_product_card.dart';
@@ -21,7 +22,7 @@ import 'package:davidan_prototype/l10n/l10n.dart';
 /// (which is what tells people the row scrolls), ending in a tile that opens
 /// the whole list when there's a [seeAllLabel]; as a list, the first
 /// [listPreview] products as wide rows, then that same link. A [featured] row
-/// always shows the bigger cards, sideways.
+/// always shows the bigger cards, sideways, floating gently.
 class ProductShelf extends ConsumerWidget {
   const ProductShelf({
     super.key,
@@ -75,9 +76,10 @@ class ProductShelf extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // "Vezi mai mult" takes taps in TapTarget.min. The row is that tall, and
-        // the padding above and the blurb below give way to it, so the title,
-        // the blurb and the cards sit where a 32 px row would put them.
+        // "Vezi mai mult" takes taps in TapTarget.min. The row is at least that
+        // tall, and the padding above and the blurb below give way to it, so
+        // the title, the blurb and the cards sit where a 32 px row would put
+        // them.
         Padding(
           padding: const EdgeInsets.fromLTRB(
             AppSpacing.gutter,
@@ -85,15 +87,17 @@ class ProductShelf extends ConsumerWidget {
             AppSpacing.sm,
             0,
           ),
-          child: SizedBox(
-            height: TapTarget.min,
+          // A long heading (a Russian one at a large text size) wraps to a
+          // second line rather than being cut off.
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: TapTarget.min),
             child: Row(
               children: [
                 Expanded(
                   child: Text(
                     title,
                     style: context.textStyles.title,
-                    maxLines: 1,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -184,16 +188,26 @@ class ProductShelf extends ConsumerWidget {
                   SizedBox(width: featured ? AppSpacing.lg : AppSpacing.md),
               itemBuilder: (context, index) => SizedBox(
                 width: featured ? FeaturedProductCard.width : cardWidth,
-                child: index < products.length
-                    ? ConnectedProductCard(
+                child: index >= products.length
+                    ? _SeeAllTile(label: seeAllLabel!, onTap: onSeeAll!)
+                    : featured
+                    // Only the popular row floats, each card a little out
+                    // of step with the one before.
+                    ? Floating(
+                        phase: index * 0.3 % 1,
+                        child: ConnectedProductCard(
+                          product: products[index],
+                          heroScope: id,
+                          showBrand: showBrand,
+                          style: ProductTileStyle.featured,
+                        ),
+                      )
+                    : ConnectedProductCard(
                         product: products[index],
                         heroScope: id,
                         showBrand: showBrand,
-                        style: featured
-                            ? ProductTileStyle.featured
-                            : ProductTileStyle.card,
-                      )
-                    : _SeeAllTile(label: seeAllLabel!, onTap: onSeeAll!),
+                        style: ProductTileStyle.card,
+                      ),
               ),
             ),
           ),

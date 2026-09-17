@@ -74,7 +74,7 @@ class _CarCard extends StatelessWidget {
               tag: CarDetailScreen.heroTagFor(car.id),
               // The card's own top corners.
               borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(AppRadii.lg),
+                top: Radius.circular(AppRadii.card),
               ),
               child: Image.asset(
                 car.image,

@@ -9,6 +9,7 @@ import 'package:davidan_prototype/core/location/location_service.dart';
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/storage/local_store.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
+import 'package:davidan_prototype/core/widgets/floating.dart';
 import 'package:davidan_prototype/data/mock/bakery/bakery_shops.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/chisinau_sector.dart';
@@ -49,6 +50,8 @@ Future<ProviderContainer> createTestContainer({
         locationService ??
             FakeLocationService.failing(LocationFailure.unavailable),
       ),
+      // The popular row's endless float would never let pumpAndSettle settle.
+      floatingMotionProvider.overrideWithValue(false),
       ...overrides,
     ],
   );
@@ -70,6 +73,7 @@ Future<ProviderContainer> startApp({
       locationServiceProvider.overrideWithValue(
         FakeLocationService.failing(LocationFailure.unavailable),
       ),
+      floatingMotionProvider.overrideWithValue(false),
       ...overrides,
     ],
   );

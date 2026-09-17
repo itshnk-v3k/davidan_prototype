@@ -9,8 +9,9 @@ import 'package:davidan_prototype/data/mock/demo_promos.dart';
 import 'package:davidan_prototype/data/models/menu_category.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// A brand's promo cards, side by side: each a discount on one category, with
-/// the category's photo, opening that category. Demo content (see
+/// A brand's promo cards, one under the other and each the full width, so
+/// every card shows whole: each a discount on one category, with the
+/// category's photo, opening that category. Demo content (see
 /// demo_promos.dart).
 class PromoCards extends StatelessWidget {
   const PromoCards({super.key, required this.promos, required this.onOpen});
@@ -19,35 +20,27 @@ class PromoCards extends StatelessWidget {
   final List<(DemoPromo, MenuCategory)> promos;
   final ValueChanged<MenuCategory> onOpen;
 
-  static const _width = 280.0;
-  static const _height = 128.0;
+  static const _height = 112.0;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: _height + AppCard.shadowReach,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        clipBehavior: Clip.none,
-        padding: const EdgeInsets.fromLTRB(
-          AppSpacing.gutter,
-          0,
-          AppSpacing.gutter,
-          AppCard.shadowReach,
-        ),
-        itemCount: promos.length,
-        separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.md),
-        itemBuilder: (context, index) {
-          final (promo, category) = promos[index];
-          return SizedBox(
-            width: _width,
-            child: _PromoCard(
-              promo: promo,
-              category: category,
-              onTap: () => onOpen(category),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (final (index, (promo, category)) in promos.indexed) ...[
+            if (index > 0) const SizedBox(height: AppSpacing.md),
+            SizedBox(
+              height: _height,
+              child: _PromoCard(
+                promo: promo,
+                category: category,
+                onTap: () => onOpen(category),
+              ),
             ),
-          );
-        },
+          ],
+        ],
       ),
     );
   }
@@ -69,7 +62,7 @@ class _PromoCard extends StatelessWidget {
     final colors = context.colors;
 
     return AppCard(
-      radius: AppRadii.xl,
+      radius: AppRadii.card,
       color: colors.accentSoft,
       onTap: onTap,
       child: Row(

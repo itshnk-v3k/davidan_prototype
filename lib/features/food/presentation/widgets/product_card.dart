@@ -120,7 +120,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   // The card's own top corners.
                   borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(AppRadii.lg),
+                    top: Radius.circular(AppRadii.card),
                   ),
                 ),
                 if (data.brandName case final brandName?)
@@ -153,25 +153,14 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Gives way rather than overflow if the text ever needs
-                  // more than heightFor allowed.
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: AppSpacing.md),
-                      child: Text(
-                        product.name,
-                        style: context.textStyles.bodyStrong,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                  Expanded(
+                    child: _NameAndMeta(
+                      data: data,
+                      style: context.textStyles.bodyStrong,
+                      maxLines: 2,
+                      endPadding: AppSpacing.md,
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.xxs),
-                  Padding(
-                    padding: const EdgeInsets.only(right: AppSpacing.md),
-                    child: ProductMetaLine.of(data),
-                  ),
-                  const Spacer(),
                   ProductPriceRow(data: data),
                 ],
               ),
@@ -179,6 +168,48 @@ class ProductCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// A card's name over its rating line, at the top of the space above the
+/// price. The name has all of that space to itself: sharing it with a Spacer
+/// would halve it and cut the name's letters off.
+class _NameAndMeta extends StatelessWidget {
+  const _NameAndMeta({
+    required this.data,
+    required this.style,
+    required this.maxLines,
+    required this.endPadding,
+  });
+
+  final ProductTileData data;
+  final TextStyle style;
+  final int maxLines;
+  final double endPadding;
+
+  @override
+  Widget build(BuildContext context) {
+    final padding = EdgeInsets.only(right: endPadding);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Gives way rather than overflow if the text ever needs more than
+        // heightFor allowed.
+        Flexible(
+          child: Padding(
+            padding: padding,
+            child: Text(
+              data.product.name,
+              style: style,
+              maxLines: maxLines,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.xxs),
+        Padding(padding: padding, child: ProductMetaLine.of(data)),
+      ],
     );
   }
 }
@@ -195,6 +226,7 @@ class ProductMetaLine extends StatelessWidget {
     this.placeholderRating,
     this.placeholderNutrition,
     this.style,
+    this.withFacts = true,
   });
 
   /// The line for a card's or row's [data].
@@ -218,8 +250,17 @@ class ProductMetaLine extends StatelessWidget {
   /// The caption style when null; the product page's is larger.
   final TextStyle? style;
 
-  /// The weight to show: the site's own, else the placeholder's.
-  String? _weight(BuildContext context) {
+  /// False for the rating alone: the product page gives the weight and the
+  /// calories lines of their own, with labels.
+  final bool withFacts;
+
+  /// The weight to show for [product]: the site's own, else the
+  /// placeholder's.
+  static String? weightOf(
+    BuildContext context,
+    Product product,
+    PlaceholderNutrition? placeholderNutrition,
+  ) {
     final real = product.weight;
     if (real != null) return real;
     final nutrition = placeholderNutrition;
@@ -240,8 +281,10 @@ class ProductMetaLine extends StatelessWidget {
     final calories = placeholderNutrition?.placeholderCalories;
     final base = style ?? context.textStyles.caption;
     final facts = [
-      ?_weight(context),
-      if (calories != null) context.l10n.calories(calories),
+      if (withFacts) ...[
+        ?weightOf(context, product, placeholderNutrition),
+        if (calories != null) context.l10n.calories(calories),
+      ],
     ].join(' · ');
 
     return ExcludeSemantics(
@@ -314,7 +357,7 @@ class FeaturedProductCard extends StatelessWidget {
     const heartOffset = AppSpacing.md - (TapTarget.min - heartSize) / 2;
 
     return AppCard(
-      radius: AppRadii.xl,
+      radius: AppRadii.card,
       onTap: data.onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -331,7 +374,7 @@ class FeaturedProductCard extends StatelessWidget {
                     scope: data.heroScope,
                   ),
                   borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(AppRadii.xl),
+                    top: Radius.circular(AppRadii.card),
                   ),
                 ),
                 Positioned(
@@ -356,23 +399,14 @@ class FeaturedProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: AppSpacing.lg),
-                      child: Text(
-                        product.name,
-                        style: _nameStyle(context.textStyles),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                  Expanded(
+                    child: _NameAndMeta(
+                      data: data,
+                      style: _nameStyle(context.textStyles),
+                      maxLines: 1,
+                      endPadding: AppSpacing.lg,
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.xxs),
-                  Padding(
-                    padding: const EdgeInsets.only(right: AppSpacing.lg),
-                    child: ProductMetaLine.of(data),
-                  ),
-                  const Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(right: AppSpacing.xs),
                     child: ProductPriceRow(data: data),
@@ -491,7 +525,7 @@ class ProductListTile extends StatelessWidget {
                           product.key,
                           scope: data.heroScope,
                         ),
-                        borderRadius: BorderRadius.circular(AppRadii.md),
+                        borderRadius: BorderRadius.circular(AppRadii.sm),
                       ),
                       Positioned(
                         top: heartOffset,

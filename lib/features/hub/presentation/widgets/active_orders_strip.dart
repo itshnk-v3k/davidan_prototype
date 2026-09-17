@@ -98,7 +98,7 @@ class _ActiveRequestCard extends ConsumerWidget {
     return Material(
       color: colors.surface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadii.lg),
+        borderRadius: BorderRadius.circular(AppRadii.card),
         side: BorderSide(color: colors.border),
       ),
       clipBehavior: Clip.antiAlias,

@@ -106,7 +106,7 @@ void main() {
       expect(
         find.descendant(
           of: row('popular'),
-          matching: find.text(ro.popularTitlePlain),
+          matching: find.text('Populare'),
         ),
         findsOneWidget,
       );

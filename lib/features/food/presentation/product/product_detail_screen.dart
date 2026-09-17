@@ -187,22 +187,47 @@ class _ProductInfo extends StatelessWidget {
     final description = product.description;
     final pieces = product.pieces;
     final size = [if (pieces != null) context.l10n.productPieces(pieces)];
+    final nutrition = placeholderNutritionFor(product);
+    final weight = ProductMetaLine.weightOf(context, product, nutrition);
+    final calories = nutrition?.placeholderCalories;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(product.name, style: context.textStyles.headline),
         const SizedBox(height: AppSpacing.sm),
-        // The same line as the product's card: rating, weight and calories.
-        // The rating and calories are PLACEHOLDERS, NOT REAL DATA (see
-        // placeholder_ratings.dart and placeholder_nutrition.dart), and so is
-        // the weight where the site gives none; the line isn't announced.
+        // The rating, then the weight and the calories on labelled lines of
+        // their own (the cards keep them on one line). The rating and calories
+        // are PLACEHOLDERS, NOT REAL DATA (see placeholder_ratings.dart and
+        // placeholder_nutrition.dart), and so is the weight where the site
+        // gives none; none of it is announced.
         ProductMetaLine(
           product: product,
           placeholderRating: placeholderRatingFor(product.key),
-          placeholderNutrition: placeholderNutritionFor(product),
           style: context.textStyles.bodySecondary,
+          withFacts: false,
         ),
+        if (weight != null || calories != null)
+          ExcludeSemantics(
+            child: Padding(
+              padding: const EdgeInsets.only(top: AppSpacing.sm),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (weight != null)
+                    Text(
+                      context.l10n.productWeightLine(weight),
+                      style: context.textStyles.bodySecondary,
+                    ),
+                  if (calories != null)
+                    Text(
+                      context.l10n.productEnergyLine(calories),
+                      style: context.textStyles.bodySecondary,
+                    ),
+                ],
+              ),
+            ),
+          ),
         const SizedBox(height: AppSpacing.md),
         // The price, then how much is in the cart and the pieces, wrapping
         // under the price when they don't fit beside it.

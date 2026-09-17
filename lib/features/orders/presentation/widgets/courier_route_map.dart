@@ -50,7 +50,7 @@ class CourierRouteMap extends StatelessWidget {
           children: [
             ExcludeSemantics(
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(AppRadii.lg),
+                borderRadius: BorderRadius.circular(AppRadii.card),
                 child: AspectRatio(
                   aspectRatio: 16 / 10,
                   child: LayoutBuilder(

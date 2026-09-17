@@ -44,7 +44,7 @@ class ChisinauMap extends StatelessWidget {
       label: context.l10n.schematicMap,
       child: ExcludeSemantics(
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(AppRadii.lg),
+          borderRadius: BorderRadius.circular(AppRadii.card),
           child: AspectRatio(
             aspectRatio: _aspectRatio,
             child: LayoutBuilder(

@@ -25,22 +25,42 @@ abstract final class AppPalette {
   /// Near-black brown for text on a caramel fill in the dark theme.
   static const espresso = Color(0xFF1F1408);
 
-  // Red of DaviDan Sushi and DaviDan Rent Car: both sites use #DD3333 for
-  // their buttons, so the two brands share it
-  /// Coral red for text and icons on dark surfaces.
-  static const crimson300 = Color(0xFFFF6B72);
+  // Vermilion of DaviDan Sushi: a warm, orange-leaning red, bright enough to
+  // read as energetic and far enough from the bakery's caramel (and from Rent
+  // Car's green) that the brands never look alike
+  /// Coral orange for text and icons on dark surfaces.
+  static const vermilion300 = Color(0xFFFF7D57);
 
-  /// The sites' red. Decoration and large shapes only.
-  static const crimson500 = Color(0xFFEF3B45);
+  /// Vivid vermilion. Decoration and large shapes only.
+  static const vermilion500 = Color(0xFFF2542D);
 
-  /// Clear red for text and buttons on light surfaces: 5.7:1 with white text.
-  static const crimson700 = Color(0xFFC8202C);
+  /// Clear vermilion for text and buttons on light surfaces: 5.4:1 with white
+  /// text.
+  static const vermilion700 = Color(0xFFC92E12);
 
-  static const crimson100 = Color(0xFFFDE3E4);
-  static const crimson950 = Color(0xFF3A1518);
+  static const vermilion100 = Color(0xFFFFE6DE);
+  static const vermilion950 = Color(0xFF3D1810);
 
-  /// Near-black red for text on a [crimson300] fill.
-  static const crimsonInk = Color(0xFF2A0508);
+  /// Near-black red for text on a [vermilion300] fill.
+  static const vermilionInk = Color(0xFF2B0A03);
+
+  // Emerald of DaviDan Rent Car: its site shares Sushi's red, so the app gives
+  // it a colour of its own, a fresh green no other brand comes near
+  /// Mint green for text and icons on dark surfaces.
+  static const emerald300 = Color(0xFF3DD68C);
+
+  /// Vivid emerald. Decoration and large shapes only.
+  static const emerald500 = Color(0xFF10B981);
+
+  /// Deep emerald for text and buttons on light surfaces: 5.4:1 with white
+  /// text.
+  static const emerald700 = Color(0xFF047A4C);
+
+  static const emerald100 = Color(0xFFDAF5E9);
+  static const emerald950 = Color(0xFF0E2F22);
+
+  /// Near-black green for text on an [emerald300] fill.
+  static const emeraldInk = Color(0xFF03261A);
 
   // Blue of Apa DaviDan: no site has one, so it is the label of the still
   // water bottle in its davidan.md photo (the mean of the label's blue pixels)

@@ -33,7 +33,7 @@ class SearchBarButton extends StatelessWidget {
 
   /// The corners the search page's field shares, so the one opens into the
   /// other.
-  static const radius = 14.0;
+  static const radius = AppRadii.card;
 
   /// The hint's look, shared with the search page's field.
   static TextStyle hintStyleOf(BuildContext context) =>
