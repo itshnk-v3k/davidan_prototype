@@ -92,7 +92,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get menuTitle => 'Меню';
 
   @override
-  String get cartTitle => 'Моя корзина';
+  String brandCartTitle(String brand) {
+    return 'Корзина · $brand';
+  }
 
   @override
   String get checkoutTitle => 'Оформление заказа';
@@ -116,12 +118,22 @@ class AppLocalizationsRu extends AppLocalizations {
   String get comingSoonTitle => 'Скоро';
 
   @override
+  String brandComingSoonLabel(String name) {
+    return '$name, скоро';
+  }
+
+  @override
   String forYouTitle(String name) {
     return '$name, для тебя';
   }
 
   @override
   String get forYouTitleSignedOut => 'Для тебя';
+
+  @override
+  String addedToBrandCart(String brand) {
+    return 'Добавлено в корзину · $brand';
+  }
 
   @override
   String get locationPrompt =>
@@ -178,6 +190,11 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String pinnedAddress(String area, String coordinates) {
     return 'Местоположение клиента · $area ($coordinates)';
+  }
+
+  @override
+  String pinnedAddressCustomer(String area) {
+    return 'Твоё местоположение · $area';
   }
 
   @override
@@ -264,6 +281,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get resendCode => 'Отправить код ещё раз';
+
+  @override
+  String resendCodeIn(int seconds) {
+    return 'Отправить код ещё раз через $seconds с';
+  }
 
   @override
   String get codeResent => 'Код отправлен ещё раз (демо, без настоящего SMS).';
@@ -358,7 +380,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get signOut => 'Выйти из аккаунта';
 
   @override
-  String get myOrdersTitle => 'Мои заказы';
+  String get signOutConfirmTitle => 'Выйти из аккаунта?';
+
+  @override
+  String get signOutConfirmMessage =>
+      'Корзины, заказы и избранное останутся на этом устройстве.';
+
+  @override
+  String get profileBrandsTitle => 'Контакты и информация';
+
+  @override
+  String get profileBrandInfoHint => 'Контакты и документы';
+
+  @override
+  String get profileDemoTitle => 'Демо';
 
   @override
   String get ordersEmptyTitle => 'Заказов пока нет';
@@ -514,6 +549,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get rentalInsurance => 'Страховая сумма';
 
   @override
+  String get rentalPriceTotal => 'Итого за аренду';
+
+  @override
+  String rentalInsuranceExtra(String amount) {
+    return '+ $amount страховая сумма';
+  }
+
+  @override
+  String get rentalTotalWithInsurance => 'Итого со страховой суммой';
+
+  @override
   String get rentalFeesNote =>
       'Сбор за локацию и страховая сумма добавляются к каждой брони один раз, на сколько бы дней она ни была.';
 
@@ -521,7 +567,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get rentalDocumentsTitle => 'Необходимые документы';
 
   @override
-  String get rentalRequestAction => 'Заявка на бронирование';
+  String get rentalRequestAction => 'Выбрать даты';
 
   @override
   String get rentalRequestTitle => 'Заявка на бронирование';
@@ -604,7 +650,24 @@ class AppLocalizationsRu extends AppLocalizations {
   String get rentalRequestSentTitle => 'Заявка отправлена';
 
   @override
+  String get rentalRequestCancelledTitle => 'Заявка отменена';
+
+  @override
   String get rentalWillContact => 'Мы свяжемся с вами в ближайшее время.';
+
+  @override
+  String get rentalRequestNotReserved =>
+      'Машина не забронирована, пока мы с тобой не свяжемся. Ничего не оплачено.';
+
+  @override
+  String get rentalCancelRequest => 'Отменить заявку';
+
+  @override
+  String get rentalCancelRequestTitle => 'Отменить заявку?';
+
+  @override
+  String get rentalCancelRequestMessage =>
+      'Новую заявку можно отправить в любой момент.';
 
   @override
   String rentalBookingNumber(String id) {
@@ -612,7 +675,15 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get rentalBookingStatus => 'Заявка отправлена';
+  String activeBookingSummary(String car, String pickup) {
+    return '$car · $pickup';
+  }
+
+  @override
+  String get rentalBookingStatus => 'В ожидании';
+
+  @override
+  String get rentalBookingCancelled => 'Отменена';
 
   @override
   String get rentalBookingNotFound => 'Заявка не найдена.';
@@ -642,6 +713,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get popularTitle => 'Продукция DaviDan';
+
+  @override
+  String get popularTitlePlain => 'Популярное';
 
   @override
   String get seeAll => 'Смотреть все';
@@ -676,6 +750,11 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String productVolume(String volume) {
+    return 'Объём: $volume';
+  }
+
+  @override
   String get productNotFound => 'Товар не найден.';
 
   @override
@@ -695,8 +774,26 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String updateCartTotal(String total) {
+    return 'Обновить корзину · $total';
+  }
+
+  @override
+  String get removeFromCartAction => 'Убрать из корзины';
+
+  @override
   String addedToCart(int quantity, String productName) {
     return 'Добавлено в корзину: $quantity × $productName';
+  }
+
+  @override
+  String cartUpdated(int quantity, String productName) {
+    return 'Корзина обновлена: $quantity × $productName';
+  }
+
+  @override
+  String removedFromCart(String productName) {
+    return 'Убрано из корзины: $productName';
   }
 
   @override
@@ -783,7 +880,14 @@ class AppLocalizationsRu extends AppLocalizations {
       'Добавь товары из меню и вернись сюда, чтобы оформить заказ.';
 
   @override
+  String get cartEmptyMessageNoMenu =>
+      'Добавь товары и вернись сюда, чтобы оформить заказ.';
+
+  @override
   String get browseMenu => 'Смотреть меню';
+
+  @override
+  String get browseProducts => 'Смотреть товары';
 
   @override
   String get continueOrder => 'Продолжить';
@@ -847,7 +951,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get paymentCash => 'Наличными';
 
   @override
-  String get paymentCard => 'Картой через терминал';
+  String get paymentCard => 'Картой при получении (POS-терминал)';
 
   @override
   String get orderPlacedTitle => 'Заказ оформлен';
@@ -868,6 +972,19 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String orderNumber(String id) {
     return 'Заказ № $id';
+  }
+
+  @override
+  String activeOrderSummary(int count, String total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count товара',
+      many: '$count товаров',
+      few: '$count товара',
+      one: '$count товар',
+    );
+    return '$_temp0 · $total';
   }
 
   @override

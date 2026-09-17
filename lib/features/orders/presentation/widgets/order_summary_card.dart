@@ -7,16 +7,19 @@ import 'package:davidan_prototype/core/widgets/summary_row.dart';
 import 'package:davidan_prototype/data/models/cart_item.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// Each item with its line total, then the order total.
+/// Each item with its line total, then the order total unless the screen shows
+/// it elsewhere ([showTotal] false, e.g. checkout's bottom bar).
 class OrderSummaryCard extends StatelessWidget {
   const OrderSummaryCard({
     super.key,
     required this.lines,
     required this.totalBani,
+    this.showTotal = true,
   });
 
   final List<CartLine> lines;
   final int totalBani;
+  final bool showTotal;
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +45,14 @@ class OrderSummaryCard extends StatelessWidget {
                   value: context.l10n.formatLei(line.priceBani * line.quantity),
                 ),
               ),
-            Divider(height: AppSpacing.xl, color: context.colors.border),
-            SummaryRow(
-              label: context.l10n.total,
-              value: context.l10n.formatLei(totalBani),
-              emphasized: true,
-            ),
+            if (showTotal) ...[
+              Divider(height: AppSpacing.xl, color: context.colors.border),
+              SummaryRow(
+                label: context.l10n.total,
+                value: context.l10n.formatLei(totalBani),
+                emphasized: true,
+              ),
+            ],
           ],
         ),
       ),

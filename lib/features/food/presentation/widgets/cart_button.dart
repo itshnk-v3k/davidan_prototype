@@ -14,7 +14,8 @@ import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The way into [brand]'s cart, at the top right of the brand's pages: a
-/// receipt icon with the number of items in the cart. The cart opens over the
+/// shopping bag with the number of items in the cart. The receipt icon is the
+/// Comenzi tab's, so the two never look alike. The cart opens over the
 /// screen it was opened from, so back returns there.
 class CartButton extends ConsumerWidget {
   const CartButton({super.key, required this.brand});
@@ -25,7 +26,7 @@ class CartButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final count = ref.watch(cartCountProvider(brand));
 
-    return _ReceiptButton(
+    return _BagButton(
       count: count,
       semanticLabel: context.l10n.openCart(count),
       onPressed: () => context.push(Routes.brandCart(brand)),
@@ -34,7 +35,7 @@ class CartButton extends ConsumerWidget {
 }
 
 /// The way into every brand's cart from the hub's tabs, where no one brand is
-/// open: the same receipt icon, counting the items in all the carts, opening
+/// open: the same shopping bag, counting the items in all the carts, opening
 /// the list of carts that have something in them.
 class OpenCartsButton extends ConsumerWidget {
   const OpenCartsButton({super.key});
@@ -47,7 +48,7 @@ class OpenCartsButton extends ConsumerWidget {
       ),
     );
 
-    return _ReceiptButton(
+    return _BagButton(
       count: count,
       semanticLabel: context.l10n.openCarts(count),
       onPressed: () => context.push(Routes.openCarts),
@@ -55,8 +56,8 @@ class OpenCartsButton extends ConsumerWidget {
   }
 }
 
-class _ReceiptButton extends StatelessWidget {
-  const _ReceiptButton({
+class _BagButton extends StatelessWidget {
+  const _BagButton({
     required this.count,
     required this.semanticLabel,
     required this.onPressed,
@@ -72,7 +73,7 @@ class _ReceiptButton extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         AppIconButton(
-          icon: Icons.receipt_long_rounded,
+          icon: Icons.shopping_bag_rounded,
           semanticLabel: semanticLabel,
           onPressed: onPressed,
         ),

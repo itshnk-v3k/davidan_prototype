@@ -121,8 +121,13 @@ void main() {
             .having((d) => d.point, 'point', botanicaCentre)
             .having((d) => d.address, 'address', ''),
       );
+      // The customer sees their location's area; the courier, below, also
+      // gets its coordinates.
+      expect(
+        find.text(ro.pinnedAddressCustomer('Zona Botanica')),
+        findsOneWidget,
+      );
       final shown = ro.pinnedAddress('Zona Botanica', '46.98500, 28.85800');
-      expect(find.text(shown), findsOneWidget);
       expect(container.read(currentLocationProvider).pinned, isNull);
       expect(
         container.read(fulfilmentChoiceProvider),

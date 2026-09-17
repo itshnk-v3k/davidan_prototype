@@ -72,7 +72,15 @@ void main() {
         ))
           text.data,
       ],
-      ['Ресторан', 'Суши', 'Выпечка', 'Питьевая вода', 'Rent Car'],
+      // The restaurant's bubble says "Скоро" on the photo, above its name.
+      [
+        ru.comingSoonTitle,
+        'Ресторан',
+        'Суши',
+        'Выпечка',
+        'Питьевая вода',
+        'Rent Car',
+      ],
     );
 
     await tester.tap(find.text('Ресторан'));
@@ -111,7 +119,11 @@ void main() {
       await tester.pumpAndSettle();
 
       await pumpApp(tester, container, Routes.brandCart(Brand.bakery));
-      expectTexts([ru.cartTitle, 'Куртош с ванилью', ru.continueOrder]);
+      expectTexts([
+        ru.brandCartTitle('Выпечка'),
+        'Куртош с ванилью',
+        ru.continueOrder,
+      ]);
       await tester.tap(find.text(ru.continueOrder));
       await tester.pumpAndSettle();
 

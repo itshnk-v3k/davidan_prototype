@@ -11,13 +11,15 @@ import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
+import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/food/application/product_quantity_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/cart/widgets/cart_line_tile.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/total_bar.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// One brand's cart, opened over the tabs by their cart button: every line
-/// with a quantity stepper, the running total and the way on to checkout.
+/// with a quantity stepper, the running total and the way on to checkout. Its
+/// title names the brand, since every brand has a cart of its own.
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key, required this.brand});
 
@@ -28,6 +30,8 @@ class CartScreen extends ConsumerWidget {
     final lines = ref.watch(cartLinesProvider(brand));
     final total = ref.watch(cartTotalProvider(brand));
     CartNotifier cart() => ref.read(cartProvider(brand).notifier);
+    // Water sells from its page, with no menu to send people to.
+    final hasMenu = ref.watch(categoriesProvider(brand)).isNotEmpty;
 
     return Scaffold(
       backgroundColor: context.colors.background,
@@ -37,7 +41,9 @@ class CartScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ScreenHeader(
-              title: context.l10n.cartTitle,
+              title: context.l10n.brandCartTitle(
+                context.content.introOf(brand).name,
+              ),
               // Opened straight from a link, there's nothing to go back to.
               onBack: () => context.canPop()
                   ? context.pop()
@@ -52,8 +58,12 @@ class CartScreen extends ConsumerWidget {
                         key: const ValueKey('empty'),
                         icon: Icons.shopping_bag_outlined,
                         title: context.l10n.cartEmptyTitle,
-                        message: context.l10n.cartEmptyMessage,
-                        actionLabel: context.l10n.browseMenu,
+                        message: hasMenu
+                            ? context.l10n.cartEmptyMessage
+                            : context.l10n.cartEmptyMessageNoMenu,
+                        actionLabel: hasMenu
+                            ? context.l10n.browseMenu
+                            : context.l10n.browseProducts,
                         onAction: () =>
                             context.pushReplacement(Routes.brandMenu(brand)),
                       )

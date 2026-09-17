@@ -64,7 +64,15 @@ void main() {
     }
     expect(find.text('Coș'), findsNothing);
     expect(find.text(ro.menuTitle), findsNothing);
-    expect(find.byIcon(Icons.shopping_bag_rounded), findsNothing);
+    // The only shopping bag is the carts button in Acasă's header: no tab.
+    expect(find.byIcon(Icons.shopping_bag_rounded), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byType(OpenCartsButton),
+        matching: find.byIcon(Icons.shopping_bag_rounded),
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets(
@@ -89,7 +97,7 @@ void main() {
         );
         expect(tester.getTopLeft(found).dy, lessThan(80), reason: route);
         expect(
-          inScreenOf(screen, find.byIcon(Icons.receipt_long_rounded)),
+          inScreenOf(screen, find.byIcon(Icons.shopping_bag_rounded)),
           findsOneWidget,
           reason: route,
         );
@@ -101,7 +109,7 @@ void main() {
       ]) {
         await pumpApp(tester, container, route);
         expect(
-          inScreenOf(screen, find.byIcon(Icons.receipt_long_rounded)),
+          inScreenOf(screen, find.byIcon(Icons.shopping_bag_rounded)),
           findsNothing,
           reason: route,
         );

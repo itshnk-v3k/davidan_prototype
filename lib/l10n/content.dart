@@ -121,6 +121,7 @@ class ContentTranslator {
             name: text(intro.name),
             image: intro.image,
             description: textOrNull(intro.description),
+            comingSoon: intro.comingSoon,
           );
   }
 

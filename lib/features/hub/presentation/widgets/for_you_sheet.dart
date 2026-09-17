@@ -43,6 +43,7 @@ class ForYouSheet extends ConsumerWidget {
                     account.name.trim().split(RegExp(r'\s+')).first,
                   ),
             products: products,
+            showBrand: true,
           ),
         ),
       ),

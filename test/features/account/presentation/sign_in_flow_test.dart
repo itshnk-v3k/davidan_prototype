@@ -10,6 +10,7 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/location/location_result.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
+import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/widgets/app_chip.dart';
 import 'package:davidan_prototype/core/widgets/option_tile.dart';
 import 'package:davidan_prototype/data/models/chisinau_sector.dart';
@@ -84,10 +85,7 @@ void main() {
         inScreen<ProfileScreen>(find.text(ro.accountLockedTitle)),
         findsOneWidget,
       );
-      expect(
-        inScreen<ProfileScreen>(find.text(ro.myOrdersTitle)),
-        findsNothing,
-      );
+      expect(inScreen<ProfileScreen>(find.text(ro.navOrders)), findsNothing);
     },
   );
 
@@ -177,7 +175,17 @@ void main() {
       );
       expect(inProfile(find.text('DaviDan Centru')), findsOneWidget);
 
-      await tapVisible(tester, find.text(ro.signOut));
+      // Signing out is last in Profil, below the settings.
+      await tester.scrollUntilVisible(
+        inProfile(find.text(ro.signOut)),
+        300,
+        scrollable: inProfile(find.byType(Scrollable)).first,
+      );
+      await tapVisible(tester, inProfile(find.text(ro.signOut)));
+      // Signing out asks first.
+      expect(find.text(ro.signOutConfirmTitle), findsOneWidget);
+      await tester.tap(find.text(ro.signOut).last);
+      await tester.pumpAndSettle();
       expect(inProfile(find.text(ro.accountLockedTitle)), findsOneWidget);
       expect(container.read(accountProvider), isNull);
     },
@@ -287,4 +295,37 @@ void main() {
     await tapVisible(tester, find.text(ro.createAccount));
     expect(find.byType(WelcomeScreen), findsOneWidget);
   });
+
+  testWidgets(
+    'a number typed with the 0 dialled inside Moldova is taken; the code can '
+    'be sent again only after a minute, counting down',
+    (tester) async {
+      var now = testNow;
+      final container = await createTestContainer(clock: () => now);
+      await pumpApp(tester, container, Routes.signIn);
+
+      await tester.enterText(find.byType(TextField), '069123456');
+      await tapVisible(tester, find.text(ro.sendCode));
+      expect(find.text(ro.codeSentTo('+373 69 123 456')), findsOneWidget);
+
+      expect(find.text(ro.resendCodeIn(60)), findsOneWidget);
+      await tester.tap(find.text(ro.resendCodeIn(60)));
+      await tester.pump();
+      expect(find.text(ro.codeResent), findsNothing);
+
+      now = now.add(const Duration(seconds: 59));
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.text(ro.resendCodeIn(1)), findsOneWidget);
+
+      now = now.add(const Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
+      await tester.tap(find.text(ro.resendCode));
+      await tester.pump();
+      expect(find.text(ro.codeResent), findsOneWidget);
+      expect(find.text(ro.resendCodeIn(60)), findsOneWidget);
+
+      await tester.pump(ToastNotifier.duration);
+      await tester.pumpAndSettle();
+    },
+  );
 }

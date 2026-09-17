@@ -43,7 +43,9 @@ class FavoritesScreen extends ConsumerWidget {
                       onAction: () => context.go(Routes.clientHome),
                     )
                   : CustomScrollView(
-                      slivers: [ProductGrid(products: products)],
+                      slivers: [
+                        ProductGrid(products: products, showBrand: true),
+                      ],
                     ),
             ),
           ],

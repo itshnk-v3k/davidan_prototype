@@ -35,7 +35,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(OrdersScreen), findsOneWidget);
-    expect(inOrders(find.text(ro.myOrdersTitle)), findsOneWidget);
+    expect(inOrders(find.text(ro.navOrders)), findsOneWidget);
   });
 
   testWidgets(

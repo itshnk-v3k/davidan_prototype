@@ -9,9 +9,10 @@ import 'package:davidan_prototype/data/models/rental_booking.dart';
 import 'package:davidan_prototype/data/models/rental_car.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// A rental's price line by line, as davidanrentcar.md's cart adds it up: the
-/// days at the price per day for that many days, each chosen extra, the
-/// location fee and the car's insurance amount, then the total.
+/// A rental's price line by line: the days at the price per day for that many
+/// days, each chosen extra and the location fee, then the rental's total. The
+/// car's insurance amount follows on its own, with the total including it the
+/// way davidanrentcar.md's cart adds it up (see RentalQuote).
 class RentalQuoteCard extends StatelessWidget {
   const RentalQuoteCard({super.key, required this.quote});
 
@@ -60,16 +61,21 @@ class RentalQuoteCard extends StatelessWidget {
               label: l10n.rentalLocationFee,
               value: l10n.formatEuro(quote.locationFeeEur),
             ),
-            const SizedBox(height: AppSpacing.sm),
+            Divider(height: AppSpacing.xl, color: context.colors.border),
+            SummaryRow(
+              label: l10n.rentalPriceTotal,
+              value: l10n.formatEuro(quote.priceEur),
+              emphasized: true,
+            ),
+            const SizedBox(height: AppSpacing.lg),
             SummaryRow(
               label: l10n.rentalInsurance,
               value: l10n.formatEuro(quote.insuranceEur),
             ),
-            Divider(height: AppSpacing.xl, color: context.colors.border),
+            const SizedBox(height: AppSpacing.sm),
             SummaryRow(
-              label: l10n.total,
+              label: l10n.rentalTotalWithInsurance,
               value: l10n.formatEuro(quote.totalEur),
-              emphasized: true,
             ),
           ],
         ),

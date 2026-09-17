@@ -92,7 +92,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get menuTitle => 'Meniu';
 
   @override
-  String get cartTitle => 'Coșul meu';
+  String brandCartTitle(String brand) {
+    return 'Coșul · $brand';
+  }
 
   @override
   String get checkoutTitle => 'Finalizează comanda';
@@ -116,12 +118,22 @@ class AppLocalizationsRo extends AppLocalizations {
   String get comingSoonTitle => 'În curând';
 
   @override
+  String brandComingSoonLabel(String name) {
+    return '$name, în curând';
+  }
+
+  @override
   String forYouTitle(String name) {
     return '$name, pentru tine';
   }
 
   @override
   String get forYouTitleSignedOut => 'Pentru tine';
+
+  @override
+  String addedToBrandCart(String brand) {
+    return 'Adăugat în coș · $brand';
+  }
 
   @override
   String get locationPrompt =>
@@ -178,6 +190,11 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String pinnedAddress(String area, String coordinates) {
     return 'Locația clientului · $area ($coordinates)';
+  }
+
+  @override
+  String pinnedAddressCustomer(String area) {
+    return 'Locația ta · $area';
   }
 
   @override
@@ -264,6 +281,11 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get resendCode => 'Retrimite codul';
+
+  @override
+  String resendCodeIn(int seconds) {
+    return 'Retrimite codul în $seconds s';
+  }
 
   @override
   String get codeResent => 'Cod retrimis (demo, fără SMS real).';
@@ -358,7 +380,20 @@ class AppLocalizationsRo extends AppLocalizations {
   String get signOut => 'Ieși din cont';
 
   @override
-  String get myOrdersTitle => 'Comenzile mele';
+  String get signOutConfirmTitle => 'Ieși din cont?';
+
+  @override
+  String get signOutConfirmMessage =>
+      'Coșurile, comenzile și favoritele rămân pe acest dispozitiv.';
+
+  @override
+  String get profileBrandsTitle => 'Contacte și informații';
+
+  @override
+  String get profileBrandInfoHint => 'Contacte și documente';
+
+  @override
+  String get profileDemoTitle => 'Demo';
 
   @override
   String get ordersEmptyTitle => 'Nicio comandă încă';
@@ -511,6 +546,17 @@ class AppLocalizationsRo extends AppLocalizations {
   String get rentalInsurance => 'Suma de asigurare';
 
   @override
+  String get rentalPriceTotal => 'Total chirie';
+
+  @override
+  String rentalInsuranceExtra(String amount) {
+    return '+ $amount suma de asigurare';
+  }
+
+  @override
+  String get rentalTotalWithInsurance => 'Total cu suma de asigurare';
+
+  @override
   String get rentalFeesNote =>
       'Taxa de locație și suma de asigurare se adaugă o singură dată la fiecare rezervare, oricâte zile ar avea.';
 
@@ -518,7 +564,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get rentalDocumentsTitle => 'Acte necesare';
 
   @override
-  String get rentalRequestAction => 'Cerere de rezervare';
+  String get rentalRequestAction => 'Alege datele';
 
   @override
   String get rentalRequestTitle => 'Cerere de rezervare';
@@ -600,7 +646,24 @@ class AppLocalizationsRo extends AppLocalizations {
   String get rentalRequestSentTitle => 'Cererea a fost trimisă';
 
   @override
+  String get rentalRequestCancelledTitle => 'Cererea a fost anulată';
+
+  @override
   String get rentalWillContact => 'Vă vom contacta în curând.';
+
+  @override
+  String get rentalRequestNotReserved =>
+      'Mașina nu e încă rezervată până nu te contactăm. Nu ai plătit nimic.';
+
+  @override
+  String get rentalCancelRequest => 'Anulează cererea';
+
+  @override
+  String get rentalCancelRequestTitle => 'Anulezi cererea?';
+
+  @override
+  String get rentalCancelRequestMessage =>
+      'Poți trimite oricând o cerere nouă.';
 
   @override
   String rentalBookingNumber(String id) {
@@ -608,7 +671,15 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get rentalBookingStatus => 'Cerere trimisă';
+  String activeBookingSummary(String car, String pickup) {
+    return '$car · $pickup';
+  }
+
+  @override
+  String get rentalBookingStatus => 'În așteptare';
+
+  @override
+  String get rentalBookingCancelled => 'Anulată';
 
   @override
   String get rentalBookingNotFound => 'Cererea nu a fost găsită.';
@@ -639,6 +710,9 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get popularTitle => 'Produse DaviDan';
+
+  @override
+  String get popularTitlePlain => 'Populare';
 
   @override
   String get seeAll => 'Vezi mai mult';
@@ -672,6 +746,11 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
+  String productVolume(String volume) {
+    return 'Volum: $volume';
+  }
+
+  @override
   String get productNotFound => 'Produsul nu a fost găsit.';
 
   @override
@@ -691,8 +770,26 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
+  String updateCartTotal(String total) {
+    return 'Actualizează coșul · $total';
+  }
+
+  @override
+  String get removeFromCartAction => 'Scoate din coș';
+
+  @override
   String addedToCart(int quantity, String productName) {
     return 'Adăugat în coș: $quantity × $productName';
+  }
+
+  @override
+  String cartUpdated(int quantity, String productName) {
+    return 'Coș actualizat: $quantity × $productName';
+  }
+
+  @override
+  String removedFromCart(String productName) {
+    return 'Scos din coș: $productName';
   }
 
   @override
@@ -776,7 +873,14 @@ class AppLocalizationsRo extends AppLocalizations {
       'Adaugă produse din meniu, apoi revino aici ca să finalizezi comanda.';
 
   @override
+  String get cartEmptyMessageNoMenu =>
+      'Adaugă produse, apoi revino aici ca să finalizezi comanda.';
+
+  @override
   String get browseMenu => 'Vezi meniul';
+
+  @override
+  String get browseProducts => 'Vezi produsele';
 
   @override
   String get continueOrder => 'Continuă comanda';
@@ -840,7 +944,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get paymentCash => 'Numerar';
 
   @override
-  String get paymentCard => 'Card prin POS';
+  String get paymentCard => 'Card, la primire (terminal POS)';
 
   @override
   String get orderPlacedTitle => 'Comanda a fost plasată';
@@ -861,6 +965,18 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String orderNumber(String id) {
     return 'Comanda nr. $id';
+  }
+
+  @override
+  String activeOrderSummary(int count, String total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de produse',
+      few: '$count produse',
+      one: '$count produs',
+    );
+    return '$_temp0 · $total';
   }
 
   @override

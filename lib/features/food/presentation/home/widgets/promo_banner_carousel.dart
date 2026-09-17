@@ -52,25 +52,28 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
             ),
           ),
         ),
-        const SizedBox(height: AppSpacing.sm),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            for (var i = 0; i < banners.length; i++)
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                margin: const EdgeInsets.symmetric(horizontal: 3),
-                width: i == _page ? 18 : 6,
-                height: 6,
-                decoration: BoxDecoration(
-                  color: i == _page
-                      ? context.colors.primary
-                      : context.colors.border,
-                  borderRadius: BorderRadius.circular(AppRadii.pill),
+        // One banner has no pages to count.
+        if (banners.length > 1) ...[
+          const SizedBox(height: AppSpacing.sm),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              for (var i = 0; i < banners.length; i++)
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  margin: const EdgeInsets.symmetric(horizontal: 3),
+                  width: i == _page ? 18 : 6,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: i == _page
+                        ? context.colors.primary
+                        : context.colors.border,
+                    borderRadius: BorderRadius.circular(AppRadii.pill),
+                  ),
                 ),
-              ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ],
     );
   }

@@ -146,7 +146,12 @@ class CheckoutScreen extends ConsumerWidget {
                   _Section(
                     title: context.l10n.orderSummaryTitle,
                     children: [
-                      OrderSummaryCard(lines: lines, totalBani: total),
+                      OrderSummaryCard(
+                        lines: lines,
+                        totalBani: total,
+                        // The bottom bar shows it, next to the button.
+                        showTotal: false,
+                      ),
                     ],
                   ),
                 ],

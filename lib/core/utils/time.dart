@@ -19,6 +19,13 @@ String formatDate(DateTime date) =>
 String formatDateTime(DateTime time) =>
     '${formatDate(time)}, ${formatTime(time)}';
 
+/// Formats a date and time without the year, as "dd.MM, HH:mm": 5 September
+/// 2026, 9:05 → "05.09, 09:05". For short lines where the year goes without
+/// saying.
+String formatDayMonthTime(DateTime time) =>
+    '${time.day.toString().padLeft(2, '0')}.'
+    '${time.month.toString().padLeft(2, '0')}, ${formatTime(time)}';
+
 /// Formats a duration as "mm:ss", or "h:mm:ss" from one hour on:
 /// 4 min 12 s → "04:12". A negative duration (clock changed) shows "00:00".
 String formatElapsed(Duration elapsed) {

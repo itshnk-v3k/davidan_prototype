@@ -44,7 +44,15 @@
   "navProfile": "Profil",
   "locationTitle": "Livrare sau ridicare",
   "menuTitle": "Meniu",
-  "cartTitle": "Coșul meu",
+  "brandCartTitle": "Coșul · {brand}",
+  "@brandCartTitle": {
+    "description": "Title of a brand's cart. brand is the brand's bubble name.",
+    "placeholders": {
+      "brand": {
+        "type": "String"
+      }
+    }
+  },
   "checkoutTitle": "Finalizează comanda",
   "profileTitle": "Profil",
   "courierOrdersTitle": "Comenzi de livrat",
@@ -54,6 +62,15 @@
   "comingSoonTitle": "În curând",
   "@comingSoonTitle": {
     "description": "Title of a brand's page when the brand has no menu in the app, e.g. the restaurant."
+  },
+  "brandComingSoonLabel": "{name}, în curând",
+  "@brandComingSoonLabel": {
+    "description": "Screen reader label of a brand's hub bubble when the brand isn't open in the app yet.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "forYouTitle": "{name}, pentru tine",
   "@forYouTitle": {
@@ -68,6 +85,15 @@
   "forYouTitleSignedOut": "Pentru tine",
   "@forYouTitleSignedOut": {
     "description": "forYouTitle when no one is signed in."
+  },
+  "addedToBrandCart": "Adăugat în coș · {brand}",
+  "@addedToBrandCart": {
+    "description": "Toast after adding a product from a row that mixes brands (hub, favourites): which brand's cart it went to. brand is the brand's bubble name.",
+    "placeholders": {
+      "brand": {
+        "type": "String"
+      }
+    }
   },
   "locationPrompt": "Alege cum primești comenzile. Poți schimba oricând din bara de sus a ecranului Acasă.",
   "confirmAddress": "Livrează la această adresă",
@@ -113,6 +139,15 @@
       "coordinates": {
         "type": "String",
         "example": "47.0105, 28.8638"
+      }
+    }
+  },
+  "pinnedAddressCustomer": "Locația ta · {area}",
+  "@pinnedAddressCustomer": {
+    "description": "The customer's own order delivered to their current location, without coordinates.",
+    "placeholders": {
+      "area": {
+        "type": "String"
       }
     }
   },
@@ -165,6 +200,15 @@
   "codeIncomplete": "Scrie toate cele 4 cifre.",
   "confirmCode": "Confirmă codul",
   "resendCode": "Retrimite codul",
+  "resendCodeIn": "Retrimite codul în {seconds} s",
+  "@resendCodeIn": {
+    "description": "The resend button while it waits.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "codeResent": "Cod retrimis (demo, fără SMS real).",
   "demoCodeNote": "Demo: orice cod din 4 cifre este acceptat.",
   "detailsTitle": "Câteva detalii",
@@ -259,7 +303,26 @@
   "accountLockedTitle": "Contul tău",
   "accountLockedMessage": "Intră în cont ca să-ți vezi comenzile și localul cel mai apropiat.",
   "signOut": "Ieși din cont",
-  "myOrdersTitle": "Comenzile mele",
+  "signOutConfirmTitle": "Ieși din cont?",
+  "@signOutConfirmTitle": {
+    "description": "Title of the dialog confirming sign-out."
+  },
+  "signOutConfirmMessage": "Coșurile, comenzile și favoritele rămân pe acest dispozitiv.",
+  "@signOutConfirmMessage": {
+    "description": "Message of the dialog confirming sign-out: what stays."
+  },
+  "profileBrandsTitle": "Contacte și informații",
+  "@profileBrandsTitle": {
+    "description": "Profil section with links to the brands' information pages."
+  },
+  "profileBrandInfoHint": "Contacte și documente",
+  "@profileBrandInfoHint": {
+    "description": "Hint under a brand's link in Profil."
+  },
+  "profileDemoTitle": "Demo",
+  "@profileDemoTitle": {
+    "description": "Profil section holding the demo reset."
+  },
   "ordersEmptyTitle": "Nicio comandă încă",
   "ordersEmptyMessage": "Comenzile tale apar aici, cu statusul lor la zi.",
   "ordersActiveTitle": "În curs",
@@ -438,6 +501,23 @@
   "@rentalInsurance": {
     "description": "The car's insurance amount added to every rental, labelled as in davidanrentcar.md's cart."
   },
+  "rentalPriceTotal": "Total chirie",
+  "@rentalPriceTotal": {
+    "description": "A rental's price: days, extras and the location fee, without the insurance amount."
+  },
+  "rentalInsuranceExtra": "+ {amount} suma de asigurare",
+  "@rentalInsuranceExtra": {
+    "description": "Under a rental request's total: the car's insurance amount, shown apart from the price.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rentalTotalWithInsurance": "Total cu suma de asigurare",
+  "@rentalTotalWithInsurance": {
+    "description": "A rental's price plus the insurance amount, as davidanrentcar.md's cart adds it up."
+  },
   "rentalFeesNote": "Taxa de locație și suma de asigurare se adaugă o singură dată la fiecare rezervare, oricâte zile ar avea.",
   "@rentalFeesNote": {
     "description": "Under a car's price table."
@@ -446,9 +526,9 @@
   "@rentalDocumentsTitle": {
     "description": "Heading of what the driver must show; davidanrentcar.md's terms call it \"Acte Necesare pentru Închiriere\"."
   },
-  "rentalRequestAction": "Cerere de rezervare",
+  "rentalRequestAction": "Alege datele",
   "@rentalRequestAction": {
-    "description": "Button on a car's page that opens the request form; davidanrentcar.md's tab name."
+    "description": "Button on a car's page that opens the request form, where the dates are picked."
   },
   "rentalRequestTitle": "Cerere de rezervare",
   "@rentalRequestTitle": {
@@ -543,9 +623,29 @@
   },
   "rentalSendRequest": "Trimite cererea",
   "rentalRequestSentTitle": "Cererea a fost trimisă",
+  "rentalRequestCancelledTitle": "Cererea a fost anulată",
+  "@rentalRequestCancelledTitle": {
+    "description": "Title of a cancelled rental request's page."
+  },
   "rentalWillContact": "Vă vom contacta în curând.",
   "@rentalWillContact": {
     "description": "Under the sent request, quoting davidanrentcar.md's thank-you page (formal, as the site words it)."
+  },
+  "rentalRequestNotReserved": "Mașina nu e încă rezervată până nu te contactăm. Nu ai plătit nimic.",
+  "@rentalRequestNotReserved": {
+    "description": "Under a sent rental request: what the request doesn't mean yet."
+  },
+  "rentalCancelRequest": "Anulează cererea",
+  "@rentalCancelRequest": {
+    "description": "Button that cancels a waiting rental request, and the dialog's confirming button."
+  },
+  "rentalCancelRequestTitle": "Anulezi cererea?",
+  "@rentalCancelRequestTitle": {
+    "description": "Title of the dialog confirming a rental request's cancellation."
+  },
+  "rentalCancelRequestMessage": "Poți trimite oricând o cerere nouă.",
+  "@rentalCancelRequestMessage": {
+    "description": "Message of the dialog confirming a rental request's cancellation."
   },
   "rentalBookingNumber": "Cererea nr. {id}",
   "@rentalBookingNumber": {
@@ -557,9 +657,25 @@
       }
     }
   },
-  "rentalBookingStatus": "Cerere trimisă",
+  "activeBookingSummary": "{car} · {pickup}",
+  "@activeBookingSummary": {
+    "description": "A rental request on the hub's strip: the car and when it's picked up (\"17.09, 09:00\").",
+    "placeholders": {
+      "car": {
+        "type": "String"
+      },
+      "pickup": {
+        "type": "String"
+      }
+    }
+  },
+  "rentalBookingStatus": "În așteptare",
   "@rentalBookingStatus": {
-    "description": "Status of a car rental request: sent, waiting to be confirmed by phone."
+    "description": "Status of a rental request waiting for DaviDan Rent Car to call."
+  },
+  "rentalBookingCancelled": "Anulată",
+  "@rentalBookingCancelled": {
+    "description": "Status of a rental request the customer cancelled."
   },
   "rentalBookingNotFound": "Cererea nu a fost găsită.",
   "rentalCar": "Mașina",
@@ -587,6 +703,10 @@
   "popularTitle": "Produse DaviDan",
   "@popularTitle": {
     "description": "Heading over the home page's featured products, as on davidan.md."
+  },
+  "popularTitlePlain": "Populare",
+  "@popularTitlePlain": {
+    "description": "Heading over a brand home's featured products when the brand's site has no heading of its own (sushi)."
   },
   "seeAll": "Vezi mai mult",
   "@seeAll": {
@@ -623,6 +743,15 @@
       }
     }
   },
+  "productVolume": "Volum: {volume}",
+  "@productVolume": {
+    "description": "A drink's size on its page, e.g. \"Volum: 0,5L\".",
+    "placeholders": {
+      "volume": {
+        "type": "String"
+      }
+    }
+  },
   "productNotFound": "Produsul nu a fost găsit.",
   "increaseQuantity": "Mărește cantitatea",
   "decreaseQuantity": "Micșorează cantitatea",
@@ -645,6 +774,19 @@
       }
     }
   },
+  "updateCartTotal": "Actualizează coșul · {total}",
+  "@updateCartTotal": {
+    "description": "Button on a product's page when the product is already in the cart: sets the quantity picked.",
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "removeFromCartAction": "Scoate din coș",
+  "@removeFromCartAction": {
+    "description": "Button on a product's page when its quantity is taken down to 0."
+  },
   "addedToCart": "Adăugat în coș: {quantity} × {productName}",
   "@addedToCart": {
     "description": "Toast after adding a product.",
@@ -652,6 +794,27 @@
       "quantity": {
         "type": "int"
       },
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "cartUpdated": "Coș actualizat: {quantity} × {productName}",
+  "@cartUpdated": {
+    "description": "Toast after changing a product's quantity in the cart from its page.",
+    "placeholders": {
+      "quantity": {
+        "type": "int"
+      },
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "removedFromCart": "Scos din coș: {productName}",
+  "@removedFromCart": {
+    "description": "Toast after taking a product out of the cart from its page.",
+    "placeholders": {
       "productName": {
         "type": "String"
       }
@@ -695,7 +858,7 @@
   },
   "openCart": "{count, plural, =0{Coșul meu} one{Coșul meu, {count} produs în coș} few{Coșul meu, {count} produse în coș} other{Coșul meu, {count} de produse în coș}}",
   "@openCart": {
-    "description": "Screen reader label of the header cart button: cartTitle, plus itemsInCart when the cart has anything.",
+    "description": "Screen reader label of a brand's cart button, with itemsInCart when the cart has anything.",
     "placeholders": {
       "count": {
         "type": "int"
@@ -731,7 +894,15 @@
   },
   "cartEmptyTitle": "Coșul tău e gol",
   "cartEmptyMessage": "Adaugă produse din meniu, apoi revino aici ca să finalizezi comanda.",
+  "cartEmptyMessageNoMenu": "Adaugă produse, apoi revino aici ca să finalizezi comanda.",
+  "@cartEmptyMessageNoMenu": {
+    "description": "Empty cart message for a brand that sells from its page and has no menu (water)."
+  },
   "browseMenu": "Vezi meniul",
+  "browseProducts": "Vezi produsele",
+  "@browseProducts": {
+    "description": "Empty cart button for a brand with no menu (water): back to its page."
+  },
   "continueOrder": "Continuă comanda",
   "total": "Total",
   "unitPrice": "{price} / buc.",
@@ -774,9 +945,9 @@
   "orderSummaryTitle": "Comanda ta",
   "placeOrder": "Plasează comanda",
   "paymentCash": "Numerar",
-  "paymentCard": "Card prin POS",
+  "paymentCard": "Card, la primire (terminal POS)",
   "@paymentCard": {
-    "description": "Card payment on the courier's or shop's POS terminal."
+    "description": "Pay by card when receiving the order, on the courier's or shop's terminal."
   },
   "orderPlacedTitle": "Comanda a fost plasată",
   "orderNotFound": "Comanda nu a fost găsită.",
@@ -790,6 +961,18 @@
       "id": {
         "type": "String",
         "example": "DD-1001"
+      }
+    }
+  },
+  "activeOrderSummary": "{count, plural, one{{count} produs} few{{count} produse} other{{count} de produse}} · {total}",
+  "@activeOrderSummary": {
+    "description": "An order on the hub's strip: how many products and the total.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "String"
       }
     }
   },

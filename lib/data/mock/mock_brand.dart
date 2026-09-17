@@ -21,6 +21,7 @@ const brandIntros = <Brand, BrandIntro>{
     image: '${_img}orez-pui.webp',
     description:
         'Experiențe culinare de neuitat într-un ambient elegant și primitor.',
+    comingSoon: true,
   ),
   Brand.sushi: BrandIntro(name: 'Sushi', image: '${_img}ebi-roll.webp'),
   Brand.bakery: BrandIntro(

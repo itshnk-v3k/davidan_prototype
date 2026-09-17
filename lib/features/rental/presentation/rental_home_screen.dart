@@ -15,6 +15,7 @@ import 'package:davidan_prototype/data/mock/rental/rental_cars.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/data/models/rental_car.dart';
 import 'package:davidan_prototype/features/rental/application/rental_providers.dart';
+import 'package:davidan_prototype/features/rental/presentation/car_detail_screen.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// DaviDan Rent Car, full screen above the hub: its homepage's line, how its
@@ -117,10 +118,13 @@ class _CarCard extends StatelessWidget {
             AspectRatio(
               aspectRatio: 3 / 2,
               // The one square photo keeps the car, low in the frame.
-              child: Image.asset(
-                car.image,
-                fit: BoxFit.cover,
-                alignment: const Alignment(0, 0.5),
+              child: Hero(
+                tag: CarDetailScreen.heroTagFor(car.id),
+                child: Image.asset(
+                  car.image,
+                  fit: BoxFit.cover,
+                  alignment: const Alignment(0, 0.5),
+                ),
               ),
             ),
             Padding(

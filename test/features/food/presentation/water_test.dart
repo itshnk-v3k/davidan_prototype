@@ -125,7 +125,7 @@ void main() {
       expect(
         find.descendant(
           of: find.byType(ProductDetailScreen),
-          matching: find.text(ro.productWeight('0,5L')),
+          matching: find.text(ro.productVolume('0,5L')),
         ),
         findsOneWidget,
       );
@@ -156,7 +156,7 @@ void main() {
         sparkling.id: 1,
       });
 
-      await tester.tap(inPage(find.byIcon(Icons.receipt_long_rounded)));
+      await tester.tap(inPage(find.byIcon(Icons.shopping_bag_rounded)));
       await tester.pumpAndSettle();
       await tester.tap(find.text(ro.continueOrder));
       await tester.pumpAndSettle();

@@ -43,7 +43,7 @@ Collected and written 2026-09-16.
 | navProfile | Profil | Профиль |
 | locationTitle | Livrare sau ridicare | Доставка или самовывоз |
 | menuTitle | Meniu | Меню |
-| cartTitle | Coșul meu | Моя корзина |
+| brandCartTitle | Coșul · {brand} | Корзина · {brand} |
 | checkoutTitle | Finalizează comanda | Оформление заказа |
 | profileTitle | Profil | Профиль |
 | courierOrdersTitle | Comenzi de livrat | Заказы на доставку |
@@ -51,8 +51,10 @@ Collected and written 2026-09-16.
 | back | Înapoi | Назад |
 | backHome | Înapoi acasă | На главную |
 | comingSoonTitle | În curând | Скоро |
+| brandComingSoonLabel | {name}, în curând | {name}, скоро |
 | forYouTitle | {name}, pentru tine | {name}, для тебя |
 | forYouTitleSignedOut | Pentru tine | Для тебя |
+| addedToBrandCart | Adăugat în coș · {brand} | Добавлено в корзину · {brand} |
 | locationPrompt | Alege cum primești comenzile. Poți schimba oricând din bara de sus a ecranului Acasă. | Выбери, как получать заказы. Это можно изменить в любой момент в верхней строке экрана «Главная». |
 | confirmAddress | Livrează la această adresă | Доставить по этому адресу |
 | recentAddressesTitle | Adrese folosite recent | Недавние адреса |
@@ -69,6 +71,7 @@ Collected and written 2026-09-16.
 | outsideChisinau | În afara Chișinăului | За пределами Кишинёва |
 | areaOf | Zona {sector} | Район {sector} |
 | pinnedAddress | Locația clientului · {area} ({coordinates}) | Местоположение клиента · {area} ({coordinates}) |
+| pinnedAddressCustomer | Locația ta · {area} | Твоё местоположение · {area} |
 | locationFailureDenied | Nu ai permis accesul la locație. | Доступ к местоположению не разрешён. |
 | locationFailureDeniedForever | Accesul la locație e blocat din setările telefonului. | Доступ к местоположению заблокирован в настройках телефона. |
 | locationFailureServiceOff | Localizarea telefonului e oprită. | Геолокация на телефоне выключена. |
@@ -94,6 +97,7 @@ Collected and written 2026-09-16.
 | codeIncomplete | Scrie toate cele 4 cifre. | Введи все 4 цифры. |
 | confirmCode | Confirmă codul | Подтвердить код |
 | resendCode | Retrimite codul | Отправить код ещё раз |
+| resendCodeIn | Retrimite codul în {seconds} s | Отправить код ещё раз через {seconds} с |
 | codeResent | Cod retrimis (demo, fără SMS real). | Код отправлен ещё раз (демо, без настоящего SMS). |
 | demoCodeNote | Demo: orice cod din 4 cifre este acceptat. | Демо: подходит любой код из 4 цифр. |
 | detailsTitle | Câteva detalii | Немного о тебе |
@@ -120,7 +124,11 @@ Collected and written 2026-09-16.
 | accountLockedTitle | Contul tău | Твой аккаунт |
 | accountLockedMessage | Intră în cont ca să-ți vezi comenzile și localul cel mai apropiat. | Войди, чтобы видеть свои заказы и ближайшее заведение. |
 | signOut | Ieși din cont | Выйти из аккаунта |
-| myOrdersTitle | Comenzile mele | Мои заказы |
+| signOutConfirmTitle | Ieși din cont? | Выйти из аккаунта? |
+| signOutConfirmMessage | Coșurile, comenzile și favoritele rămân pe acest dispozitiv. | Корзины, заказы и избранное останутся на этом устройстве. |
+| profileBrandsTitle | Contacte și informații | Контакты и информация |
+| profileBrandInfoHint | Contacte și documente | Контакты и документы |
+| profileDemoTitle | Demo | Демо |
 | ordersEmptyTitle | Nicio comandă încă | Заказов пока нет |
 | ordersEmptyMessage | Comenzile tale apar aici, cu statusul lor la zi. | Здесь появятся твои заказы с актуальным статусом. |
 | ordersActiveTitle | În curs | Текущие |
@@ -157,9 +165,12 @@ Collected and written 2026-09-16.
 | rentalPricesTitle | Prețuri pe zile | Цены по дням |
 | rentalLocationFee | Taxa de locație | Сбор за локацию |
 | rentalInsurance | Suma de asigurare | Страховая сумма |
+| rentalPriceTotal | Total chirie | Итого за аренду |
+| rentalInsuranceExtra | + {amount} suma de asigurare | + {amount} страховая сумма |
+| rentalTotalWithInsurance | Total cu suma de asigurare | Итого со страховой суммой |
 | rentalFeesNote | Taxa de locație și suma de asigurare se adaugă o singură dată la fiecare rezervare, oricâte zile ar avea. | Сбор за локацию и страховая сумма добавляются к каждой брони один раз, на сколько бы дней она ни была. |
 | rentalDocumentsTitle | Acte necesare | Необходимые документы |
-| rentalRequestAction | Cerere de rezervare | Заявка на бронирование |
+| rentalRequestAction | Alege datele | Выбрать даты |
 | rentalRequestTitle | Cerere de rezervare | Заявка на бронирование |
 | rentalPickupTitle | Ridicare | Получение |
 | rentalReturnTitle | Predare | Возврат |
@@ -181,9 +192,16 @@ Collected and written 2026-09-16.
 | rentalNoPaymentNote | Nu plătești nimic acum. Te contactăm ca să confirmăm rezervarea. | Сейчас ничего платить не нужно. Мы свяжемся с тобой, чтобы подтвердить бронь. |
 | rentalSendRequest | Trimite cererea | Отправить заявку |
 | rentalRequestSentTitle | Cererea a fost trimisă | Заявка отправлена |
+| rentalRequestCancelledTitle | Cererea a fost anulată | Заявка отменена |
 | rentalWillContact | Vă vom contacta în curând. | Мы свяжемся с вами в ближайшее время. |
+| rentalRequestNotReserved | Mașina nu e încă rezervată până nu te contactăm. Nu ai plătit nimic. | Машина не забронирована, пока мы с тобой не свяжемся. Ничего не оплачено. |
+| rentalCancelRequest | Anulează cererea | Отменить заявку |
+| rentalCancelRequestTitle | Anulezi cererea? | Отменить заявку? |
+| rentalCancelRequestMessage | Poți trimite oricând o cerere nouă. | Новую заявку можно отправить в любой момент. |
 | rentalBookingNumber | Cererea nr. {id} | Заявка № {id} |
-| rentalBookingStatus | Cerere trimisă | Заявка отправлена |
+| activeBookingSummary | {car} · {pickup} | {car} · {pickup} |
+| rentalBookingStatus | În așteptare | В ожидании |
+| rentalBookingCancelled | Anulată | Отменена |
 | rentalBookingNotFound | Cererea nu a fost găsită. | Заявка не найдена. |
 | rentalCar | Mașina | Автомобиль |
 | rentalContact | Contact | Контакт |
@@ -193,18 +211,24 @@ Collected and written 2026-09-16.
 | chooseAddress | Alege adresa sau localul | Выбери адрес или заведение |
 | categoriesTitle | Categorii | Категории |
 | popularTitle | Produse DaviDan | Продукция DaviDan |
+| popularTitlePlain | Populare | Популярное |
 | seeAll | Vezi mai mult | Смотреть все |
 | seeAllProducts | {count, plural, one{Vezi {count} produs} few{Vezi toate cele {count} produse} other{Vezi toate cele {count} de produse}} | {count, plural, one{Смотреть {count} товар} few{Смотреть все {count} товара} many{Смотреть все {count} товаров} other{Смотреть все {count} товара}} |
 | categoryEmpty | Momentan nu sunt produse în această categorie. | В этой категории пока нет товаров. |
 | descriptionTitle | Descriere | Описание |
 | productPieces | Bucăți: {pieces} | Количество: {pieces} |
 | productWeight | Masa: {weight} | Вес: {weight} |
+| productVolume | Volum: {volume} | Объём: {volume} |
 | productNotFound | Produsul nu a fost găsit. | Товар не найден. |
 | increaseQuantity | Mărește cantitatea | Увеличить количество |
 | decreaseQuantity | Micșorează cantitatea | Уменьшить количество |
 | inCart | În coș: {count} | В корзине: {count} |
 | addToCartTotal | Adaugă în coș · {total} | В корзину · {total} |
+| updateCartTotal | Actualizează coșul · {total} | Обновить корзину · {total} |
+| removeFromCartAction | Scoate din coș | Убрать из корзины |
 | addedToCart | Adăugat în coș: {quantity} × {productName} | Добавлено в корзину: {quantity} × {productName} |
+| cartUpdated | Coș actualizat: {quantity} × {productName} | Корзина обновлена: {quantity} × {productName} |
+| removedFromCart | Scos din coș: {productName} | Убрано из корзины: {productName} |
 | addToCart | Adaugă {productName} în coș | Добавить {productName} в корзину |
 | removeOneFromCart | Scoate o bucată de {productName} din coș | Убрать одну штуку {productName} из корзины |
 | removeFromCart | Scoate {productName} din coș | Удалить {productName} из корзины |
@@ -219,7 +243,9 @@ Collected and written 2026-09-16.
 | orderAgainHint | După prima comandă, o poți repeta de aici cu o singură apăsare. | После первого заказа его можно будет повторить здесь одним нажатием. |
 | cartEmptyTitle | Coșul tău e gol | Твоя корзина пуста |
 | cartEmptyMessage | Adaugă produse din meniu, apoi revino aici ca să finalizezi comanda. | Добавь товары из меню и вернись сюда, чтобы оформить заказ. |
+| cartEmptyMessageNoMenu | Adaugă produse, apoi revino aici ca să finalizezi comanda. | Добавь товары и вернись сюда, чтобы оформить заказ. |
 | browseMenu | Vezi meniul | Смотреть меню |
+| browseProducts | Vezi produsele | Смотреть товары |
 | continueOrder | Continuă comanda | Продолжить |
 | total | Total | Итого |
 | unitPrice | {price} / buc. | {price} / шт. |
@@ -239,13 +265,14 @@ Collected and written 2026-09-16.
 | orderSummaryTitle | Comanda ta | Твой заказ |
 | placeOrder | Plasează comanda | Оформить заказ |
 | paymentCash | Numerar | Наличными |
-| paymentCard | Card prin POS | Картой через терминал |
+| paymentCard | Card, la primire (terminal POS) | Картой при получении (POS-терминал) |
 | orderPlacedTitle | Comanda a fost plasată | Заказ оформлен |
 | orderNotFound | Comanda nu a fost găsită. | Заказ не найден. |
 | pickupFrom | Ridicare din | Самовывоз из |
 | orderTime | Ora | Время |
 | trackingComingSoon | Urmărirea comenzii pas cu pas va apărea aici în etapele următoare. | Пошаговое отслеживание заказа появится здесь на следующих этапах. |
 | orderNumber | Comanda nr. {id} | Заказ № {id} |
+| activeOrderSummary | {count, plural, one{{count} produs} few{{count} produse} other{{count} de produse}} · {total} | {count, plural, one{{count} товар} few{{count} товара} many{{count} товаров} other{{count} товара}} · {total} |
 | orderStatusPlaced | Plasată | Оформлен |
 | orderStatusAccepted | Acceptată | Принят |
 | orderStatusPreparing | Se pregătește | Готовится |

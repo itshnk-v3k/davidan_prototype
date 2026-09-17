@@ -10,6 +10,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/routes.dart';
+import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
@@ -148,6 +149,18 @@ void main() {
       expect(container.read(cartQuantitiesProvider(Brand.sushi)), {
         'tuna-roll': 1,
       });
+      // Favourites mix brands, so the card names its own and adding says
+      // which cart the roll went to.
+      expect(
+        find.descendant(
+          of: find.widgetWithText(ProductCard, 'Tuna Roll'),
+          matching: find.text('Sushi'),
+        ),
+        findsOneWidget,
+      );
+      expect(find.text(ro.addedToBrandCart('Sushi')), findsOneWidget);
+      await tester.pump(ToastNotifier.duration);
+      await tester.pumpAndSettle();
 
       await tester.tap(inScreen<FavoritesScreen>(find.byType(OpenCartsButton)));
       await tester.pumpAndSettle();

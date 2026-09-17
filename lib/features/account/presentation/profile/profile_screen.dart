@@ -10,10 +10,14 @@ import 'package:davidan_prototype/core/theme/theme_mode_notifier.dart';
 import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/utils/phone.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
+import 'package:davidan_prototype/core/widgets/confirm_dialog.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/language_selector.dart';
+import 'package:davidan_prototype/core/widgets/link_card.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
+import 'package:davidan_prototype/core/widgets/section_title.dart';
 import 'package:davidan_prototype/core/widgets/theme_mode_selector.dart';
+import 'package:davidan_prototype/data/mock/mock_brand.dart';
 import 'package:davidan_prototype/data/models/customer_account.dart';
 import 'package:davidan_prototype/features/account/application/account_notifier.dart';
 import 'package:davidan_prototype/features/account/presentation/widgets/nearest_shop_card.dart';
@@ -21,11 +25,11 @@ import 'package:davidan_prototype/features/launcher/application/demo_reset_notif
 import 'package:davidan_prototype/l10n/app_language.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
-/// Profile tab. Locked until the customer goes through the demo sign-in;
-/// then their name, number, sector and nearest shop, and a way to sign out.
-/// Orders and saved products have their own tabs. The theme and language
-/// switches and the demo reset are there either way: the customer app build
-/// has no launcher to hold them.
+/// Profile tab. The account comes first once the customer goes through the
+/// demo sign-in (their name, number, sector and nearest shop), or a way to sign
+/// in. Then, either way: the brands' contacts and legal pages, the theme and
+/// language switches, the demo reset (the customer app build has no launcher
+/// to hold it) and, last, signing out, which asks first.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
@@ -69,7 +73,7 @@ class ProfileScreen extends ConsumerWidget {
                                   AppSpacing.gutter,
                                   AppSpacing.xl,
                                 ),
-                                child: _DemoSettings(),
+                                child: _ProfileSections(),
                               ),
                             ],
                           ),
@@ -87,21 +91,31 @@ class ProfileScreen extends ConsumerWidget {
                         _AccountCard(account: account),
                         const SizedBox(height: AppSpacing.md),
                         NearestShopCard(account: account),
-                        const SizedBox(height: AppSpacing.xl),
-                        AppButton(
-                          label: context.l10n.signOut,
-                          icon: Icons.logout_rounded,
-                          variant: AppButtonVariant.secondary,
-                          onPressed: () =>
-                              ref.read(accountProvider.notifier).signOut(),
-                        ),
-                        const SizedBox(height: AppSpacing.xl),
-                        const _DemoSettings(),
+                        const _ProfileSections(),
                         const SizedBox(height: AppSpacing.lg),
                         Text(
                           context.l10n.demoProfileNote,
                           style: context.textStyles.caption,
                           textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: AppSpacing.xl),
+                        AppButton(
+                          label: context.l10n.signOut,
+                          icon: Icons.logout_rounded,
+                          variant: AppButtonVariant.secondary,
+                          onPressed: () async {
+                            final l10n = context.l10n;
+                            final confirmed = await showConfirmDialog(
+                              context,
+                              title: l10n.signOutConfirmTitle,
+                              message: l10n.signOutConfirmMessage,
+                              confirmLabel: l10n.signOut,
+                              cancelLabel: l10n.back,
+                            );
+                            if (confirmed) {
+                              ref.read(accountProvider.notifier).signOut();
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -113,17 +127,31 @@ class ProfileScreen extends ConsumerWidget {
   }
 }
 
-/// The theme and language switches and the demo reset. Resetting starts the
-/// demo over from the splash, the way a first launch would; the theme and the
+/// What Profil shows signed in or not: the brands' information pages, the
+/// theme and language switches, and the demo reset. Resetting starts the demo
+/// over from the splash, the way a first launch would; the theme and the
 /// language stay as chosen.
-class _DemoSettings extends ConsumerWidget {
-  const _DemoSettings();
+class _ProfileSections extends ConsumerWidget {
+  const _ProfileSections();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        const SizedBox(height: AppSpacing.xl),
+        SectionTitle(title: context.l10n.profileBrandsTitle),
+        const SizedBox(height: AppSpacing.md),
+        for (final brand in brandInfos.keys) ...[
+          LinkCard(
+            icon: Icons.info_outline_rounded,
+            title: context.content.introOf(brand).name,
+            hint: context.l10n.profileBrandInfoHint,
+            onTap: () => context.push(Routes.brandInfo(brand)),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+        ],
+        const SizedBox(height: AppSpacing.lg),
         ThemeModeSelector(
           selected: ref.watch(themeModeProvider),
           onSelected: ref.read(themeModeProvider.notifier).select,
@@ -133,7 +161,9 @@ class _DemoSettings extends ConsumerWidget {
           selected: ref.watch(appLanguageProvider),
           onSelected: ref.read(appLanguageProvider.notifier).select,
         ),
-        const SizedBox(height: AppSpacing.lg),
+        const SizedBox(height: AppSpacing.xl),
+        SectionTitle(title: context.l10n.profileDemoTitle),
+        const SizedBox(height: AppSpacing.md),
         AppButton(
           label: context.l10n.resetDemoData,
           icon: Icons.restart_alt_rounded,

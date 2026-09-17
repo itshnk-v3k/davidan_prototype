@@ -5,9 +5,12 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/theme/brand_colors.dart';
-import 'package:davidan_prototype/core/widgets/status_pill.dart';
+import 'package:davidan_prototype/core/utils/money.dart';
+import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/features/orders/application/customer_requests_provider.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
+import 'package:davidan_prototype/features/rental/application/rental_providers.dart';
+import 'package:davidan_prototype/features/rental/presentation/widgets/rental_booking_status_pill.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The orders still on their way and the car rental requests, from every
@@ -60,18 +63,35 @@ class ActiveOrdersStrip extends ConsumerWidget {
   }
 }
 
-/// The brand's photo and name, the order's or request's number and its
-/// status.
-class _ActiveRequestCard extends StatelessWidget {
+/// The brand's photo and name, what was sent (an order's products and total,
+/// a request's car and pick-up time) and its status. The number stays on the
+/// detail page: on its own it tells people nothing.
+class _ActiveRequestCard extends ConsumerWidget {
   const _ActiveRequestCard({required this.request, required this.onTap});
 
   final CustomerRequest request;
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
+    final l10n = context.l10n;
     final intro = context.content.introOf(request.brand);
+    final summary = switch (request) {
+      OrderRequest(:final order) => l10n.activeOrderSummary(
+        order.items.fold(0, (count, item) => count + item.quantity),
+        l10n.formatLei(order.totalBani),
+      ),
+      BookingRequest(:final booking) => switch (ref.watch(
+        rentalCarByIdProvider(booking.carId),
+      )) {
+        final car? => l10n.activeBookingSummary(
+          car.name,
+          formatDayMonthTime(booking.pickupAt),
+        ),
+        null => l10n.rentalBookingNumber(booking.id),
+      },
+    };
     final image = intro.image;
 
     return Material(
@@ -118,13 +138,7 @@ class _ActiveRequestCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      switch (request) {
-                        OrderRequest(:final order) => context.l10n.orderNumber(
-                          order.id,
-                        ),
-                        BookingRequest(:final booking) =>
-                          context.l10n.rentalBookingNumber(booking.id),
-                      },
+                      summary,
                       style: context.textStyles.bodyStrong,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -137,8 +151,8 @@ class _ActiveRequestCard extends StatelessWidget {
                 OrderRequest(:final order) => OrderStatusPill(
                   status: order.status,
                 ),
-                BookingRequest() => StatusPill(
-                  label: context.l10n.rentalBookingStatus,
+                BookingRequest(:final booking) => RentalBookingStatusPill(
+                  booking: booking,
                 ),
               },
             ],

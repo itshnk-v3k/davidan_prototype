@@ -60,11 +60,27 @@ class RentalBookingsNotifier extends Notifier<List<RentalBooking>> {
         extras: extras,
       ),
     );
-    state = [booking, ...state];
+    _save([booking, ...state]);
+    return booking;
+  }
+
+  /// Cancels a request that is still waiting. It stays in the list, as
+  /// cancelled, keeping its number.
+  void cancel(String bookingId) {
+    final now = ref.read(clockProvider)();
+    _save([
+      for (final booking in state)
+        booking.id == bookingId && !booking.cancelled
+            ? booking.cancel(now)
+            : booking,
+    ]);
+  }
+
+  void _save(List<RentalBooking> bookings) {
+    state = bookings;
     ref.read(localStoreProvider).write(StorageKeys.rentalBookings, [
       for (final booking in state) booking.toJson(),
     ]);
-    return booking;
   }
 
   static List<RentalBooking> _decode(Object? json) => [

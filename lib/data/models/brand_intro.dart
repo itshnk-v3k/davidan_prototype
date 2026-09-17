@@ -5,7 +5,12 @@ import 'package:flutter/foundation.dart';
 /// (docs/sources/), never invented.
 @immutable
 class BrandIntro {
-  const BrandIntro({required this.name, this.image, this.description});
+  const BrandIntro({
+    required this.name,
+    this.image,
+    this.description,
+    this.comingSoon = false,
+  });
 
   /// The brand's name under its bubble.
   final String name;
@@ -17,4 +22,8 @@ class BrandIntro {
   /// The brand's one-line description. Null when its page is the brand's own
   /// menu, which needs none.
   final String? description;
+
+  /// The brand isn't open in the app yet: its bubble says so, and its page
+  /// only introduces it.
+  final bool comingSoon;
 }

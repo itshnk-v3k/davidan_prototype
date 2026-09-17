@@ -116,6 +116,23 @@ class CartNotifier extends Notifier<List<CartItem>> {
     }
   }
 
+  /// Sets a product's quantity, adding its line if needed; 0 removes the line.
+  void setQuantity(String productId, int quantity) {
+    assert(quantity >= 0, 'A quantity cannot be negative');
+    if (quantity == 0) return remove(productId);
+    final inCart = state.any((item) => item.productId == productId);
+    _save(
+      inCart
+          ? [
+              for (final item in state)
+                item.productId == productId
+                    ? item.copyWith(quantity: quantity)
+                    : item,
+            ]
+          : [...state, CartItem(productId: productId, quantity: quantity)],
+    );
+  }
+
   /// Removes one unit; the line disappears when its quantity reaches zero.
   void removeOne(String productId) {
     _save([

@@ -4,6 +4,7 @@ import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
+import 'package:davidan_prototype/core/theme/brand_colors.dart';
 import 'package:davidan_prototype/core/utils/money.dart';
 import 'package:davidan_prototype/core/widgets/press_scale.dart';
 import 'package:davidan_prototype/data/models/product.dart';
@@ -15,7 +16,8 @@ import 'package:davidan_prototype/l10n/l10n.dart';
 /// Product card: photo with a favourite heart, name, price, and an add button
 /// that turns into a quantity stepper once the product is in the cart.
 /// Tapping anywhere else on the card opens the product; the photo flies to
-/// the product page.
+/// the product page. Shown outside its brand (the hub, favourites), the card
+/// names its brand on the photo, since "+" adds to that brand's cart.
 class ProductCard extends StatelessWidget {
   const ProductCard({
     super.key,
@@ -28,6 +30,7 @@ class ProductCard extends StatelessWidget {
     required this.onToggleFavorite,
     this.heroScope,
     this.compact = false,
+    this.brandName,
   });
 
   final Product product;
@@ -44,6 +47,9 @@ class ProductCard extends StatelessWidget {
   /// For the narrow cards of home's rows: the price gets its own line, with
   /// the add button or stepper under it, instead of sharing one.
   final bool compact;
+
+  /// The brand's name, on the photo; null inside the brand's own pages.
+  final String? brandName;
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +121,23 @@ class ProductCard extends StatelessWidget {
                         scope: heroScope,
                       ),
                     ),
+                    if (brandName case final brandName?)
+                      Positioned(
+                        top: AppSpacing.sm,
+                        left: AppSpacing.sm,
+                        // Leaves room for the heart.
+                        right: AppSpacing.sm + 32 + AppSpacing.xs,
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: _BrandTag(
+                            name: brandName,
+                            color: BrandColors.of(
+                              product.key.brand,
+                              Theme.of(context).brightness,
+                            ).primary,
+                          ),
+                        ),
+                      ),
                     Positioned(
                       top: AppSpacing.sm,
                       right: AppSpacing.sm,
@@ -166,6 +189,36 @@ class ProductCard extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// A brand's name in its colour, on a pill that stays readable over any photo.
+class _BrandTag extends StatelessWidget {
+  const _BrandTag({required this.name, required this.color});
+
+  final String name;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: context.colors.surface,
+        borderRadius: BorderRadius.circular(AppRadii.pill),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.sm,
+          vertical: AppSpacing.xxs,
+        ),
+        child: Text(
+          name,
+          style: context.textStyles.label.copyWith(color: color),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

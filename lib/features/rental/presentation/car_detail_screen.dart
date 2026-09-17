@@ -26,6 +26,9 @@ class CarDetailScreen extends ConsumerWidget {
 
   final String carId;
 
+  /// The car's photo flies from its card on Rent Car's page to this screen.
+  static String heroTagFor(String carId) => 'car-$carId';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final car = ref.watch(rentalCarByIdProvider(carId))!;
@@ -58,10 +61,13 @@ class CarDetailScreen extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(AppRadii.lg),
                     child: AspectRatio(
                       aspectRatio: 3 / 2,
-                      child: Image.asset(
-                        car.image,
-                        fit: BoxFit.cover,
-                        alignment: const Alignment(0, 0.5),
+                      child: Hero(
+                        tag: CarDetailScreen.heroTagFor(car.id),
+                        child: Image.asset(
+                          car.image,
+                          fit: BoxFit.cover,
+                          alignment: const Alignment(0, 0.5),
+                        ),
                       ),
                     ),
                   ),

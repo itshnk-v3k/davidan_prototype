@@ -22,6 +22,7 @@ class ProductShelf extends StatelessWidget {
     this.onSeeAll,
     this.description,
     this.seeAllLabel,
+    this.showBrand = false,
   }) : assert(
          seeAllLabel == null || onSeeAll != null,
          'The end tile needs onSeeAll',
@@ -37,6 +38,9 @@ class ProductShelf extends StatelessWidget {
   final VoidCallback? onSeeAll;
   final String? description;
   final String? seeAllLabel;
+
+  /// For a row mixing brands: see [ConnectedProductCard.showBrand].
+  final bool showBrand;
 
   /// Two cards and a peek of the third on a 400 px phone.
   static const cardWidth = 152.0;
@@ -113,6 +117,7 @@ class ProductShelf extends StatelessWidget {
                       product: products[index],
                       heroScope: id,
                       compact: true,
+                      showBrand: showBrand,
                     )
                   : _SeeAllTile(label: seeAllLabel!, onTap: onSeeAll!),
             ),

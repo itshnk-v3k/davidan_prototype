@@ -20,7 +20,7 @@ class FulfilmentDetailRow extends ConsumerWidget {
       final HomeDelivery delivery => DetailRow(
         icon: Icons.delivery_dining_rounded,
         label: context.l10n.deliverTo,
-        value: context.l10n.deliveryAddressText(delivery),
+        value: context.l10n.customerDeliveryAddressText(delivery),
       ),
       StorePickup(:final locationId) => DetailRow(
         icon: Icons.storefront_rounded,

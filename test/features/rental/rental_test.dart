@@ -144,6 +144,7 @@ void main() {
       });
       expect(oneDay.locationFeeEur, 11);
       expect(oneDay.insuranceEur, 150);
+      expect(oneDay.priceEur, 56);
       expect(oneDay.totalEur, 206);
 
       final month = quoteRental(car, days: 21, extras: const {});
@@ -181,6 +182,33 @@ void main() {
         expect(saved.toJson(), booking.toJson());
       },
     );
+
+    test('a cancelled request keeps its number and price, and stays cancelled '
+        'after a restart', () async {
+      final notifier = container.read(rentalBookingsProvider.notifier);
+      final booking = notifier.request(
+        car: container.read(rentalCarByIdProvider(logan))!,
+        pickupLocation: RentalLocation.chisinau,
+        returnLocation: RentalLocation.chisinau,
+        pickupAt: DateTime(2026, 9, 20, 9),
+        returnAt: DateTime(2026, 9, 22, 9),
+        extras: const {},
+        name: 'Ana Popescu',
+        phone: '69123456',
+        notes: '',
+      );
+      notifier.cancel(booking.id);
+      final [cancelled] = container.read(rentalBookingsProvider);
+      expect(cancelled.cancelledAt, testNow);
+      expect(cancelled.quote.toJson(), booking.quote.toJson());
+      await flushWrites();
+
+      final restarted = await startApp();
+      addTearDown(restarted.dispose);
+      final [saved] = restarted.read(rentalBookingsProvider);
+      expect(saved.cancelled, isTrue);
+      expect(saved.toJson(), cancelled.toJson());
+    });
   });
 
   testWidgets(
@@ -367,18 +395,26 @@ void main() {
         ro.rentalRateForTier('1–3 zile'),
         ro.rentalLocationFee,
         '11 €',
+        ro.rentalPriceTotal,
+        '101 €',
         ro.rentalInsurance,
         '150 €',
-        ro.total,
+        ro.rentalTotalWithInsurance,
         '251 €',
       ]);
-      expect(
-        find.descendant(
-          of: find.byType(TotalBar),
-          matching: find.text('251 €'),
-        ),
-        findsOneWidget,
-      );
+      // The bar leads with the rental's price; the insurance amount, which
+      // DaviDan hasn't said comes back or not, is under it on its own.
+      for (final text in [
+        ro.rentalPriceTotal,
+        '101 €',
+        ro.rentalInsuranceExtra('150 €'),
+      ]) {
+        expect(
+          find.descendant(of: find.byType(TotalBar), matching: find.text(text)),
+          findsOneWidget,
+          reason: text,
+        );
+      }
 
       // Returned an hour later: a fourth day, at the 4–10 day price.
       await pickReturnTime(tester, '10:00');
@@ -405,9 +441,11 @@ void main() {
         '20 €',
         ro.rentalLocationFee,
         '11 €',
+        ro.rentalPriceTotal,
+        '141 €',
         ro.rentalInsurance,
         '150 €',
-        ro.total,
+        ro.rentalTotalWithInsurance,
         '291 €',
       ]);
 
@@ -477,6 +515,7 @@ void main() {
         ro.rentalBookingNumber('RC-1001'),
         ro.rentalBookingStatus,
         'Vă vom contacta în curând.',
+        ro.rentalRequestNotReserved,
         'Dacia Logan',
         'Aeroport Chișinău · 16.09.2026, 09:00',
         'Chișinău · 19.09.2026, 09:00',
@@ -499,7 +538,8 @@ void main() {
         inOrders(find.text('16.09.2026, 09:00 – 19.09.2026, 09:00')),
         findsOneWidget,
       );
-      expect(inOrders(find.text('251 €')), findsOneWidget);
+      expect(inOrders(find.text(ro.rentalPriceTotal)), findsOneWidget);
+      expect(inOrders(find.text('101 €')), findsOneWidget);
       expect(
         inOrders(find.text(brandIntros[Brand.carRental]!.name)),
         findsWidgets,
@@ -521,9 +561,12 @@ void main() {
 
       container.read(appRouterProvider).go(Routes.clientHome);
       await tester.pumpAndSettle();
+      // The strip names the car and when it's picked up, not the number.
       final inStrip = find.descendant(
         of: find.byType(ActiveOrdersStrip),
-        matching: find.text(ro.rentalBookingNumber('RC-1001')),
+        matching: find.text(
+          ro.activeBookingSummary('Dacia Logan', '16.09, 09:00'),
+        ),
       );
       expect(inStrip, findsOneWidget);
       advanceOrderTo(container, order.id, OrderStatus.completed);
@@ -532,6 +575,78 @@ void main() {
       await tester.tap(inStrip);
       await tester.pumpAndSettle();
       expect(find.byType(RentalBookingScreen), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'a waiting request can be cancelled, after a confirmation: it stays in '
+    'Comenzi as cancelled and leaves the hub',
+    (tester) async {
+      final car = container.read(rentalCarByIdProvider(logan))!;
+      container
+          .read(rentalBookingsProvider.notifier)
+          .request(
+            car: car,
+            pickupLocation: RentalLocation.chisinau,
+            returnLocation: RentalLocation.chisinau,
+            pickupAt: DateTime(2026, 9, 20, 9),
+            returnAt: DateTime(2026, 9, 22, 9),
+            extras: const {},
+            name: 'Ana Popescu',
+            phone: '69123456',
+            notes: '',
+          );
+      await pumpApp(
+        tester,
+        container,
+        Routes.clientBooking('RC-1001'),
+        size: tall,
+      );
+
+      // Backing out of the dialog keeps it waiting.
+      await tapVisible(tester, find.text(ro.rentalCancelRequest));
+      expect(find.text(ro.rentalCancelRequestTitle), findsOneWidget);
+      await tester.tap(find.text(ro.back));
+      await tester.pumpAndSettle();
+      expect(container.read(rentalBookingsProvider).single.cancelled, isFalse);
+
+      await tapVisible(tester, find.text(ro.rentalCancelRequest));
+      await tester.tap(find.text(ro.rentalCancelRequest).last);
+      await tester.pumpAndSettle();
+      final [booking] = container.read(rentalBookingsProvider);
+      expect(booking.cancelledAt, testNow);
+      for (final text in [
+        ro.rentalRequestCancelledTitle,
+        ro.rentalBookingCancelled,
+      ]) {
+        expect(
+          inScreen<RentalBookingScreen>(find.text(text)),
+          findsOneWidget,
+          reason: text,
+        );
+      }
+      expect(find.text(ro.rentalCancelRequest), findsNothing);
+      expect(find.text(ro.rentalRequestNotReserved), findsNothing);
+
+      container.read(appRouterProvider).go(Routes.clientHome);
+      await tester.pumpAndSettle();
+      expect(container.read(activeRequestsProvider), isEmpty);
+      expect(
+        find.text(ro.activeBookingSummary('Dacia Logan', '20.09, 09:00')),
+        findsNothing,
+      );
+
+      signInTestAccount(container);
+      container.read(appRouterProvider).go(Routes.clientOrders);
+      await tester.pumpAndSettle();
+      expect(
+        inScreen<OrdersScreen>(find.text(ro.ordersPastTitle)),
+        findsOneWidget,
+      );
+      expect(
+        inScreen<OrdersScreen>(find.text(ro.rentalBookingCancelled)),
+        findsOneWidget,
+      );
     },
   );
 

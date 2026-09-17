@@ -13,4 +13,12 @@ extension DeliveryAddressText on AppLocalizations {
     ),
     null => delivery.address,
   };
+
+  /// The same address as the customer sees it on their own order: "your
+  /// location" and its area, without the coordinates the courier needs.
+  String customerDeliveryAddressText(HomeDelivery delivery) =>
+      switch (delivery.point) {
+        final point? => pinnedAddressCustomer(areaName(sectorAt(point))),
+        null => delivery.address,
+      };
 }

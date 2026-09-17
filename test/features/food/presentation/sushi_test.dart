@@ -102,6 +102,18 @@ void main() {
         ),
         findsOneWidget,
       );
+      // "Produse DaviDan" is davidan.md's heading; the sushi site has none.
+      expect(
+        find.descendant(
+          of: row('popular'),
+          matching: find.text(ro.popularTitlePlain),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        inScreen<BrandHomeScreen>(find.text(ro.popularTitle)),
+        findsNothing,
+      );
 
       final homeScroll = find
           .descendant(
@@ -179,15 +191,16 @@ void main() {
         find.descendant(of: page, matching: find.text('Davidan Set')),
         findsOneWidget,
       );
-      expect(
-        find.descendant(
-          of: page,
-          matching: find.text(
-            '${ro.productPieces('48 buc')} · ${ro.productWeight('1900g')}',
-          ),
-        ),
-        findsOneWidget,
-      );
+      for (final size in [
+        ro.productPieces('48 buc'),
+        ro.productWeight('1900g'),
+      ]) {
+        expect(
+          find.descendant(of: page, matching: find.text(size)),
+          findsOneWidget,
+          reason: size,
+        );
+      }
       expect(ro.productWeight('1900g'), 'Masa: 1900g');
       expect(
         find.descendant(

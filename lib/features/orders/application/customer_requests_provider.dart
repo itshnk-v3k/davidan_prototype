@@ -18,8 +18,8 @@ sealed class CustomerRequest {
   Brand get brand;
   DateTime get createdAt;
 
-  /// Still under way: an order not yet completed, or a rental request, which
-  /// stays sent since the company confirms it by phone.
+  /// Still under way: an order not yet completed, or a rental request that
+  /// wasn't cancelled (the company confirms it by phone, so it waits).
   bool get active;
 }
 
@@ -56,7 +56,7 @@ final class BookingRequest extends CustomerRequest {
   DateTime get createdAt => booking.createdAt;
 
   @override
-  bool get active => true;
+  bool get active => !booking.cancelled;
 }
 
 /// Every order and car rental request, newest first. Those sent in the same

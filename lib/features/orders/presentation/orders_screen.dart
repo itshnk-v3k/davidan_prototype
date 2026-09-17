@@ -14,7 +14,6 @@ import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/core/widgets/section_title.dart';
-import 'package:davidan_prototype/core/widgets/status_pill.dart';
 import 'package:davidan_prototype/core/widgets/summary_row.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/account/application/account_notifier.dart';
@@ -22,6 +21,7 @@ import 'package:davidan_prototype/features/orders/application/customer_requests_
 import 'package:davidan_prototype/features/orders/presentation/widgets/fulfilment_detail_row.dart';
 import 'package:davidan_prototype/features/orders/presentation/widgets/order_status_pill.dart';
 import 'package:davidan_prototype/features/rental/application/rental_providers.dart';
+import 'package:davidan_prototype/features/rental/presentation/widgets/rental_booking_status_pill.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The Comenzi tab: the customer's orders from every brand and car rental
@@ -73,7 +73,7 @@ class OrdersScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ScreenHeader(title: context.l10n.myOrdersTitle),
+            ScreenHeader(title: context.l10n.navOrders),
             if (account != null && brands.length > 1) ...[
               _BrandChips(
                 brands: brands,
@@ -147,8 +147,8 @@ class OrdersScreen extends ConsumerWidget {
                                   booking.id,
                                 ),
                                 createdAt: booking.createdAt,
-                                status: StatusPill(
-                                  label: context.l10n.rentalBookingStatus,
+                                status: RentalBookingStatusPill(
+                                  booking: booking,
                                 ),
                                 details: DetailRow(
                                   icon: Icons.directions_car_rounded,
@@ -165,8 +165,9 @@ class OrdersScreen extends ConsumerWidget {
                                       '${formatDateTime(booking.pickupAt)} – '
                                       '${formatDateTime(booking.returnAt)}',
                                 ),
+                                totalLabel: context.l10n.rentalPriceTotal,
                                 total: context.l10n.formatEuro(
-                                  booking.quote.totalEur,
+                                  booking.quote.priceEur,
                                 ),
                                 onTap: () => context.push(
                                   Routes.clientBooking(booking.id),
@@ -233,6 +234,7 @@ class _RequestCard extends StatelessWidget {
     required this.status,
     required this.details,
     required this.total,
+    this.totalLabel,
     required this.onTap,
   });
 
@@ -246,6 +248,9 @@ class _RequestCard extends StatelessWidget {
 
   /// Already formatted, in the brand's currency.
   final String total;
+
+  /// What [total] is; "Total" when null.
+  final String? totalLabel;
   final VoidCallback onTap;
 
   @override
@@ -296,7 +301,7 @@ class _RequestCard extends StatelessWidget {
               const SizedBox(height: AppSpacing.md),
               details,
               Divider(height: AppSpacing.xl, color: context.colors.border),
-              SummaryRow(label: context.l10n.total, value: total),
+              SummaryRow(label: totalLabel ?? context.l10n.total, value: total),
             ],
           ),
         ),

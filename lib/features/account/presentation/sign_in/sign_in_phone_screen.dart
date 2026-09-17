@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -72,10 +71,7 @@ class SignInPhoneScreen extends ConsumerWidget {
                     autofillHints: const [
                       AutofillHints.telephoneNumberNational,
                     ],
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(MoldovanPhone.length),
-                    ],
+                    inputFormatters: [MoldovanPhone.inputFormatter],
                     style: context.textStyles.body,
                     decoration: InputDecoration(
                       labelText: context.l10n.phoneLabel,

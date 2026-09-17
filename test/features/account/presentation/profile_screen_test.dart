@@ -18,6 +18,7 @@ import 'package:davidan_prototype/features/account/application/account_notifier.
 import 'package:davidan_prototype/features/account/presentation/profile/profile_screen.dart';
 import 'package:davidan_prototype/features/account/presentation/sign_in/sign_in_phone_screen.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
+import 'package:davidan_prototype/features/hub/presentation/brand_info_screen.dart';
 import 'package:davidan_prototype/features/hub/presentation/splash/splash_screen.dart';
 import 'package:davidan_prototype/features/orders/application/orders_notifier.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -43,7 +44,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(ProfileScreen), findsOneWidget);
-    expect(inProfile(find.text(ro.myOrdersTitle)), findsNothing);
+    expect(inProfile(find.text(ro.navOrders)), findsNothing);
     expect(inProfile(find.text('138 lei')), findsNothing);
   });
 
@@ -79,7 +80,17 @@ void main() {
       expect(inProfile(find.text(ro.nearestShopTitle)), findsOneWidget);
       expect(inProfile(find.text('DaviDan Buiucani')), findsOneWidget);
 
-      await tapVisible(tester, find.text(ro.signOut));
+      // Signing out is last in Profil, below the settings.
+      await tester.scrollUntilVisible(
+        inProfile(find.text(ro.signOut)),
+        300,
+        scrollable: inProfile(find.byType(Scrollable)).first,
+      );
+      await tapVisible(tester, inProfile(find.text(ro.signOut)));
+      // Signing out asks first.
+      expect(find.text(ro.signOutConfirmTitle), findsOneWidget);
+      await tester.tap(find.text(ro.signOut).last);
+      await tester.pumpAndSettle();
 
       expect(inProfile(find.text(ro.accountLockedTitle)), findsOneWidget);
       expect(container.read(accountProvider), isNull);
@@ -173,4 +184,45 @@ void main() {
     );
     expect(find.text(ro.demoProfileNote), findsOneWidget);
   });
+
+  testWidgets(
+    'the brands\' contacts open from Profil; the settings and the demo reset '
+    'come before signing out, which is last and can be backed out of',
+    (tester) async {
+      signInTestAccount(container);
+      await pumpApp(
+        tester,
+        container,
+        Routes.clientProfile,
+        size: const Size(400, 1600),
+      );
+
+      double topOf(String text) =>
+          tester.getTopLeft(inProfile(find.text(text))).dy;
+      final order = [
+        ro.nearestShopTitle,
+        ro.profileBrandsTitle,
+        ro.themeTitle,
+        ro.languageTitle,
+        ro.profileDemoTitle,
+        ro.signOut,
+      ];
+      for (var i = 1; i < order.length; i++) {
+        expect(
+          topOf(order[i]),
+          greaterThan(topOf(order[i - 1])),
+          reason: order[i],
+        );
+      }
+
+      await tapVisible(tester, find.text(ro.signOut));
+      await tester.tap(find.text(ro.back));
+      await tester.pumpAndSettle();
+      expect(container.read(accountProvider), isNotNull);
+
+      await tapVisible(tester, inProfile(find.text('Rent Car')));
+      expect(find.byType(BrandInfoScreen), findsOneWidget);
+      expect(find.text('DAVIDAN RENT CAR SRL'), findsOneWidget);
+    },
+  );
 }

@@ -10,6 +10,7 @@ import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/utils/phone.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
+import 'package:davidan_prototype/core/widgets/clock_ticker.dart';
 import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/core/widgets/screen_header.dart';
 import 'package:davidan_prototype/features/account/application/sign_in_draft_notifier.dart';
@@ -79,15 +80,35 @@ class SignInCodeScreen extends ConsumerWidget {
                     onPressed: confirm,
                   ),
                   const SizedBox(height: AppSpacing.sm),
-                  TextButton(
-                    onPressed: () => ref
-                        .read(toastProvider.notifier)
-                        .show(ref.read(stringsProvider).codeResent),
-                    style: TextButton.styleFrom(
-                      foregroundColor: context.colors.primary,
-                      textStyle: context.textStyles.bodyStrong,
-                    ),
-                    child: Text(context.l10n.resendCode),
+                  // Counts down before the code can be sent again, as real
+                  // SMS sign-ins do.
+                  ClockTicker(
+                    builder: (context, now) {
+                      final wait = draft.resendWaitAt(now);
+                      return TextButton(
+                        onPressed: wait > Duration.zero
+                            ? null
+                            : () {
+                                signIn().resendCode();
+                                ref
+                                    .read(toastProvider.notifier)
+                                    .show(ref.read(stringsProvider).codeResent);
+                              },
+                        style: TextButton.styleFrom(
+                          foregroundColor: context.colors.primary,
+                          disabledForegroundColor: context.colors.textSecondary,
+                          textStyle: context.textStyles.bodyStrong,
+                        ),
+                        child: Text(
+                          wait > Duration.zero
+                              ? context.l10n.resendCodeIn(
+                                  // Rounded up, so it never reads 0.
+                                  (wait.inMilliseconds / 1000).ceil(),
+                                )
+                              : context.l10n.resendCode,
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   InfoNote(text: context.l10n.demoCodeNote),

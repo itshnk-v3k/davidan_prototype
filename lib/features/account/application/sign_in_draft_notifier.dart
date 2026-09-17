@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:davidan_prototype/core/location/location_result.dart';
 import 'package:davidan_prototype/core/location/location_service.dart';
 import 'package:davidan_prototype/core/utils/phone.dart';
+import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/data/mock/mock_sectors.dart';
 import 'package:davidan_prototype/data/models/chisinau_sector.dart';
 import 'package:davidan_prototype/data/models/customer_account.dart';
@@ -24,9 +25,13 @@ class SignInDraft {
     this.showPhoneError = false,
     this.showCodeError = false,
     this.showDetailsErrors = false,
+    this.codeSentAt,
   });
 
   static const codeLength = 4;
+
+  /// How long after a code is sent it can be sent again.
+  static const resendDelay = Duration(seconds: 60);
 
   /// Digits typed after +373.
   final String phone;
@@ -45,6 +50,18 @@ class SignInDraft {
   final bool showCodeError;
   final bool showDetailsErrors;
 
+  /// When the (pretend) code was last sent; null if the code screen was
+  /// opened without sending one, e.g. after a page refresh.
+  final DateTime? codeSentAt;
+
+  /// Time left until the code can be sent again at [now]; zero when it can.
+  Duration resendWaitAt(DateTime now) {
+    final sentAt = codeSentAt;
+    if (sentAt == null) return Duration.zero;
+    final left = resendDelay - now.difference(sentAt);
+    return left.isNegative ? Duration.zero : left;
+  }
+
   bool get phoneValid => MoldovanPhone.isValid(phone);
   bool get codeComplete => code.length == codeLength;
   bool get nameMissing => name.trim().isEmpty;
@@ -59,6 +76,7 @@ class SignInDraft {
     bool? showPhoneError,
     bool? showCodeError,
     bool? showDetailsErrors,
+    DateTime? codeSentAt,
   }) => SignInDraft(
     phone: phone ?? this.phone,
     code: code ?? this.code,
@@ -69,6 +87,7 @@ class SignInDraft {
     showPhoneError: showPhoneError ?? this.showPhoneError,
     showCodeError: showCodeError ?? this.showCodeError,
     showDetailsErrors: showDetailsErrors ?? this.showDetailsErrors,
+    codeSentAt: codeSentAt ?? this.codeSentAt,
   );
 }
 
@@ -89,14 +108,23 @@ class SignInDraftNotifier extends Notifier<SignInDraft> {
   SignInDraft build() => const SignInDraft();
 
   void setPhone(String value) =>
-      state = state.copyWith(phone: _digits(value, MoldovanPhone.length));
+      state = state.copyWith(phone: MoldovanPhone.digitsOf(value));
 
-  /// Whether the number looks like a Moldovan mobile. Shows the error if not.
+  /// Whether the number looks like a Moldovan mobile, and if so "sends" the
+  /// code. Shows the error if not.
   bool submitPhone() {
-    if (state.phoneValid) return true;
-    state = state.copyWith(showPhoneError: true);
-    return false;
+    if (!state.phoneValid) {
+      state = state.copyWith(showPhoneError: true);
+      return false;
+    }
+    state = state.copyWith(codeSentAt: ref.read(clockProvider)());
+    return true;
   }
+
+  /// "Sends" the code again, which starts the wait over. Nothing is sent (see
+  /// the class comment).
+  void resendCode() =>
+      state = state.copyWith(codeSentAt: ref.read(clockProvider)());
 
   void setCode(String value) => state = state.copyWith(
     code: _digits(value, SignInDraft.codeLength),

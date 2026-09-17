@@ -95,7 +95,8 @@ void main() {
     expect(inScreen<CatalogScreen>(find.text('Coca Cola')), findsOneWidget);
   });
 
-  testWidgets('checkout names payment the way the site\'s delivery page does', (
+  testWidgets('checkout names payment in the site\'s words: "Achitare", and a '
+      'card "la primirea comenzii" through the courier\'s "POS"', (
     tester,
   ) async {
     container.read(cartProvider(Brand.bakery).notifier).add('americano');
@@ -107,6 +108,12 @@ void main() {
     );
     expect(ro.paymentTitle, 'Achitare');
     expect(find.text(ro.paymentMethod(PaymentMethod.card)), findsOneWidget);
-    expect(ro.paymentMethod(PaymentMethod.card), 'Card prin POS');
+    // davidan.md: "achitate la primirea comenzii" (T&C §5) and "prin
+    // intermediul POS-ului la curier" (delivery page), so nobody expects to
+    // pay by card in the app.
+    expect(
+      ro.paymentMethod(PaymentMethod.card),
+      'Card, la primire (terminal POS)',
+    );
   });
 }

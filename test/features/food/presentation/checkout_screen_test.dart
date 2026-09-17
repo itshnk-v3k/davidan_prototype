@@ -45,6 +45,12 @@ void main() {
   ) async {
     await pumpApp(tester, container, Routes.brandCheckout(Brand.bakery));
     expect(find.text(ro.deliveryAddressMissing), findsNothing);
+    // The total is in the bottom bar only, not repeated in the summary.
+    expect(find.text('69 lei'), findsOneWidget);
+    expect(
+      find.descendant(of: find.byType(TotalBar), matching: find.text('69 lei')),
+      findsOneWidget,
+    );
 
     await tester.tap(placeOrderButton);
     await tester.pumpAndSettle();

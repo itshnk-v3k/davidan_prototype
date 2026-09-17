@@ -21,4 +21,9 @@ void main() {
     expect(formatDateTime(DateTime(2026, 9, 5, 9, 5)), '05.09.2026, 09:05');
     expect(formatDateTime(DateTime(2026, 12, 31, 23, 59)), '31.12.2026, 23:59');
   });
+
+  test('a short date and time leaves out the year: dd.MM, HH:mm', () {
+    expect(formatDayMonthTime(DateTime(2026, 9, 5, 9, 5)), '05.09, 09:05');
+    expect(formatDayMonthTime(DateTime(2026, 12, 31, 23, 59)), '31.12, 23:59');
+  });
 }

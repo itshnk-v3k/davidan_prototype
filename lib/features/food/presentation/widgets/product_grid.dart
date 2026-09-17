@@ -7,9 +7,16 @@ import 'package:davidan_prototype/features/food/presentation/widgets/connected_p
 /// Two-column product grid (a sliver), shared by the menu and favourites
 /// screens. Home shows its products in rows instead (ProductShelf).
 class ProductGrid extends StatelessWidget {
-  const ProductGrid({super.key, required this.products});
+  const ProductGrid({
+    super.key,
+    required this.products,
+    this.showBrand = false,
+  });
 
   final List<Product> products;
+
+  /// For a grid mixing brands: see [ConnectedProductCard.showBrand].
+  final bool showBrand;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +35,10 @@ class ProductGrid extends StatelessWidget {
           childAspectRatio: 0.66,
         ),
         itemCount: products.length,
-        itemBuilder: (context, index) =>
-            ConnectedProductCard(product: products[index]),
+        itemBuilder: (context, index) => ConnectedProductCard(
+          product: products[index],
+          showBrand: showBrand,
+        ),
       ),
     );
   }

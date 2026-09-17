@@ -254,11 +254,11 @@ abstract class AppLocalizations {
   /// **'Meniu'**
   String get menuTitle;
 
-  /// No description provided for @cartTitle.
+  /// Title of a brand's cart. brand is the brand's bubble name.
   ///
   /// In ro, this message translates to:
-  /// **'Coșul meu'**
-  String get cartTitle;
+  /// **'Coșul · {brand}'**
+  String brandCartTitle(String brand);
 
   /// No description provided for @checkoutTitle.
   ///
@@ -302,6 +302,12 @@ abstract class AppLocalizations {
   /// **'În curând'**
   String get comingSoonTitle;
 
+  /// Screen reader label of a brand's hub bubble when the brand isn't open in the app yet.
+  ///
+  /// In ro, this message translates to:
+  /// **'{name}, în curând'**
+  String brandComingSoonLabel(String name);
+
   /// Heading of the hub's row of products from every brand, with the signed-in customer's first name.
   ///
   /// In ro, this message translates to:
@@ -313,6 +319,12 @@ abstract class AppLocalizations {
   /// In ro, this message translates to:
   /// **'Pentru tine'**
   String get forYouTitleSignedOut;
+
+  /// Toast after adding a product from a row that mixes brands (hub, favourites): which brand's cart it went to. brand is the brand's bubble name.
+  ///
+  /// In ro, this message translates to:
+  /// **'Adăugat în coș · {brand}'**
+  String addedToBrandCart(String brand);
 
   /// No description provided for @locationPrompt.
   ///
@@ -409,6 +421,12 @@ abstract class AppLocalizations {
   /// In ro, this message translates to:
   /// **'Locația clientului · {area} ({coordinates})'**
   String pinnedAddress(String area, String coordinates);
+
+  /// The customer's own order delivered to their current location, without coordinates.
+  ///
+  /// In ro, this message translates to:
+  /// **'Locația ta · {area}'**
+  String pinnedAddressCustomer(String area);
 
   /// No description provided for @locationFailureDenied.
   ///
@@ -559,6 +577,12 @@ abstract class AppLocalizations {
   /// In ro, this message translates to:
   /// **'Retrimite codul'**
   String get resendCode;
+
+  /// The resend button while it waits.
+  ///
+  /// In ro, this message translates to:
+  /// **'Retrimite codul în {seconds} s'**
+  String resendCodeIn(int seconds);
 
   /// No description provided for @codeResent.
   ///
@@ -716,11 +740,35 @@ abstract class AppLocalizations {
   /// **'Ieși din cont'**
   String get signOut;
 
-  /// No description provided for @myOrdersTitle.
+  /// Title of the dialog confirming sign-out.
   ///
   /// In ro, this message translates to:
-  /// **'Comenzile mele'**
-  String get myOrdersTitle;
+  /// **'Ieși din cont?'**
+  String get signOutConfirmTitle;
+
+  /// Message of the dialog confirming sign-out: what stays.
+  ///
+  /// In ro, this message translates to:
+  /// **'Coșurile, comenzile și favoritele rămân pe acest dispozitiv.'**
+  String get signOutConfirmMessage;
+
+  /// Profil section with links to the brands' information pages.
+  ///
+  /// In ro, this message translates to:
+  /// **'Contacte și informații'**
+  String get profileBrandsTitle;
+
+  /// Hint under a brand's link in Profil.
+  ///
+  /// In ro, this message translates to:
+  /// **'Contacte și documente'**
+  String get profileBrandInfoHint;
+
+  /// Profil section holding the demo reset.
+  ///
+  /// In ro, this message translates to:
+  /// **'Demo'**
+  String get profileDemoTitle;
 
   /// No description provided for @ordersEmptyTitle.
   ///
@@ -938,6 +986,24 @@ abstract class AppLocalizations {
   /// **'Suma de asigurare'**
   String get rentalInsurance;
 
+  /// A rental's price: days, extras and the location fee, without the insurance amount.
+  ///
+  /// In ro, this message translates to:
+  /// **'Total chirie'**
+  String get rentalPriceTotal;
+
+  /// Under a rental request's total: the car's insurance amount, shown apart from the price.
+  ///
+  /// In ro, this message translates to:
+  /// **'+ {amount} suma de asigurare'**
+  String rentalInsuranceExtra(String amount);
+
+  /// A rental's price plus the insurance amount, as davidanrentcar.md's cart adds it up.
+  ///
+  /// In ro, this message translates to:
+  /// **'Total cu suma de asigurare'**
+  String get rentalTotalWithInsurance;
+
   /// Under a car's price table.
   ///
   /// In ro, this message translates to:
@@ -950,10 +1016,10 @@ abstract class AppLocalizations {
   /// **'Acte necesare'**
   String get rentalDocumentsTitle;
 
-  /// Button on a car's page that opens the request form; davidanrentcar.md's tab name.
+  /// Button on a car's page that opens the request form, where the dates are picked.
   ///
   /// In ro, this message translates to:
-  /// **'Cerere de rezervare'**
+  /// **'Alege datele'**
   String get rentalRequestAction;
 
   /// Title of the request form; davidanrentcar.md's tab name.
@@ -1082,11 +1148,41 @@ abstract class AppLocalizations {
   /// **'Cererea a fost trimisă'**
   String get rentalRequestSentTitle;
 
+  /// Title of a cancelled rental request's page.
+  ///
+  /// In ro, this message translates to:
+  /// **'Cererea a fost anulată'**
+  String get rentalRequestCancelledTitle;
+
   /// Under the sent request, quoting davidanrentcar.md's thank-you page (formal, as the site words it).
   ///
   /// In ro, this message translates to:
   /// **'Vă vom contacta în curând.'**
   String get rentalWillContact;
+
+  /// Under a sent rental request: what the request doesn't mean yet.
+  ///
+  /// In ro, this message translates to:
+  /// **'Mașina nu e încă rezervată până nu te contactăm. Nu ai plătit nimic.'**
+  String get rentalRequestNotReserved;
+
+  /// Button that cancels a waiting rental request, and the dialog's confirming button.
+  ///
+  /// In ro, this message translates to:
+  /// **'Anulează cererea'**
+  String get rentalCancelRequest;
+
+  /// Title of the dialog confirming a rental request's cancellation.
+  ///
+  /// In ro, this message translates to:
+  /// **'Anulezi cererea?'**
+  String get rentalCancelRequestTitle;
+
+  /// Message of the dialog confirming a rental request's cancellation.
+  ///
+  /// In ro, this message translates to:
+  /// **'Poți trimite oricând o cerere nouă.'**
+  String get rentalCancelRequestMessage;
 
   /// Title of a car rental request.
   ///
@@ -1094,11 +1190,23 @@ abstract class AppLocalizations {
   /// **'Cererea nr. {id}'**
   String rentalBookingNumber(String id);
 
-  /// Status of a car rental request: sent, waiting to be confirmed by phone.
+  /// A rental request on the hub's strip: the car and when it's picked up ("17.09, 09:00").
   ///
   /// In ro, this message translates to:
-  /// **'Cerere trimisă'**
+  /// **'{car} · {pickup}'**
+  String activeBookingSummary(String car, String pickup);
+
+  /// Status of a rental request waiting for DaviDan Rent Car to call.
+  ///
+  /// In ro, this message translates to:
+  /// **'În așteptare'**
   String get rentalBookingStatus;
+
+  /// Status of a rental request the customer cancelled.
+  ///
+  /// In ro, this message translates to:
+  /// **'Anulată'**
+  String get rentalBookingCancelled;
 
   /// No description provided for @rentalBookingNotFound.
   ///
@@ -1154,6 +1262,12 @@ abstract class AppLocalizations {
   /// **'Produse DaviDan'**
   String get popularTitle;
 
+  /// Heading over a brand home's featured products when the brand's site has no heading of its own (sushi).
+  ///
+  /// In ro, this message translates to:
+  /// **'Populare'**
+  String get popularTitlePlain;
+
   /// Link at the end of a home shelf; davidan.md's wording on its category list.
   ///
   /// In ro, this message translates to:
@@ -1190,6 +1304,12 @@ abstract class AppLocalizations {
   /// **'Masa: {weight}'**
   String productWeight(String weight);
 
+  /// A drink's size on its page, e.g. "Volum: 0,5L".
+  ///
+  /// In ro, this message translates to:
+  /// **'Volum: {volume}'**
+  String productVolume(String volume);
+
   /// No description provided for @productNotFound.
   ///
   /// In ro, this message translates to:
@@ -1220,11 +1340,35 @@ abstract class AppLocalizations {
   /// **'Adaugă în coș · {total}'**
   String addToCartTotal(String total);
 
+  /// Button on a product's page when the product is already in the cart: sets the quantity picked.
+  ///
+  /// In ro, this message translates to:
+  /// **'Actualizează coșul · {total}'**
+  String updateCartTotal(String total);
+
+  /// Button on a product's page when its quantity is taken down to 0.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scoate din coș'**
+  String get removeFromCartAction;
+
   /// Toast after adding a product.
   ///
   /// In ro, this message translates to:
   /// **'Adăugat în coș: {quantity} × {productName}'**
   String addedToCart(int quantity, String productName);
+
+  /// Toast after changing a product's quantity in the cart from its page.
+  ///
+  /// In ro, this message translates to:
+  /// **'Coș actualizat: {quantity} × {productName}'**
+  String cartUpdated(int quantity, String productName);
+
+  /// Toast after taking a product out of the cart from its page.
+  ///
+  /// In ro, this message translates to:
+  /// **'Scos din coș: {productName}'**
+  String removedFromCart(String productName);
 
   /// Screen reader label of the add button.
   ///
@@ -1250,7 +1394,7 @@ abstract class AppLocalizations {
   /// **'{count, plural, one{{count} produs în coș} few{{count} produse în coș} other{{count} de produse în coș}}'**
   String itemsInCart(int count);
 
-  /// Screen reader label of the header cart button: cartTitle, plus itemsInCart when the cart has anything.
+  /// Screen reader label of a brand's cart button, with itemsInCart when the cart has anything.
   ///
   /// In ro, this message translates to:
   /// **'{count, plural, =0{Coșul meu} one{Coșul meu, {count} produs în coș} few{Coșul meu, {count} produse în coș} other{Coșul meu, {count} de produse în coș}}'**
@@ -1310,11 +1454,23 @@ abstract class AppLocalizations {
   /// **'Adaugă produse din meniu, apoi revino aici ca să finalizezi comanda.'**
   String get cartEmptyMessage;
 
+  /// Empty cart message for a brand that sells from its page and has no menu (water).
+  ///
+  /// In ro, this message translates to:
+  /// **'Adaugă produse, apoi revino aici ca să finalizezi comanda.'**
+  String get cartEmptyMessageNoMenu;
+
   /// No description provided for @browseMenu.
   ///
   /// In ro, this message translates to:
   /// **'Vezi meniul'**
   String get browseMenu;
+
+  /// Empty cart button for a brand with no menu (water): back to its page.
+  ///
+  /// In ro, this message translates to:
+  /// **'Vezi produsele'**
+  String get browseProducts;
 
   /// No description provided for @continueOrder.
   ///
@@ -1430,10 +1586,10 @@ abstract class AppLocalizations {
   /// **'Numerar'**
   String get paymentCash;
 
-  /// Card payment on the courier's or shop's POS terminal.
+  /// Pay by card when receiving the order, on the courier's or shop's terminal.
   ///
   /// In ro, this message translates to:
-  /// **'Card prin POS'**
+  /// **'Card, la primire (terminal POS)'**
   String get paymentCard;
 
   /// No description provided for @orderPlacedTitle.
@@ -1471,6 +1627,12 @@ abstract class AppLocalizations {
   /// In ro, this message translates to:
   /// **'Comanda nr. {id}'**
   String orderNumber(String id);
+
+  /// An order on the hub's strip: how many products and the total.
+  ///
+  /// In ro, this message translates to:
+  /// **'{count, plural, one{{count} produs} few{{count} produse} other{{count} de produse}} · {total}'**
+  String activeOrderSummary(int count, String total);
 
   /// Order status.
   ///

@@ -11,6 +11,7 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
+import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/widgets/brand_logo.dart';
 import 'package:davidan_prototype/data/mock/mock_brand.dart';
@@ -131,19 +132,39 @@ void main() {
             .first,
       );
       expect(band.color, AppColors.dark.hubBand);
+
+      // Only the restaurant, which isn't open in the app yet, says so, before
+      // anyone taps it.
+      expect(
+        find.descendant(
+          of: find.byType(BrandBubbles),
+          matching: find.text(ro.comingSoonTitle),
+        ),
+        findsOneWidget,
+      );
+      final semantics = tester.ensureSemantics();
+      expect(
+        find.bySemanticsLabel(ro.brandComingSoonLabel('Restaurant')),
+        findsOneWidget,
+      );
+      semantics.dispose();
     },
   );
 
   testWidgets(
     'with no order on its way there is no strip; an order shows in it with '
-    'its brand and live status, opens from there, and leaves once completed',
+    'its brand, what was ordered and its live status, opens from there, and '
+    'leaves once completed',
     (tester) async {
       await pumpApp(tester, container, Routes.clientHome);
       expect(inStrip(find.byType(InkWell)), findsNothing);
 
       final order = placeTestOrder(container);
       await tester.pumpAndSettle();
-      expect(inStrip(find.text(ro.orderNumber(order.id))), findsOneWidget);
+      expect(
+        inStrip(find.text(ro.activeOrderSummary(3, '138 lei'))),
+        findsOneWidget,
+      );
       expect(inStrip(find.text('Patiserie')), findsOneWidget);
       expect(
         inStrip(find.text(ro.orderStatus(OrderStatus.placed))),
@@ -157,14 +178,17 @@ void main() {
         findsOneWidget,
       );
 
-      await tester.tap(inStrip(find.text(ro.orderNumber(order.id))));
+      await tester.tap(inStrip(find.text(ro.activeOrderSummary(3, '138 lei'))));
       await tester.pumpAndSettle();
       expect(find.byType(OrderConfirmationScreen), findsOneWidget);
 
       advanceOrderTo(container, order.id, OrderStatus.completed);
       container.read(appRouterProvider).go(Routes.clientHome);
       await tester.pumpAndSettle();
-      expect(inStrip(find.text(ro.orderNumber(order.id))), findsNothing);
+      expect(
+        inStrip(find.text(ro.activeOrderSummary(3, '138 lei'))),
+        findsNothing,
+      );
     },
   );
 
@@ -176,10 +200,12 @@ void main() {
       final sushi = placeTestOrder(container, brand: Brand.sushi);
       await pumpApp(tester, container, Routes.clientHome);
 
+      // Both test orders hold the same products, so the brand's name tells
+      // the cards apart.
       Rect cardOf(Order order) => tester.getRect(
         find
             .ancestor(
-              of: inStrip(find.text(ro.orderNumber(order.id))),
+              of: inStrip(find.text(brandIntros[order.brand]!.name)),
               matching: find.byType(InkWell),
             )
             .first,
@@ -235,6 +261,15 @@ void main() {
       ]);
       expect(forYou, hasLength(bakery.length + sushi.length + water.length));
       final [first, second, ...] = forYou;
+      // Every card names its brand, since "+" adds to that brand's cart.
+      expect(
+        find.descendant(of: sheet, matching: find.text('Sushi')),
+        findsWidgets,
+      );
+      expect(
+        find.descendant(of: sheet, matching: find.text('Patiserie')),
+        findsWidgets,
+      );
       for (final product in [first, second]) {
         await tapVisible(
           tester,
@@ -250,6 +285,9 @@ void main() {
       expect(container.read(cartQuantitiesProvider(Brand.bakery)), {
         second.id: 1,
       });
+      expect(find.text(ro.addedToBrandCart('Patiserie')), findsOneWidget);
+      await tester.pump(ToastNotifier.duration);
+      await tester.pumpAndSettle();
 
       await tapVisible(
         tester,

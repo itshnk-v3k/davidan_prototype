@@ -7,9 +7,15 @@ enum RentalLocation { airport, chisinau }
 /// The extra services davidanrentcar.md's request form offers. Saved by name.
 enum RentalExtra { childSeat, unlimitedKm }
 
-/// What a rental costs, line by line, the way davidanrentcar.md's cart adds
-/// it up: the days at the price per day for that length, the chosen extras,
-/// the location fee and the car's insurance amount. Amounts are in euros.
+/// What a rental costs, line by line: the days at the price per day for that
+/// length, the chosen extras, the location fee and the car's insurance amount.
+/// Amounts are in euros.
+///
+/// davidanrentcar.md's cart adds the insurance amount into its total
+/// ([totalEur]), but its terms also describe a guarantee blocked for the
+/// rental. Until DaviDan says which it is, the app leads with [priceEur],
+/// without it, and shows the insurance amount and [totalEur] on their own
+/// lines, claiming nothing about whether it comes back.
 @immutable
 class RentalQuote {
   const RentalQuote({
@@ -43,11 +49,14 @@ class RentalQuote {
 
   int get rentalEur => days * dayRateEur;
 
-  int get totalEur =>
+  /// The rental's price: days, extras and the location fee.
+  int get priceEur =>
       rentalEur +
       extrasEur.values.fold<int>(0, (sum, amount) => sum + amount) +
-      locationFeeEur +
-      insuranceEur;
+      locationFeeEur;
+
+  /// [priceEur] plus the insurance amount, as davidanrentcar.md's cart totals.
+  int get totalEur => priceEur + insuranceEur;
 
   Map<String, Object?> toJson() => {
     'days': days,
@@ -62,7 +71,8 @@ class RentalQuote {
 
 /// A request to rent a car, sent from the app. DaviDan Rent Car confirms a
 /// booking by contacting the customer, and the prototype has no one to do
-/// that, so a request stays sent. Nothing is paid in the app.
+/// that, so a request waits for confirmation until the customer cancels it.
+/// Nothing is paid in the app.
 @immutable
 class RentalBooking {
   const RentalBooking({
@@ -77,6 +87,7 @@ class RentalBooking {
     required this.phone,
     required this.notes,
     required this.quote,
+    this.cancelledAt,
   });
 
   factory RentalBooking.fromJson(Map<String, Object?> json) => RentalBooking(
@@ -95,6 +106,10 @@ class RentalBooking {
     phone: json['phone']! as String,
     notes: json['notes']! as String,
     quote: RentalQuote.fromJson(json['quote']! as Map<String, Object?>),
+    cancelledAt: switch (json['cancelledAt']) {
+      final String at => DateTime.parse(at),
+      _ => null,
+    },
   );
 
   /// Request number shown to people, e.g. "RC-1001".
@@ -118,6 +133,26 @@ class RentalBooking {
   /// The price when the request was sent.
   final RentalQuote quote;
 
+  /// When the customer cancelled the request; null while it waits.
+  final DateTime? cancelledAt;
+
+  bool get cancelled => cancelledAt != null;
+
+  RentalBooking cancel(DateTime at) => RentalBooking(
+    id: id,
+    carId: carId,
+    createdAt: createdAt,
+    pickupLocation: pickupLocation,
+    returnLocation: returnLocation,
+    pickupAt: pickupAt,
+    returnAt: returnAt,
+    name: name,
+    phone: phone,
+    notes: notes,
+    quote: quote,
+    cancelledAt: at,
+  );
+
   Map<String, Object?> toJson() => {
     'id': id,
     'carId': carId,
@@ -130,5 +165,7 @@ class RentalBooking {
     'phone': phone,
     'notes': notes,
     'quote': quote.toJson(),
+    if (cancelledAt case final cancelledAt?)
+      'cancelledAt': cancelledAt.toIso8601String(),
   };
 }

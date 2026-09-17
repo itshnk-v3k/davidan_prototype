@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -155,12 +154,7 @@ class RentalRequestScreen extends ConsumerWidget {
                           onChanged: (phone) => form().setPhone(phone),
                           keyboardType: TextInputType.phone,
                           textInputAction: TextInputAction.next,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(
-                              MoldovanPhone.length,
-                            ),
-                          ],
+                          inputFormatters: [MoldovanPhone.inputFormatter],
                           style: context.textStyles.body,
                           decoration: InputDecoration(
                             labelText: l10n.phoneLabel,
@@ -217,7 +211,11 @@ class RentalRequestScreen extends ConsumerWidget {
         ),
       ),
       bottomNavigationBar: TotalBar(
-        total: quote == null ? '–' : l10n.formatEuro(quote.totalEur),
+        label: l10n.rentalPriceTotal,
+        total: quote == null ? '–' : l10n.formatEuro(quote.priceEur),
+        caption: quote == null
+            ? null
+            : l10n.rentalInsuranceExtra(l10n.formatEuro(quote.insuranceEur)),
         actionLabel: l10n.rentalSendRequest,
         onAction: () {
           final booking = form().send();

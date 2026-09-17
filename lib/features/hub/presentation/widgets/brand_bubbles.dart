@@ -10,7 +10,8 @@ import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Every brand as a round photo with its name, on a band of DaviDan's caramel,
 /// in the client's order ([Brand]'s): three on the first row of a phone, two
-/// centred below.
+/// centred below. A brand that isn't open in the app yet says so on its
+/// bubble, so nobody taps into a page with nothing to order.
 class BrandBubbles extends StatelessWidget {
   const BrandBubbles({super.key, required this.onOpen});
 
@@ -55,9 +56,24 @@ class _Bubble extends StatelessWidget {
     final colors = context.colors;
     final image = intro.image;
 
+    final photo = Container(
+      width: _size,
+      height: _size,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: colors.hubBubble,
+        shape: BoxShape.circle,
+      ),
+      child: image == null
+          ? Icon(Icons.directions_car_rounded, size: 40, color: colors.hubBand)
+          : Image.asset(image, fit: BoxFit.cover),
+    );
+
     return Semantics(
       button: true,
-      label: intro.name,
+      label: intro.comingSoon
+          ? context.l10n.brandComingSoonLabel(intro.name)
+          : intro.name,
       excludeSemantics: true,
       child: PressScale(
         builder: (onHighlightChanged) => InkWell(
@@ -68,22 +84,23 @@ class _Bubble extends StatelessWidget {
             width: _size + AppSpacing.lg,
             child: Column(
               children: [
-                Container(
-                  width: _size,
-                  height: _size,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: colors.hubBubble,
-                    shape: BoxShape.circle,
-                  ),
-                  child: image == null
-                      ? Icon(
-                          Icons.directions_car_rounded,
-                          size: 40,
-                          color: colors.hubBand,
-                        )
-                      : Image.asset(image, fit: BoxFit.cover),
-                ),
+                if (intro.comingSoon)
+                  Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      photo,
+                      // Overlaps the bubble's lower edge, like a sticker.
+                      Positioned(
+                        bottom: -AppSpacing.xs,
+                        child: _ComingSoonPill(
+                          label: context.l10n.comingSoonTitle,
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  photo,
                 const SizedBox(height: AppSpacing.sm),
                 Text(
                   intro.name,
@@ -97,6 +114,36 @@ class _Bubble extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// "În curând" on a brand's bubble: espresso on the caramel band, the same
+/// pairing as the bubbles' names.
+class _ComingSoonPill extends StatelessWidget {
+  const _ComingSoonPill({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.onHubBand,
+        borderRadius: BorderRadius.circular(AppRadii.pill),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.sm,
+          vertical: AppSpacing.xxs,
+        ),
+        child: Text(
+          label,
+          style: context.textStyles.badge.copyWith(color: colors.hubBand),
+          maxLines: 1,
         ),
       ),
     );

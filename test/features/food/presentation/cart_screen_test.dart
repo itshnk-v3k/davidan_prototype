@@ -14,6 +14,7 @@ import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/cart/cart_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/cart/widgets/cart_line_tile.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/home/water_home_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/checkout/checkout_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/total_bar.dart';
@@ -35,11 +36,14 @@ void main() {
   Finder total(String amount) =>
       find.descendant(of: find.byType(TotalBar), matching: find.text(amount));
 
-  testWidgets('empty cart shows the empty state, which links to the menu', (
-    tester,
-  ) async {
+  testWidgets('empty cart names its brand and shows the empty state, which '
+      'links to the menu', (tester) async {
     await pumpApp(tester, container, Routes.brandCart(Brand.bakery));
 
+    expect(
+      inScreen<CartScreen>(find.text(ro.brandCartTitle('Patiserie'))),
+      findsOneWidget,
+    );
     expect(inScreen<CartScreen>(find.text(ro.cartEmptyTitle)), findsOneWidget);
     expect(find.byType(TotalBar), findsNothing);
 
@@ -154,5 +158,20 @@ void main() {
 
     expect(find.byType(CartLineTile), findsNWidgets(2));
     expect(total('4149 lei'), findsOneWidget);
+  });
+
+  testWidgets('water has no menu: its empty cart leads back to its page', (
+    tester,
+  ) async {
+    await pumpApp(tester, container, Routes.brandCart(Brand.water));
+
+    expect(
+      inScreen<CartScreen>(find.text(ro.brandCartTitle('Apă naturală'))),
+      findsOneWidget,
+    );
+    expect(find.text(ro.cartEmptyMessageNoMenu), findsOneWidget);
+    expect(find.text(ro.browseMenu), findsNothing);
+    await tapVisible(tester, find.text(ro.browseProducts));
+    expect(find.byType(WaterHomeScreen), findsOneWidget);
   });
 }

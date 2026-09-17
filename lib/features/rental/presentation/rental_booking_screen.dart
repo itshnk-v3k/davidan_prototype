@@ -10,19 +10,22 @@ import 'package:davidan_prototype/core/utils/phone.dart';
 import 'package:davidan_prototype/core/utils/time.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
+import 'package:davidan_prototype/core/widgets/confirm_dialog.dart';
 import 'package:davidan_prototype/core/widgets/detail_row.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
 import 'package:davidan_prototype/core/widgets/entrance.dart';
-import 'package:davidan_prototype/core/widgets/status_pill.dart';
+import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/features/rental/application/rental_bookings_notifier.dart';
 import 'package:davidan_prototype/features/rental/application/rental_providers.dart';
+import 'package:davidan_prototype/features/rental/presentation/widgets/rental_booking_status_pill.dart';
 import 'package:davidan_prototype/features/rental/presentation/widgets/rental_quote_card.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// A sent car rental request, shown once it is sent and opened from Comenzi
 /// and the hub: its number and status, the site's "Vă vom contacta în
-/// curând.", the car, where and when, who to contact, and the price. Nothing
-/// more happens to it in the app: DaviDan Rent Car confirms by phone.
+/// curând.", what the request does and doesn't mean yet, the car, where and
+/// when, who to contact, and the price. DaviDan Rent Car confirms by phone, so
+/// the only thing the customer can still do here is cancel it.
 class RentalBookingScreen extends ConsumerWidget {
   const RentalBookingScreen({super.key, required this.bookingId});
 
@@ -79,7 +82,9 @@ class RentalBookingScreen extends ConsumerWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    Icons.check_rounded,
+                    booking.cancelled
+                        ? Icons.event_busy_rounded
+                        : Icons.check_rounded,
                     size: 48,
                     color: context.colors.primary,
                   ),
@@ -88,7 +93,9 @@ class RentalBookingScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpacing.lg),
             Text(
-              l10n.rentalRequestSentTitle,
+              booking.cancelled
+                  ? l10n.rentalRequestCancelledTitle
+                  : l10n.rentalRequestSentTitle,
               style: context.textStyles.headline,
               textAlign: TextAlign.center,
             ),
@@ -99,13 +106,20 @@ class RentalBookingScreen extends ConsumerWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.md),
-            Center(child: StatusPill(label: l10n.rentalBookingStatus)),
-            const SizedBox(height: AppSpacing.md),
-            Text(
-              l10n.rentalWillContact,
-              style: context.textStyles.body,
-              textAlign: TextAlign.center,
-            ),
+            Center(child: RentalBookingStatusPill(booking: booking)),
+            if (!booking.cancelled) ...[
+              const SizedBox(height: AppSpacing.md),
+              Text(
+                l10n.rentalWillContact,
+                style: context.textStyles.body,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              InfoNote(
+                icon: Icons.info_outline_rounded,
+                text: l10n.rentalRequestNotReserved,
+              ),
+            ],
             const SizedBox(height: AppSpacing.xl),
             DecoratedBox(
               decoration: BoxDecoration(
@@ -161,6 +175,27 @@ class RentalBookingScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpacing.lg),
             RentalQuoteCard(quote: booking.quote),
+            if (!booking.cancelled) ...[
+              const SizedBox(height: AppSpacing.xl),
+              AppButton(
+                label: l10n.rentalCancelRequest,
+                variant: AppButtonVariant.secondary,
+                onPressed: () async {
+                  final confirmed = await showConfirmDialog(
+                    context,
+                    title: l10n.rentalCancelRequestTitle,
+                    message: l10n.rentalCancelRequestMessage,
+                    confirmLabel: l10n.rentalCancelRequest,
+                    cancelLabel: l10n.back,
+                  );
+                  if (confirmed) {
+                    ref
+                        .read(rentalBookingsProvider.notifier)
+                        .cancel(booking.id);
+                  }
+                },
+              ),
+            ],
           ],
         ),
       ),

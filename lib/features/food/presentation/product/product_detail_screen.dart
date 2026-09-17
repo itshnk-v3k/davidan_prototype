@@ -22,9 +22,10 @@ import 'package:davidan_prototype/l10n/app_language.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// Product photo, name, price, pieces and weight (when the brand's site gives
-/// them) and ingredients, with a heart to save it and a bar to pick a quantity
-/// and add it to the cart. Back returns to wherever
-/// the product was opened.
+/// them) and ingredients, with a heart to save it and a bar to pick a quantity.
+/// For a product not yet in the cart the bar adds that many; for one already
+/// in it, the bar starts at the cart's quantity and updates it, or takes the
+/// product out at 0. Back returns to wherever the product was opened.
 class ProductDetailScreen extends ConsumerWidget {
   const ProductDetailScreen({
     super.key,
@@ -116,20 +117,27 @@ class ProductDetailScreen extends ConsumerWidget {
                   .read(productQuantityProvider(productKey).notifier)
                   .increment()
             : null,
-        onDecrement: quantity > 1
+        onDecrement:
+            ref.watch(productQuantityProvider(productKey).notifier).canDecrement
             ? () => ref
                   .read(productQuantityProvider(productKey).notifier)
                   .decrement()
             : null,
-        onAdd: () {
-          ref
-              .read(cartProvider(productKey.brand).notifier)
-              .add(productKey.id, quantity: quantity);
-          ref
-              .read(toastProvider.notifier)
-              .show(
-                ref.read(stringsProvider).addedToCart(quantity, product.name),
-              );
+        inCart: inCart > 0,
+        onConfirm: () {
+          final cart = ref.read(cartProvider(productKey.brand).notifier);
+          final strings = ref.read(stringsProvider);
+          final String message;
+          if (inCart == 0) {
+            cart.add(productKey.id, quantity: quantity);
+            message = strings.addedToCart(quantity, product.name);
+          } else {
+            cart.setQuantity(productKey.id, quantity);
+            message = quantity == 0
+                ? strings.removedFromCart(product.name)
+                : strings.cartUpdated(quantity, product.name);
+          }
+          ref.read(toastProvider.notifier).show(message);
           goBack();
         },
       ),
@@ -150,7 +158,10 @@ class _ProductInfo extends StatelessWidget {
     final weight = product.weight;
     final size = [
       if (pieces != null) context.l10n.productPieces(pieces),
-      if (weight != null) context.l10n.productWeight(weight),
+      if (weight != null)
+        _isVolume(weight)
+            ? context.l10n.productVolume(weight)
+            : context.l10n.productWeight(weight),
     ];
 
     return Column(
@@ -158,37 +169,34 @@ class _ProductInfo extends StatelessWidget {
       children: [
         Text(product.name, style: context.textStyles.headline),
         const SizedBox(height: AppSpacing.sm),
-        Row(
+        // The price, then how much is in the cart and the portion's size,
+        // wrapping under the price when they don't fit beside it.
+        Wrap(
+          spacing: AppSpacing.sm,
+          runSpacing: AppSpacing.sm,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            Text(
-              context.l10n.formatLei(product.priceBani),
-              style: context.textStyles.priceLarge,
-            ),
-            if (inCartCount > 0) ...[
-              const SizedBox(width: AppSpacing.md),
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: context.colors.accentSoft,
-                  borderRadius: BorderRadius.circular(AppRadii.pill),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.sm + AppSpacing.xxs,
-                    vertical: AppSpacing.xs,
-                  ),
-                  child: Text(
-                    context.l10n.inCart(inCartCount),
-                    style: context.textStyles.label,
-                  ),
-                ),
+            Padding(
+              padding: const EdgeInsets.only(right: AppSpacing.xs),
+              child: Text(
+                context.l10n.formatLei(product.priceBani),
+                style: context.textStyles.priceLarge,
               ),
-            ],
+            ),
+            if (inCartCount > 0)
+              _Pill(
+                label: context.l10n.inCart(inCartCount),
+                color: context.colors.accentSoft,
+                style: context.textStyles.label,
+              ),
+            for (final fact in size)
+              _Pill(
+                label: fact,
+                color: context.colors.surfaceMuted,
+                style: context.textStyles.caption,
+              ),
           ],
         ),
-        if (size.isNotEmpty) ...[
-          const SizedBox(height: AppSpacing.sm),
-          Text(size.join(' · '), style: context.textStyles.bodySecondary),
-        ],
         if (description != null) ...[
           const SizedBox(height: AppSpacing.xl),
           Text(
@@ -203,20 +211,56 @@ class _ProductInfo extends StatelessWidget {
   }
 }
 
+/// Whether a product's size is a volume ("0,5L", "330ml", "330мл"), which
+/// reads "Volum", not "Masa".
+bool _isVolume(String size) =>
+    RegExp(r'(ml|l|мл|л)$', caseSensitive: false).hasMatch(size.trim());
+
+/// A small fact about the product next to its price.
+class _Pill extends StatelessWidget {
+  const _Pill({required this.label, required this.color, required this.style});
+
+  final String label;
+  final Color color;
+  final TextStyle style;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(AppRadii.pill),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.sm + AppSpacing.xxs,
+          vertical: AppSpacing.xs,
+        ),
+        child: Text(label, style: style),
+      ),
+    );
+  }
+}
+
 class _AddToCartBar extends StatelessWidget {
   const _AddToCartBar({
     required this.quantity,
     required this.total,
     required this.onIncrement,
     required this.onDecrement,
-    required this.onAdd,
+    required this.inCart,
+    required this.onConfirm,
   });
 
   final int quantity;
   final String total;
   final VoidCallback? onIncrement;
   final VoidCallback? onDecrement;
-  final VoidCallback onAdd;
+
+  /// Whether the product was in the cart when the screen opened: the bar then
+  /// updates the cart instead of adding to it.
+  final bool inCart;
+  final VoidCallback onConfirm;
 
   @override
   Widget build(BuildContext context) {
@@ -242,8 +286,15 @@ class _AddToCartBar extends StatelessWidget {
               const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: AppButton(
-                  label: context.l10n.addToCartTotal(total),
-                  onPressed: onAdd,
+                  label: !inCart
+                      ? context.l10n.addToCartTotal(total)
+                      : quantity == 0
+                      ? context.l10n.removeFromCartAction
+                      : context.l10n.updateCartTotal(total),
+                  variant: inCart && quantity == 0
+                      ? AppButtonVariant.secondary
+                      : AppButtonVariant.primary,
+                  onPressed: onConfirm,
                 ),
               ),
             ],

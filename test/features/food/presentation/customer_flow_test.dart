@@ -10,6 +10,7 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
+import 'package:davidan_prototype/core/toast/toast_notifier.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
@@ -133,5 +134,56 @@ void main() {
       Routes.brandProduct((brand: Brand.bakery, id: 'no-such-product')),
     );
     expect(find.text(ro.productNotFound), findsOneWidget);
+  });
+
+  group('a product already in the cart', () {
+    const kurtos = (brand: Brand.bakery, id: 'kurtos-fistic');
+
+    Finder inBar(Finder finder) => inScreen<ProductDetailScreen>(finder);
+
+    testWidgets(
+      'starts at the cart\'s quantity and updates it, not adds to it',
+      (tester) async {
+        container
+            .read(cartProvider(Brand.bakery).notifier)
+            .add(kurtos.id, quantity: 2);
+        await pumpApp(tester, container, Routes.brandProduct(kurtos));
+
+        expect(inBar(find.text(ro.inCart(2))), findsOneWidget);
+        expect(inBar(find.text(ro.updateCartTotal('118 lei'))), findsOneWidget);
+        await tester.tap(inBar(find.byIcon(Icons.add_rounded)));
+        await tester.pump();
+        await tester.tap(inBar(find.text(ro.updateCartTotal('177 lei'))));
+        await tester.pumpAndSettle();
+
+        expect(container.read(cartQuantitiesProvider(Brand.bakery)), {
+          kurtos.id: 3,
+        });
+        expect(
+          find.text(ro.cartUpdated(3, 'Kurtos cu fistic')),
+          findsOneWidget,
+        );
+        await tester.pump(ToastNotifier.duration);
+        await tester.pumpAndSettle();
+        expect(find.byType(ProductDetailScreen), findsNothing);
+      },
+    );
+
+    testWidgets('can be taken down to 0, which takes it out of the cart', (
+      tester,
+    ) async {
+      container.read(cartProvider(Brand.bakery).notifier).add(kurtos.id);
+      await pumpApp(tester, container, Routes.brandProduct(kurtos));
+
+      await tester.tap(inBar(find.byIcon(Icons.remove_rounded)));
+      await tester.pump();
+      await tester.tap(inBar(find.text(ro.removeFromCartAction)));
+      await tester.pumpAndSettle();
+
+      expect(container.read(cartQuantitiesProvider(Brand.bakery)), isEmpty);
+      expect(find.text(ro.removedFromCart('Kurtos cu fistic')), findsOneWidget);
+      await tester.pump(ToastNotifier.duration);
+      await tester.pumpAndSettle();
+    });
   });
 }

@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/theme/app_colors.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
+import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/summary_row.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -14,10 +15,18 @@ class TotalBar extends StatelessWidget {
     required this.total,
     required this.actionLabel,
     required this.onAction,
+    this.label,
+    this.caption,
   });
 
   /// Already formatted, in the brand's currency: "138 lei", "251 €".
   final String total;
+
+  /// What [total] is; "Total" when null.
+  final String? label;
+
+  /// A line under the total, e.g. an amount that isn't in it.
+  final String? caption;
   final String actionLabel;
   final VoidCallback onAction;
 
@@ -42,10 +51,18 @@ class TotalBar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SummaryRow(
-                label: context.l10n.total,
+                label: label ?? context.l10n.total,
                 value: total,
                 emphasized: true,
               ),
+              if (caption case final caption?) ...[
+                const SizedBox(height: AppSpacing.xxs),
+                Text(
+                  caption,
+                  style: context.textStyles.caption,
+                  textAlign: TextAlign.end,
+                ),
+              ],
               const SizedBox(height: AppSpacing.md),
               AppButton(label: actionLabel, onPressed: onAction),
             ],
