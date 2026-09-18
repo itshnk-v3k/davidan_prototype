@@ -14,7 +14,10 @@ import 'package:davidan_prototype/l10n/l10n.dart';
 /// orders and rental requests. A dot says something is still under way. The
 /// app keeps no "read" state, so the dot never claims unread messages.
 class NotificationsButton extends ConsumerWidget {
-  const NotificationsButton({super.key});
+  const NotificationsButton({super.key, this.size = AppIconButton.defaultSize});
+
+  /// The circle's own size; its tap area is [TapTarget.min] whatever it is.
+  final double size;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,14 +31,15 @@ class NotificationsButton extends ConsumerWidget {
         AppIconButton(
           icon: PhosphorIconsRegular.bell,
           semanticLabel: context.l10n.openNotifications,
+          size: size,
           onPressed: () => context.push(Routes.clientNotifications),
         ),
         // On the circle's corner, inside the button's clear margin, where
         // the carts button has its count.
         if (underWay)
           Positioned(
-            top: TapTarget.iconButtonMargin + AppSpacing.xxs,
-            right: TapTarget.iconButtonMargin + AppSpacing.xxs,
+            top: TapTarget.marginFor(size) + AppSpacing.xxs,
+            right: TapTarget.marginFor(size) + AppSpacing.xxs,
             child: IgnorePointer(
               child: Container(
                 width: 10,

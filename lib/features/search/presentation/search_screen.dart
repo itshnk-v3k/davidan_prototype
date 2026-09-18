@@ -10,7 +10,7 @@ import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_card.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/empty_state.dart';
-import 'package:davidan_prototype/core/widgets/search_bar_button.dart';
+import 'package:davidan_prototype/core/widgets/search_field.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_grid.dart';
@@ -82,7 +82,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               ?.name;
     const margin = TapTarget.iconButtonMargin;
     OutlineInputBorder border(Color color, double width) => OutlineInputBorder(
-      borderRadius: BorderRadius.circular(SearchBarButton.radius),
+      borderRadius: BorderRadius.circular(SearchField.radius),
       borderSide: color.a == 0
           ? BorderSide.none
           : BorderSide(color: color, width: width),
@@ -164,12 +164,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   ),
                   const SizedBox(width: AppSpacing.sm - margin),
                   Expanded(
-                    // The same soft card as the field that opened this page.
+                    // The soft card of SearchField, raised the way the app's
+                    // cards are.
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          SearchBarButton.radius,
-                        ),
+                        borderRadius: BorderRadius.circular(SearchField.radius),
                         boxShadow: AppCard.shadowsOf(colors),
                       ),
                       child: TextField(
@@ -184,7 +183,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           hintText: brand == null
                               ? context.l10n.searchHubHint
                               : context.l10n.searchMenuHint,
-                          hintStyle: SearchBarButton.hintStyleOf(context),
+                          hintStyle: SearchField.hintStyleOf(context),
                           filled: true,
                           fillColor: colors.surface,
                           contentPadding: const EdgeInsets.symmetric(

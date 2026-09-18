@@ -11,12 +11,16 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 import 'package:davidan_prototype/core/router/app_router.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/toast/toast_notifier.dart';
+import 'package:davidan_prototype/data/mock/bakery/bakery_categories.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
+import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/catalog/catalog_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/brand_feed_screen.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/category_grid.dart';
+import 'package:davidan_prototype/features/food/presentation/home/widgets/promo_cards.dart';
 import 'package:davidan_prototype/features/food/presentation/product/product_detail_screen.dart';
+import 'package:davidan_prototype/features/food/presentation/widgets/product_grid.dart';
 
 import '../../../helpers/test_app.dart';
 
@@ -40,8 +44,13 @@ void main() {
     );
 
     expect(find.byType(CatalogScreen), findsOneWidget);
+    // In the list itself: the category's offer above it names the croissant
+    // too, since that is the product the offer is on.
     expect(
-      inScreen<CatalogScreen>(find.text('Croissant cu ciocolată')),
+      find.descendant(
+        of: find.byType(ProductGrid),
+        matching: find.text('Croissant cu ciocolată'),
+      ),
       findsOneWidget,
     );
 
@@ -187,4 +196,53 @@ void main() {
       await tester.pumpAndSettle();
     });
   });
+
+  testWidgets(
+    'an offer opens the product it is on, both from the feed and from the '
+    'category page that repeats it',
+    (tester) async {
+      const kurtos = (brand: Brand.bakery, id: 'kurtos-scortisoara');
+      const name = 'Kurtos cu zahăr și scorțișoară';
+      Finder offerFor(String product) => find.descendant(
+        of: find.byType(PromoCards),
+        matching: find.text(product),
+      );
+      ProductKey? openProduct() =>
+          find.byType(ProductDetailScreen).evaluate().isEmpty
+          ? null
+          : tester
+                .widget<ProductDetailScreen>(find.byType(ProductDetailScreen))
+                .productKey;
+
+      // On the feed the offer names the kurtos it is on, not its category.
+      await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
+      expect(offerFor(name), findsOneWidget);
+      await tapVisible(tester, offerFor(name));
+
+      expect(openProduct(), kurtos);
+      expect(inScreen<ProductDetailScreen>(find.text(name)), findsOneWidget);
+      expect(
+        inScreen<ProductDetailScreen>(find.text('36 lei')),
+        findsOneWidget,
+      );
+
+      // And again from the category page, where the same card sits above the
+      // list: it leads on to the product, not back to the page it is on.
+      container
+          .read(appRouterProvider)
+          .go(
+            Routes.brandMenu(
+              Brand.bakery,
+              categoryId: BakeryCategoryIds.kurtos,
+            ),
+          );
+      await tester.pumpAndSettle();
+      expect(find.byType(CatalogScreen), findsOneWidget);
+      expect(openProduct(), isNull);
+
+      await tapVisible(tester, offerFor(name));
+      expect(openProduct(), kurtos);
+      expect(inScreen<ProductDetailScreen>(find.text(name)), findsOneWidget);
+    },
+  );
 }

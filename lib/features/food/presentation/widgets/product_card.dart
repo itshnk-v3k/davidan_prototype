@@ -488,17 +488,21 @@ class ProductListTile extends StatelessWidget {
 
   final ProductTileData data;
 
-  /// The thumbnail, a small square as the delivery apps the client picked out
-  /// draw theirs: the row is the name, the facts and the price, not the photo.
-  static const _photoSize = 80.0;
+  /// The thumbnail's panel: the shape almost every product photo is taken in,
+  /// so a photo fills it with nothing lost at its sides, and the few shot
+  /// square or upright (the plăcinte, the bottles) sit whole inside it on the
+  /// tint instead of being cropped to a strip through their middle.
+  static const _photoWidth = 112.0;
+  static const _photoAspectRatio = 1.5;
 
   @override
   Widget build(BuildContext context) {
     final product = data.product;
     final description = product.description;
-    // As on the card: the heart's clear tap margins reach the photo's edges.
-    const heartSize = 32.0;
-    const heartOffset = AppSpacing.sm - (TapTarget.min - heartSize) / 2;
+    // Small enough to leave the photo the panel: on a thumbnail this size the
+    // card's own heart covered a third of the dish.
+    const heartSize = 26.0;
+    const heartOffset = AppSpacing.xxs - (TapTarget.min - heartSize) / 2;
 
     return AppCard(
       onTap: data.onTap,
@@ -510,8 +514,9 @@ class ProductListTile extends StatelessWidget {
               padding: const EdgeInsets.all(AppSpacing.sm),
               child: Align(
                 alignment: Alignment.topCenter,
-                child: SizedBox.square(
-                  dimension: _photoSize,
+                child: SizedBox(
+                  width: _photoWidth,
+                  height: _photoWidth / _photoAspectRatio,
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
@@ -521,6 +526,8 @@ class ProductListTile extends StatelessWidget {
                           product.key,
                           scope: data.heroScope,
                         ),
+                        // The whole shot, whatever shape it was taken in.
+                        fit: BoxFit.contain,
                         borderRadius: BorderRadius.circular(AppRadii.sm),
                       ),
                       Positioned(

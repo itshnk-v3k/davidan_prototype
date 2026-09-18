@@ -212,8 +212,14 @@ class _BottomNav extends ConsumerWidget {
     // the app's glass instead: the same treatment of the reference's bar —
     // one quiet surface, the open tab in the brand's colour and everything
     // else grey — tuned for a dark background.
-    return GlassSurface(
+    //
+    // The glass is well filled in ([_tintOpacity]) and carries a shadow that
+    // reaches up over the page: on a pale feed the bar was near enough the
+    // same tone as the content running under it to be missed altogether, and
+    // a bar that can be missed is a bar that isn't used.
+    final bar = GlassSurface(
       borderRadius: const BorderRadius.vertical(top: Radius.circular(_radius)),
+      tintOpacity: _tintOpacity,
       // It keeps the rim: now that the bar touches the content instead of
       // floating clear of it, the glass alone no longer marks its top edge.
       // Its own Material, so the ripples paint on the glass, not under it.
@@ -246,10 +252,30 @@ class _BottomNav extends ConsumerWidget {
         ),
       ),
     );
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: context.colors.cardShadow,
+            blurRadius: 22,
+            spreadRadius: -2,
+            // Upwards: what it sets itself apart from is above it.
+            offset: const Offset(0, -6),
+          ),
+        ],
+      ),
+      child: bar,
+    );
   }
 
   /// The height the tabs themselves take, above the phone's own gesture area.
   static const _height = GlassSurface.barHeight;
+
+  /// How much of the theme's surface covers the blur: well above the glass's
+  /// own 0.5, so the bar is a surface of its own rather than a pale wash of
+  /// whatever scrolls under it.
+  static const _tintOpacity = 0.86;
 
   /// Its top corners, the same the brand header's glass carries.
   static const _radius = GlassSurface.barRadius;

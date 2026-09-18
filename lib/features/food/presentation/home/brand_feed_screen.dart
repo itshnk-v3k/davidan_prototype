@@ -91,11 +91,13 @@ class _BrandFeedScreenState extends ConsumerState<BrandFeedScreen> {
         if (brandInfos[brand] case final info?)
           SliverToBoxAdapter(
             child: Padding(
+              // Clear of the bar at the foot below it, which the page's own
+              // bottom space only just reaches.
               padding: const EdgeInsets.fromLTRB(
                 AppSpacing.gutter,
                 AppSpacing.xl,
                 AppSpacing.gutter,
-                0,
+                AppSpacing.xl,
               ),
               child: LinkCard(
                 icon: PhosphorIconsRegular.info,

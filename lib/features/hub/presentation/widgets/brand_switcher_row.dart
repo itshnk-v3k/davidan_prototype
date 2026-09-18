@@ -10,11 +10,10 @@ import 'package:davidan_prototype/data/models/brand.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// The service selector inside Acasă: the five brands as round bubbles in the
-/// client's order ([Brand]'s), each one of the brand's own photos under a veil
-/// of its colour with its white logo on top and its name underneath, scrolling
-/// sideways when they don't all fit. Tapping one swaps the feed below without
-/// leaving the shell, the way Glovo and Yandex Eda switch between their
-/// verticals.
+/// client's order ([Brand]'s), each one of the brand's own photos with its
+/// white logo on top and its name underneath, scrolling sideways when they
+/// don't all fit. Tapping one swaps the feed below without leaving the shell,
+/// the way Glovo and Yandex Eda switch between their verticals.
 ///
 /// It is a slim strip rather than a section of its own: small bubbles, close
 /// together, with the name right under them, so the banners below start near
@@ -100,9 +99,8 @@ class _BrandBubble extends StatelessWidget {
   final Brand brand;
   final String name;
 
-  /// The brand's own photo, the one its hub card carried, filling the bubble
-  /// under a veil of the brand's colour. Null for a brand with no photo yet,
-  /// whose bubble is its colour alone.
+  /// The brand's own photo, the one its hub card carried, filling the bubble.
+  /// Null for a brand with no photo yet, whose bubble is its colour alone.
   final String? photo;
   final bool selected;
   final VoidCallback onTap;
@@ -205,11 +203,12 @@ class _BrandBubble extends StatelessWidget {
   }
 }
 
-/// What fills a bubble behind its logo: the brand's photo cropped to the
-/// circle, then a veil of the brand's own gradient over it, so the bubble
-/// still reads as that brand's colour and the white logo stays legible even
-/// over a bright photo (the water bottle on white, the white Audi). A soft
-/// pool of the brand's deepest shade sits in the middle, under the logo.
+/// What fills a bubble behind its logo: the brand's own photo, cropped to the
+/// circle and shown as it was taken — no colour over it, so the dish or the
+/// bottle is what the bubble shows. Only a pool of the brand's deepest shade
+/// gathers in the middle, under the logo, so the white wordmark holds over a
+/// bright plate or a white car; it is gone by the bubble's edge, where the
+/// photo is clear.
 ///
 /// Without a photo it is the brand's gradient alone, as the bubbles were.
 class _BubbleFace extends StatelessWidget {
@@ -219,14 +218,10 @@ class _BubbleFace extends StatelessWidget {
   final String? photo;
   final Widget? child;
 
-  /// How much of the brand's colour covers the photo, from the light end of
-  /// its gradient to the deep one. Enough for the colour to lead and for the
-  /// logo to hold, little enough that the photo still shows through.
-  static const _veilLight = 0.58;
-  static const _veilDeep = 0.88;
-
-  /// The pool of the brand's deepest shade under the logo.
-  static const _pool = 0.32;
+  /// The pool of the brand's deepest shade under the logo: deep enough in the
+  /// middle to carry white over any photo, and only as wide as the wordmark.
+  static const _pool = 0.7;
+  static const _poolEdge = 0.85;
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +230,6 @@ class _BubbleFace extends StatelessWidget {
       // A pattern this small would only read as noise.
       return BrandSurface(brand: brand, texture: false, child: child);
     }
-    final (light, deep) = BrandSurface.colorsOf(brand);
     final shade = BrandSurface.shadeOf(brand);
 
     return Stack(
@@ -244,23 +238,13 @@ class _BubbleFace extends StatelessWidget {
         Image.asset(photo, fit: BoxFit.cover, excludeFromSemantics: true),
         DecoratedBox(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                light.withValues(alpha: _veilLight),
-                deep.withValues(alpha: _veilDeep),
-              ],
-            ),
-          ),
-        ),
-        DecoratedBox(
-          decoration: BoxDecoration(
             gradient: RadialGradient(
               colors: [
                 shade.withValues(alpha: _pool),
+                shade.withValues(alpha: _pool * 0.55),
                 shade.withValues(alpha: 0),
               ],
+              stops: const [0, 0.5, _poolEdge],
             ),
           ),
         ),

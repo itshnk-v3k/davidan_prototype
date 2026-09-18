@@ -14,6 +14,7 @@ import 'package:davidan_prototype/core/widgets/app_button.dart';
 import 'package:davidan_prototype/core/widgets/app_icon_button.dart';
 import 'package:davidan_prototype/core/widgets/info_note.dart';
 import 'package:davidan_prototype/core/widgets/top_scrim.dart';
+import 'package:davidan_prototype/data/mock/demo_promos.dart';
 import 'package:davidan_prototype/data/mock/placeholder_nutrition.dart';
 import 'package:davidan_prototype/data/mock/placeholder_ratings.dart';
 import 'package:davidan_prototype/data/models/product.dart';
@@ -23,6 +24,7 @@ import 'package:davidan_prototype/features/food/application/favorites_notifier.d
 import 'package:davidan_prototype/features/food/application/product_quantity_notifier.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/favorite_toggle.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_card.dart';
+import 'package:davidan_prototype/features/food/presentation/widgets/product_description.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_image.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/quantity_stepper.dart';
 import 'package:davidan_prototype/l10n/app_language.dart';
@@ -200,6 +202,10 @@ class _ProductInfo extends StatelessWidget {
     final weight = ProductMetaLine.weightOf(context, product, nutrition);
     final calories = nutrition?.placeholderCalories;
 
+    // DEMO CONTENT: the offer on the product's category, if it has one, the
+    // same badge its card carries (see demo_promos.dart).
+    final discount = demoDiscountFor(product);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -252,6 +258,7 @@ class _ProductInfo extends StatelessWidget {
                 style: context.textStyles.priceLarge,
               ),
             ),
+            if (discount case final percent?) DiscountBadge(percent: percent),
             if (inCartCount > 0)
               _Pill(
                 label: context.l10n.inCart(inCartCount),
@@ -274,7 +281,9 @@ class _ProductInfo extends StatelessWidget {
             style: context.textStyles.subtitle,
           ),
           const SizedBox(height: AppSpacing.sm),
-          Text(description, style: context.textStyles.bodySecondary),
+          // The site's ingredient list as a list, one item to a line, rather
+          // than the block of running text it is written as.
+          ProductDescription(description),
         ],
       ],
     );

@@ -7,21 +7,22 @@ import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/widgets/app_card.dart';
 import 'package:davidan_prototype/core/widgets/card_carousel.dart';
 import 'package:davidan_prototype/data/mock/demo_promos.dart';
-import 'package:davidan_prototype/data/models/menu_category.dart';
+import 'package:davidan_prototype/data/models/product.dart';
+import 'package:davidan_prototype/features/food/presentation/widgets/product_image.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// A brand's promo cards as big photo cards in a row swiped sideways, like
 /// the banners above them (see [CardCarousel]): each a discount on one
-/// category, over the category's photo, opening that category. Demo content
-/// (see demo_promos.dart).
+/// category, over the photo of the product it puts forward, opening that
+/// product's page. Demo content (see demo_promos.dart).
 class PromoCards extends StatelessWidget {
   const PromoCards({super.key, required this.promos, required this.onOpen});
 
-  /// Each promo with its category.
-  final List<(DemoPromo, MenuCategory)> promos;
-  final ValueChanged<MenuCategory> onOpen;
+  /// Each promo with the product it shows.
+  final List<(DemoPromo, Product)> promos;
+  final ValueChanged<Product> onOpen;
 
-  /// A card's width to its height: wide, with the category's photo whole
+  /// A card's width to its height: wide, with the product's photo whole
   /// enough to recognise.
   static const aspectRatio = 2.0;
 
@@ -35,28 +36,28 @@ class PromoCards extends StatelessWidget {
       aspectRatio: aspectRatio,
       minHeight: minHeight,
       itemBuilder: (context, index) {
-        final (promo, category) = promos[index];
+        final (promo, product) = promos[index];
         return _PromoCard(
           promo: promo,
-          category: category,
-          onTap: () => onOpen(category),
+          product: product,
+          onTap: () => onOpen(product),
         );
       },
     );
   }
 }
 
-/// The category's photo across the whole card, darkened from the left where
-/// the discount, "Reducere specială" and the category's link sit.
+/// The product's photo across the whole card, darkened from the left where
+/// the discount, "Reducere specială" and the product's link sit.
 class _PromoCard extends StatelessWidget {
   const _PromoCard({
     required this.promo,
-    required this.category,
+    required this.product,
     required this.onTap,
   });
 
   final DemoPromo promo;
-  final MenuCategory category;
+  final Product product;
   final VoidCallback onTap;
 
   @override
@@ -69,11 +70,7 @@ class _PromoCard extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            category.image,
-            fit: BoxFit.cover,
-            alignment: const Alignment(0.4, 0),
-          ),
+          ProductImage(path: product.image, alignment: const Alignment(0.4, 0)),
           DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -127,7 +124,7 @@ class _PromoCard extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          category.name,
+                          product.name,
                           style: context.textStyles.bodyStrong.copyWith(
                             color: colors.onImage,
                           ),

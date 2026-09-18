@@ -19,7 +19,10 @@ import 'package:davidan_prototype/l10n/l10n.dart';
 /// Inside a brand that sells, the cart is the [CartBar] at the foot of the
 /// page instead, and the header carries no bag.
 class OpenCartsButton extends ConsumerWidget {
-  const OpenCartsButton({super.key});
+  const OpenCartsButton({super.key, this.size = AppIconButton.defaultSize});
+
+  /// The bag's own size; its tap area is [TapTarget.min] whatever it is.
+  final double size;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,6 +34,7 @@ class OpenCartsButton extends ConsumerWidget {
 
     return _BagButton(
       count: count,
+      size: size,
       semanticLabel: context.l10n.openCarts(count),
       onPressed: () => context.push(Routes.openCarts),
     );
@@ -40,11 +44,13 @@ class OpenCartsButton extends ConsumerWidget {
 class _BagButton extends StatelessWidget {
   const _BagButton({
     required this.count,
+    required this.size,
     required this.semanticLabel,
     required this.onPressed,
   });
 
   final int count;
+  final double size;
   final String semanticLabel;
   final VoidCallback onPressed;
 
@@ -56,13 +62,14 @@ class _BagButton extends StatelessWidget {
         AppIconButton(
           icon: PhosphorIconsRegular.handbag,
           semanticLabel: semanticLabel,
+          size: size,
           onPressed: onPressed,
         ),
         // On the circle's corner, inside the button's clear margin.
         if (count > 0)
           Positioned(
-            top: TapTarget.iconButtonMargin - AppSpacing.xs,
-            right: TapTarget.iconButtonMargin - AppSpacing.xs,
+            top: TapTarget.marginFor(size) - AppSpacing.xs,
+            right: TapTarget.marginFor(size) - AppSpacing.xs,
             child: IgnorePointer(
               child: ExcludeSemantics(child: CountBadge(count: count)),
             ),

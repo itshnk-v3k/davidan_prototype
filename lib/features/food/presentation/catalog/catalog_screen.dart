@@ -44,7 +44,7 @@ class CatalogScreen extends ConsumerWidget {
     // This category's demo offer, when it has one (see demo_promos.dart).
     final promos = [
       for (final promo in promosOf(ref, brand))
-        if (promo.$2.id == category.id) promo,
+        if (promo.$1.categoryId == category.id) promo,
     ];
 
     return CustomScrollView(
@@ -89,8 +89,10 @@ class CatalogScreen extends ConsumerWidget {
                 padding: const EdgeInsets.only(top: AppSpacing.lg),
                 child: PromoCards(
                   promos: promos,
-                  // Already here: the card only says what the offer is.
-                  onOpen: (_) {},
+                  // The category is already open, so the card leads on to the
+                  // product it puts forward rather than back to this page.
+                  onOpen: (product) =>
+                      context.push(Routes.brandProduct(product.key)),
                 ),
               ),
             ),

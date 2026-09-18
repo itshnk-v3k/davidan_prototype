@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart' show ScrollDirection;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -6,6 +7,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:davidan_prototype/core/router/extra_app.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_colors.dart';
+import 'package:davidan_prototype/core/theme/app_motion.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
 import 'package:davidan_prototype/core/theme/app_theme.dart';
@@ -39,11 +41,18 @@ import 'package:davidan_prototype/l10n/l10n.dart';
 /// scrolls beneath the fade at its lower edge. Each starts its own scroll
 /// view with [chromeHeight] of room ([BrandShellSpace]).
 ///
+/// Scrolling down folds the switcher away and scrolling back up brings it
+/// again, as Glovo and Yandex Eda do with the strip above their feeds: the
+/// bar itself stays, since where the order goes, search and the bell have to
+/// be reachable from anywhere in the brand, while the switcher is for the odd
+/// change of shop. The pages know nothing of it either: the switcher folds
+/// over what has already scrolled under it, so nothing below moves.
+///
 /// At the foot, once the brand's cart holds something, the [CartBar] floats
 /// over the pages, above the tab bar. The pages need know nothing of it: the
 /// shell adds its height to the bottom padding they already leave for the tab
 /// bar, so the room they keep clear grows and shrinks with the bar.
-class BrandShell extends ConsumerWidget {
+class BrandShell extends ConsumerStatefulWidget {
   const BrandShell({
     super.key,
     required this.brand,
@@ -60,8 +69,10 @@ class BrandShell extends ConsumerWidget {
   final bool showBack;
   final Widget child;
 
-  /// The top bar's own height, without the status bar above it.
-  static const barHeight = 56.0;
+  /// The top bar's own height, without the status bar above it: the tap area
+  /// of the buttons in it and no more, so the switcher sits right under the
+  /// address rather than a line's depth below it.
+  static const barHeight = TapTarget.min;
 
   /// How much room the bar and the switcher take at the top of the page,
   /// including the status bar: what a page below has to leave clear.
@@ -76,7 +87,56 @@ class BrandShell extends ConsumerWidget {
   static const _fadeHeight = AppSpacing.sm;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BrandShell> createState() => _BrandShellState();
+}
+
+class _BrandShellState extends ConsumerState<BrandShell> {
+  /// Whether the brand switcher is showing. It folds away as the page is
+  /// scrolled down and comes back on the way up, or at the top of the page.
+  bool _switcherUp = true;
+
+  @override
+  void didUpdateWidget(BrandShell old) {
+    super.didUpdateWidget(old);
+    // A page of the brand's opening or closing, or another brand: each starts
+    // at the top of its own scroll view, so the switcher is up with it.
+    if (old.brand != widget.brand || old.showBack != widget.showBack) {
+      _switcherUp = true;
+    }
+  }
+
+  /// Follows the page under the chrome. The switcher only folds once the page
+  /// is scrolled past the room it takes, so a short drag near the top doesn't
+  /// take it away, and a sideways scroll (a row of cards, the chips) is not
+  /// the page moving at all.
+  bool _onScroll(ScrollNotification note) {
+    if (note.metrics.axis != Axis.vertical) return false;
+    final atTop =
+        note.metrics.pixels <=
+        note.metrics.minScrollExtent + BrandSwitcherRow.heightFor(context);
+    if (atTop) {
+      _setSwitcher(up: true);
+    } else if (note is UserScrollNotification) {
+      switch (note.direction) {
+        case ScrollDirection.reverse:
+          _setSwitcher(up: false);
+        case ScrollDirection.forward:
+          _setSwitcher(up: true);
+        case ScrollDirection.idle:
+          break;
+      }
+    }
+    return false;
+  }
+
+  void _setSwitcher({required bool up}) {
+    if (_switcherUp == up) return;
+    setState(() => _switcherUp = up);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final brand = widget.brand;
     final theme = Theme.of(context);
     final brandColors = BrandColors.of(brand, theme.brightness);
     // The brand's own colours, as ClientShell gives them to the tabs. DaviDan's
@@ -117,14 +177,21 @@ class BrandShell extends ConsumerWidget {
                           bottom: bottom + (showCartBar ? CartBar.space : 0),
                         ),
                       ),
-                      child: child,
+                      child: NotificationListener<ScrollNotification>(
+                        onNotification: _onScroll,
+                        child: widget.child,
+                      ),
                     ),
                   ),
                   Positioned(
                     top: 0,
                     left: 0,
                     right: 0,
-                    child: _Chrome(brand: brand, showBack: showBack),
+                    child: _Chrome(
+                      brand: brand,
+                      showBack: widget.showBack,
+                      switcherUp: _switcherUp,
+                    ),
                   ),
                   if (showCartBar)
                     Positioned(
@@ -163,10 +230,17 @@ class SliverBrandShellSpace extends StatelessWidget {
 }
 
 class _Chrome extends ConsumerWidget {
-  const _Chrome({required this.brand, required this.showBack});
+  const _Chrome({
+    required this.brand,
+    required this.showBack,
+    required this.switcherUp,
+  });
 
   final Brand brand;
   final bool showBack;
+
+  /// Whether the switcher is folded out under the bar (see [BrandShell]).
+  final bool switcherUp;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -185,15 +259,26 @@ class _Chrome extends ConsumerWidget {
             children: [
               SizedBox(height: MediaQuery.paddingOf(context).top),
               _LocationBar(brand: brand, showBack: showBack),
-              BrandSwitcherRow(
-                selected: brand,
-                onSelected: (chosen) => chosen == brand
-                    // The open brand's own bubble returns to its feed, the way
-                    // tapping the open tab returns to its first screen.
-                    ? context.go(Routes.brandHome(brand))
-                    // Replaces rather than pushes: the switcher filters the
-                    // shell, so back doesn't walk through every brand tried.
-                    : context.replace(Routes.brandHome(chosen)),
+              // Folded away by its own height rather than taken out of the
+              // tree: the row keeps where it was scrolled sideways to, and the
+              // brand it marks doesn't flicker on the way back.
+              ClipRect(
+                child: AnimatedAlign(
+                  alignment: Alignment.topCenter,
+                  heightFactor: switcherUp ? 1 : 0,
+                  duration: AppMotion.of(context, AppMotion.medium),
+                  curve: AppMotion.standard,
+                  child: BrandSwitcherRow(
+                    selected: brand,
+                    onSelected: (chosen) => chosen == brand
+                        // The open brand's own bubble returns to its feed, the
+                        // way tapping the open tab returns to its first screen.
+                        ? context.go(Routes.brandHome(brand))
+                        // Replaces rather than pushes: the switcher filters the
+                        // shell, so back doesn't walk through every brand tried.
+                        : context.replace(Routes.brandHome(chosen)),
+                  ),
+                ),
               ),
             ],
           ),
@@ -227,9 +312,10 @@ class _Chrome extends ConsumerWidget {
 /// "Livrare la ▾" and bell header of Glovo, Wolt and Yandex Eda, kept to the
 /// two buttons the reference apps carry beside the address.
 ///
-/// Search is here as well as under the banners, since the field under them
-/// scrolls away and a category page never had one: wherever the customer is
-/// in a brand, the magnifier is on screen.
+/// Search is here and nowhere else: a field in the page scrolls away and a
+/// category page never had one, so wherever the customer is in a brand, the
+/// magnifier is on screen. The filter that once stood beside that field is on
+/// the search screen this opens.
 ///
 /// The cart is not: the [CartBar] at the foot carries the open brand's, and a
 /// bag in the header would say the same thing twice. A brand with nothing to
@@ -241,6 +327,28 @@ class _LocationBar extends ConsumerWidget {
 
   final Brand brand;
   final bool showBack;
+
+  /// Every circle in the bar, back arrow and all: a size down from the app's
+  /// default, so the bar reads as a line of small controls around the address
+  /// rather than a row of buttons as tall as it.
+  static const _buttonSize = 36.0;
+
+  /// The pin or the storefront in front of the address, and the caret after
+  /// it: both at the scale of the glyphs inside those circles, so nothing in
+  /// the bar is drawn heavier than the address itself.
+  static const _locationIconSize = 20.0;
+  static const _caretSize = 16.0;
+
+  /// The clear margin around each of those circles, which takes the place of
+  /// the padding and the gaps beside it, so a circle sits where it would
+  /// without one.
+  static const _margin = (TapTarget.min - _buttonSize) / 2;
+
+  /// What is left of the gap between two buttons once both their clear
+  /// margins have been counted: at [_buttonSize] they more than cover it.
+  static const _buttonGap = 2 * _margin >= AppSpacing.sm
+      ? 0.0
+      : AppSpacing.sm - 2 * _margin;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -277,9 +385,6 @@ class _LocationBar extends ConsumerWidget {
             ),
           };
 
-    // The buttons' clear margins take the place of the padding and the gaps
-    // between them, so the circles sit where they would without them.
-    const margin = TapTarget.iconButtonMargin;
     final colors = context.colors;
     final onClearLocation = pinned == null
         ? null
@@ -294,7 +399,7 @@ class _LocationBar extends ConsumerWidget {
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter - AppSpacing.sm,
         AppSpacing.sm,
-        AppSpacing.gutter - margin,
+        AppSpacing.gutter - _margin,
         0,
       ),
       child: SizedBox(
@@ -305,9 +410,10 @@ class _LocationBar extends ConsumerWidget {
               AppIconButton(
                 icon: PhosphorIconsRegular.arrowLeft,
                 semanticLabel: context.l10n.backHome,
+                size: _buttonSize,
                 onPressed: () => context.pop(),
               ),
-              const SizedBox(width: AppSpacing.sm - 2 * margin),
+              const SizedBox(width: _buttonGap),
             ],
             // The whole height of the bar takes the tap.
             Expanded(
@@ -322,7 +428,11 @@ class _LocationBar extends ConsumerWidget {
                     ),
                     child: Row(
                       children: [
-                        Icon(location.icon, size: 24, color: colors.primary),
+                        Icon(
+                          location.icon,
+                          size: _locationIconSize,
+                          color: colors.primary,
+                        ),
                         const SizedBox(width: AppSpacing.sm),
                         Flexible(
                           child: Column(
@@ -347,7 +457,7 @@ class _LocationBar extends ConsumerWidget {
                                   ),
                                   Icon(
                                     PhosphorIconsBold.caretDown,
-                                    size: 22,
+                                    size: _caretSize,
                                     color: colors.textPrimary,
                                   ),
                                 ],
@@ -372,21 +482,23 @@ class _LocationBar extends ConsumerWidget {
               AppIconButton(
                 icon: PhosphorIconsRegular.dotsNine,
                 semanticLabel: context.l10n.openLauncher,
+                size: _buttonSize,
                 onPressed: onLauncherTap,
               ),
-            const SizedBox(width: AppSpacing.sm - margin),
+            const SizedBox(width: AppSpacing.sm - _margin),
             if (sells) ...[
               AppIconButton(
                 icon: PhosphorIconsRegular.magnifyingGlass,
                 semanticLabel: context.l10n.searchMenuHint,
+                size: _buttonSize,
                 onPressed: () => context.push(Routes.brandSearch(brand)),
               ),
-              const SizedBox(width: AppSpacing.sm - 2 * margin),
+              const SizedBox(width: _buttonGap),
             ],
-            const NotificationsButton(),
+            const NotificationsButton(size: _buttonSize),
             if (!sells) ...[
-              const SizedBox(width: AppSpacing.sm - 2 * margin),
-              const OpenCartsButton(),
+              const SizedBox(width: _buttonGap),
+              const OpenCartsButton(size: _buttonSize),
             ],
           ],
         ),

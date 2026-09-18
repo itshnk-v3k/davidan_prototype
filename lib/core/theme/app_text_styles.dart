@@ -50,7 +50,11 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
       fontFamily: fontFamily,
       fontFamilyFallback: const [fallbackFontFamily],
       letterSpacing: 0,
-      fontSize: 20,
+      // Three under the headline: a section heading ("Populare", "Oferte",
+      // "Categorii", every category's row) sits above its content rather than
+      // competing with the product names under it, and Russian's longer words
+      // ("Популярная продукция") fit the line.
+      fontSize: 17,
       height: 1.25,
       fontWeight: FontWeight.w700,
       color: colors.textPrimary,

@@ -67,8 +67,11 @@ void main() {
       Routes.brandHome(Brand.bakery),
     );
 
+    // remember() sets the brand as the switcher is tapped; only the write to
+    // local storage is fire-and-forget, and nothing here reads storage back.
+    // (Not flushWrites(): a widget test runs on a fake clock that a delay
+    // awaited outside a pump never reaches, so it would hang the test.)
     await switchTo(tester, Brand.sushi);
-    await flushWrites();
     expect(container.read(lastBrandProvider), Brand.sushi);
 
     // As if the app were opened again.

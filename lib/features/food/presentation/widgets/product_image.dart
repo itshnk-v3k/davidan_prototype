@@ -15,6 +15,7 @@ class ProductImage extends StatelessWidget {
     this.heroTag,
     this.borderRadius = BorderRadius.zero,
     this.fit = BoxFit.cover,
+    this.alignment = Alignment.center,
   });
 
   final String? path;
@@ -23,6 +24,9 @@ class ProductImage extends StatelessWidget {
   /// whatever doesn't fit; [BoxFit.contain] keeps the whole shot and leaves
   /// the tint showing where its shape differs from the box's.
   final BoxFit fit;
+
+  /// Which part of the photo stays in the box when [fit] crops it.
+  final Alignment alignment;
 
   /// The photo's rounded corners, clipped inside the flying photo so they
   /// change smoothly in flight.
@@ -49,6 +53,7 @@ class ProductImage extends StatelessWidget {
             child: Image.asset(
               path,
               fit: fit,
+              alignment: alignment,
               errorBuilder: (_, _, _) => const _Placeholder(),
               // A photo already in memory shows at once. One still being
               // decoded (fast scrolling on a phone) fades in over the tint

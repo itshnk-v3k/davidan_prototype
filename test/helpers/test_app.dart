@@ -75,7 +75,12 @@ Future<ProviderContainer> startApp({
   );
 }
 
-/// Lets fire-and-forget storage writes finish.
+/// Lets fire-and-forget storage writes finish. Only from a plain `test()`
+/// body: a widget test runs on a fake clock that only a pump moves, so a
+/// delay awaited between pumps is never reached and the test hangs until
+/// flutter_test's ten-minute timeout kills it. A widget test pumps instead —
+/// and a Notifier that sets its state before writing (LastBrandNotifier) can
+/// be read straight after the tap that changed it.
 Future<void> flushWrites() => Future<void>.delayed(Duration.zero);
 
 /// Pumps the real app (router, screens, Notifiers) at [location]. The default

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -7,30 +5,28 @@ import 'package:material_ui/material_ui.dart';
 import 'package:davidan_prototype/core/router/routes.dart';
 import 'package:davidan_prototype/core/theme/app_spacing.dart';
 import 'package:davidan_prototype/core/theme/app_text_styles.dart';
-import 'package:davidan_prototype/core/widgets/search_bar_button.dart';
 import 'package:davidan_prototype/data/mock/demo_promos.dart';
 import 'package:davidan_prototype/data/models/brand.dart';
-import 'package:davidan_prototype/data/models/menu_category.dart';
+import 'package:davidan_prototype/data/models/product.dart';
 import 'package:davidan_prototype/features/food/application/catalog_providers.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/category_grid.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/product_shelf.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/promo_banner_carousel.dart';
 import 'package:davidan_prototype/features/food/presentation/home/widgets/promo_cards.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/product_grid.dart';
-import 'package:davidan_prototype/features/search/presentation/widgets/category_filter_sheet.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 /// A brand with a menu (the patisserie, the sushi), inside Acasă's shell: the
-/// site's banners, the search field right under them, the demo offers, the
-/// category tiles, the brand's popular products as big cards, and then one row
-/// per category, each with a link to the whole category, under the switch
-/// between cards and rows that they follow. The layout of a shop page in Glovo
-/// or Yandex Eda: the menu can be browsed without leaving home, and a category
-/// page holds all of it.
+/// site's banners, the demo offers, the category tiles, the brand's popular
+/// products as big cards, and then one row per category, each with a link to
+/// the whole category, under the switch between cards and rows that they
+/// follow. The layout of a shop page in Glovo or Yandex Eda: the menu can be
+/// browsed without leaving home, and a category page holds all of it.
 ///
-/// Search sits high, straight under the banners rather than down beside the
-/// menu, so it is on screen when the feed opens: it is how someone who knows
-/// what they want gets there.
+/// Search is not in the page: the magnifier in the shell's bar above is the
+/// one way in, and it is on screen wherever the customer is in the brand,
+/// where a field under the banners would scroll away. The filter that stood
+/// beside that field is on the search screen itself.
 class MenuFeed extends ConsumerWidget {
   const MenuFeed({super.key, required this.brand});
 
@@ -68,36 +64,6 @@ class MenuFeed extends ConsumerWidget {
               },
             ),
           ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.gutter,
-              AppSpacing.lg,
-              AppSpacing.gutter,
-              0,
-            ),
-            child: SearchBarButton(
-              hint: context.l10n.searchMenuHint,
-              onTap: () => context.push(Routes.brandSearch(brand)),
-              filterLabel: context.l10n.filterByCategory,
-              onFilter: () async {
-                final choice = await showCategoryFilterSheet(
-                  context,
-                  brands: [brand],
-                );
-                if (choice == null || !context.mounted) return;
-                unawaited(
-                  context.push(
-                    Routes.brandSearch(
-                      brand,
-                      categoryId: choice.category?.categoryId,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
         // The offers ride with the banners above the menu itself, so the ads
         // are one block rather than two apart.
         if (promos.isNotEmpty) ...[
@@ -105,9 +71,8 @@ class MenuFeed extends ConsumerWidget {
           SliverToBoxAdapter(
             child: PromoCards(
               promos: promos,
-              onOpen: (category) => context.push(
-                Routes.brandMenu(brand, categoryId: category.id),
-              ),
+              onOpen: (product) =>
+                  context.push(Routes.brandProduct(product.key)),
             ),
           ),
         ],
@@ -179,15 +144,13 @@ class MenuFeed extends ConsumerWidget {
   }
 }
 
-/// [brand]'s demo promos (see demo_promos.dart), each with its category, and
-/// only for a category the brand still has.
-List<(DemoPromo, MenuCategory)> promosOf(WidgetRef ref, Brand brand) {
-  final categories = ref.watch(categoriesProvider(brand));
+/// [brand]'s demo promos (see demo_promos.dart), each with the product it puts
+/// forward, and only for a product the brand still sells.
+List<(DemoPromo, Product)> promosOf(WidgetRef ref, Brand brand) {
+  final byId = ref.watch(productsByIdProvider(brand));
   return [
     for (final promo in demoPromos[brand] ?? const <DemoPromo>[])
-      if (categories.where((each) => each.id == promo.categoryId).firstOrNull
-          case final category?)
-        (promo, category),
+      if (byId[promo.productId] case final product?) (promo, product),
   ];
 }
 
