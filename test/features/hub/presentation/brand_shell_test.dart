@@ -100,38 +100,50 @@ void main() {
         expect(position.dx, greaterThan(positions[index - 1].dx));
       }
 
-      String logoOn(Brand brand) =>
-          (tester
-                      .widget<Image>(
-                        find.descendant(
-                          of: find.ancestor(
-                            of: bubble(brand),
-                            matching: find.byType(InkResponse),
-                          ),
-                          matching: find.byType(Image),
-                        ),
-                      )
-                      .image
-                  as AssetImage)
-              .assetName;
-      expect(
-        {for (final brand in Brand.values) brand: logoOn(brand)},
-        {
-          Brand.restaurant: AppAssets.logoWhite,
-          Brand.sushi: AppAssets.sushiLogoWhite,
-          Brand.bakery: AppAssets.logoWhite,
-          Brand.water: AppAssets.waterLogoWhite,
-          Brand.carRental: AppAssets.rentCarLogoWhite,
-        },
-      );
+      // A bubble shows two pictures: the brand's white logo over the brand's
+      // own photo (_BubbleFace). It holds more than two Images — the logo is
+      // drawn three times over, two blurred halo passes under the logo
+      // proper — so this reads which assets a bubble carries rather than
+      // counting them, and stays true however the halo is painted.
+      Set<String> picturesOn(Brand brand) => {
+        for (final image in tester.widgetList<Image>(
+          find.descendant(
+            of: find.ancestor(
+              of: bubble(brand),
+              matching: find.byType(InkResponse),
+            ),
+            matching: find.byType(Image),
+          ),
+        ))
+          (image.image as AssetImage).assetName,
+      };
+      // The logo each brand is pinned to; the photo behind it is whichever one
+      // the brand's intro carries, and nothing else is in the bubble.
+      const logos = {
+        Brand.restaurant: AppAssets.logoWhite,
+        Brand.sushi: AppAssets.sushiLogoWhite,
+        Brand.bakery: AppAssets.logoWhite,
+        Brand.water: AppAssets.waterLogoWhite,
+        Brand.carRental: AppAssets.rentCarLogoWhite,
+      };
+      for (final brand in Brand.values) {
+        expect(
+          picturesOn(brand),
+          unorderedEquals({logos[brand]!, brandIntros[brand]!.image}),
+          reason: '$brand',
+        );
+      }
 
+      // A bubble's name carries no semantics of its own — the bubble around it
+      // declares the button and swallows what is inside (excludeSemantics) —
+      // so this asks for the node the name sits in rather than the name's.
       final semantics = tester.ensureSemantics();
       expect(
-        bubble(Brand.bakery),
+        tester.getSemantics(bubble(Brand.bakery)),
         matchesSemantics(label: 'Patiserie', isButton: true, isSelected: true),
       );
       expect(
-        bubble(Brand.sushi),
+        tester.getSemantics(bubble(Brand.sushi)),
         matchesSemantics(label: 'Sushi', isButton: true),
       );
       semantics.dispose();
@@ -305,8 +317,12 @@ void main() {
       expect(openBrand(tester), Brand.sushi);
       expect(find.byType(BrandSwitcherRow), findsOneWidget);
 
+      // A brand nobody has heard of goes to Acasă, which opens on the brand
+      // last shopped in — sushi, remembered from the link above. The
+      // patisserie is the fallback only when nothing has been remembered yet,
+      // which is the first run and is what this file's first test covers.
       await pumpApp(tester, container, '${Routes.clientHome}/b/pizzeria');
-      expect(openBrand(tester), Brand.bakery);
+      expect(openBrand(tester), Brand.sushi);
 
       await pumpApp(tester, container, Routes.brandMenu(Brand.restaurant));
       expect(openBrand(tester), Brand.restaurant);
@@ -327,4 +343,53 @@ void main() {
     await switchTo(tester, Brand.carRental);
     expect(find.byIcon(PhosphorIconsRegular.handbag), findsOneWidget);
   });
+
+  testWidgets(
+    'the switcher folds away as the feed is scrolled down and is back on the '
+    'way up, while the bar above it never moves',
+    (tester) async {
+      await pumpApp(
+        tester,
+        container,
+        Routes.clientHome,
+        size: const Size(360, 640),
+      );
+      // The room the switcher takes: the fold is its own, so the bar and the
+      // page around it are untouched.
+      Finder fold() => find
+          .ancestor(
+            of: find.byType(BrandSwitcherRow),
+            matching: find.byType(ClipRect),
+          )
+          .first;
+      double foldHeight() => tester.getSize(fold()).height;
+
+      final bar = find.text(ro.chooseAddress);
+      final barTop = tester.getTopLeft(bar).dy;
+      final open = foldHeight();
+      expect(open, greaterThan(0));
+
+      final feed = inScreen<BrandFeedScreen>(find.byType(CustomScrollView));
+      await tester.drag(feed, const Offset(0, -400));
+      await tester.pumpAndSettle();
+
+      expect(foldHeight(), 0, reason: 'scrolled down, the switcher is folded');
+      expect(tester.getTopLeft(bar).dy, closeTo(barTop, 0.01));
+      expect(find.text(ro.chooseAddress), findsOneWidget);
+      expect(
+        find.byIcon(PhosphorIconsRegular.magnifyingGlass),
+        findsOneWidget,
+        reason: 'the bar keeps the address, search and the bell',
+      );
+
+      await tester.drag(feed, const Offset(0, 120));
+      await tester.pumpAndSettle();
+
+      expect(foldHeight(), open, reason: 'on the way up it is back');
+      expect(tester.getTopLeft(bar).dy, closeTo(barTop, 0.01));
+      // And it still switches brand.
+      await switchTo(tester, Brand.sushi);
+      expect(openBrand(tester), Brand.sushi);
+    },
+  );
 }

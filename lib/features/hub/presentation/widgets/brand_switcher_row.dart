@@ -1,3 +1,5 @@
+import 'dart:ui' show ImageFilter;
+
 import 'package:material_ui/material_ui.dart';
 
 import 'package:davidan_prototype/core/theme/app_assets.dart';
@@ -218,10 +220,16 @@ class _BubbleFace extends StatelessWidget {
   final String? photo;
   final Widget? child;
 
-  /// The pool of the brand's deepest shade under the logo: deep enough in the
-  /// middle to carry white over any photo, and only as wide as the wordmark.
-  static const _pool = 0.7;
-  static const _poolEdge = 0.85;
+  /// The pool of the brand's deepest shade gathered in the middle, gone by the
+  /// bubble's edge.
+  static const _pool = 0.55;
+
+  /// Behind the wordmark itself, the same shade blurred to the shape of its
+  /// own letters: what carries white over the bright photos (the bottle on
+  /// white, the white Audi) that the colour over the whole bubble used to
+  /// carry it over. Two passes, since one blurred copy spreads too thin.
+  static const _haloBlur = 2.5;
+  static const _haloPasses = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -241,14 +249,33 @@ class _BubbleFace extends StatelessWidget {
             gradient: RadialGradient(
               colors: [
                 shade.withValues(alpha: _pool),
-                shade.withValues(alpha: _pool * 0.55),
+                shade.withValues(alpha: _pool * 0.7),
                 shade.withValues(alpha: 0),
               ],
-              stops: const [0, 0.5, _poolEdge],
+              stops: const [0, 0.55, 1],
             ),
           ),
         ),
-        if (child case final child?) Center(child: child),
+        if (child case final child?)
+          Center(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                for (var pass = 0; pass < _haloPasses; pass++)
+                  ImageFiltered(
+                    imageFilter: ImageFilter.blur(
+                      sigmaX: _haloBlur,
+                      sigmaY: _haloBlur,
+                    ),
+                    child: ColorFiltered(
+                      colorFilter: ColorFilter.mode(shade, BlendMode.srcIn),
+                      child: child,
+                    ),
+                  ),
+                child,
+              ],
+            ),
+          ),
       ],
     );
   }

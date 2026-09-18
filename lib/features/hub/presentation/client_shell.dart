@@ -255,12 +255,19 @@ class _BottomNav extends ConsumerWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
+        // Upwards, since what it sets itself apart from is above it: the
+        // cards' pair of shadows turned over, a hairline of contact at the
+        // top edge and a wide one above that.
         boxShadow: [
           BoxShadow(
-            color: context.colors.cardShadow,
+            color: colors.cardShadowContact,
+            blurRadius: 3,
+            offset: const Offset(0, -1),
+          ),
+          BoxShadow(
+            color: colors.cardShadow,
             blurRadius: 22,
             spreadRadius: -2,
-            // Upwards: what it sets itself apart from is above it.
             offset: const Offset(0, -6),
           ),
         ],

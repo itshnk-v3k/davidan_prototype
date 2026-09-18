@@ -102,8 +102,13 @@ class _BrandShellState extends ConsumerState<BrandShell> {
     // at the top of its own scroll view, so the switcher is up with it.
     if (old.brand != widget.brand || old.showBack != widget.showBack) {
       _switcherUp = true;
+      _direction = ScrollDirection.idle;
     }
   }
+
+  /// The way the page was last taken, which a scroll only says once, as the
+  /// finger starts to move: every update after that is read against it.
+  ScrollDirection _direction = ScrollDirection.idle;
 
   /// Follows the page under the chrome. The switcher only folds once the page
   /// is scrolled past the room it takes, so a short drag near the top doesn't
@@ -111,20 +116,23 @@ class _BrandShellState extends ConsumerState<BrandShell> {
   /// the page moving at all.
   bool _onScroll(ScrollNotification note) {
     if (note.metrics.axis != Axis.vertical) return false;
-    final atTop =
+    if (note is UserScrollNotification &&
+        note.direction != ScrollDirection.idle) {
+      _direction = note.direction;
+    }
+    final nearTop =
         note.metrics.pixels <=
         note.metrics.minScrollExtent + BrandSwitcherRow.heightFor(context);
-    if (atTop) {
-      _setSwitcher(up: true);
-    } else if (note is UserScrollNotification) {
-      switch (note.direction) {
-        case ScrollDirection.reverse:
-          _setSwitcher(up: false);
-        case ScrollDirection.forward:
-          _setSwitcher(up: true);
-        case ScrollDirection.idle:
-          break;
-      }
+    switch (_direction) {
+      // Near the top the switcher is up whichever way the page is going: it
+      // belongs with the start of the brand's feed.
+      case _ when nearTop:
+      case ScrollDirection.forward:
+        _setSwitcher(up: true);
+      case ScrollDirection.reverse:
+        _setSwitcher(up: false);
+      case ScrollDirection.idle:
+        break;
     }
     return false;
   }
