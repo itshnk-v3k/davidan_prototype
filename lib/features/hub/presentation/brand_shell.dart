@@ -200,14 +200,40 @@ class SliverBrandShellSpace extends StatelessWidget {
       const SliverToBoxAdapter(child: BrandShellSpace());
 }
 
-class _Chrome extends ConsumerWidget {
+class _Chrome extends ConsumerStatefulWidget {
   const _Chrome({required this.brand, required this.showBack});
 
   final Brand brand;
   final bool showBack;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_Chrome> createState() => _ChromeState();
+}
+
+class _ChromeState extends ConsumerState<_Chrome> {
+  /// True from the tap that starts the fold until the row has finished moving.
+  /// While it is, neither the bubbles nor the handle take a tap: half way
+  /// through, a bubble is somewhere it is about to leave, so a second tap
+  /// meant for the handle would open whichever brand had slid under the
+  /// finger. The row is on its way, so there is nothing to aim at yet.
+  bool _folding = false;
+
+  void _toggle() {
+    // With animations turned off on the phone the row is simply there or not,
+    // so there is no flight to guard and nothing to wait for onEnd to say.
+    if (_foldDuration(context) > Duration.zero) {
+      setState(() => _folding = true);
+    }
+    ref.read(switcherOpenProvider.notifier).toggle();
+  }
+
+  void _settled() {
+    if (_folding) setState(() => _folding = false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final brand = widget.brand;
     final colors = context.colors;
     final switcherUp = ref.watch(switcherOpenProvider);
 
@@ -223,7 +249,7 @@ class _Chrome extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(height: MediaQuery.paddingOf(context).top),
-              _LocationBar(brand: brand, showBack: showBack),
+              _LocationBar(brand: brand, showBack: widget.showBack),
               // Folded away by its own height rather than taken out of the
               // tree: the row keeps where it was scrolled sideways to, and the
               // brand it marks doesn't flicker on the way back.
@@ -233,28 +259,38 @@ class _Chrome extends ConsumerWidget {
                   heightFactor: switcherUp ? 1 : 0,
                   duration: _foldDuration(context),
                   curve: AppMotion.standard,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: BrandShell._switcherGap,
-                    ),
-                    child: BrandSwitcherRow(
-                      selected: brand,
-                      onSelected: (chosen) => chosen == brand
-                          // The open brand's own bubble returns to its feed,
-                          // the way tapping the open tab returns to its first
-                          // screen.
-                          ? context.go(Routes.brandHome(brand))
-                          // Replaces rather than pushes: the switcher filters
-                          // the shell, so back doesn't walk through every
-                          // brand tried.
-                          : context.replace(Routes.brandHome(chosen)),
+                  onEnd: _settled,
+                  // Absorbs rather than ignores: ignoring would let the tap
+                  // fall through the chrome to the feed behind it and open
+                  // whatever card happened to be under the row.
+                  child: AbsorbPointer(
+                    absorbing: _folding,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: BrandShell._switcherGap,
+                      ),
+                      child: BrandSwitcherRow(
+                        selected: brand,
+                        onSelected: (chosen) => chosen == brand
+                            // The open brand's own bubble returns to its feed,
+                            // the way tapping the open tab returns to its
+                            // first screen.
+                            ? context.go(Routes.brandHome(brand))
+                            // Replaces rather than pushes: the switcher
+                            // filters the shell, so back doesn't walk through
+                            // every brand tried.
+                            : context.replace(Routes.brandHome(chosen)),
+                      ),
                     ),
                   ),
                 ),
               ),
-              _SwitcherHandle(
-                open: switcherUp,
-                onTap: () => ref.read(switcherOpenProvider.notifier).toggle(),
+              // The handle is under the same guard: a disabled InkWell takes
+              // no hit at all, which would drop the press through the chrome
+              // onto the feed behind it.
+              AbsorbPointer(
+                absorbing: _folding,
+                child: _SwitcherHandle(open: switcherUp, onTap: _toggle),
               ),
             ],
           ),
@@ -499,7 +535,10 @@ class _SwitcherHandle extends StatelessWidget {
   const _SwitcherHandle({required this.open, required this.onTap});
 
   final bool open;
-  final VoidCallback onTap;
+
+  /// Null while the row is folding, which leaves the handle unpressable: a
+  /// second press before the first has landed would send it straight back.
+  final VoidCallback? onTap;
 
   /// The room the handle takes in the chrome: a slim strip, since all it
   /// shows is a grabber and a caret.

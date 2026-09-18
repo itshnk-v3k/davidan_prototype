@@ -410,6 +410,57 @@ void main() {
     },
   );
 
+  testWidgets('nothing takes a tap while the row is on its way back: a second '
+      'press where the handle was cannot open the brand that slides under it', (
+    tester,
+  ) async {
+    await pumpApp(tester, container, Routes.clientHome);
+    final semantics = tester.ensureSemantics();
+    expect(openBrand(tester), Brand.bakery);
+
+    // The middle of the sushi bubble's own circle once the row is out. Not
+    // its name, which sits at the foot of the row and is the last of it to be
+    // uncovered.
+    final sushi = tester.getCenter(
+      find.descendant(
+        of: find
+            .ancestor(
+              of: bubble(Brand.sushi),
+              matching: find.byType(InkResponse),
+            )
+            .first,
+        matching: find.byType(ClipOval),
+      ),
+    );
+
+    await tester.tap(find.bySemanticsLabel(ro.hideBrands));
+    await tester.pumpAndSettle();
+
+    // Bring it back, and press part way through, on the spot the sushi bubble
+    // has already been uncovered on.
+    await tester.tap(find.bySemanticsLabel(ro.showBrands));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 120));
+    await tester.tapAt(sushi);
+    await tester.pumpAndSettle();
+
+    expect(
+      openBrand(tester),
+      Brand.bakery,
+      reason: 'the press that landed mid-flight chose no brand',
+    );
+    expect(
+      find.bySemanticsLabel(ro.hideBrands),
+      findsOneWidget,
+      reason: 'and did not fold the row straight back either',
+    );
+
+    // Once it has settled, the bubbles take taps again.
+    await switchTo(tester, Brand.sushi);
+    expect(openBrand(tester), Brand.sushi);
+    semantics.dispose();
+  });
+
   testWidgets('a folded switcher stays folded from brand to brand and into a '
       'category, and scrolling the feed never moves it', (tester) async {
     await pumpApp(tester, container, Routes.clientHome);

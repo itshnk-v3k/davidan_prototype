@@ -120,6 +120,17 @@ class ProductCard extends StatelessWidget {
   /// The panel's corners, a little tighter than the card's own.
   static const _photoRadius = AppRadii.sm;
 
+  /// A GRID card shows the whole shot. Its panel is the shape the photos are
+  /// taken in and there is room in it, so the few square or upright ones (the
+  /// plăcinte, the bottles) sit whole on the tint rather than being cropped.
+  ///
+  /// The rows do the opposite ([ProductListTile.photoFit]) and the two have
+  /// been swapped for each other more than once: they are separate widgets in
+  /// this one file, drawn from the same data, and the only thing that told
+  /// them apart was a literal on a `fit:` argument. Change one of these and
+  /// you are changing exactly one of the two.
+  static const photoFit = BoxFit.contain;
+
   static const _textPadding = EdgeInsets.only(
     left: AppSpacing.md,
     top: AppSpacing.sm,
@@ -201,11 +212,7 @@ class ProductCard extends StatelessWidget {
                       product.key,
                       scope: data.heroScope,
                     ),
-                    // The whole shot, whatever shape it was taken in: in a
-                    // panel of the shape the photos share this crops the
-                    // 3:2 ones by nothing at all, and keeps the tops of the
-                    // square and upright ones.
-                    fit: BoxFit.contain,
+                    fit: photoFit,
                     borderRadius: BorderRadius.circular(_photoRadius),
                   ),
                   if (data.discountPercent != null || data.brandName != null)
@@ -520,8 +527,18 @@ class ProductListTile extends StatelessWidget {
   /// so a photo fills it with nothing lost at its sides, and the few shot
   /// square or upright (the plăcinte, the bottles) sit whole inside it on the
   /// tint instead of being cropped to a strip through their middle.
+  /// Every list row is this tall. It is what the row's text needs at its
+  /// fullest — a name over two lines, the rating line, the ingredients and
+  /// the price row — so no row is taller and none is short.
+  static const height = 144.0;
+
+  /// A ROW fills its panel edge to edge and crops what doesn't fit. A row's
+  /// thumbnail is small, and a photo shown whole inside one leaves more tint
+  /// than dish. The cards do the opposite ([ProductCard.photoFit]) — see the
+  /// note there before changing either.
+  static const photoFit = BoxFit.cover;
+
   static const _photoWidth = 132.0;
-  static const _photoAspectRatio = 1.5;
 
   @override
   Widget build(BuildContext context) {
@@ -534,22 +551,22 @@ class ProductListTile extends StatelessWidget {
 
     return AppCard(
       onTap: data.onTap,
-      child: IntrinsicHeight(
+      // Every row is this tall, whatever its photo and however its name wraps.
+      // Left to grow, a row took the proportions of whichever picture it
+      // carried — an upright bottle made one row twice its neighbours — and a
+      // name that wrapped added a line to some rows and not others.
+      child: SizedBox(
+        height: height,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
               padding: const EdgeInsets.all(AppSpacing.xs),
-              // The panel is as tall as the row: left to its own height it sat
-              // at the top with the text running on past it, which read as a
-              // hole under the photo rather than a thumbnail beside it. The
-              // photo inside is still shown whole, centred on the panel.
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minHeight: _photoWidth / _photoAspectRatio,
-                ),
-                child: SizedBox(
-                  width: _photoWidth,
+              // The panel is the row's full height; the photo sits whole
+              // inside it.
+              child: SizedBox(
+                width: _photoWidth,
+                child: SizedBox.expand(
                   child: Stack(
                     fit: StackFit.expand,
                     // As on the card above: the heart's tap margins reach past
@@ -562,11 +579,7 @@ class ProductListTile extends StatelessWidget {
                           product.key,
                           scope: data.heroScope,
                         ),
-                        // Filled edge to edge, cropped as it must be: a row's
-                        // thumbnail is small, and a photo shown whole inside
-                        // it left more tint than dish. The cards above keep
-                        // the whole shot, where there is room for it.
-                        fit: BoxFit.cover,
+                        fit: photoFit,
                         borderRadius: BorderRadius.circular(AppRadii.sm),
                       ),
                       Positioned(
@@ -602,44 +615,61 @@ class ProductListTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (data.brandName case final brandName?)
-                      Text(
-                        brandName,
-                        style: context.textStyles.caption.copyWith(
-                          color: _brandColor(context, product),
-                          fontWeight: FontWeight.w700,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: AppSpacing.md),
-                      child: Text(
-                        product.name,
-                        style: context.textStyles.bodyStrong,
-                        // The row grows to fit a third line.
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
+                    // What is left after the price row at the foot, which is
+                    // the one part of a row whose height is fixed. The name,
+                    // the rating line and the ingredients share it and give
+                    // way inside it, so a long name or a brand's blurb can
+                    // never push the row past its own height.
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (data.brandName case final brandName?)
+                            Text(
+                              brandName,
+                              style: context.textStyles.caption.copyWith(
+                                color: _brandColor(context, product),
+                                fontWeight: FontWeight.w700,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              right: AppSpacing.md,
+                            ),
+                            child: Text(
+                              product.name,
+                              style: context.textStyles.bodyStrong,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.xxs),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              right: AppSpacing.md,
+                            ),
+                            child: ProductMetaLine.of(data),
+                          ),
+                          if (description != null) ...[
+                            const SizedBox(height: AppSpacing.xs),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                right: AppSpacing.md,
+                              ),
+                              child: Text(
+                                description,
+                                style: context.textStyles.caption,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.xxs),
-                    Padding(
-                      padding: const EdgeInsets.only(right: AppSpacing.md),
-                      child: ProductMetaLine.of(data),
-                    ),
-                    if (description != null) ...[
-                      const SizedBox(height: AppSpacing.xs),
-                      Padding(
-                        padding: const EdgeInsets.only(right: AppSpacing.md),
-                        child: Text(
-                          description,
-                          style: context.textStyles.caption,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                    const Spacer(),
                     ProductPriceRow(data: data),
                   ],
                 ),
