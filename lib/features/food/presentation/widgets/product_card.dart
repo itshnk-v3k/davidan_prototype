@@ -188,6 +188,12 @@ class ProductCard extends StatelessWidget {
               aspectRatio: photoAspectRatio,
               child: Stack(
                 fit: StackFit.expand,
+                // The heart's clear tap margins reach past the panel on two
+                // sides. A Stack clips what overflows it unless told not to,
+                // and a clipped margin is a clipped tap target: it took the
+                // heart under the 48 dp a finger needs (touch_targets_test).
+                // Nothing here is drawn outside the panel, only tapped.
+                clipBehavior: Clip.none,
                 children: [
                   ProductImage(
                     path: product.image,
@@ -541,6 +547,9 @@ class ProductListTile extends StatelessWidget {
                   height: _photoWidth / _photoAspectRatio,
                   child: Stack(
                     fit: StackFit.expand,
+                    // As on the card above: the heart's tap margins reach past
+                    // the thumbnail, and must not be clipped off it.
+                    clipBehavior: Clip.none,
                     children: [
                       ProductImage(
                         path: product.image,
