@@ -24,10 +24,10 @@ class PromoBannerCarousel extends StatelessWidget {
 
   /// A slide's width to its height: 16:10, near the site's own 16:9 slides,
   /// with room for a two-line headline, the site's line and the button.
-  static const aspectRatio = 1.6;
+  static const aspectRatio = 1.69;
 
   /// The least room that text needs.
-  static const minHeight = 204.0;
+  static const minHeight = 194.0;
 
   @override
   Widget build(BuildContext context) {

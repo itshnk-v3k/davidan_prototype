@@ -1262,6 +1262,12 @@ abstract class AppLocalizations {
   /// **'Categorii'**
   String get categoriesTitle;
 
+  /// Label beside the cards-or-rows switch on a brand's feed.
+  ///
+  /// In ro, this message translates to:
+  /// **'Mod de afișare'**
+  String get viewLayoutLabel;
+
   /// Handle under Acasă's bar that folds the brand switcher back out.
   ///
   /// In ro, this message translates to:

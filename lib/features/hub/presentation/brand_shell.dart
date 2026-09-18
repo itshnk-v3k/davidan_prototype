@@ -307,7 +307,7 @@ class _LocationBar extends ConsumerWidget {
   /// Every circle in the bar, back arrow and all: a size down from the app's
   /// default, so the bar reads as a line of small controls around the address
   /// rather than a row of buttons as tall as it.
-  static const _buttonSize = 36.0;
+  static const _buttonSize = 40.0;
 
   /// The pin or the storefront in front of the address, and the caret after
   /// it: both at the scale of the glyphs inside those circles, so nothing in
@@ -452,7 +452,8 @@ class _LocationBar extends ConsumerWidget {
               AppIconButton(
                 icon: PhosphorIconsRegular.x,
                 semanticLabel: context.l10n.dropCurrentLocation,
-                size: 32,
+                // The one odd size in the row until now.
+                size: _buttonSize,
                 onPressed: onClearLocation,
               ),
             if (onLauncherTap case final onLauncherTap?)

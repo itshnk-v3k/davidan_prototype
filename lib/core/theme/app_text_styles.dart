@@ -117,7 +117,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
       fontFamily: fontFamily,
       fontFamilyFallback: const [fallbackFontFamily],
       letterSpacing: 0,
-      fontSize: 15,
+      fontSize: 14,
       height: 1.2,
       fontWeight: FontWeight.w700,
       color: colors.textPrimary,

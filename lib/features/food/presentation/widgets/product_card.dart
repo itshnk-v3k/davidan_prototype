@@ -540,11 +540,16 @@ class ProductListTile extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(AppSpacing.xs),
-              child: Align(
-                alignment: Alignment.topCenter,
+              // The panel is as tall as the row: left to its own height it sat
+              // at the top with the text running on past it, which read as a
+              // hole under the photo rather than a thumbnail beside it. The
+              // photo inside is still shown whole, centred on the panel.
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  minHeight: _photoWidth / _photoAspectRatio,
+                ),
                 child: SizedBox(
                   width: _photoWidth,
-                  height: _photoWidth / _photoAspectRatio,
                   child: Stack(
                     fit: StackFit.expand,
                     // As on the card above: the heart's tap margins reach past
@@ -571,12 +576,13 @@ class ProductListTile extends StatelessWidget {
                           size: heartSize,
                         ),
                       ),
-                      // Along the bottom edge: the heart already holds the
-                      // top of a thumbnail this small.
+                      // Top left, with the heart top right: the same corners
+                      // the cards above use, so a row and a card read the
+                      // same way.
                       if (data.discountPercent case final percent?)
                         Positioned(
                           left: AppSpacing.xs,
-                          bottom: AppSpacing.xs,
+                          top: AppSpacing.xs,
                           child: DiscountBadge(percent: percent),
                         ),
                     ],

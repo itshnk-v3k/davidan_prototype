@@ -724,6 +724,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get categoriesTitle => 'Категории';
 
   @override
+  String get viewLayoutLabel => 'Вид отображения';
+
+  @override
   String get showBrands => 'Показать бренды';
 
   @override

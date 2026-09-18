@@ -24,10 +24,10 @@ class PromoCards extends StatelessWidget {
 
   /// A card's width to its height: wide, with the product's photo whole
   /// enough to recognise.
-  static const aspectRatio = 2.0;
+  static const aspectRatio = 2.14;
 
   /// The least room the badge, the line and the link need.
-  static const minHeight = 150.0;
+  static const minHeight = 140.0;
 
   @override
   Widget build(BuildContext context) {

@@ -36,7 +36,7 @@ class BrandSwitcherRow extends StatelessWidget {
 
   /// The bubble's own diameter, without the ring around it. The photo fills
   /// it edge to edge, so the circle's size is the photo's size.
-  static const bubbleSize = 52.0;
+  static const bubbleSize = 56.0;
 
   /// The hairline round a bubble, a shade lighter than its own colour: what
   /// holds its shape where the brand's deep tone is close to the page's.
@@ -73,7 +73,10 @@ class BrandSwitcherRow extends StatelessWidget {
         clipBehavior: Clip.none,
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
         itemCount: Brand.values.length,
-        separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.sm),
+        // Tight: five brands and their names have to sit in a phone's width
+        // without the fifth falling off the edge, and the room each bubble
+        // keeps for its own name already separates them.
+        separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.xxs),
         itemBuilder: (context, index) {
           final brand = Brand.values[index];
           final intro = context.content.introOf(brand);
@@ -138,7 +141,7 @@ class _BrandBubble extends StatelessWidget {
         child: SizedBox(
           // Wide enough for a two-word name like "Apă naturală" without
           // squeezing the bubbles together.
-          width: size + 2 * room + AppSpacing.lg,
+          width: size + 2 * room + AppSpacing.xs,
           child: Column(
             children: [
               SizedBox(

@@ -122,16 +122,25 @@ class MenuFeed extends ConsumerWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
                     AppSpacing.gutter,
-                    AppSpacing.xl,
+                    AppSpacing.md,
                     AppSpacing.gutter,
                     0,
                   ),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: ProductLayoutSwitch(),
+                  // Named, so the two icons are not left to explain
+                  // themselves: the label reads first, the switch sits at the
+                  // end of the line where the "see all" links sit.
+                  child: Row(
+                    children: [
+                      Text(
+                        context.l10n.viewLayoutLabel,
+                        style: context.textStyles.bodyStrong,
+                      ),
+                      const Spacer(),
+                      const ProductLayoutSwitch(),
+                    ],
                   ),
                 ),
                 shelf,
@@ -163,11 +172,14 @@ class SectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      // The carousels above already leave their shadows' room under them
+      // (AppCard.shadowReach), so a heading adding a whole xl on top of that
+      // opened a gap the length of a card between one block and the next.
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.gutter,
-        AppSpacing.xl,
+        AppSpacing.sm,
         AppSpacing.gutter,
-        AppSpacing.md,
+        AppSpacing.sm,
       ),
       child: SizedBox(
         height: 32,

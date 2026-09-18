@@ -721,6 +721,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get categoriesTitle => 'Categorii';
 
   @override
+  String get viewLayoutLabel => 'Mod de afișare';
+
+  @override
   String get showBrands => 'Arată brandurile';
 
   @override

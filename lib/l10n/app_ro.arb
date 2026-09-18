@@ -709,6 +709,10 @@
   "deliverTo": "Livrare la",
   "chooseAddress": "Alege adresa sau localul",
   "categoriesTitle": "Categorii",
+  "viewLayoutLabel": "Mod de afișare",
+  "@viewLayoutLabel": {
+    "description": "Label beside the cards-or-rows switch on a brand's feed."
+  },
   "showBrands": "Arată brandurile",
   "@showBrands": {
     "description": "Handle under Acasă's bar that folds the brand switcher back out."

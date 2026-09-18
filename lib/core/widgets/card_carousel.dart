@@ -107,10 +107,15 @@ class _CardCarouselState extends State<CardCarousel> {
       builder: (context, constraints) {
         final width = constraints.maxWidth;
         final single = count < 2;
-        final cardWidth = single
-            ? width - 2 * AppSpacing.gutter
-            : width - AppSpacing.gutter - CardCarousel.gap - CardCarousel.peek;
-        final height = (cardWidth / widget.aspectRatio).clamp(
+        // A row of several cards leaves room for the next one to peek in; a
+        // single card has the width to itself. Its height, though, is measured
+        // from the same reference either way — a brand with one banner used to
+        // get a taller one than a brand with two, off the same aspect ratio,
+        // because the height followed a width that differed by the peek.
+        final rowCardWidth =
+            width - AppSpacing.gutter - CardCarousel.gap - CardCarousel.peek;
+        final cardWidth = single ? width - 2 * AppSpacing.gutter : rowCardWidth;
+        final height = (rowCardWidth / widget.aspectRatio).clamp(
           widget.minHeight,
           double.infinity,
         );
