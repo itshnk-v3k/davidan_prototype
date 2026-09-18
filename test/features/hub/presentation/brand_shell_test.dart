@@ -140,11 +140,22 @@ void main() {
       final semantics = tester.ensureSemantics();
       expect(
         tester.getSemantics(bubble(Brand.bakery)),
-        matchesSemantics(label: 'Patiserie', isButton: true, isSelected: true),
+        // Every bubble says whether it is the open one (hasSelectedState);
+        // only the patisserie's says it is.
+        matchesSemantics(
+          label: 'Patiserie',
+          isButton: true,
+          hasSelectedState: true,
+          isSelected: true,
+        ),
       );
       expect(
         tester.getSemantics(bubble(Brand.sushi)),
-        matchesSemantics(label: 'Sushi', isButton: true),
+        matchesSemantics(
+          label: 'Sushi',
+          isButton: true,
+          hasSelectedState: true,
+        ),
       );
       semantics.dispose();
     },
@@ -345,8 +356,8 @@ void main() {
   });
 
   testWidgets(
-    'the switcher folds away as the feed is scrolled down and is back on the '
-    'way up, while the bar above it never moves',
+    'the handle under the switcher folds the row away and brings it back, '
+    'while the bar above it stays put and the page moves up with it',
     (tester) async {
       await pumpApp(
         tester,
@@ -363,33 +374,83 @@ void main() {
           )
           .first;
       double foldHeight() => tester.getSize(fold()).height;
+      Finder handle() => find.bySemanticsLabel(ro.hideBrands);
 
       final bar = find.text(ro.chooseAddress);
       final barTop = tester.getTopLeft(bar).dy;
       final open = foldHeight();
+      final roomOpen = tester.getSize(find.byType(BrandShellSpace)).height;
       expect(open, greaterThan(0));
 
-      final feed = inScreen<BrandFeedScreen>(find.byType(CustomScrollView));
-      await tester.drag(feed, const Offset(0, -400));
+      final semantics = tester.ensureSemantics();
+      await tester.tap(handle());
       await tester.pumpAndSettle();
 
-      expect(foldHeight(), 0, reason: 'scrolled down, the switcher is folded');
+      expect(foldHeight(), 0, reason: 'tapped, the switcher is folded away');
+      // The page's own room for the chrome came down with it.
+      expect(
+        tester.getSize(find.byType(BrandShellSpace)).height,
+        closeTo(roomOpen - open, 0.01),
+      );
+      // The bar never moves, and keeps the address, search and the bell.
       expect(tester.getTopLeft(bar).dy, closeTo(barTop, 0.01));
       expect(find.text(ro.chooseAddress), findsOneWidget);
-      expect(
-        find.byIcon(PhosphorIconsRegular.magnifyingGlass),
-        findsOneWidget,
-        reason: 'the bar keeps the address, search and the bell',
-      );
+      expect(find.byIcon(PhosphorIconsRegular.magnifyingGlass), findsOneWidget);
 
-      await tester.drag(feed, const Offset(0, 120));
+      // The handle is still there, now offering to bring the row back.
+      await tester.tap(find.bySemanticsLabel(ro.showBrands));
       await tester.pumpAndSettle();
 
-      expect(foldHeight(), open, reason: 'on the way up it is back');
+      expect(foldHeight(), open, reason: 'tapped again, the switcher is back');
       expect(tester.getTopLeft(bar).dy, closeTo(barTop, 0.01));
       // And it still switches brand.
       await switchTo(tester, Brand.sushi);
       expect(openBrand(tester), Brand.sushi);
+      semantics.dispose();
     },
   );
+
+  testWidgets('a folded switcher stays folded from brand to brand and into a '
+      'category, and scrolling the feed never moves it', (tester) async {
+    await pumpApp(tester, container, Routes.clientHome);
+    Finder fold() => find
+        .ancestor(
+          of: find.byType(BrandSwitcherRow),
+          matching: find.byType(ClipRect),
+        )
+        .first;
+    double foldHeight() => tester.getSize(fold()).height;
+    final open = foldHeight();
+
+    final semantics = tester.ensureSemantics();
+    await tester.tap(find.bySemanticsLabel(ro.hideBrands));
+    await tester.pumpAndSettle();
+    expect(foldHeight(), 0);
+
+    // Scrolling is no longer what moves it, either way.
+    await tester.drag(
+      inScreen<BrandFeedScreen>(find.byType(CustomScrollView)),
+      const Offset(0, -400),
+    );
+    await tester.pumpAndSettle();
+    expect(foldHeight(), 0, reason: 'scrolled down, still folded');
+    await tester.drag(
+      inScreen<BrandFeedScreen>(find.byType(CustomScrollView)),
+      const Offset(0, 600),
+    );
+    await tester.pumpAndSettle();
+    expect(foldHeight(), 0, reason: 'scrolled back to the top, still folded');
+
+    // The choice holds while the customer browses.
+    await tester.tap(find.bySemanticsLabel(ro.showBrands));
+    await tester.pumpAndSettle();
+    expect(foldHeight(), open);
+    await tester.tap(find.bySemanticsLabel(ro.hideBrands));
+    await tester.pumpAndSettle();
+
+    await tapVisible(tester, find.text('Kurtos').first);
+    expect(find.byType(CatalogScreen), findsOneWidget);
+    expect(foldHeight(), 0, reason: 'a category opened, still folded');
+    semantics.dispose();
+  });
 }

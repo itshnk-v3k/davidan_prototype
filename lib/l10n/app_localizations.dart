@@ -1262,6 +1262,18 @@ abstract class AppLocalizations {
   /// **'Categorii'**
   String get categoriesTitle;
 
+  /// Handle under Acasă's bar that folds the brand switcher back out.
+  ///
+  /// In ro, this message translates to:
+  /// **'Arată brandurile'**
+  String get showBrands;
+
+  /// Handle under Acasă's brand switcher that folds the row away.
+  ///
+  /// In ro, this message translates to:
+  /// **'Ascunde brandurile'**
+  String get hideBrands;
+
   /// Heading over a brand home's row of popular products.
   ///
   /// In ro, this message translates to:

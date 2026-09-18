@@ -62,11 +62,11 @@ class ProductTileData {
   final PlaceholderNutrition? placeholderNutrition;
 }
 
-/// Product card, lifted off the page by a soft shadow: photo with a favourite
-/// heart, then the name, a line with the rating and the portion (pieces and
-/// weight, when the brand's site gives them), and the price with the add
-/// button right beside it, which turns into a quantity stepper once the
-/// product is in the cart. Tapping anywhere else opens the product; the photo
+/// Product card, lifted off the page by a soft shadow: the photo framed
+/// inside it with a favourite heart, then the name, a line with the rating
+/// and the portion (pieces and weight, when the brand's site gives them), and
+/// the price with the add button right beside it, which turns into a quantity
+/// stepper once the product is in the cart. Tapping anywhere else opens the product; the photo
 /// flies to the product page. Shown outside its brand (the hub, favourites),
 /// the card names its brand on the photo, since "+" adds to that brand's cart.
 /// How many lines the longest of [names] takes in [style] at [width] and the
@@ -104,13 +104,24 @@ class ProductCard extends StatelessWidget {
 
   final ProductTileData data;
 
-  /// The photo's width to its height: wide rather than tall, so a card takes
-  /// less of the screen and more of a row or a grid shows at once.
-  static const photoAspectRatio = 1.45;
+  /// The photo panel's width to its height: the shape almost every product
+  /// photo is taken in, so the 3:2 majority fills it edge to edge with
+  /// nothing cropped, and the few shot square or upright (the plăcinte, the
+  /// panini, the bottles) sit whole inside it on the tint. The same panel the
+  /// list rows carry ([ProductListTile]).
+  static const photoAspectRatio = 1.5;
+
+  /// The margin between the panel and the card's left, top and right edges,
+  /// so the photo is framed inside the card rather than bleeding off it.
+  /// [_textPadding]'s top leaves the same room below it.
+  static const _photoInset = AppSpacing.sm;
+
+  /// The panel's corners, a little tighter than the card's own.
+  static const _photoRadius = AppRadii.sm;
 
   static const _textPadding = EdgeInsets.only(
     left: AppSpacing.md,
-    top: AppSpacing.xs,
+    top: AppSpacing.sm,
   );
 
   /// The most lines a name takes; past that it ends in an ellipsis.
@@ -142,7 +153,8 @@ class ProductCard extends StatelessWidget {
       min: 2,
       max: maxNameLines,
     );
-    return width / photoAspectRatio +
+    return (width - 2 * _photoInset) / photoAspectRatio +
+        _photoInset +
         _textPadding.vertical +
         nameLines * line(styles.bodyStrong) +
         AppSpacing.xxs +
@@ -155,63 +167,72 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = data.product;
-    // The heart looks this far from the photo's edges; its clear tap margins
+    // The heart looks this far from the panel's edges; its clear tap margins
     // reach to the edges.
     const heartSize = 32.0;
-    const heartOffset = AppSpacing.sm - (TapTarget.min - heartSize) / 2;
+    const heartOffset = AppSpacing.xs - (TapTarget.min - heartSize) / 2;
 
     return AppCard(
       onTap: data.onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AspectRatio(
-            aspectRatio: photoAspectRatio,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                ProductImage(
-                  path: product.image,
-                  heroTag: ProductImage.heroTagFor(
-                    product.key,
-                    scope: data.heroScope,
+          Padding(
+            padding: const EdgeInsets.only(
+              left: _photoInset,
+              top: _photoInset,
+              right: _photoInset,
+            ),
+            child: AspectRatio(
+              aspectRatio: photoAspectRatio,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  ProductImage(
+                    path: product.image,
+                    heroTag: ProductImage.heroTagFor(
+                      product.key,
+                      scope: data.heroScope,
+                    ),
+                    // The whole shot, whatever shape it was taken in: in a
+                    // panel of the shape the photos share this crops the
+                    // 3:2 ones by nothing at all, and keeps the tops of the
+                    // square and upright ones.
+                    fit: BoxFit.contain,
+                    borderRadius: BorderRadius.circular(_photoRadius),
                   ),
-                  // The card's own top corners.
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(AppRadii.card),
-                  ),
-                ),
-                if (data.discountPercent != null || data.brandName != null)
-                  Positioned(
-                    top: AppSpacing.sm,
-                    left: AppSpacing.sm,
-                    // Leaves room for the heart.
-                    right: AppSpacing.sm + heartSize + AppSpacing.xs,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (data.discountPercent case final percent?)
-                          DiscountBadge(percent: percent),
-                        if (data.brandName case final brandName?) ...[
-                          if (data.discountPercent != null)
-                            const SizedBox(height: AppSpacing.xs),
-                          _BrandTag(product: product, name: brandName),
+                  if (data.discountPercent != null || data.brandName != null)
+                    Positioned(
+                      top: AppSpacing.xs,
+                      left: AppSpacing.xs,
+                      // Leaves room for the heart.
+                      right: AppSpacing.xs + heartSize + AppSpacing.xs,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (data.discountPercent case final percent?)
+                            DiscountBadge(percent: percent),
+                          if (data.brandName case final brandName?) ...[
+                            if (data.discountPercent != null)
+                              const SizedBox(height: AppSpacing.xs),
+                            _BrandTag(product: product, name: brandName),
+                          ],
                         ],
-                      ],
+                      ),
+                    ),
+                  Positioned(
+                    top: heartOffset,
+                    right: heartOffset,
+                    child: FavoriteToggle(
+                      productName: product.name,
+                      favorite: data.favorite,
+                      onToggle: data.onToggleFavorite,
+                      size: heartSize,
                     ),
                   ),
-                Positioned(
-                  top: heartOffset,
-                  right: heartOffset,
-                  child: FavoriteToggle(
-                    productName: product.name,
-                    favorite: data.favorite,
-                    onToggle: data.onToggleFavorite,
-                    size: heartSize,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Expanded(

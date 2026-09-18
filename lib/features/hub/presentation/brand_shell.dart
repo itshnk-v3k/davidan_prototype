@@ -1,4 +1,3 @@
-import 'package:flutter/rendering.dart' show ScrollDirection;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -23,6 +22,7 @@ import 'package:davidan_prototype/features/food/application/cart_notifier.dart';
 import 'package:davidan_prototype/features/food/application/shop_providers.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/cart_bar.dart';
 import 'package:davidan_prototype/features/food/presentation/widgets/cart_button.dart';
+import 'package:davidan_prototype/features/hub/application/switcher_open_notifier.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/brand_switcher_row.dart';
 import 'package:davidan_prototype/features/hub/presentation/widgets/notifications_button.dart';
 import 'package:davidan_prototype/l10n/l10n.dart';
@@ -76,11 +76,17 @@ class BrandShell extends ConsumerStatefulWidget {
 
   /// How much room the bar and the switcher take at the top of the page,
   /// including the status bar: what a page below has to leave clear.
-  static double chromeHeight(BuildContext context) =>
+  /// [switcherOpen] is switcherOpenProvider: folded away, the row takes no
+  /// room and the page moves up under the bar with it.
+  static double chromeHeight(
+    BuildContext context, {
+    required bool switcherOpen,
+  }) =>
       MediaQuery.paddingOf(context).top +
       AppSpacing.sm +
       barHeight +
-      BrandSwitcherRow.heightFor(context) +
+      (switcherOpen ? BrandSwitcherRow.heightFor(context) : 0) +
+      _SwitcherHandle.height +
       _fadeHeight;
 
   /// The fade under the switcher, where the page appears from behind it.
@@ -91,57 +97,6 @@ class BrandShell extends ConsumerStatefulWidget {
 }
 
 class _BrandShellState extends ConsumerState<BrandShell> {
-  /// Whether the brand switcher is showing. It folds away as the page is
-  /// scrolled down and comes back on the way up, or at the top of the page.
-  bool _switcherUp = true;
-
-  @override
-  void didUpdateWidget(BrandShell old) {
-    super.didUpdateWidget(old);
-    // A page of the brand's opening or closing, or another brand: each starts
-    // at the top of its own scroll view, so the switcher is up with it.
-    if (old.brand != widget.brand || old.showBack != widget.showBack) {
-      _switcherUp = true;
-      _direction = ScrollDirection.idle;
-    }
-  }
-
-  /// The way the page was last taken, which a scroll only says once, as the
-  /// finger starts to move: every update after that is read against it.
-  ScrollDirection _direction = ScrollDirection.idle;
-
-  /// Follows the page under the chrome. The switcher only folds once the page
-  /// is scrolled past the room it takes, so a short drag near the top doesn't
-  /// take it away, and a sideways scroll (a row of cards, the chips) is not
-  /// the page moving at all.
-  bool _onScroll(ScrollNotification note) {
-    if (note.metrics.axis != Axis.vertical) return false;
-    if (note is UserScrollNotification &&
-        note.direction != ScrollDirection.idle) {
-      _direction = note.direction;
-    }
-    final nearTop =
-        note.metrics.pixels <=
-        note.metrics.minScrollExtent + BrandSwitcherRow.heightFor(context);
-    switch (_direction) {
-      // Near the top the switcher is up whichever way the page is going: it
-      // belongs with the start of the brand's feed.
-      case _ when nearTop:
-      case ScrollDirection.forward:
-        _setSwitcher(up: true);
-      case ScrollDirection.reverse:
-        _setSwitcher(up: false);
-      case ScrollDirection.idle:
-        break;
-    }
-    return false;
-  }
-
-  void _setSwitcher({required bool up}) {
-    if (_switcherUp == up) return;
-    setState(() => _switcherUp = up);
-  }
-
   @override
   Widget build(BuildContext context) {
     final brand = widget.brand;
@@ -185,21 +140,14 @@ class _BrandShellState extends ConsumerState<BrandShell> {
                           bottom: bottom + (showCartBar ? CartBar.space : 0),
                         ),
                       ),
-                      child: NotificationListener<ScrollNotification>(
-                        onNotification: _onScroll,
-                        child: widget.child,
-                      ),
+                      child: widget.child,
                     ),
                   ),
                   Positioned(
                     top: 0,
                     left: 0,
                     right: 0,
-                    child: _Chrome(
-                      brand: brand,
-                      showBack: widget.showBack,
-                      switcherUp: _switcherUp,
-                    ),
+                    child: _Chrome(brand: brand, showBack: widget.showBack),
                   ),
                   if (showCartBar)
                     Positioned(
@@ -220,12 +168,22 @@ class _BrandShellState extends ConsumerState<BrandShell> {
 
 /// The room a page inside [BrandShell] leaves at the top of its scroll view
 /// for the bar and the switcher above it.
-class BrandShellSpace extends StatelessWidget {
+class BrandShellSpace extends ConsumerWidget {
   const BrandShellSpace({super.key});
 
   @override
-  Widget build(BuildContext context) =>
-      SizedBox(height: BrandShell.chromeHeight(context));
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Grows and shrinks with the switcher, on the fold's own duration, so the
+    // page rises under the bar as the row folds away rather than after it.
+    return AnimatedContainer(
+      height: BrandShell.chromeHeight(
+        context,
+        switcherOpen: ref.watch(switcherOpenProvider),
+      ),
+      duration: _foldDuration(context),
+      curve: AppMotion.standard,
+    );
+  }
 }
 
 /// The sliver form of [BrandShellSpace], for a page built as a CustomScrollView.
@@ -238,21 +196,15 @@ class SliverBrandShellSpace extends StatelessWidget {
 }
 
 class _Chrome extends ConsumerWidget {
-  const _Chrome({
-    required this.brand,
-    required this.showBack,
-    required this.switcherUp,
-  });
+  const _Chrome({required this.brand, required this.showBack});
 
   final Brand brand;
   final bool showBack;
 
-  /// Whether the switcher is folded out under the bar (see [BrandShell]).
-  final bool switcherUp;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
+    final switcherUp = ref.watch(switcherOpenProvider);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -274,7 +226,7 @@ class _Chrome extends ConsumerWidget {
                 child: AnimatedAlign(
                   alignment: Alignment.topCenter,
                   heightFactor: switcherUp ? 1 : 0,
-                  duration: AppMotion.of(context, AppMotion.medium),
+                  duration: _foldDuration(context),
                   curve: AppMotion.standard,
                   child: BrandSwitcherRow(
                     selected: brand,
@@ -287,6 +239,10 @@ class _Chrome extends ConsumerWidget {
                         : context.replace(Routes.brandHome(chosen)),
                   ),
                 ),
+              ),
+              _SwitcherHandle(
+                open: switcherUp,
+                onTap: () => ref.read(switcherOpenProvider.notifier).toggle(),
               ),
             ],
           ),
@@ -509,6 +465,74 @@ class _LocationBar extends ConsumerWidget {
               const OpenCartsButton(size: _buttonSize),
             ],
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// How long the row takes to fold away and come back. The page's own room for
+/// the chrome ([BrandShellSpace]) runs on the same token, so the two move as
+/// one piece instead of the feed jumping ahead of the row.
+Duration _foldDuration(BuildContext context) =>
+    AppMotion.of(context, AppMotion.medium);
+
+/// The handle under the brand switcher: a grabber and a chevron that folds
+/// the row away, and brings it back from the slim strip it leaves behind. It
+/// sits under the row, clear of the location, search and bell above, and stays
+/// in the same place open or closed, so it is always where it was last found.
+class _SwitcherHandle extends StatelessWidget {
+  const _SwitcherHandle({required this.open, required this.onTap});
+
+  final bool open;
+  final VoidCallback onTap;
+
+  /// Tall enough to be tapped in its own right (touch_targets_test), which
+  /// also gives the row underneath it room to breathe.
+  static const height = TapTarget.min;
+
+  /// The grabber itself: a short bar, the width of a couple of letters.
+  static const _grabberWidth = 28.0;
+  static const _grabberHeight = 3.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final l10n = context.l10n;
+
+    return Semantics(
+      button: true,
+      label: open ? l10n.hideBrands : l10n.showBrands,
+      excludeSemantics: true,
+      child: InkWell(
+        onTap: onTap,
+        child: SizedBox(
+          height: height,
+          child: Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: colors.textSecondary.withValues(alpha: 0.35),
+                    borderRadius: BorderRadius.circular(_grabberHeight),
+                  ),
+                  child: const SizedBox(
+                    width: _grabberWidth,
+                    height: _grabberHeight,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                Icon(
+                  open
+                      ? PhosphorIconsBold.caretUp
+                      : PhosphorIconsBold.caretDown,
+                  size: 12,
+                  color: colors.textSecondary,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

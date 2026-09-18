@@ -193,6 +193,8 @@
   "demoProfileNote": "Демо-аккаунт, без настоящей проверки по SMS.",
   "deliverTo": "Доставка по адресу",
   "chooseAddress": "Выбери адрес или заведение",
+  "showBrands": "Показать бренды",
+  "hideBrands": "Скрыть бренды",
   "categoriesTitle": "Категории",
   "popularTitle": "Популярная продукция",
   "seeAll": "Смотреть все",

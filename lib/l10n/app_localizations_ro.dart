@@ -721,6 +721,12 @@ class AppLocalizationsRo extends AppLocalizations {
   String get categoriesTitle => 'Categorii';
 
   @override
+  String get showBrands => 'Arată brandurile';
+
+  @override
+  String get hideBrands => 'Ascunde brandurile';
+
+  @override
   String get popularTitle => 'Produse populare';
 
   @override

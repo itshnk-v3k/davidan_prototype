@@ -709,6 +709,14 @@
   "deliverTo": "Livrare la",
   "chooseAddress": "Alege adresa sau localul",
   "categoriesTitle": "Categorii",
+  "showBrands": "Arată brandurile",
+  "@showBrands": {
+    "description": "Handle under Acasă's bar that folds the brand switcher back out."
+  },
+  "hideBrands": "Ascunde brandurile",
+  "@hideBrands": {
+    "description": "Handle under Acasă's brand switcher that folds the row away."
+  },
   "popularTitle": "Produse populare",
   "@popularTitle": {
     "description": "Heading over a brand home's row of popular products."

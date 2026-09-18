@@ -724,6 +724,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get categoriesTitle => 'Категории';
 
   @override
+  String get showBrands => 'Показать бренды';
+
+  @override
+  String get hideBrands => 'Скрыть бренды';
+
+  @override
   String get popularTitle => 'Популярная продукция';
 
   @override

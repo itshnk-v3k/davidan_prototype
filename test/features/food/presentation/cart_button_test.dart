@@ -343,7 +343,11 @@ void main() {
     expect(
       bar.top,
       greaterThan(
-        BrandShell.chromeHeight(tester.element(find.byType(BrandFeedScreen))),
+        BrandShell.chromeHeight(
+          tester.element(find.byType(BrandFeedScreen)),
+          // The switcher starts folded out, as this feed has just opened.
+          switcherOpen: true,
+        ),
       ),
     );
 
