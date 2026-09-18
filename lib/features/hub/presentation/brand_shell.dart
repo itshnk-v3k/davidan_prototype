@@ -487,9 +487,16 @@ class _SwitcherHandle extends StatelessWidget {
   final bool open;
   final VoidCallback onTap;
 
-  /// Tall enough to be tapped in its own right (touch_targets_test), which
-  /// also gives the row underneath it room to breathe.
-  static const height = TapTarget.min;
+  /// The room the handle takes in the chrome: a slim strip, since all it
+  /// shows is a grabber and a caret.
+  static const height = 22.0;
+
+  /// What can be tapped, which is larger than what is drawn: the strip alone
+  /// is under Android's 48 dp, so the hit box keeps the full size and reaches
+  /// past the strip, above and below it in equal measure. It is only as wide
+  /// as it needs to be, so the little it covers of the names above and the
+  /// feed below is a narrow band in the middle rather than the whole width.
+  static const _tapWidth = 64.0;
 
   /// The grabber itself: a short bar, the width of a couple of letters.
   static const _grabberWidth = 28.0;
@@ -504,33 +511,47 @@ class _SwitcherHandle extends StatelessWidget {
       button: true,
       label: open ? l10n.hideBrands : l10n.showBrands,
       excludeSemantics: true,
-      child: InkWell(
-        onTap: onTap,
-        child: SizedBox(
-          height: height,
-          child: Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: colors.textSecondary.withValues(alpha: 0.35),
-                    borderRadius: BorderRadius.circular(_grabberHeight),
-                  ),
-                  child: const SizedBox(
-                    width: _grabberWidth,
-                    height: _grabberHeight,
+      child: SizedBox(
+        height: height,
+        // The strip is what the layout gives up to the handle; the hit box
+        // inside it is the full 48 dp, centred on the strip and allowed to
+        // reach past it.
+        child: Center(
+          child: OverflowBox(
+            maxWidth: _tapWidth,
+            maxHeight: TapTarget.min,
+            child: InkWell(
+              onTap: onTap,
+              customBorder: const StadiumBorder(),
+              child: SizedBox(
+                width: _tapWidth,
+                height: TapTarget.min,
+                child: Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: colors.textSecondary.withValues(alpha: 0.35),
+                          borderRadius: BorderRadius.circular(_grabberHeight),
+                        ),
+                        child: const SizedBox(
+                          width: _grabberWidth,
+                          height: _grabberHeight,
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      Icon(
+                        open
+                            ? PhosphorIconsBold.caretUp
+                            : PhosphorIconsBold.caretDown,
+                        size: 12,
+                        color: colors.textSecondary,
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: AppSpacing.xs),
-                Icon(
-                  open
-                      ? PhosphorIconsBold.caretUp
-                      : PhosphorIconsBold.caretDown,
-                  size: 12,
-                  color: colors.textSecondary,
-                ),
-              ],
+              ),
             ),
           ),
         ),
