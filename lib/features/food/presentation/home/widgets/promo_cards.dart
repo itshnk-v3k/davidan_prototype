@@ -24,11 +24,11 @@ class PromoCards extends StatelessWidget {
 
   /// A card's width to its height: wide, with the product's photo whole
   /// enough to recognise.
-  /// Half the height it carried, matching the banner above it.
-  static const aspectRatio = 4.28;
+  /// Half again on top of the half it was cut to, matching the banner above.
+  static const aspectRatio = 2.853;
 
   /// The least room the badge, the line and the link need.
-  static const minHeight = 70.0;
+  static const minHeight = 105.0;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,7 @@ class _PromoCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(AppSpacing.xs),
+            padding: const EdgeInsets.all(AppSpacing.md),
             child: FractionallySizedBox(
               alignment: Alignment.centerLeft,
               widthFactor: 0.62,
@@ -103,9 +103,7 @@ class _PromoCard extends StatelessWidget {
                     ),
                     child: Text(
                       context.l10n.discountPercent(promo.percent),
-                      // The heading's weight at the size the shorter card
-                      // has room for.
-                      style: context.textStyles.bodyStrong.copyWith(
+                      style: context.textStyles.subtitle.copyWith(
                         color: colors.onPrimary,
                         fontWeight: FontWeight.w700,
                         height: 1.15,
@@ -118,7 +116,7 @@ class _PromoCard extends StatelessWidget {
                   Flexible(
                     child: Text(
                       context.l10n.specialDiscount,
-                      style: context.textStyles.bodyStrong.copyWith(
+                      style: context.textStyles.subtitle.copyWith(
                         color: colors.onImage,
                         fontWeight: FontWeight.w700,
                         height: 1.2,

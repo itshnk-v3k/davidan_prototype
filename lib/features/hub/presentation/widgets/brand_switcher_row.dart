@@ -34,9 +34,34 @@ class BrandSwitcherRow extends StatelessWidget {
   final Brand selected;
   final ValueChanged<Brand> onSelected;
 
-  /// The bubble's own diameter, without the ring around it. The photo fills
-  /// it edge to edge, so the circle's size is the photo's size.
-  static const bubbleSize = 56.0;
+  /// The five brands share the row's width evenly, so the bubble is as big as
+  /// its fifth of the screen allows rather than a size picked to survive the
+  /// narrowest phone. The photo fills the circle edge to edge, so this is the
+  /// photo's size too.
+  ///
+  /// [minBubble] is where a brand's photo stops reading as a dish and the name
+  /// under it starts to crowd; [maxBubble] is where five circles stop being a
+  /// strip along the top and start being a screen of their own, which is what
+  /// a tablet's width would otherwise make of them.
+  static const minBubble = 48.0;
+  static const maxBubble = 76.0;
+
+  /// The least space left between one bubble and the next, whatever is left
+  /// over after that goes into the bubbles themselves.
+  static const _minGap = AppSpacing.sm;
+
+  /// The diameter the row's width allows, within [minBubble]..[maxBubble].
+  /// The row spans the screen, so its width is the screen's less the gutters
+  /// on either side; [BrandShell] measures the chrome with the same figure.
+  static double diameterFor(BuildContext context) {
+    final row = MediaQuery.sizeOf(context).width - 2 * AppSpacing.gutter;
+    final share = row / Brand.values.length;
+    return (share - 2 * _ringRoom - _minGap).clamp(minBubble, maxBubble);
+  }
+
+  /// The size the white logos were drawn against; smaller and larger bubbles
+  /// take theirs in proportion.
+  static const _logoReference = 56.0;
 
   /// The hairline round a bubble, a shade lighter than its own colour: what
   /// holds its shape where the brand's deep tone is close to the page's.
@@ -54,7 +79,7 @@ class BrandSwitcherRow extends StatelessWidget {
   /// lines of name at the largest text size the app allows.
   static double heightFor(BuildContext context) =>
       2 * _ringRoom +
-      bubbleSize +
+      diameterFor(context) +
       _nameGap +
       _nameHeight * MediaQuery.textScalerOf(context).scale(1);
 
@@ -65,29 +90,34 @@ class BrandSwitcherRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // A fifth of the row each, so the five sit across the whole width with
+    // the space between them growing with the screen rather than the fifth
+    // brand falling off a narrow one. Nothing scrolls: all five are always
+    // there.
     return SizedBox(
       height: heightFor(context),
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        // The rings reach past the bubbles.
-        clipBehavior: Clip.none,
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
-        itemCount: Brand.values.length,
-        // Tight: five brands and their names have to sit in a phone's width
-        // without the fifth falling off the edge, and the room each bubble
-        // keeps for its own name already separates them.
-        separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.xxs),
-        itemBuilder: (context, index) {
-          final brand = Brand.values[index];
-          final intro = context.content.introOf(brand);
-          return _BrandBubble(
-            brand: brand,
-            name: intro.name,
-            photo: intro.image,
-            selected: brand == selected,
-            onTap: () => onSelected(brand),
-          );
-        },
+        child: Row(
+          children: [
+            for (final brand in Brand.values)
+              Expanded(
+                child: Builder(
+                  builder: (context) {
+                    final intro = context.content.introOf(brand);
+                    return _BrandBubble(
+                      brand: brand,
+                      name: intro.name,
+                      photo: intro.image,
+                      diameter: diameterFor(context),
+                      selected: brand == selected,
+                      onTap: () => onSelected(brand),
+                    );
+                  },
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -98,6 +128,7 @@ class _BrandBubble extends StatelessWidget {
     required this.brand,
     required this.name,
     required this.photo,
+    required this.diameter,
     required this.selected,
     required this.onTap,
   });
@@ -108,17 +139,26 @@ class _BrandBubble extends StatelessWidget {
   /// The brand's own photo, the one its hub card carried, filling the bubble.
   /// Null for a brand with no photo yet, whose bubble is its colour alone.
   final String? photo;
+
+  /// What the row's width allows (BrandSwitcherRow.diameterFor).
+  final double diameter;
   final bool selected;
   final VoidCallback onTap;
 
   /// Each white logo's size inside the bubble, by eye so they carry the same
-  /// weight: the wide wordmarks by width, the compact marks by height.
-  static Size _logoSize(Brand brand) => switch (brand) {
-    Brand.restaurant || Brand.bakery => const Size(38, 8),
-    Brand.sushi => const Size(35, 11),
-    Brand.water => const Size(20, 13),
-    Brand.carRental => const Size(22, 22),
-  };
+  /// weight: the wide wordmarks by width, the compact marks by height. Drawn
+  /// against a bubble of [BrandSwitcherRow._logoReference], and taken in
+  /// proportion on a bubble the width made larger or smaller.
+  static Size _logoSize(Brand brand, double diameter) {
+    final base = switch (brand) {
+      Brand.restaurant || Brand.bakery => const Size(38, 8),
+      Brand.sushi => const Size(35, 11),
+      Brand.water => const Size(20, 13),
+      Brand.carRental => const Size(22, 22),
+    };
+    final scale = diameter / BrandSwitcherRow._logoReference;
+    return Size(base.width * scale, base.height * scale);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,8 +166,8 @@ class _BrandBubble extends StatelessWidget {
     // The brand's own colour, not the theme's: the ring marks which brand is
     // open even while the feed below is already in that brand's colours.
     final ring = BrandColors.of(brand, Theme.of(context).brightness).primary;
-    final logo = _logoSize(brand);
-    const size = BrandSwitcherRow.bubbleSize;
+    final logo = _logoSize(brand, diameter);
+    final size = diameter;
     const room = BrandSwitcherRow._ringRoom;
 
     return Semantics(
@@ -138,10 +178,11 @@ class _BrandBubble extends StatelessWidget {
       child: InkResponse(
         onTap: onTap,
         radius: size / 2 + room,
+        // The whole fifth of the row is the item's: the bubble is centred in
+        // it and the name has that width to wrap in, which is what keeps
+        // "Apă naturală" and "Питьевая вода" on two tidy lines.
         child: SizedBox(
-          // Wide enough for a two-word name like "Apă naturală" without
-          // squeezing the bubbles together.
-          width: size + 2 * room + AppSpacing.xs,
+          width: double.infinity,
           child: Column(
             children: [
               SizedBox(

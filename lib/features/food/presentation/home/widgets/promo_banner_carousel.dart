@@ -24,12 +24,13 @@ class PromoBannerCarousel extends StatelessWidget {
 
   /// A slide's width to its height: 16:10, near the site's own 16:9 slides,
   /// with room for a two-line headline, the site's line and the button.
-  /// Half the height it carried: a hero the depth of a card left the menu
-  /// itself below the fold on every brand.
-  static const aspectRatio = 3.38;
+  /// Half again on top of the half it was cut to: a hero the depth of a card
+  /// left the menu below the fold on every brand, and half of that read as a
+  /// strip rather than a banner. This sits between the two.
+  static const aspectRatio = 2.253;
 
   /// The least room that text needs.
-  static const minHeight = 97.0;
+  static const minHeight = 146.0;
 
   @override
   Widget build(BuildContext context) {
@@ -109,14 +110,14 @@ class _BannerSlide extends StatelessWidget {
                   Text(
                     title,
                     style: context.textStyles.title.copyWith(
-                      fontSize: 17,
+                      fontSize: 20,
                       height: 1.15,
                       letterSpacing: -0.2,
                       color: colors.onImage,
                     ),
-                    // What the shorter banner holds: two lines to itself, or
-                    // one with the site's line under it.
-                    maxLines: subtitle == null ? 2 : 1,
+                    // What this height holds: three lines to itself, or two
+                    // with the site's line under it.
+                    maxLines: subtitle == null ? 3 : 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   if (subtitle != null) ...[
@@ -127,7 +128,7 @@ class _BannerSlide extends StatelessWidget {
                         fontSize: 12,
                         color: colors.onImageSecondary,
                       ),
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -153,8 +154,8 @@ class _CallToAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     return Container(
-      height: 28,
-      padding: const EdgeInsets.only(left: AppSpacing.md, right: AppSpacing.sm),
+      height: 32,
+      padding: const EdgeInsets.only(left: AppSpacing.lg, right: AppSpacing.md),
       decoration: BoxDecoration(
         color: colors.primary,
         borderRadius: BorderRadius.circular(AppRadii.pill),
@@ -165,12 +166,12 @@ class _CallToAction extends StatelessWidget {
           Text(
             label,
             style: context.textStyles.button.copyWith(
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(width: AppSpacing.xs),
-          Icon(PhosphorIconsBold.arrowRight, size: 14, color: colors.onPrimary),
+          Icon(PhosphorIconsBold.arrowRight, size: 16, color: colors.onPrimary),
         ],
       ),
     );
