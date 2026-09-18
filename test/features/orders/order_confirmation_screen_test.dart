@@ -56,7 +56,7 @@ void main() {
     expect(find.text('str. Ismail 88'), findsOneWidget);
     expect(find.text('12:30'), findsOneWidget);
     expect(find.text(ro.paymentMethod(PaymentMethod.card)), findsOneWidget);
-    expect(find.text('118 lei'), findsOneWidget);
+    expect(find.text('118 L'), findsOneWidget);
   });
 
   testWidgets('the status updates when the store panel moves the order on', (

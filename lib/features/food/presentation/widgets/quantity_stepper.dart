@@ -152,8 +152,12 @@ class QuantityStepper extends StatelessWidget {
   static double outsetFor(double buttonSize) =>
       TapTarget.marginFor(buttonSize) - inset;
 
-  /// The count column's width, as a share of [buttonSize].
-  static const _countShare = 0.8;
+  /// The count column's width, as a share of [buttonSize]: as wide as a
+  /// button, so the stepper reads as three even cells and a two-digit count
+  /// — anything from 10 up to the 99 a product page allows — keeps clear air
+  /// on either side. At 0.8 the column was 22 dp on a card for a 19 dp "99",
+  /// which crowded it at the normal text size and overran it a step above.
+  static const _countShare = 1.0;
 
   /// How wide a stepper with [buttonSize] buttons is laid out: both buttons
   /// take taps in [TapTarget.min], which on a card is far wider than they

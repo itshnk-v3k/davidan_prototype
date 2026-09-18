@@ -65,9 +65,11 @@ class ProductShelf extends ConsumerWidget {
   /// How many products a row shows as a list.
   static const listPreview = 3;
 
-  /// Two cards and a good peek of the third on a 400 px phone, wide enough
-  /// for the price beside the stepper.
-  static const cardWidth = 152.0;
+  /// Two cards and a good peek of the third on a 400 px phone, and wide
+  /// enough for the price row underneath: a three-figure price, a gap, and
+  /// the stepper's pill with room for a two-digit count (see
+  /// [ProductPriceRow]). At 152 the price ran up against the stepper.
+  static const cardWidth = 160.0;
 
   /// Below the cards, for their shadows.
   static const _shadowRoom = AppCard.shadowReach;

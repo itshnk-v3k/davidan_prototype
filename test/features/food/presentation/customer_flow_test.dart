@@ -87,7 +87,7 @@ void main() {
     await tester.pump();
 
     await tester.tap(
-      inScreen<ProductDetailScreen>(find.text(ro.addToCartTotal('50 lei'))),
+      inScreen<ProductDetailScreen>(find.text(ro.addToCartTotal('50 L'))),
     );
     await tester.pumpAndSettle();
 
@@ -160,10 +160,10 @@ void main() {
         await pumpApp(tester, container, Routes.brandProduct(kurtos));
 
         expect(inBar(find.text(ro.inCart(2))), findsOneWidget);
-        expect(inBar(find.text(ro.updateCartTotal('118 lei'))), findsOneWidget);
+        expect(inBar(find.text(ro.updateCartTotal('118 L'))), findsOneWidget);
         await tester.tap(inBar(find.byIcon(PhosphorIconsBold.plus)));
         await tester.pump();
-        await tester.tap(inBar(find.text(ro.updateCartTotal('177 lei'))));
+        await tester.tap(inBar(find.text(ro.updateCartTotal('177 L'))));
         await tester.pumpAndSettle();
 
         expect(container.read(cartQuantitiesProvider(Brand.bakery)), {
@@ -222,7 +222,7 @@ void main() {
       expect(openProduct(), kurtos);
       expect(inScreen<ProductDetailScreen>(find.text(name)), findsOneWidget);
       expect(
-        inScreen<ProductDetailScreen>(find.text('36 lei')),
+        inScreen<ProductDetailScreen>(find.text('36 L')),
         findsOneWidget,
       );
 

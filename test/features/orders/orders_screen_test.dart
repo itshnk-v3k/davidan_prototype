@@ -46,7 +46,7 @@ void main() {
       await pumpApp(tester, container, Routes.clientOrders);
 
       expect(inOrders(find.text(ro.accountLockedTitle)), findsOneWidget);
-      expect(inOrders(find.text('138 lei')), findsNothing);
+      expect(inOrders(find.text('138 L')), findsNothing);
 
       await tapVisible(tester, find.text(ro.signInTitle));
       expect(find.byType(SignInPhoneScreen), findsOneWidget);
@@ -88,7 +88,7 @@ void main() {
         inOrders(find.text('DaviDan Botanica · bd. Dacia 47, Chișinău')),
         findsOneWidget,
       );
-      expect(inOrders(find.text('138 lei')), findsNWidgets(2));
+      expect(inOrders(find.text('138 L')), findsNWidgets(2));
       expect(
         inOrders(find.text(ro.orderStatus(OrderStatus.placed))),
         findsNWidgets(2),

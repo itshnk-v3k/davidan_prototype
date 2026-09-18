@@ -34,8 +34,11 @@ class ProductGrid extends ConsumerWidget {
   /// For a list mixing brands: see [ConnectedProductCard.showBrand].
   final bool showBrand;
 
-  /// Between cards, and between rows.
-  static const _gap = AppSpacing.lg;
+  /// Between cards, and between rows. Kept to [AppSpacing.md] so that two
+  /// columns on a 360 dp phone come to 158 dp a card: below about that, a
+  /// three-figure price and a stepper stop fitting the price row side by side
+  /// (see [ProductPriceRow]).
+  static const _gap = AppSpacing.md;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

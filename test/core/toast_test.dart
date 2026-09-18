@@ -46,7 +46,7 @@ void main() {
         container,
         Routes.brandProduct((brand: Brand.bakery, id: 'coca-cola')),
       );
-      await tester.tap(find.text(ro.addToCartTotal('25 lei')));
+      await tester.tap(find.text(ro.addToCartTotal('25 L')));
       await tester.pumpAndSettle();
 
       final message = ro.addedToCart(1, 'Coca Cola');

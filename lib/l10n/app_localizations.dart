@@ -104,10 +104,10 @@ abstract class AppLocalizations {
   /// **'DaviDan'**
   String get appTitle;
 
-  /// A price in Moldovan lei. amount is already formatted, e.g. "19" or "19,50".
+  /// A price in Moldovan lei, which the app labels "L" in both languages: short enough to sit beside a quantity stepper on a card, and free of the leu/lei and лей/лея agreement the spelled-out word needs. amount is already formatted, e.g. "19" or "19,50".
   ///
   /// In ro, this message translates to:
-  /// **'{amount} lei'**
+  /// **'{amount} L'**
   String priceLei(String amount);
 
   /// No description provided for @launcherTitle.

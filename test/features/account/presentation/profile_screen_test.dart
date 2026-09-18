@@ -45,7 +45,7 @@ void main() {
 
     expect(find.byType(ProfileScreen), findsOneWidget);
     expect(inProfile(find.text(ro.navOrders)), findsNothing);
-    expect(inProfile(find.text('138 lei')), findsNothing);
+    expect(inProfile(find.text('138 L')), findsNothing);
   });
 
   testWidgets(

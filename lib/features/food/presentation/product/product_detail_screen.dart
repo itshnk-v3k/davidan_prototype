@@ -383,14 +383,15 @@ class _AddToCartBar extends StatelessWidget {
               ),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
-                // The button is a fixed share of a bar the stepper is also in,
-                // so what fits on its one line is fixed too — about 168 dp on
-                // a 360 dp phone. Every label the bar can show is shorter than
-                // that; a longer one used to wrap onto a second line, and the
-                // button and the whole bar grew taller the moment a product
-                // was in the cart ("Обновить корзину · 72 лей" against "В
-                // корзину · 36 лей"). Keep the wording short enough to fit:
-                // the totals only ever get longer.
+                // The button is a fixed share of a bar the stepper is also
+                // in, so what fits on its one line is fixed too — 168 dp on a
+                // 360 dp phone, which holds every label the bar can show up
+                // to a four-figure total. A longer one wraps onto a second
+                // line and the button, and the whole bar, grows taller the
+                // moment a product is in the cart: that was this bug, when
+                // the update label still spelled out "cart" and the currency
+                // was still "lei"/"лей". Keep new wording short enough to
+                // fit, and remember the total only gets longer.
                 child: AppButton(
                   label: !inCart
                       ? context.l10n.addToCartTotal(total)

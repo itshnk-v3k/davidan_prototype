@@ -42,8 +42,13 @@ class AppButton extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 48),
           child: Padding(
+            // The label is centred and most of these buttons are as wide as
+            // what they sit in, so the side padding only ever matters to a
+            // long label — where it is room the label needs more (the
+            // product page's bar, which has to keep its total on one line
+            // beside the quantity stepper).
             padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.lg,
+              horizontal: AppSpacing.md,
               vertical: AppSpacing.md,
             ),
             child: Row(

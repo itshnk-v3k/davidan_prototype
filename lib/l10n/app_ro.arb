@@ -4,9 +4,9 @@
   "@appTitle": {
     "description": "App name; the browser tab title."
   },
-  "priceLei": "{amount} lei",
+  "priceLei": "{amount} L",
   "@priceLei": {
-    "description": "A price in Moldovan lei. amount is already formatted, e.g. \"19\" or \"19,50\".",
+    "description": "A price in Moldovan lei, which the app labels \"L\" in both languages: short enough to sit beside a quantity stepper on a card, and free of the leu/lei and лей/лея agreement the spelled-out word needs. amount is already formatted, e.g. \"19\" or \"19,50\".",
     "placeholders": {
       "amount": {
         "type": "String",
@@ -787,7 +787,7 @@
     "placeholders": {
       "total": {
         "type": "String",
-        "example": "118 lei"
+        "example": "118 L"
       }
     }
   },
@@ -806,7 +806,7 @@
     "placeholders": {
       "total": {
         "type": "String",
-        "example": "138 lei"
+        "example": "138 L"
       }
     }
   },
@@ -938,7 +938,7 @@
     "placeholders": {
       "price": {
         "type": "String",
-        "example": "59 lei"
+        "example": "59 L"
       }
     }
   },
@@ -1178,7 +1178,7 @@
     "placeholders": {
       "total": {
         "type": "String",
-        "example": "138 lei"
+        "example": "138 L"
       },
       "paymentMethod": {
         "type": "String"

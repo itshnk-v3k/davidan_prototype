@@ -290,7 +290,7 @@ void main() {
       final order = placeTestOrder(container);
       await tester.pumpAndSettle();
       expect(
-        inStrip(find.text(ro.activeOrderSummary(3, '138 lei'))),
+        inStrip(find.text(ro.activeOrderSummary(3, '138 L'))),
         findsOneWidget,
       );
       expect(inStrip(find.text('Patiserie')), findsOneWidget);
@@ -306,7 +306,7 @@ void main() {
         findsOneWidget,
       );
 
-      await tester.tap(inStrip(find.text(ro.activeOrderSummary(3, '138 lei'))));
+      await tester.tap(inStrip(find.text(ro.activeOrderSummary(3, '138 L'))));
       await tester.pumpAndSettle();
       expect(find.byType(OrderConfirmationScreen), findsOneWidget);
 
@@ -314,7 +314,7 @@ void main() {
       container.read(appRouterProvider).go(Routes.clientHome);
       await tester.pumpAndSettle();
       expect(
-        inStrip(find.text(ro.activeOrderSummary(3, '138 lei'))),
+        inStrip(find.text(ro.activeOrderSummary(3, '138 L'))),
         findsNothing,
       );
     },

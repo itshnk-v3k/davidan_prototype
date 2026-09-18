@@ -95,7 +95,7 @@ void main() {
 
   testWidgets(
     'a bakery order from the menu to its confirmation: Russian names, '
-    'ingredients, prices in лей and the toast',
+    'ingredients, prices in L and the toast',
     (tester) async {
       await pumpApp(tester, container, Routes.brandHome(Brand.bakery));
       expectTexts(['Куртош', 'Выпечка', 'Плацинды и панини', ru.popularTitle]);

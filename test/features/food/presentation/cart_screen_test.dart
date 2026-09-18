@@ -65,22 +65,22 @@ void main() {
       inLine('Croissant cu ciocolată', find.byType(Image)),
       findsOneWidget,
     );
-    expect(inLine('Coca Cola', find.text('50 lei')), findsOneWidget);
+    expect(inLine('Coca Cola', find.text('50 L')), findsOneWidget);
     expect(
-      inLine('Coca Cola', find.text(ro.unitPrice('25 lei'))),
+      inLine('Coca Cola', find.text(ro.unitPrice('25 L'))),
       findsOneWidget,
     );
-    expect(total('69 lei'), findsOneWidget);
+    expect(total('69 L'), findsOneWidget);
 
     await tester.tap(
       inLine('Croissant cu ciocolată', find.byIcon(PhosphorIconsBold.plus)),
     );
     await tester.pump();
     expect(
-      inLine('Croissant cu ciocolată', find.text('38 lei')),
+      inLine('Croissant cu ciocolată', find.text('38 L')),
       findsOneWidget,
     );
-    expect(total('88 lei'), findsOneWidget);
+    expect(total('88 L'), findsOneWidget);
 
     await tester.tap(inLine('Coca Cola', find.byIcon(PhosphorIconsBold.minus)));
     await tester.pump();
@@ -88,7 +88,7 @@ void main() {
       container.read(cartQuantitiesProvider(Brand.bakery))['coca-cola'],
       1,
     );
-    expect(total('63 lei'), findsOneWidget);
+    expect(total('63 L'), findsOneWidget);
 
     // At 1 the minus button is disabled: removing is the bin button's job.
     await tester.tap(inLine('Coca Cola', find.byIcon(PhosphorIconsBold.minus)));
@@ -106,7 +106,7 @@ void main() {
     expect(container.read(cartQuantitiesProvider(Brand.bakery)), {
       'croissant-ciocolata': 2,
     });
-    expect(total('38 lei'), findsOneWidget);
+    expect(total('38 L'), findsOneWidget);
 
     await tester.tap(
       inLine('Croissant cu ciocolată', find.byIcon(PhosphorIconsRegular.trash)),
@@ -155,7 +155,7 @@ void main() {
     );
 
     expect(find.byType(CartLineTile), findsNWidgets(2));
-    expect(total('4149 lei'), findsOneWidget);
+    expect(total('4149 L'), findsOneWidget);
   });
 
   testWidgets('water has no menu: its empty cart leads back to its page', (

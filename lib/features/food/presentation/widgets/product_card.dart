@@ -487,11 +487,15 @@ class ProductPriceRow extends StatelessWidget {
   ///
   /// It is as wide as the stepper *looks* ([QuantityStepper.pillWidthFor]),
   /// not as wide as it is laid out: the rest of the stepper is its buttons'
-  /// clear tap margins, and those reach back over the gap rather than taking
-  /// room from the price. That overhang is also the gap you see beside the
-  /// control, which is why there is no [SizedBox] making one.
+  /// clear tap margins, and those reach back over [_gap] rather than taking
+  /// room from the price.
   static final double _controlSlot =
       QuantityStepper.pillWidthFor(_stepperButton) + _addMargin;
+
+  /// Between the price and the control, on top of the tap margin the control
+  /// already hangs over it — so the price stops about 11 dp short of the
+  /// stepper's pill rather than running up against it.
+  static const _gap = AppSpacing.xs;
 
   @override
   Widget build(BuildContext context) {
@@ -533,6 +537,7 @@ class ProductPriceRow extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(width: _gap),
           SizedBox(
             width: _controlSlot,
             // The control keeps its own size and hangs its tap margins over
@@ -563,10 +568,57 @@ class ProductListTile extends StatelessWidget {
   /// so a photo fills it with nothing lost at its sides, and the few shot
   /// square or upright (the plăcinte, the bottles) sit whole inside it on the
   /// tint instead of being cropped to a strip through their middle.
-  /// Every list row is this tall. It is what the row's text needs at its
-  /// fullest — a name over two lines, the rating line, the ingredients and
-  /// the price row — so no row is taller and none is short.
-  static const height = 144.0;
+  /// Every list row is at least this tall: what the row's text needs at its
+  /// fullest at the phone's normal text size — a name over two lines, the
+  /// rating line, the ingredients and the price row — so no row is taller
+  /// and none is short.
+  static const minHeight = 144.0;
+
+  /// The row's height at the phone's text size, which is [minHeight] until
+  /// the text outgrows it.
+  ///
+  /// It used to be [minHeight] flat while everything inside it scaled with
+  /// the phone's font-size setting, and at one step above normal the text no
+  /// longer fitted: the row reported "BOTTOM OVERFLOWED BY 0.160 PIXELS" —
+  /// a fraction of a pixel because that setting landed a hair over the line,
+  /// and 4 to 14 px at the settings above it. The rows all grow together, so
+  /// a list still reads as one height whatever the setting.
+  static double heightFor(BuildContext context) {
+    final scaler = MediaQuery.textScalerOf(context);
+    final styles = context.textStyles;
+    double line(TextStyle style) =>
+        scaler.scale(style.fontSize!) * style.height!;
+    return math.max(
+      minHeight,
+      _textPadding.vertical +
+          _nameLines * line(styles.bodyStrong) +
+          ProductMetaLine.gapAbove +
+          line(styles.caption) +
+          _descriptionGap +
+          line(styles.caption) +
+          TapTarget.min +
+          // Rounding in the text layout, which differs between platforms.
+          // Less than a card allows itself ([ProductCard.heightFor]): the
+          // row has [minHeight] under it, which already leaves 3 dp spare at
+          // the normal text size, and a larger figure here would push every
+          // row past 144 there for nothing.
+          AppSpacing.xs,
+    );
+  }
+
+  /// The most lines a name takes before it ends in an ellipsis; [heightFor]
+  /// leaves room for all of them.
+  static const _nameLines = 2;
+
+  /// Between the rating line and the ingredients under it.
+  static const _descriptionGap = AppSpacing.xs;
+
+  /// The text column's padding, beside the photo and above the name. The
+  /// price row's own tap margin is the room under it.
+  static const _textPadding = EdgeInsets.only(
+    left: AppSpacing.xs,
+    top: AppSpacing.sm,
+  );
 
   /// A ROW fills its panel edge to edge and crops what doesn't fit. A row's
   /// thumbnail is small, and a photo shown whole inside one leaves more tint
@@ -592,7 +644,7 @@ class ProductListTile extends StatelessWidget {
       // carried — an upright bottle made one row twice its neighbours — and a
       // name that wrapped added a line to some rows and not others.
       child: SizedBox(
-        height: height,
+        height: heightFor(context),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -644,10 +696,7 @@ class ProductListTile extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(
-                  left: AppSpacing.xs,
-                  top: AppSpacing.sm,
-                ),
+                padding: _textPadding,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -678,7 +727,7 @@ class ProductListTile extends StatelessWidget {
                             child: Text(
                               product.name,
                               style: context.textStyles.bodyStrong,
-                              maxLines: 2,
+                              maxLines: _nameLines,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -690,7 +739,7 @@ class ProductListTile extends StatelessWidget {
                             child: ProductMetaLine.of(data),
                           ),
                           if (description != null) ...[
-                            const SizedBox(height: AppSpacing.xs),
+                            const SizedBox(height: _descriptionGap),
                             Padding(
                               padding: const EdgeInsets.only(
                                 right: AppSpacing.md,

@@ -1,7 +1,7 @@
 import 'package:davidan_prototype/l10n/l10n.dart';
 
 extension MoneyFormat on AppLocalizations {
-  /// Formats a price in bani (1/100 MDL): 1900 → "19 lei", 1950 → "19,50 lei".
+  /// Formats a price in bani (1/100 MDL): 1900 → "19 L", 1950 → "19,50 L".
   String formatLei(int bani) {
     final lei = bani ~/ 100;
     final rest = bani % 100;

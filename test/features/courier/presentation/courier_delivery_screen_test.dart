@@ -54,7 +54,7 @@ void main() {
     expect(
       onDeliveryScreen(
         find.text(
-          ro.amountToCollect('138 lei', ro.paymentMethod(PaymentMethod.cash)),
+          ro.amountToCollect('138 L', ro.paymentMethod(PaymentMethod.cash)),
         ),
       ),
       findsOneWidget,

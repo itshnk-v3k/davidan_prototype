@@ -14,7 +14,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String priceLei(String amount) {
-    return '$amount lei';
+    return '$amount L';
   }
 
   @override

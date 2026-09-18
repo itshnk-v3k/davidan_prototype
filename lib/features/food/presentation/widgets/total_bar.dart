@@ -19,7 +19,7 @@ class TotalBar extends StatelessWidget {
     this.caption,
   });
 
-  /// Already formatted, in the brand's currency: "138 lei", "251 €".
+  /// Already formatted, in the brand's currency: "138 L", "251 €".
   final String total;
 
   /// What [total] is; "Total" when null.

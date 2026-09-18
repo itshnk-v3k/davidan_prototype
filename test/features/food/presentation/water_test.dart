@@ -66,7 +66,7 @@ void main() {
 
   testWidgets(
     'the Apă naturală bubble opens the water page: davidan.md\'s heading, '
-    'line and photo of both bottles, the two 0,5L bottles at 15 lei, and the '
+    'line and photo of both bottles, the two 0,5L bottles at 15 L, and the '
     'water blue; before a first order, a hint instead of "Comandă din nou"',
     (tester) async {
       await pumpApp(tester, container, Routes.clientHome);

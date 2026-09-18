@@ -173,7 +173,7 @@ void main() {
     expect(inCard('11:00'), findsOneWidget);
     expect(
       inCard(
-        ro.amountToCollect('138 lei', ro.paymentMethod(PaymentMethod.card)),
+        ro.amountToCollect('138 L', ro.paymentMethod(PaymentMethod.card)),
       ),
       findsOneWidget,
     );
