@@ -112,9 +112,10 @@ class ProductCard extends StatelessWidget {
   static const photoAspectRatio = 1.5;
 
   /// The margin between the panel and the card's left, top and right edges,
-  /// so the photo is framed inside the card rather than bleeding off it.
-  /// [_textPadding]'s top leaves the same room below it.
-  static const _photoInset = AppSpacing.sm;
+  /// so the photo is framed inside the card rather than bleeding off it. Only
+  /// as wide as it takes to read as a frame: the photo is what the card is
+  /// for, and every millimetre of margin comes out of it.
+  static const _photoInset = AppSpacing.xs;
 
   /// The panel's corners, a little tighter than the card's own.
   static const _photoRadius = AppRadii.sm;
@@ -513,7 +514,7 @@ class ProductListTile extends StatelessWidget {
   /// so a photo fills it with nothing lost at its sides, and the few shot
   /// square or upright (the plăcinte, the bottles) sit whole inside it on the
   /// tint instead of being cropped to a strip through their middle.
-  static const _photoWidth = 112.0;
+  static const _photoWidth = 132.0;
   static const _photoAspectRatio = 1.5;
 
   @override
@@ -532,7 +533,7 @@ class ProductListTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsets.all(AppSpacing.sm),
+              padding: const EdgeInsets.all(AppSpacing.xs),
               child: Align(
                 alignment: Alignment.topCenter,
                 child: SizedBox(

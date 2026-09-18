@@ -34,8 +34,9 @@ class BrandSwitcherRow extends StatelessWidget {
   final Brand selected;
   final ValueChanged<Brand> onSelected;
 
-  /// The bubble's own diameter, without the ring around it.
-  static const bubbleSize = 44.0;
+  /// The bubble's own diameter, without the ring around it. The photo fills
+  /// it edge to edge, so the circle's size is the photo's size.
+  static const bubbleSize = 52.0;
 
   /// The hairline round a bubble, a shade lighter than its own colour: what
   /// holds its shape where the brand's deep tone is close to the page's.
@@ -110,10 +111,10 @@ class _BrandBubble extends StatelessWidget {
   /// Each white logo's size inside the bubble, by eye so they carry the same
   /// weight: the wide wordmarks by width, the compact marks by height.
   static Size _logoSize(Brand brand) => switch (brand) {
-    Brand.restaurant || Brand.bakery => const Size(32, 7),
-    Brand.sushi => const Size(30, 9),
-    Brand.water => const Size(17, 11),
-    Brand.carRental => const Size(19, 19),
+    Brand.restaurant || Brand.bakery => const Size(38, 8),
+    Brand.sushi => const Size(35, 11),
+    Brand.water => const Size(20, 13),
+    Brand.carRental => const Size(22, 22),
   };
 
   @override

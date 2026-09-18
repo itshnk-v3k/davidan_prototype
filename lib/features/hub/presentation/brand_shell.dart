@@ -85,12 +85,17 @@ class BrandShell extends ConsumerStatefulWidget {
       MediaQuery.paddingOf(context).top +
       AppSpacing.sm +
       barHeight +
-      (switcherOpen ? BrandSwitcherRow.heightFor(context) : 0) +
+      (switcherOpen ? _switcherGap + BrandSwitcherRow.heightFor(context) : 0) +
       _SwitcherHandle.height +
       _fadeHeight;
 
   /// The fade under the switcher, where the page appears from behind it.
   static const _fadeHeight = AppSpacing.sm;
+
+  /// Between the bar and the brand switcher under it, so the bubbles don't sit
+  /// against the address. It folds away with the row rather than staying
+  /// behind as a band of nothing.
+  static const _switcherGap = AppSpacing.sm;
 
   @override
   ConsumerState<BrandShell> createState() => _BrandShellState();
@@ -228,15 +233,22 @@ class _Chrome extends ConsumerWidget {
                   heightFactor: switcherUp ? 1 : 0,
                   duration: _foldDuration(context),
                   curve: AppMotion.standard,
-                  child: BrandSwitcherRow(
-                    selected: brand,
-                    onSelected: (chosen) => chosen == brand
-                        // The open brand's own bubble returns to its feed, the
-                        // way tapping the open tab returns to its first screen.
-                        ? context.go(Routes.brandHome(brand))
-                        // Replaces rather than pushes: the switcher filters the
-                        // shell, so back doesn't walk through every brand tried.
-                        : context.replace(Routes.brandHome(chosen)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: BrandShell._switcherGap,
+                    ),
+                    child: BrandSwitcherRow(
+                      selected: brand,
+                      onSelected: (chosen) => chosen == brand
+                          // The open brand's own bubble returns to its feed,
+                          // the way tapping the open tab returns to its first
+                          // screen.
+                          ? context.go(Routes.brandHome(brand))
+                          // Replaces rather than pushes: the switcher filters
+                          // the shell, so back doesn't walk through every
+                          // brand tried.
+                          : context.replace(Routes.brandHome(chosen)),
+                    ),
                   ),
                 ),
               ),
@@ -301,7 +313,7 @@ class _LocationBar extends ConsumerWidget {
   /// it: both at the scale of the glyphs inside those circles, so nothing in
   /// the bar is drawn heavier than the address itself.
   static const _locationIconSize = 20.0;
-  static const _caretSize = 16.0;
+  static const _caretSize = 12.0;
 
   /// The clear margin around each of those circles, which takes the place of
   /// the padding and the gaps beside it, so a circle sits where it would
@@ -419,6 +431,7 @@ class _LocationBar extends ConsumerWidget {
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
+                                  const SizedBox(width: AppSpacing.xs),
                                   Icon(
                                     PhosphorIconsBold.caretDown,
                                     size: _caretSize,
@@ -491,16 +504,17 @@ class _SwitcherHandle extends StatelessWidget {
   /// shows is a grabber and a caret.
   static const height = 22.0;
 
-  /// What can be tapped, which is larger than what is drawn: the strip alone
-  /// is under Android's 48 dp, so the hit box keeps the full size and reaches
-  /// past the strip, above and below it in equal measure. It is only as wide
-  /// as it needs to be, so the little it covers of the names above and the
-  /// feed below is a narrow band in the middle rather than the whole width.
-  static const _tapWidth = 64.0;
+  /// What can be tapped, which is larger than what is drawn: the caret alone
+  /// is well under Android's 48 dp, so the hit box keeps the full size and
+  /// reaches past the strip, above and below it in equal measure. It is only
+  /// as wide as it needs to be, so the little it covers of the names above and
+  /// the feed below is a narrow band in the middle rather than the whole
+  /// width.
+  static const _tapSize = TapTarget.min;
 
-  /// The grabber itself: a short bar, the width of a couple of letters.
-  static const _grabberWidth = 28.0;
-  static const _grabberHeight = 3.0;
+  /// The caret itself, which is the whole control: there is no dragging it,
+  /// only tapping, so it carries no grabber bar pretending otherwise.
+  static const _caretSize = 14.0;
 
   @override
   Widget build(BuildContext context) {
@@ -518,37 +532,21 @@ class _SwitcherHandle extends StatelessWidget {
         // reach past it.
         child: Center(
           child: OverflowBox(
-            maxWidth: _tapWidth,
-            maxHeight: TapTarget.min,
+            maxWidth: _tapSize,
+            maxHeight: _tapSize,
             child: InkWell(
               onTap: onTap,
-              customBorder: const StadiumBorder(),
+              customBorder: const CircleBorder(),
               child: SizedBox(
-                width: _tapWidth,
-                height: TapTarget.min,
+                width: _tapSize,
+                height: _tapSize,
                 child: Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: colors.textSecondary.withValues(alpha: 0.35),
-                          borderRadius: BorderRadius.circular(_grabberHeight),
-                        ),
-                        child: const SizedBox(
-                          width: _grabberWidth,
-                          height: _grabberHeight,
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.xs),
-                      Icon(
-                        open
-                            ? PhosphorIconsBold.caretUp
-                            : PhosphorIconsBold.caretDown,
-                        size: 12,
-                        color: colors.textSecondary,
-                      ),
-                    ],
+                  child: Icon(
+                    open
+                        ? PhosphorIconsBold.caretUp
+                        : PhosphorIconsBold.caretDown,
+                    size: _caretSize,
+                    color: colors.textSecondary,
                   ),
                 ),
               ),
