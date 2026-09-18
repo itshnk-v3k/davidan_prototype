@@ -152,6 +152,24 @@ class QuantityStepper extends StatelessWidget {
   static double outsetFor(double buttonSize) =>
       TapTarget.marginFor(buttonSize) - inset;
 
+  /// The count column's width, as a share of [buttonSize].
+  static const _countShare = 0.8;
+
+  /// How wide a stepper with [buttonSize] buttons is laid out: both buttons
+  /// take taps in [TapTarget.min], which on a card is far wider than they
+  /// look, so this is wider than the pill drawn inside it.
+  static double widthFor(double buttonSize) =>
+      2 * math.max(buttonSize, TapTarget.min) +
+      buttonSize * _countShare -
+      2 * TapTarget.marginFor(buttonSize);
+
+  /// The pill as it looks, inside [widthFor]. This, not [widthFor], is what a
+  /// layout beside a stepper has to keep clear: the rest is the buttons'
+  /// clear tap margins ([outsetFor]), which may reach over whatever sits next
+  /// to it.
+  static double pillWidthFor(double buttonSize) =>
+      widthFor(buttonSize) - 2 * outsetFor(buttonSize);
+
   /// Share of caramel in the minus button's tint.
   static const _tintShare = 0.16;
 
@@ -180,7 +198,7 @@ class QuantityStepper extends StatelessWidget {
     // behind them at the size it looks, and the number on top lets taps
     // through.
     final margin = TapTarget.marginFor(buttonSize);
-    final countWidth = buttonSize * 0.8;
+    final countWidth = buttonSize * _countShare;
     final pillInset = outsetFor(buttonSize);
 
     return Stack(

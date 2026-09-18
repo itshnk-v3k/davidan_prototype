@@ -1358,10 +1358,10 @@ abstract class AppLocalizations {
   /// **'Adaugă în coș · {total}'**
   String addToCartTotal(String total);
 
-  /// Button on a product's page when the product is already in the cart: sets the quantity picked.
+  /// Button on a product's page when the product is already in the cart: sets the quantity picked. Short on purpose: it shares the bar with the quantity stepper, and the full phrase wrapped onto a second line, which made the bar grow taller than in the add state.
   ///
   /// In ro, this message translates to:
-  /// **'Actualizează coșul · {total}'**
+  /// **'Actualizează · {total}'**
   String updateCartTotal(String total);
 
   /// The bar at the foot of a brand's browse screens while its cart has something in it; it opens the cart.

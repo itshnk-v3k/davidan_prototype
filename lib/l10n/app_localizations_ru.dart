@@ -793,7 +793,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String updateCartTotal(String total) {
-    return 'Обновить корзину · $total';
+    return 'Обновить · $total';
   }
 
   @override

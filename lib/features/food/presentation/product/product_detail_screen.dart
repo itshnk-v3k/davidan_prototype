@@ -210,7 +210,7 @@ class _ProductInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(product.name, style: context.textStyles.headline),
-        const SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: ProductMetaLine.gapAbove),
         // The rating, then the weight and the calories on labelled lines of
         // their own (the cards keep them on one line). The rating and calories
         // are PLACEHOLDERS, NOT REAL DATA (see placeholder_ratings.dart and
@@ -352,6 +352,10 @@ class _AddToCartBar extends StatelessWidget {
   final bool inCart;
   final VoidCallback onConfirm;
 
+  /// Big enough to read as the page's own control rather than a card's, and
+  /// still the smallest that keeps [QuantityStepper]'s larger number style.
+  static const _stepperButton = 40.0;
+
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -371,10 +375,22 @@ class _AddToCartBar extends StatelessWidget {
                 onDecrement: onDecrement,
                 incrementLabel: context.l10n.increaseQuantity,
                 decrementLabel: context.l10n.decreaseQuantity,
-                buttonSize: 42,
+                // The stepper and the gap beside it are as small as they can
+                // look right, because what is left is all the button has for
+                // its label, and the label has to stay on one line: see the
+                // note on the button below.
+                buttonSize: _stepperButton,
               ),
-              const SizedBox(width: AppSpacing.md),
+              const SizedBox(width: AppSpacing.sm),
               Expanded(
+                // The button is a fixed share of a bar the stepper is also in,
+                // so what fits on its one line is fixed too — about 168 dp on
+                // a 360 dp phone. Every label the bar can show is shorter than
+                // that; a longer one used to wrap onto a second line, and the
+                // button and the whole bar grew taller the moment a product
+                // was in the cart ("Обновить корзину · 72 лей" against "В
+                // корзину · 36 лей"). Keep the wording short enough to fit:
+                // the totals only ever get longer.
                 child: AppButton(
                   label: !inCart
                       ? context.l10n.addToCartTotal(total)

@@ -789,7 +789,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String updateCartTotal(String total) {
-    return 'Actualizează coșul · $total';
+    return 'Actualizează · $total';
   }
 
   @override

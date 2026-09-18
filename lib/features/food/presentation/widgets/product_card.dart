@@ -131,8 +131,12 @@ class ProductCard extends StatelessWidget {
   /// you are changing exactly one of the two.
   static const photoFit = BoxFit.contain;
 
+  /// The card's text, in from its left edge. Only a little more than the
+  /// photo panel's own inset: the price row under the name has to hold a
+  /// price and a stepper side by side on a card this narrow, and every
+  /// millimetre of padding comes out of the price.
   static const _textPadding = EdgeInsets.only(
-    left: AppSpacing.md,
+    left: AppSpacing.sm,
     top: AppSpacing.sm,
   );
 
@@ -169,7 +173,7 @@ class ProductCard extends StatelessWidget {
         _photoInset +
         _textPadding.vertical +
         nameLines * line(styles.bodyStrong) +
-        AppSpacing.xxs +
+        ProductMetaLine.gapAbove +
         line(styles.caption) +
         TapTarget.min +
         // Rounding in the text layout, which differs between platforms.
@@ -309,7 +313,7 @@ class _NameAndMeta extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: AppSpacing.xxs),
+        const SizedBox(height: ProductMetaLine.gapAbove),
         Padding(padding: padding, child: ProductMetaLine.of(data)),
       ],
     );
@@ -355,6 +359,11 @@ class ProductMetaLine extends StatelessWidget {
   /// False for the rating alone: the product page gives the weight and the
   /// calories lines of their own, with labels.
   final bool withFacts;
+
+  /// The space between the product's name and this line, the same on a card,
+  /// on a row and on the product page. At 2 dp the rating sat all but against
+  /// the last line of the name; the product page already kept this much.
+  static const gapAbove = AppSpacing.sm;
 
   /// The weight to show for [product]: the site's own, else the
   /// placeholder's.
@@ -463,13 +472,31 @@ class ProductPriceRow extends StatelessWidget {
   /// room beside it on a narrow card.
   static const _stepperButton = 28.0;
 
+  /// The add button's circle, and the stepper's pill, sit this far from the
+  /// row's right edge.
+  static const _addMargin = (TapTarget.min - 32) / 2;
+
+  /// The room kept for whichever control the row ends in — THE SAME for the
+  /// add button and for the stepper, which is the point of it.
+  ///
+  /// Given only the room left over, the price had 92 dp beside a "+" and 41
+  /// beside a stepper, and the [FittedBox] below squeezed it into whichever
+  /// it got: the same price was drawn at two sizes, and a card whose product
+  /// was in the cart showed a visibly smaller price than the card beside it.
+  /// Reserving the wider of the two for both is what keeps the price one size.
+  ///
+  /// It is as wide as the stepper *looks* ([QuantityStepper.pillWidthFor]),
+  /// not as wide as it is laid out: the rest of the stepper is its buttons'
+  /// clear tap margins, and those reach back over the gap rather than taking
+  /// room from the price. That overhang is also the gap you see beside the
+  /// control, which is why there is no [SizedBox] making one.
+  static final double _controlSlot =
+      QuantityStepper.pillWidthFor(_stepperButton) + _addMargin;
+
   @override
   Widget build(BuildContext context) {
     final product = data.product;
     final quantity = data.quantity;
-    // The add button's circle, and the stepper's pill, sit this far from the
-    // row's right edge.
-    const addMargin = (TapTarget.min - 32) / 2;
     final control = quantity == 0
         ? RoundIconButton(
             icon: PhosphorIconsBold.plus,
@@ -479,7 +506,7 @@ class ProductPriceRow extends StatelessWidget {
           )
         : Padding(
             padding: EdgeInsets.only(
-              right: addMargin - QuantityStepper.outsetFor(_stepperButton),
+              right: _addMargin - QuantityStepper.outsetFor(_stepperButton),
             ),
             child: QuantityStepper(
               quantity: quantity,
@@ -506,8 +533,17 @@ class ProductPriceRow extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: AppSpacing.xs),
-          control,
+          SizedBox(
+            width: _controlSlot,
+            // The control keeps its own size and hangs its tap margins over
+            // the price's end, where its glyphs stop short of the pill.
+            child: OverflowBox(
+              alignment: Alignment.centerRight,
+              minWidth: 0,
+              maxWidth: double.infinity,
+              child: control,
+            ),
+          ),
         ],
       ),
     );
@@ -646,7 +682,7 @@ class ProductListTile extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          const SizedBox(height: AppSpacing.xxs),
+                          const SizedBox(height: ProductMetaLine.gapAbove),
                           Padding(
                             padding: const EdgeInsets.only(
                               right: AppSpacing.md,

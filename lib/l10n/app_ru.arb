@@ -210,7 +210,7 @@
   "decreaseQuantity": "Уменьшить количество",
   "inCart": "В корзине: {count}",
   "addToCartTotal": "В корзину · {total}",
-  "updateCartTotal": "Обновить корзину · {total}",
+  "updateCartTotal": "Обновить · {total}",
   "cartBarTotal": "Корзина · {total}",
   "removeFromCartAction": "Убрать из корзины",
   "addedToCart": "Добавлено в корзину: {quantity} × {productName}",

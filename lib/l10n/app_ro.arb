@@ -791,9 +791,9 @@
       }
     }
   },
-  "updateCartTotal": "Actualizează coșul · {total}",
+  "updateCartTotal": "Actualizează · {total}",
   "@updateCartTotal": {
-    "description": "Button on a product's page when the product is already in the cart: sets the quantity picked.",
+    "description": "Button on a product's page when the product is already in the cart: sets the quantity picked. Short on purpose: it shares the bar with the quantity stepper, and the full phrase wrapped onto a second line, which made the bar grow taller than in the add state.",
     "placeholders": {
       "total": {
         "type": "String"
