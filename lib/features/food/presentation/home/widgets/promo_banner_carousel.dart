@@ -24,10 +24,12 @@ class PromoBannerCarousel extends StatelessWidget {
 
   /// A slide's width to its height: 16:10, near the site's own 16:9 slides,
   /// with room for a two-line headline, the site's line and the button.
-  static const aspectRatio = 1.69;
+  /// Half the height it carried: a hero the depth of a card left the menu
+  /// itself below the fold on every brand.
+  static const aspectRatio = 3.38;
 
   /// The least room that text needs.
-  static const minHeight = 194.0;
+  static const minHeight = 97.0;
 
   @override
   Widget build(BuildContext context) {
@@ -100,22 +102,21 @@ class _BannerSlide extends StatelessWidget {
             Positioned(
               left: AppSpacing.lg,
               right: AppSpacing.xl,
-              bottom: AppSpacing.lg,
+              bottom: AppSpacing.md,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,
                     style: context.textStyles.title.copyWith(
-                      fontSize: 22,
+                      fontSize: 17,
                       height: 1.15,
                       letterSpacing: -0.2,
                       color: colors.onImage,
                     ),
-                    // The site's longer lines take three in the app's font,
-                    // and four at a large text size on a slide with no line
-                    // under its headline.
-                    maxLines: subtitle == null ? 4 : 3,
+                    // What the shorter banner holds: two lines to itself, or
+                    // one with the site's line under it.
+                    maxLines: subtitle == null ? 2 : 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   if (subtitle != null) ...[
@@ -123,14 +124,14 @@ class _BannerSlide extends StatelessWidget {
                     Text(
                       subtitle,
                       style: context.textStyles.caption.copyWith(
-                        fontSize: 13,
+                        fontSize: 12,
                         color: colors.onImageSecondary,
                       ),
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
-                  const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.sm),
                   _CallToAction(label: context.l10n.bannerCta),
                 ],
               ),
@@ -152,8 +153,8 @@ class _CallToAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     return Container(
-      height: 36,
-      padding: const EdgeInsets.only(left: AppSpacing.lg, right: AppSpacing.md),
+      height: 28,
+      padding: const EdgeInsets.only(left: AppSpacing.md, right: AppSpacing.sm),
       decoration: BoxDecoration(
         color: colors.primary,
         borderRadius: BorderRadius.circular(AppRadii.pill),
@@ -164,12 +165,12 @@ class _CallToAction extends StatelessWidget {
           Text(
             label,
             style: context.textStyles.button.copyWith(
-              fontSize: 14,
+              fontSize: 13,
               fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(width: AppSpacing.xs),
-          Icon(PhosphorIconsBold.arrowRight, size: 18, color: colors.onPrimary),
+          Icon(PhosphorIconsBold.arrowRight, size: 14, color: colors.onPrimary),
         ],
       ),
     );

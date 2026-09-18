@@ -24,10 +24,11 @@ class PromoCards extends StatelessWidget {
 
   /// A card's width to its height: wide, with the product's photo whole
   /// enough to recognise.
-  static const aspectRatio = 2.14;
+  /// Half the height it carried, matching the banner above it.
+  static const aspectRatio = 4.28;
 
   /// The least room the badge, the line and the link need.
-  static const minHeight = 140.0;
+  static const minHeight = 70.0;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +85,7 @@ class _PromoCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
+            padding: const EdgeInsets.all(AppSpacing.xs),
             child: FractionallySizedBox(
               alignment: Alignment.centerLeft,
               widthFactor: 0.62,
@@ -93,7 +94,7 @@ class _PromoCard extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.sm + AppSpacing.xxs,
+                      horizontal: AppSpacing.sm,
                       vertical: AppSpacing.xxs,
                     ),
                     decoration: BoxDecoration(
@@ -102,22 +103,29 @@ class _PromoCard extends StatelessWidget {
                     ),
                     child: Text(
                       context.l10n.discountPercent(promo.percent),
-                      style: context.textStyles.title.copyWith(
+                      // The heading's weight at the size the shorter card
+                      // has room for.
+                      style: context.textStyles.bodyStrong.copyWith(
                         color: colors.onPrimary,
+                        fontWeight: FontWeight.w700,
                         height: 1.15,
                       ),
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Text(
-                    context.l10n.specialDiscount,
-                    style: context.textStyles.subtitle.copyWith(
-                      color: colors.onImage,
-                      fontWeight: FontWeight.w700,
-                      height: 1.2,
+                  const SizedBox(height: AppSpacing.xxs),
+                  // Flexible, so a narrow phone squeezes the line rather than
+                  // running the card over its own height.
+                  Flexible(
+                    child: Text(
+                      context.l10n.specialDiscount,
+                      style: context.textStyles.bodyStrong.copyWith(
+                        color: colors.onImage,
+                        fontWeight: FontWeight.w700,
+                        height: 1.2,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                   ),
                   const Spacer(),
                   Row(

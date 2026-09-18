@@ -562,8 +562,11 @@ class ProductListTile extends StatelessWidget {
                           product.key,
                           scope: data.heroScope,
                         ),
-                        // The whole shot, whatever shape it was taken in.
-                        fit: BoxFit.contain,
+                        // Filled edge to edge, cropped as it must be: a row's
+                        // thumbnail is small, and a photo shown whole inside
+                        // it left more tint than dish. The cards above keep
+                        // the whole shot, where there is room for it.
+                        fit: BoxFit.cover,
                         borderRadius: BorderRadius.circular(AppRadii.sm),
                       ),
                       Positioned(
@@ -631,7 +634,7 @@ class ProductListTile extends StatelessWidget {
                         child: Text(
                           description,
                           style: context.textStyles.caption,
-                          maxLines: 2,
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
